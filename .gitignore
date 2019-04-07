@@ -1,5 +1,6 @@
 # JetBrains Files
 .idea
+*.iml
 
 # maven
 target/
