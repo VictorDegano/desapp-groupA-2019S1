@@ -1,20 +1,38 @@
 language: java
-
 sudo: required
-
 jdk: oraclejdk11
-
 cache:
   directories:
     - $HOME/.m2
 
-script:
-  - mvn clean install -Dmaven.compiler.target=1.8 -Dmaven.compiler.source=1.8 -Dmaven.javadoc.skip=true -B -V
+# Definimos un trabajo, que es una cantidad de "etapas" que ejecutan cierto codigo
+jobs:
+  include:
+    - stage: "Test"
+    name: "Test Backend Stage"
+    script:
+      - cd desapp-groupA-2019S1-backend
+      - mvn clean install -Dmaven.compiler.target=1.8 -Dmaven.compiler.source=1.8 -Dmaven.javadoc.skip=true -B -V
+    - stage: Deploy Back-end
+      name: Deploy Back-end Stage
+      before_deploy:
+      - cd desapp-groupA-2019S1-backend
+      deploy:
+        provider: heroku
+        skip_cleanup: true
+        api_key:
+          secure: PYPC5q7QPMc5VXVXpP7QWqvwCofyzikcW0+EEu57KKs3zZip0+0qlpOchg2g1D0EcXiZFLOjWO3j8VHrgxlVBJGbkVyL4wupMbSInwZ13e+t7pPXzw40zS5WWpnPcj1v4JBSfeXipzn7O0T74AFVIkmhdqzPTrsZQ9fpZcsBmjG/0IUr99VII3eYq+rN3kRR+GkaxVGzlvqdGHB2KSR4NbG8q51H0UNKAaDlErV3kDTNsqb/aODF+8fSiUUGUAYTfB7RHIyRI6N6H8NbmP/Zgq9lSghxClJyA7U2orAr73uerKe8WjGon8dVbLTgwdBvb40NmDL2w/HvSh/kfU3yirJHqXJtFqSAwRB6Y/J47P8refDDEF2prl6b4RV29PBPsFLpXQI0PyIYukHbbmYw8S5d9YKpAKDTBnLeoVZ41Trd1M5OlknTpLJEk0Jvy3oMKjnf9dHq+Tq2B7JZsJ5HZEhY9m+hZtaPaEUB+CUsJh+6nUlO/9OpZw4COX/WnXxHQ36vs0D5FepRwqADEAGLG57mFSLguV5MELIbO51y6NW7NUWSwJUcw/HiMhSVayZU3Me27C25JVPuGD94p6gkj+P2I9abP+uTiFwvCqb51kxp1zqyowkUiak67Dlk6EtoFvpgpeRyhQOYBZIIUPNOKiT1i8kjnxX/QMAg9pMivQY=
+        app: desapp-grupoa-2019s1-backend
+        strategy: git
 
-#after_success:
-# Aun no se hace el deploy a heroku
-# deploy:
-#   - provider: heroku
-#     skip_cleanup: true
-#     api_key:
-#     app:
+#    - stage: "Deploy Front-end"
+#      name: "Deploy Front-end Stage"
+#      before_deploy:
+#      - cd desapp-groupA-2019S1-frontend
+#      deploy:
+#        provider: heroku
+#        skip_cleanup: true
+#        api_key:
+#          secure: PYPC5q7QPMc5VXVXpP7QWqvwCofyzikcW0+EEu57KKs3zZip0+0qlpOchg2g1D0EcXiZFLOjWO3j8VHrgxlVBJGbkVyL4wupMbSInwZ13e+t7pPXzw40zS5WWpnPcj1v4JBSfeXipzn7O0T74AFVIkmhdqzPTrsZQ9fpZcsBmjG/0IUr99VII3eYq+rN3kRR+GkaxVGzlvqdGHB2KSR4NbG8q51H0UNKAaDlErV3kDTNsqb/aODF+8fSiUUGUAYTfB7RHIyRI6N6H8NbmP/Zgq9lSghxClJyA7U2orAr73uerKe8WjGon8dVbLTgwdBvb40NmDL2w/HvSh/kfU3yirJHqXJtFqSAwRB6Y/J47P8refDDEF2prl6b4RV29PBPsFLpXQI0PyIYukHbbmYw8S5d9YKpAKDTBnLeoVZ41Trd1M5OlknTpLJEk0Jvy3oMKjnf9dHq+Tq2B7JZsJ5HZEhY9m+hZtaPaEUB+CUsJh+6nUlO/9OpZw4COX/WnXxHQ36vs0D5FepRwqADEAGLG57mFSLguV5MELIbO51y6NW7NUWSwJUcw/HiMhSVayZU3Me27C25JVPuGD94p6gkj+P2I9abP+uTiFwvCqb51kxp1zqyowkUiak67Dlk6EtoFvpgpeRyhQOYBZIIUPNOKiT1i8kjnxX/QMAg9pMivQY=
+#        app: desapp-grupoa-2019s1-frontend
+#        strategy: git
