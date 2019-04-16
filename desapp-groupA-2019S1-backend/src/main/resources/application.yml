@@ -1,0 +1,39 @@
+server:
+  port: 8080
+debug: false
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+  profiles:
+    active:
+      - local
+  mail:
+    username: mailloco@gmail.com
+    password: xxx
+    port: 587
+    host: smtp.gmail.com
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
+    test-connection: true
+
+jwt.header: Authorization
+jwt.secret: mySecret
+jwt.expiration: 604800
+jwt.route.authentication.path: /auth
+jwt.route.authentication.refresh: /refresh
+email.link: "https://localhost:8080/verify/email?id="
