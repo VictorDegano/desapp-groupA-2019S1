@@ -1,0 +1,14 @@
+{
+  "root": "desapp-grupoa-2019s1-frontend",
+  "clean_urls": true,
+  "proxies": {
+    "/api/": {
+      "origin": "https://desapp-grupoa-2019s1-backend.herokuapp.com/api"
+    }
+  },
+    "headers": {
+    "/**": {
+      "Access-Control-Allow-Origin": "*"
+    }
+  }
+}
