@@ -40,7 +40,7 @@ jobs:
         api_key:
           secure: $HEROKU_API_KEY
         app: desapp-grupoa-2019s1-backend
-        strategy: git
+        strategy: api
 
 #      stage: "Deploy Front-end"
 #      name: "Deploy Front-end Stage"
