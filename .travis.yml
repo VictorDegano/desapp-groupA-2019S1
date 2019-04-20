@@ -43,6 +43,12 @@ jobs:
 
     -
       stage: "Deploy Front-end"
+      language: node_js
+      cache:
+        directories:
+          - node_modules
+      install:
+        - npm install
       before_deploy:
         - "cd desapp-groupA-2019S1-frontend"
       deploy:
