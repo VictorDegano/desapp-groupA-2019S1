@@ -29,4 +29,10 @@ public class FiestaController {
         LOGGER.info("Responding with fiesta with id {}", fiestaId);
         return new ResponseEntity<>( fiesta, HttpStatus.OK) ;
     }
+
+    //PlaceHolder so Heroku Runs
+    @GetMapping(value= "/")
+    public ResponseEntity<String> root(){
+        return new ResponseEntity<>( "Hello World", HttpStatus.OK) ;
+    }
 }
