@@ -1,22 +1,28 @@
-package model.event;
+package application.model.event;
 
-import com.sun.tools.javac.util.List;
-import model.good.Good;
+import application.model.good.Good;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
-
+@Entity
 public class Fiesta {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String organizer;
+    @Transient
     private List<String> guest;
     private LocalDateTime limitConfirmationDateTime;
+
+    @Transient
     private List<Good> goodsForGuest;
 
 /**[}-{]---------------------------------------------[}-{]
    [}-{]----------------[CONSTRUCTORS]---------------[}-{]
    [}-{]---------------------------------------------[}-{]**/
-    public Fiesta() {
-    }
+    public Fiesta() {}
 
     public Fiesta(String organizer, List<String> guest, LocalDateTime limitConfirmationDateTime, List<Good> goodsForGuest) {
         this.organizer = organizer;
@@ -44,5 +50,9 @@ public class Fiesta {
     public List<Good> getGoodsForGuest() {  return goodsForGuest;   }
 
     public void setGoodsForGuest(List<Good> goodsForGuest) {    this.goodsForGuest = goodsForGuest; }
+
+    public Integer getId() {    return id;  }
+
+    public void setId(Integer id) { this.id = id;   }
 }
 

@@ -7,13 +7,17 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password:
+    platform: h2
   h2:
     console:
       enabled: true
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
+    generate-ddl: false
+    show-sql: true
+    database: h2
   profiles:
     active:
       - local

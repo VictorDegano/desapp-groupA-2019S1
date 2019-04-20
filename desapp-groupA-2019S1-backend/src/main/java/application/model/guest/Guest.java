@@ -1,4 +1,4 @@
-package model.guest;
+package application.model.guest;
 
 public class Guest {
 

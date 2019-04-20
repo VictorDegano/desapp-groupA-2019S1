@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.configuration;
+package application.configuration;
 
 import org.springframework.context.annotation.Configuration;
 

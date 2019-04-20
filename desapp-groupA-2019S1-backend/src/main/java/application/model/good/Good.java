@@ -1,4 +1,4 @@
-package model.good;
+package application.model.good;
 
 public class Good {
 

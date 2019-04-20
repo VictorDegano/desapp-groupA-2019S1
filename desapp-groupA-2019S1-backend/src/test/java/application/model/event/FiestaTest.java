@@ -1,9 +1,7 @@
-package model.event;
+package application.model.event;
 
 import org.junit.After;
 import org.junit.Before;
-
-import static org.junit.Assert.*;
 
 public class FiestaTest {
 
@@ -14,4 +12,14 @@ public class FiestaTest {
     @After
     public void tearDown() throws Exception {
     }
+
+    /*@Test
+    private void theCostOfTheFiestaShouldBeCalculateCorrectly(){
+
+        //Setup(Given)
+
+        //Exercise(When)
+
+        //Test(Then)
+    }*/
 }
