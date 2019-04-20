@@ -28,7 +28,7 @@ public class FiestaService {
         return aFiestaToCreate.getId();
     }
 
-    public List<Integer> createOfAList(List<Fiesta> aListOfFiestas){
+    public List<Integer> createAll(List<Fiesta> aListOfFiestas){
         this.fiestaDao.saveAll(aListOfFiestas);
         List<Integer> idList = aListOfFiestas.stream()
                                             .map(Fiesta::getId)
