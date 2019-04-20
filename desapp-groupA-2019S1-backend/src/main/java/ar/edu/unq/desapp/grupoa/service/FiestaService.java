@@ -35,4 +35,8 @@ public class FiestaService {
                                             .collect(Collectors.toList());
         return idList;
     }
+
+    public Fiesta getById(Integer fiestaID) {
+        return this.fiestaDao.findById(fiestaID).get();
+    }
 }
