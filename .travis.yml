@@ -31,9 +31,9 @@ jobs:
 
     -
       stage: "Deploy Back-end"
-      script: "mvn clean install"
-      before_deploy:
+      script: 
         - "cd desapp-groupA-2019S1-backend"
+        - "mvn clean install"
       deploy:
         provider: heroku
         skip_cleanup: true
