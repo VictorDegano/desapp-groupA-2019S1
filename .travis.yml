@@ -31,6 +31,7 @@ jobs:
 
     -
       stage: "Deploy Back-end"
+      script: "mvn clean install"
       before_deploy:
         - "cd desapp-groupA-2019S1-backend"
       deploy:
