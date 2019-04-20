@@ -47,14 +47,14 @@ jobs:
       cache:
         directories:
           - node_modules
+      before_install:
+        - "cd desapp-groupA-2019S1-frontend"
       install:
         - npm install
-      before_deploy:
-        - "cd desapp-groupA-2019S1-frontend"
       deploy:
         provider: heroku
         skip_cleanup: true
         api_key:
           secure: $HEROKU_API_KEY
         app: desapp-grupoa-2019s1-frontend
-        strategy: git
+        strategy: api
