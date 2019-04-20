@@ -26,7 +26,7 @@ jobs:
 
       # Para enviar el reporte de jacoco a codacy
       after_success:
-        - "java -jar ~/codacy-coverage-reporter-assembly-latest.jar report -l Java -r target/jacoco/jacoco.xml"
+        - "java -jar ~/codacy-coverage-reporter-assembly-latest.jar report -l Java -r target/jacoco-report/jacoco.xml"
 
     -
       stage: "Deploy Back-end"
@@ -35,7 +35,6 @@ jobs:
         - "mvn clean install -DskipTests=true"
       deploy:
         provider: heroku
-        buildpack: java
         skip_cleanup: true
         api_key:
           secure: $HEROKU_API_KEY
