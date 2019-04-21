@@ -1,14 +1,12 @@
 # Desapp-C1-2019-ACaraDePerro
 
-[TOC]
-
 ## Integrantes
 - - -
    Nombre            |						Usuario						| Legajo UNQ |							Email
 ---------------------|--------------------------------------------------|------------|----------------------------------------------------------
 Ivan Diego Dominikow |[@Dominikowivan](https://github.com/Dominikowivan)|    37517   | [dominikowivan@gmail.com](mailto:dominikowivan@gmail.com)
-Victor Mariano Degano| [@VictorDegano](https://github.com/VictorDegano) |    26106   | [flame.el22@gmail.com](mailto:flame.el22@gmail.com)
-
+Victor Mariano Degano|[@VictorDegano](https://github.com/VictorDegano)  |    26106   | [flame.el22@gmail.com](mailto:flame.el22@gmail.com)
+Ivan Jara            |[@jaraivan](https://github.com/jaraivan)          |    33389   | [ivanjaratamargo@gmail.com](mailto:ivanjaratamargo@gmail.com)
 ## Estado del Proyecto
 
 ###### Travis
