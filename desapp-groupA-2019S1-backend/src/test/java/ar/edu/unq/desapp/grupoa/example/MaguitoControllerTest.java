@@ -32,12 +32,10 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 public class MaguitoControllerTest {
 
 
-    private PersonajeController personajeController;
-    private PersonajeService personajeService;
-
     @Autowired
-    private PersonajeDAO personajeDAO;
+    private  PersonajeService personajeService;
 
+    private PersonajeController personajeController;
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
 
@@ -45,7 +43,7 @@ public class MaguitoControllerTest {
 
     @Before
     public void setup() {
-        this.personajeService = new PersonajeService(personajeDAO);
+
         this.personajeController = new PersonajeController(personajeService);
         this.mockMvc = standaloneSetup(this.personajeController).build();
         objectMapper = new ObjectMapper();
