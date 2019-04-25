@@ -10,7 +10,7 @@ public class Fiesta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String organizer;
+    private User organizer;
     @Transient
     private List<Guest> guest;
     private LocalDateTime limitConfirmationDateTime;
@@ -18,12 +18,19 @@ public class Fiesta {
     private List<Good> goodsForGuest;
     private Integer confirmations;
 
+
+    public void confirmAsistanceOf(User usertToAssist) {
+        this.confirmations += 1;
+        
+        this.getGoodsForGuest().forEach((Good good) -> good.multiplyFinalQuantityBy(this.confirmations));
+    }
+
 /**[}-{]---------------------------------------------[}-{]
    [}-{]----------------[CONSTRUCTORS]---------------[}-{]
    [}-{]---------------------------------------------[}-{]**/
     public Fiesta() {}
 
-    public Fiesta(String organizer, List<Guest> guest, LocalDateTime limitConfirmationDateTime, List<Good> goodsForGuest) {
+    public Fiesta(User organizer, List<Guest> guest, LocalDateTime limitConfirmationDateTime, List<Good> goodsForGuest) {
         this.organizer = organizer;
         this.guest = guest;
         this.limitConfirmationDateTime = limitConfirmationDateTime;
@@ -41,8 +48,8 @@ public class Fiesta {
     public LocalDateTime getLimitConfirmationDateTime() {   return limitConfirmationDateTime;   }
     public void setLimitConfirmationDateTime(LocalDateTime limitConfirmationDateTime) { this.limitConfirmationDateTime = limitConfirmationDateTime; }
 
-    public String getOrganizer() {  return organizer;   }
-    public void setOrganizer(String organizer) {    this.organizer = organizer; }
+    public User getOrganizer() {  return organizer;   }
+    public void setOrganizer(User organizer) {    this.organizer = organizer; }
 
     public List<Good> getGoodsForGuest() {  return goodsForGuest;   }
     public void setGoodsForGuest(List<Good> goodsForGuest) {    this.goodsForGuest = goodsForGuest; }

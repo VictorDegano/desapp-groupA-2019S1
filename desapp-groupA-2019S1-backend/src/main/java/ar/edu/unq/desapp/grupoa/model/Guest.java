@@ -2,15 +2,14 @@ package ar.edu.unq.desapp.grupoa.model;
 
 public class Guest {
 
-    // TODO: 23/4/2019 A futuro se va a reemplazar por el usuario.
-    private String name;
+    private User user;
     private Boolean confirmAsistance;
 
 /** [}-{]---------------------------------------------[}-{]
     [}-{]----------------[CONSTRUCTORS]---------------[}-{]
     [}-{]---------------------------------------------[}-{]**/
-    public Guest(String name) {
-        this.name = name;
+    public Guest(User user) {
+        this.user = user;
         this.confirmAsistance = false;
     }
 
@@ -19,9 +18,10 @@ public class Guest {
 /** [}-{]---------------------------------------------[}-{]
     [}-{]----------[GETTER & SETTER METHODS]----------[}-{]
     [}-{]---------------------------------------------[}-{]**/
-    public String getName() {   return name;    }
-    public void setName(String name) {  this.name = name;   }
 
     public Boolean getConfirmAsistance() {  return confirmAsistance;    }
     public void setConfirmAsistance(Boolean confirmAsistance) { this.confirmAsistance = confirmAsistance;   }
+
+    public User getUser() { return user;    }
+    public void setUser(User user) {    this.user = user;   }
 }

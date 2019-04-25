@@ -3,6 +3,8 @@ package ar.edu.unq.desapp.grupoa.testUtils;
 import ar.edu.unq.desapp.grupoa.model.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.Good;
 import ar.edu.unq.desapp.grupoa.model.Guest;
+import ar.edu.unq.desapp.grupoa.model.User;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -20,8 +22,8 @@ public class FiestaBuilder {
         return new FiestaBuilder();
     }
 
-    public FiestaBuilder withOrganizer(String name){
-        this.fiesta.setOrganizer(name);
+    public FiestaBuilder withOrganizer(User user){
+        this.fiesta.setOrganizer(user);
         return this;
     }
 

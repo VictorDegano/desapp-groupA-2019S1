@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa.testUtils;
 
 import ar.edu.unq.desapp.grupoa.model.Guest;
+import ar.edu.unq.desapp.grupoa.model.User;
 
 public class GuestBuilder {
 
@@ -14,8 +15,8 @@ public class GuestBuilder {
         return new GuestBuilder();
     }
 
-    public GuestBuilder withName(String name){
-        this.guest.setName(name);
+    public GuestBuilder withName(User user){
+        this.guest.setUser(user);
         return this;
     }
 

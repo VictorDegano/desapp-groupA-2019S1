@@ -1,6 +1,8 @@
 package ar.edu.unq.desapp.grupoa.service;
 
 import ar.edu.unq.desapp.grupoa.model.Fiesta;
+import ar.edu.unq.desapp.grupoa.model.Guest;
+import ar.edu.unq.desapp.grupoa.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +25,23 @@ public class BootstrapService {
     }
 
     private Fiesta ivanFiesta() {
-        return new Fiesta("Ivan", Arrays.asList("Victor","Pepe el loco", "Ivan"), LocalDateTime.now(),EMPTY_LIST);
+        return new Fiesta(
+                        new User("Ivan"),
+                        Arrays.asList(
+                                    new Guest(new User("Victor")),
+                                    new Guest(new User("Pepe El Loco")),
+                                    new Guest(new User("Ivan"))),
+                        LocalDateTime.now(),
+                        EMPTY_LIST);
     }
 
     private Fiesta pepeLocoFiesta() {
-        return new Fiesta("Pepe Loco", Arrays.asList("Ivan","Ivan"), LocalDateTime.now(), EMPTY_LIST);
+        return new Fiesta(
+                new User("Pepe Loco"),
+                Arrays.asList(
+                        new Guest(new User("Ivan")),
+                        new Guest(new User("Ivan"))),
+                LocalDateTime.now(),
+                EMPTY_LIST);
     }
 }

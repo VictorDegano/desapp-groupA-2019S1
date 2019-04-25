@@ -18,6 +18,14 @@ public class User {
         this.bornDay = bornDay;
     }
 
+    public User(String firstName) {
+        this.firstName = firstName;
+        this.lastName = "";
+        this.email = "";
+        this.password = "";
+        this.bornDay = new DateTime();
+    }
+
     public String getFirstName() {
         return firstName;
     }
