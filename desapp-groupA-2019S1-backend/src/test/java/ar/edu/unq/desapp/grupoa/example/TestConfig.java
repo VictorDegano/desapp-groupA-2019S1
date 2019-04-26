@@ -12,11 +12,16 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class TestConfig {
 
     @Autowired
-    private PersonajeDAO personajeDAO;
+    public PersonajeDAO personajeDao;
 
     @Bean
-    public  PersonajeService personajeService(){
-        return new PersonajeService(personajeDAO);
+    public PersonajeService personajeService(){
+        return new PersonajeService();
+    }
+
+    @Bean
+    public PersonajeController personajeController(){
+        return new PersonajeController();
     }
 
 }

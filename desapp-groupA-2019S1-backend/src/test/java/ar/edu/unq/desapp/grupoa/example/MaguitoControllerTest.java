@@ -3,20 +3,16 @@ package ar.edu.unq.desapp.grupoa.example;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -34,8 +30,9 @@ public class MaguitoControllerTest {
 
     @Autowired
     private  PersonajeService personajeService;
+    @Autowired
+    private  PersonajeController personajeController;
 
-    private PersonajeController personajeController;
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
 
@@ -43,9 +40,8 @@ public class MaguitoControllerTest {
 
     @Before
     public void setup() {
-
-        this.personajeController = new PersonajeController(personajeService);
         this.mockMvc = standaloneSetup(this.personajeController).build();
+
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new Jdk8Module());
 
