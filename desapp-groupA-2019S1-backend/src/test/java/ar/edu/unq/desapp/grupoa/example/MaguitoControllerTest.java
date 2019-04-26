@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-@ContextConfiguration(classes={TestConfig.class})
+@ContextConfiguration(classes={ExampleTestConfig.class})
 @DataJpaTest
 @RunWith(SpringRunner.class)
 public class MaguitoControllerTest {
@@ -50,7 +50,7 @@ public class MaguitoControllerTest {
 
 
     @Test
-    public void testCreatePersonajeAndReturnId() throws Exception {
+    public void createPersonajeAndReturnId() throws Exception {
         String  json       = json(maguito);
         Integer maguitoId  = postAndReturnId(json);
         Personaje maguitoRetrieved = this.personajeService.getById(maguitoId);
@@ -59,7 +59,7 @@ public class MaguitoControllerTest {
     }
 
     @Test
-    public void testGivenIdReturnPersonaje() throws Exception {
+    public void givenIdReturnPersonaje() throws Exception {
         Integer maguitoId  = personajeService.create(maguito);
         Personaje maguitoRetrieved = getById(maguitoId);
 
@@ -67,7 +67,7 @@ public class MaguitoControllerTest {
     }
 
     @Test
-    public void testGivenPersonajeIdAndItemPickUpItem() throws Exception {
+    public void givenPersonajeIdAndItemPickUpItem() throws Exception {
         Integer maguitoId  = personajeService.create(maguito);
         Item baculo = new Item("baculo");
         String  json       = json(baculo);

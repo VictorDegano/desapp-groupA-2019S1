@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.testUtils;
+package ar.edu.unq.desapp.grupoa.utils.builders;
 
 import ar.edu.unq.desapp.grupoa.model.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.Good;

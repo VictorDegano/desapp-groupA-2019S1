@@ -1,11 +1,12 @@
 package ar.edu.unq.desapp.grupoa.model;
 
-import ar.edu.unq.desapp.grupoa.testUtils.FiestaBuilder;
-import ar.edu.unq.desapp.grupoa.testUtils.GoodBuilder;
-import ar.edu.unq.desapp.grupoa.testUtils.GuestBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builders.FiestaBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builders.GoodBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builders.GuestBuilder;
 import org.junit.Test;
 import java.util.List;
 
+import static ar.edu.unq.desapp.grupoa.model.utils.RandomUserGenerator.randomUserWithName;
 import static org.junit.Assert.*;
 
 public class FiestaTest {
@@ -13,7 +14,7 @@ public class FiestaTest {
     @Test
     public void whenAGuestConfirmTheAssistance_TheQuantityOfConfirmationsChangeAndTheGuestHaveYourConfirmationInTrue(){
         //Setup(Given)
-        User userToAssist = new User("Ivan");
+        User userToAssist = randomUserWithName("Ivan");
 
         Guest firstGuest = GuestBuilder.buildAGuest()
                                        .withUser(userToAssist)
@@ -39,7 +40,7 @@ public class FiestaTest {
     @Test
     public void whenAGuestConfirmTheAsistance_TheQuantityOfGoodsAreRecalculated(){
         //Setup(Given)
-        User userToAssist = new User("Ivan");
+        User userToAssist = randomUserWithName("Ivan");
 
         Guest firstGuest = GuestBuilder.buildAGuest()
                                        .withUser(userToAssist)
@@ -78,7 +79,7 @@ public class FiestaTest {
     @Test
     public void ifAGuestThatAreNotInvitedTryToConfirmAssitance_getAExceptionAndNothingWhasChange(){
         //Setup(Given)
-        User userToAssist = new User("Ivan");
+        User userToAssist = randomUserWithName("Ivan");
 
         Guest firstGuest = GuestBuilder.buildAGuest()
                                        .withUser(userToAssist)

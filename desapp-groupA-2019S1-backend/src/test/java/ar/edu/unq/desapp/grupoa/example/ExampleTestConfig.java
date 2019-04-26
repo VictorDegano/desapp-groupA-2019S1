@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @EnableJpaRepositories
 @EnableAutoConfiguration
-public class TestConfig {
+public class ExampleTestConfig {
 
     @Autowired
     public PersonajeDAO personajeDao;
