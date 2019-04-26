@@ -5,6 +5,14 @@ public class Guest {
     private User user;
     private Boolean confirmAsistance;
 
+    public void confirmAsistance(){
+        this.setConfirmAsistance(true);
+    }
+
+    public String name() {
+        return this.getUser().getFirstName() + this.getUser().getLastName();
+    }
+
 /** [}-{]---------------------------------------------[}-{]
     [}-{]----------------[CONSTRUCTORS]---------------[}-{]
     [}-{]---------------------------------------------[}-{]**/
@@ -24,4 +32,5 @@ public class Guest {
 
     public User getUser() { return user;    }
     public void setUser(User user) {    this.user = user;   }
+
 }

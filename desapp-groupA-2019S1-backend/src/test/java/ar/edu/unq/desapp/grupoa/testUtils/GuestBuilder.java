@@ -15,7 +15,7 @@ public class GuestBuilder {
         return new GuestBuilder();
     }
 
-    public GuestBuilder withName(User user){
+    public GuestBuilder withUser(User user){
         this.guest.setUser(user);
         return this;
     }

@@ -18,7 +18,7 @@ public class FiestaBuilder {
         this.fiesta.setGuest(new ArrayList<Guest>());
     }
 
-    public static FiestaBuilder buildAGuest(){
+    public static FiestaBuilder buildAFiesta(){
         return new FiestaBuilder();
     }
 
@@ -36,6 +36,11 @@ public class FiestaBuilder {
     public FiestaBuilder addGood(Good aGood){
         this.fiesta.getGoodsForGuest()
                    .add(aGood);
+        return this;
+    }
+
+    public FiestaBuilder withName(String name){
+        this.fiesta.setName(name);
         return this;
     }
 

@@ -27,20 +27,12 @@ public class Good {
 /** [}-{]---------------------------------------------[}-{]
     [}-{]----------[GETTER & SETTER METHODS]----------[}-{]
     [}-{]---------------------------------------------[}-{]**/
-    public Integer getId() {    return id;  }
-    public void setId(Integer id) { this.id = id;   }
 
-    public String getName() {   return name;    }
     public void setName(String name) {  this.name = name;   }
 
-    public Integer getPricePerUnit() {  return pricePerUnit;    }
     public void setPricePerUnit(Integer pricePerUnit) { this.pricePerUnit = pricePerUnit;   }
 
-    public Integer getQuantityForPerson() { return quantityForPerson;   }
     public void setQuantityForPerson(Integer quantityForPerson) {   this.quantityForPerson = quantityForPerson; }
 
     public Integer getFinalQuantity() { return finalQuantity;   }
-    public void setFinalQuantity(Integer finalQuantity) {   this.finalQuantity = finalQuantity; }
-
-
 }
