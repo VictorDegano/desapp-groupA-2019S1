@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa.example;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,12 +15,8 @@ public class PersonajeController {
     // es buena practica loggear lo que pasa a nivel entrada/salida de tu aplicacion
     private final Logger      LOGGER = LoggerFactory.getLogger(this.getClass());
 
-    private final PersonajeService personajeService;
-
-
-    public PersonajeController(PersonajeService personajeService) {
-        this.personajeService = personajeService;
-    }
+    @Autowired
+    private  PersonajeService personajeService;
 
 
     @PostMapping(value = "/personaje")
