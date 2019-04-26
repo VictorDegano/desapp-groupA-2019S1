@@ -76,7 +76,7 @@ public class FiestaTest {
                       goodsAfterConfirm.get(1).getFinalQuantity());
     }
 
-    @Test
+    @Test(expected = ConfirmAsistanceException.class)
     public void ifAGuestThatAreNotInvitedTryToConfirmAssitance_getAExceptionAndNothingWhasChange(){
         //Setup(Given)
         User userToAssist = randomUserWithName("Ivan");
@@ -98,16 +98,7 @@ public class FiestaTest {
         String message = "";
 
         //Exercise(When)
-        try{
-            fiestaSUT.confirmAsistanceOf(firstGuest);
-        } catch (ConfirmAsistanceException cae){
-            message = cae.getMessage();
-        }
-
-        //Test(Then)
-        assertEquals("No Hubo Excepcion! un invitado que no esta en la fiesta pudo confirmar asistencia",
-                     "Error al confirmar la invitacion. La Fiesta: Pepelloza no tiene como invitado a Ivan",
-                     message);
+        fiestaSUT.confirmAsistanceOf(firstGuest);
     }
 
 }
