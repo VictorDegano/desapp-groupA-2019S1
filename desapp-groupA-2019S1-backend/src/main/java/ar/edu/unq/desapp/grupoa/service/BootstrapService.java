@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
+import static ar.edu.unq.desapp.grupoa.model.utils.RandomUserGenerator.randomUserWithName;
 import static org.apache.commons.collections.ListUtils.EMPTY_LIST;
 
 @Service
@@ -26,22 +27,24 @@ public class BootstrapService {
 
     private Fiesta ivanFiesta() {
         return new Fiesta(
-                        new User("Ivan"),
+                        randomUserWithName("Ivan"),
                         Arrays.asList(
-                                    new Guest(new User("Victor")),
-                                    new Guest(new User("Pepe El Loco")),
-                                    new Guest(new User("Ivan"))),
+                                    new Guest(randomUserWithName("Victor")),
+                                    new Guest(randomUserWithName("Pepe El Loco")),
+                                    new Guest(randomUserWithName("Ivan"))),
                         LocalDateTime.now(),
                         EMPTY_LIST);
     }
 
     private Fiesta pepeLocoFiesta() {
         return new Fiesta(
-                new User("Pepe Loco"),
+                randomUserWithName("Pepe Loco"),
                 Arrays.asList(
-                        new Guest(new User("Ivan")),
-                        new Guest(new User("Ivan"))),
+                        new Guest(randomUserWithName("Ivan")),
+                        new Guest(randomUserWithName("Ivan"))),
                 LocalDateTime.now(),
                 EMPTY_LIST);
     }
+
+
 }

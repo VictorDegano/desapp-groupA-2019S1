@@ -3,20 +3,16 @@ package ar.edu.unq.desapp.grupoa.example;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -26,17 +22,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-@ContextConfiguration(classes={TestConfig.class})
+@ContextConfiguration(classes={ExampleTestConfig.class})
 @DataJpaTest
 @RunWith(SpringRunner.class)
 public class MaguitoControllerTest {
 
 
-    private PersonajeController personajeController;
-    private PersonajeService personajeService;
-
     @Autowired
-    private PersonajeDAO personajeDAO;
+    private  PersonajeService personajeService;
+    @Autowired
+    private  PersonajeController personajeController;
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
@@ -45,9 +40,8 @@ public class MaguitoControllerTest {
 
     @Before
     public void setup() {
-        this.personajeService = new PersonajeService(personajeDAO);
-        this.personajeController = new PersonajeController(personajeService);
         this.mockMvc = standaloneSetup(this.personajeController).build();
+
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new Jdk8Module());
 
@@ -56,7 +50,7 @@ public class MaguitoControllerTest {
 
 
     @Test
-    public void testCreatePersonajeAndReturnId() throws Exception {
+    public void createPersonajeAndReturnId() throws Exception {
         String  json       = json(maguito);
         Integer maguitoId  = postAndReturnId(json);
         Personaje maguitoRetrieved = this.personajeService.getById(maguitoId);
@@ -65,7 +59,7 @@ public class MaguitoControllerTest {
     }
 
     @Test
-    public void testGivenIdReturnPersonaje() throws Exception {
+    public void givenIdReturnPersonaje() throws Exception {
         Integer maguitoId  = personajeService.create(maguito);
         Personaje maguitoRetrieved = getById(maguitoId);
 
@@ -73,7 +67,7 @@ public class MaguitoControllerTest {
     }
 
     @Test
-    public void testGivenPersonajeIdAndItemPickUpItem() throws Exception {
+    public void givenPersonajeIdAndItemPickUpItem() throws Exception {
         Integer maguitoId  = personajeService.create(maguito);
         Item baculo = new Item("baculo");
         String  json       = json(baculo);

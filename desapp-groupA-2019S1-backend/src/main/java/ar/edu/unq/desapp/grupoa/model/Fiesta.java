@@ -1,5 +1,7 @@
 package ar.edu.unq.desapp.grupoa.model;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,6 +13,7 @@ public class Fiesta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Transient
     private User organizer;
     @Transient
     private List<Guest> guest;
