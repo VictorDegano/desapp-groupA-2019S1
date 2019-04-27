@@ -1,7 +1,6 @@
 package ar.edu.unq.desapp.grupoa.model;
 
 import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
-import jdk.internal.jline.internal.TestAccessible;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
