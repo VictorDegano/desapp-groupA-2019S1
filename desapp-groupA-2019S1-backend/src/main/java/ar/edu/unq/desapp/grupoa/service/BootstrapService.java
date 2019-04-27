@@ -2,14 +2,13 @@ package ar.edu.unq.desapp.grupoa.service;
 
 import ar.edu.unq.desapp.grupoa.model.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.Guest;
-import ar.edu.unq.desapp.grupoa.model.User;
+import ar.edu.unq.desapp.grupoa.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
-import static ar.edu.unq.desapp.grupoa.model.utils.RandomUserGenerator.randomUserWithName;
 import static org.apache.commons.collections.ListUtils.EMPTY_LIST;
 
 @Service
@@ -27,24 +26,27 @@ public class BootstrapService {
 
     private Fiesta ivanFiesta() {
         return new Fiesta(
-                        randomUserWithName("Ivan"),
+                        createUserWithName("Ivan"),
                         Arrays.asList(
-                                    new Guest(randomUserWithName("Victor")),
-                                    new Guest(randomUserWithName("Pepe El Loco")),
-                                    new Guest(randomUserWithName("Ivan"))),
+                                    new Guest(createUserWithName("Victor")),
+                                    new Guest(createUserWithName("Pepe El Loco")),
+                                    new Guest(createUserWithName("Ivan"))),
                         LocalDateTime.now(),
                         EMPTY_LIST);
     }
 
     private Fiesta pepeLocoFiesta() {
         return new Fiesta(
-                randomUserWithName("Pepe Loco"),
+                createUserWithName("Pepe Loco"),
                 Arrays.asList(
-                        new Guest(randomUserWithName("Ivan")),
-                        new Guest(randomUserWithName("Ivan"))),
+                        new Guest(createUserWithName("Ivan")),
+                        new Guest(createUserWithName("Ivan"))),
                 LocalDateTime.now(),
                 EMPTY_LIST);
     }
 
+    private User createUserWithName(String name) {
+        return new User(name,"Doe","nameless@acaradeperro.com","123", LocalDateTime.now());
+    }
 
 }

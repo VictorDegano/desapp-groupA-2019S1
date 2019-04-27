@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.controller;
+package ar.edu.unq.desapp.grupoa.controller.rest;
 
 import ar.edu.unq.desapp.grupoa.model.Fiesta;
 import ar.edu.unq.desapp.grupoa.service.FiestaService;
