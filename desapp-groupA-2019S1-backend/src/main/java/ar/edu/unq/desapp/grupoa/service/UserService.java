@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoa.service;
 
 import ar.edu.unq.desapp.grupoa.exception.UserNotFoundException;
-import ar.edu.unq.desapp.grupoa.model.User;
+import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

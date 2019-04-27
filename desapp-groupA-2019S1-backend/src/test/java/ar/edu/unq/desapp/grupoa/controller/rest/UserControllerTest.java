@@ -1,12 +1,10 @@
-package ar.edu.unq.desapp.grupoa.controller;
+package ar.edu.unq.desapp.grupoa.controller.rest;
 
 import ar.edu.unq.desapp.grupoa.TestConfig;
 import ar.edu.unq.desapp.grupoa.exception.UserNotFoundException;
-import ar.edu.unq.desapp.grupoa.model.User;
+import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +16,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 
-import static ar.edu.unq.desapp.grupoa.model.utils.RandomUserGenerator.randomUser;
-import static ar.edu.unq.desapp.grupoa.model.utils.RandomUserGenerator.randomUserWithName;
+import static ar.edu.unq.desapp.grupoa.utils.builders.Randomizer.randomUser;
+import static ar.edu.unq.desapp.grupoa.utils.builders.Randomizer.randomUserWithName;
 import static ar.edu.unq.desapp.grupoa.utils.throwing.Rethrowing.rethrow;
 import static org.aspectj.runtime.internal.Conversions.intValue;
 import static org.junit.Assert.assertEquals;
@@ -49,8 +47,7 @@ public class UserControllerTest {
                 .build();
 
         objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new Jdk8Module());
-        objectMapper.registerModule(new JodaModule());
+        objectMapper.findAndRegisterModules();
     }
 
     @Test

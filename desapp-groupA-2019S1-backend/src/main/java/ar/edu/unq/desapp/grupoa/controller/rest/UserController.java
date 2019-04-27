@@ -1,6 +1,6 @@
-package ar.edu.unq.desapp.grupoa.controller;
+package ar.edu.unq.desapp.grupoa.controller.rest;
 
-import ar.edu.unq.desapp.grupoa.model.User;
+import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

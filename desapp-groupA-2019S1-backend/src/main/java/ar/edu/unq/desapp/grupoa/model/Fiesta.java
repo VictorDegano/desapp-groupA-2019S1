@@ -1,11 +1,10 @@
 package ar.edu.unq.desapp.grupoa.model;
 
-import org.springframework.transaction.annotation.Transactional;
+import ar.edu.unq.desapp.grupoa.model.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 public class Fiesta {
