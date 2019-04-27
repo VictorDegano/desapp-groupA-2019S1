@@ -1,11 +1,11 @@
 package ar.edu.unq.desapp.grupoa.model;
 
-import org.springframework.transaction.annotation.Transactional;
+import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
+import jdk.internal.jline.internal.TestAccessible;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 public class Fiesta {
@@ -26,21 +26,33 @@ public class Fiesta {
 
     /** Confirma la asistencia de un invitado a la fiesta, al hacerlo se recalcula la cantidad de mercaderia a comprar y la cantidad de confirmaciones
      * @param guestToAssist User el usuario invitado
-     * @throws
+     * @throws ConfirmAsistanceException  si el invitado no es un invitado de la fiesta.
      */
     public void confirmAsistanceOf(Guest guestToAssist) {
-        if(guest.stream().anyMatch(guest1 -> guest1==guestToAssist)){
+        if(isInvited(guestToAssist)){
             this.confirmations += 1;
 
             guestToAssist.confirmAsistance();
 
-            this.getGoodsForGuest().forEach((Good good) -> good.multiplyFinalQuantityBy(this.confirmations));
+            updateFinalQuantityOfGoods();
         } else {
             throw new ConfirmAsistanceException(this.getName(), guestToAssist.name());
         }
+    }
 
+    private void updateFinalQuantityOfGoods() {
+        this.getGoodsForGuest().forEach((Good good) -> good.multiplyFinalQuantityBy(this.confirmations));
+    }
 
+    public Integer totalCost() {
+        return this.getGoodsForGuest()
+                   .stream()
+                   .mapToInt(Good::totalCost)
+                   .sum();
+    }
 
+    private boolean isInvited(Guest guestToAssist) {
+        return guest.stream().anyMatch(guest -> guest.areThatGuest(guestToAssist));
     }
 
 /**[}-{]---------------------------------------------[}-{]
@@ -77,5 +89,6 @@ public class Fiesta {
 
     public String getName() {   return name;    }
     public void setName(String name) {  this.name = name;   }
+
 }
 

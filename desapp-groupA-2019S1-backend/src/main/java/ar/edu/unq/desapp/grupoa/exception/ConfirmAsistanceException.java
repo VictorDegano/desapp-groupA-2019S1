@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.model;
+package ar.edu.unq.desapp.grupoa.exception;
 
 public class ConfirmAsistanceException extends RuntimeException {
 
