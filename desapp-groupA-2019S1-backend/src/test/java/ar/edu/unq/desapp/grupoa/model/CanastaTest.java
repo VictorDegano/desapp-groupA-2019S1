@@ -9,6 +9,8 @@ import java.util.List;
 
 import static ar.edu.unq.desapp.grupoa.model.utils.RandomUserGenerator.randomUserWithName;
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 public class CanastaTest {
 
@@ -81,6 +83,22 @@ public class CanastaTest {
                 newCanasta.getOrganizer().getFirstName());
     }
 
+    @Test
+    public void whenAnUserCreatesACanastaTheInitialStateIsOpen(){
+        //Setup(Given)
+        User userThatCreateTheCanasta = randomUserWithName("Ivan");
+
+        //Exercise(When)
+        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta);
+
+        //Test(Then)
+        assertTrue("El estado de la Canasta es en preparacion cuando se inicializa",
+                newCanasta.getState().isInPreparationCanasta());
+
+        assertFalse("El estado de la Canasta no es cerrado",
+                newCanasta.getState().isCloseCanasta());
+
+    }
 
 
 
