@@ -24,19 +24,19 @@ public class Canasta {
 
 
     public Canasta(String name, User organizer) {
-        this.name = name;
-        this.organizer = organizer;
-        this.guests = new ArrayList<>();
-        this.goods = new ArrayList<>();
-        this.canastaState = new CanastaStateInPreparation();
+        this.setName(name);
+        this.setOrganizer(organizer);
+        this.setGuests(new ArrayList<>());
+        this.setGoods(new ArrayList<>());
+        this.setState(new CanastaStateInPreparation());
     }
 
     public Canasta(String name, User organizer, List<Guest> guests, List<Good> goods) {
-        this.name = name;
-        this.organizer = organizer;
-        this.guests = guests;
-        this.goods = goods;
-        this.canastaState = new CanastaStateInPreparation();
+        this.setName(name);
+        this.setOrganizer(organizer);
+        this.setGuests(guests);
+        this.setGoods(goods);
+        this.setState(new CanastaStateInPreparation());
     }
 
     public String getName() {
