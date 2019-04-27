@@ -1,13 +1,18 @@
 package ar.edu.unq.desapp.grupoa.exception;
 
+import ar.edu.unq.desapp.grupoa.model.Fiesta;
+import ar.edu.unq.desapp.grupoa.model.Guest;
+
+// TODO: 27/4/2019 Al momento que se use para el resto de los eventos hay que hacer algunos cambios sintacticos
 public class ConfirmAsistanceException extends RuntimeException {
 
     private String fiestaName;
     private String guestName;
 
-    public ConfirmAsistanceException(String fiestaName, String guestName){
-        this.fiestaName = fiestaName;
-        this.guestName = guestName;
+    public ConfirmAsistanceException(Fiesta fiesta, Guest guest){
+        super();
+        this.fiestaName = fiesta.getName();
+        this.guestName = guest.name();
     }
 
     @Override

@@ -1,7 +1,8 @@
 package ar.edu.unq.desapp.grupoa.model;
 
 import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
-
+import ar.edu.unq.desapp.grupoa.model.StateFiesta.FiestaState;
+import ar.edu.unq.desapp.grupoa.model.StateFiesta.OpenFiesta;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,13 +22,14 @@ public class Fiesta {
     private List<Good> goodsForGuest;
     private Integer confirmations;
     private String name;
+    @Transient
+    private FiestaState state;
 
+    public void confirmAsistancesOf(Guest guestToAssist){
+        this.getState().confirmAssistanceOf(guestToAssist);
+    }
 
-    /** Confirma la asistencia de un invitado a la fiesta, al hacerlo se recalcula la cantidad de mercaderia a comprar y la cantidad de confirmaciones
-     * @param guestToAssist User el usuario invitado
-     * @throws ConfirmAsistanceException  si el invitado no es un invitado de la fiesta.
-     */
-    public void confirmAsistanceOf(Guest guestToAssist) {
+    public void completeConfirmationAsistance(Guest guestToAssist){
         if(isInvited(guestToAssist)){
             this.confirmations += 1;
 
@@ -35,7 +37,7 @@ public class Fiesta {
 
             updateFinalQuantityOfGoods();
         } else {
-            throw new ConfirmAsistanceException(this.getName(), guestToAssist.name());
+            throw new ConfirmAsistanceException(this, guestToAssist);
         }
     }
 
@@ -54,40 +56,48 @@ public class Fiesta {
         return guest.stream().anyMatch(guest -> guest.areThatGuest(guestToAssist));
     }
 
+    public boolean canConfirmInvitation(LocalDateTime aLocalDateTimeToCompare) {
+        return this.limitConfirmationDateTime.isAfter(aLocalDateTimeToCompare);
+    }
+
 /**[}-{]---------------------------------------------[}-{]
    [}-{]----------------[CONSTRUCTORS]---------------[}-{]
    [}-{]---------------------------------------------[}-{]**/
     public Fiesta() {}
 
-    public Fiesta(User organizer, List<Guest> guest, LocalDateTime limitConfirmationDateTime, List<Good> goodsForGuest) {
+    public Fiesta(String name, User organizer, List<Guest> guest, LocalDateTime limitConfirmationDateTime, List<Good> goodsForGuest) {
         this.organizer = organizer;
         this.guest = guest;
         this.limitConfirmationDateTime = limitConfirmationDateTime;
         this.goodsForGuest = goodsForGuest;
         this.confirmations = 0;
+        this.name = name;
+        this.state = new OpenFiesta(this);
     }
-
 
 /**[}-{]---------------------------------------------[}-{]
    [}-{]----------[GETTER & SETTER METHODS]----------[}-{]
    [}-{]---------------------------------------------[}-{]**/
-    public List<Guest> getGuest() {    return guest;   }
+    public List<Guest> getGuest() {    return this.guest;   }
     public void setGuest(List<Guest> guest) {  this.guest = guest; }
 
     public void setLimitConfirmationDateTime(LocalDateTime limitConfirmationDateTime) { this.limitConfirmationDateTime = limitConfirmationDateTime; }
+    public LocalDateTime getLimitConfirmationDateTime() {   return this.limitConfirmationDateTime;   }
 
     public void setOrganizer(User organizer) {    this.organizer = organizer; }
 
-    public List<Good> getGoodsForGuest() {  return goodsForGuest;   }
+    public List<Good> getGoodsForGuest() {  return this.goodsForGuest;   }
     public void setGoodsForGuest(List<Good> goodsForGuest) {    this.goodsForGuest = goodsForGuest; }
 
-    public Integer getId() {    return id;  }
+    public Integer getId() {    return this.id;  }
 
-    public Integer getConfirmations() { return confirmations;   }
+    public Integer getConfirmations() { return this.confirmations;   }
     public void setConfirmations(Integer confirmations) {   this.confirmations = confirmations; }
 
-    public String getName() {   return name;    }
+    public String getName() {   return this.name;    }
     public void setName(String name) {  this.name = name;   }
 
+    public FiestaState getState() { return state;   }
+    public void setState(FiestaState state) {   this.state = state; }
 }
 

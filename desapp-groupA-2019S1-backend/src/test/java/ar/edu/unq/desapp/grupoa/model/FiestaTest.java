@@ -1,11 +1,14 @@
 package ar.edu.unq.desapp.grupoa.model;
 
+import ar.edu.unq.desapp.grupoa.exception.CloseEventException;
 import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
+import ar.edu.unq.desapp.grupoa.exception.ConfirmationLimitException;
 import ar.edu.unq.desapp.grupoa.utils.builders.FiestaBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builders.GoodBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builders.GuestBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builders.UserBuilder;
 import org.junit.Test;
+import java.time.LocalDateTime;
 import java.util.List;
 import static org.junit.Assert.*;
 
@@ -28,7 +31,7 @@ public class FiestaTest {
                                         .build();
 
         //Exercise(When)
-        fiestaSUT.confirmAsistanceOf(firstGuest);
+        fiestaSUT.completeConfirmationAsistance(firstGuest);
 
         //Test(Then)
         assertEquals("Hubo mas de una confirmacion y solo se confirmo para un usuario",
@@ -66,7 +69,7 @@ public class FiestaTest {
                                         .withConfirmations(0)
                                         .build();
         //Exercise(When)
-        fiestaSUT.confirmAsistanceOf(firstGuest);
+        fiestaSUT.completeConfirmationAsistance(firstGuest);
 
         //Test(Then)
         List<Good> goodsAfterConfirm = fiestaSUT.getGoodsForGuest();
@@ -80,7 +83,7 @@ public class FiestaTest {
     }
 
     @Test
-    public void ifAGuestThatAreNotInvitedTryToConfirmAssitance_getAExceptionAndNothingWhasChange(){
+    public void ifAGuestThatAreNotInvitedTryToConfirmAssitance_getAExceptionAndNothingWasChange(){
         //Setup(Given)
         User userToAssist =  UserBuilder.buildAUser()
                                         .withFirstName("Ivan")
@@ -106,7 +109,7 @@ public class FiestaTest {
 
         //Exercise(When)
         try{
-            fiestaSUT.confirmAsistanceOf(firstGuest);
+            fiestaSUT.completeConfirmationAsistance(firstGuest);
         } catch (ConfirmAsistanceException cae){
             message = cae.getMessage();
         }
@@ -152,4 +155,56 @@ public class FiestaTest {
                     totalCost);
     }
 
+    @Test(expected = CloseEventException.class)
+    public void inAClosedFiestaIfTryToConfirmAsistance_GetAnExceptionOfCloseEvent(){
+        //Setup(Given)
+        Guest firstGuest = GuestBuilder.buildAGuest().build();
+
+        Fiesta fiestaSUT = FiestaBuilder.buildAFiesta().withClosedState().build();
+
+        //Exercise(When)
+        fiestaSUT.confirmAsistancesOf(firstGuest);
+
+        //Test(Then)
+    }
+
+    @Test(expected = ConfirmationLimitException.class)
+    public void inAOpenFiestaIfTryToConfirmAsistance_GetAnExceptionOfConfirmationLimit(){
+        //Setup(Given)
+        Guest firstGuest = GuestBuilder.buildAGuest().build();
+
+        Fiesta fiestaSUT = FiestaBuilder.buildAFiesta()
+                                        .withLimitConfirmationDateTime(LocalDateTime.now().minusDays(5))
+                                        .withOpenState()
+                                        .build();
+
+        //Exercise(When)
+        fiestaSUT.confirmAsistancesOf(firstGuest);
+
+        //Test(Then)
+    }
+
+    @Test
+    public void inAOpenFiestaIfTryToConfirmAsistanceOfAInvitedGuest_TheConfirmationOcurrs(){
+        //Setup(Given)
+        User userToAssist = UserBuilder.buildAUser().build();
+
+        Guest firstGuest = GuestBuilder.buildAGuest()
+                                       .withUser(userToAssist)
+                                       .build();
+
+        Fiesta fiestaSUT = FiestaBuilder.buildAFiesta()
+                                        .withLimitConfirmationDateTime(LocalDateTime.now().plusDays(3))
+                                        .withOpenState()
+                                        .addGuest(firstGuest)
+                                        .withConfirmations(0)
+                                        .build();
+
+        //Exercise(When)
+        fiestaSUT.confirmAsistancesOf(firstGuest);
+
+        //Test(Then)
+        assertEquals(Integer.valueOf(1), fiestaSUT.getConfirmations());
+        assertTrue(firstGuest.getConfirmAsistance());
+    }
 }

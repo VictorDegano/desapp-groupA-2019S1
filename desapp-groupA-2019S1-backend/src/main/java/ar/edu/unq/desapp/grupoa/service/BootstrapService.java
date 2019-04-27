@@ -24,6 +24,7 @@ public class BootstrapService {
 
     private Fiesta ivanFiesta() {
         return new Fiesta(
+                        "La fiesta de Ivan",
                         randomUserWithName("Ivan"),
                         Arrays.asList(
                                     new Guest(randomUserWithName("Victor")),
@@ -35,6 +36,7 @@ public class BootstrapService {
 
     private Fiesta pepeLocoFiesta() {
         return new Fiesta(
+                "Pepallooza",
                 randomUserWithName("Pepe Loco"),
                 Arrays.asList(
                         new Guest(randomUserWithName("Ivan")),
