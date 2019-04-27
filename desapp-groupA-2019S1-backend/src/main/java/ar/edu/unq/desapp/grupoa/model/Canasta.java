@@ -1,5 +1,7 @@
 package ar.edu.unq.desapp.grupoa.model;
 
+import ar.edu.unq.desapp.grupoa.model.canasta_states.CanastaState;
+import ar.edu.unq.desapp.grupoa.model.canasta_states.CanastaStateInPreparation;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,8 @@ public class Canasta {
     private List<Guest> guests;
     @Transient
     private List<Good> goods;
+    @Transient
+    private CanastaState canastaState;
 
 
     public Canasta(String name, User organizer) {
@@ -24,6 +28,7 @@ public class Canasta {
         this.organizer = organizer;
         this.guests = new ArrayList<>();
         this.goods = new ArrayList<>();
+        this.canastaState = new CanastaStateInPreparation();
     }
 
     public Canasta(String name, User organizer, List<Guest> guests, List<Good> goods) {
@@ -31,6 +36,7 @@ public class Canasta {
         this.organizer = organizer;
         this.guests = guests;
         this.goods = goods;
+        this.canastaState = new CanastaStateInPreparation();
     }
 
     public String getName() {
@@ -63,5 +69,13 @@ public class Canasta {
 
     public void setGoods(List<Good> goods) {
         this.goods = goods;
+    }
+
+    public CanastaState getState() {
+        return this.canastaState;
+    }
+
+    public void setState(CanastaState aCanastaState) {
+        this.canastaState = aCanastaState;
     }
 }
