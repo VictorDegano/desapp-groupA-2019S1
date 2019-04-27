@@ -1,12 +1,13 @@
 package ar.edu.unq.desapp.grupoa.model;
 
 import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
-import ar.edu.unq.desapp.grupoa.model.StateFiesta.FiestaState;
-import ar.edu.unq.desapp.grupoa.model.StateFiesta.OpenFiesta;
+import ar.edu.unq.desapp.grupoa.model.stateFiesta.FiestaState;
+import ar.edu.unq.desapp.grupoa.model.stateFiesta.OpenFiesta;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+// TODO: 27/4/2019 Invitar usuario, crear fiesta
 @Entity
 public class Fiesta {
 
@@ -58,6 +59,25 @@ public class Fiesta {
 
     public boolean canConfirmInvitation(LocalDateTime aLocalDateTimeToCompare) {
         return this.limitConfirmationDateTime.isAfter(aLocalDateTimeToCompare);
+    }
+
+    public boolean isClosed() {
+        return this.getState().isClosed();
+    }
+
+    public void close() {
+        this.setState(this.getState().nextState());
+        cancelAllPendingInvitations();
+    }
+
+    private void cancelAllPendingInvitations() {
+        this.getGuest().forEach(this::cancelPendingInvitation);
+    }
+
+    private void cancelPendingInvitation(Guest invitedGuest) {
+        if(invitedGuest.isInvitationPending()){
+            invitedGuest.cancelInvitation();
+        }
     }
 
 /**[}-{]---------------------------------------------[}-{]

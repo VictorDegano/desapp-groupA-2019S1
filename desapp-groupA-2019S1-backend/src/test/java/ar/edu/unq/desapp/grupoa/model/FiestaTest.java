@@ -37,7 +37,8 @@ public class FiestaTest {
         assertEquals("Hubo mas de una confirmacion y solo se confirmo para un usuario",
                      Integer.valueOf(1),
                      fiestaSUT.getConfirmations());
-        assertTrue("No se cambio la confirmacion del invitado al confirmar la asistencia",
+        assertEquals("No se cambio la confirmacion del invitado al confirmar la asistencia",
+                    InvitationState.ACCEPTED,
                     firstGuest.getConfirmAsistance());
     }
 
@@ -205,6 +206,51 @@ public class FiestaTest {
 
         //Test(Then)
         assertEquals(Integer.valueOf(1), fiestaSUT.getConfirmations());
-        assertTrue(firstGuest.getConfirmAsistance());
+        assertEquals(InvitationState.ACCEPTED, firstGuest.getConfirmAsistance());
+    }
+
+    @Test
+    public void whenAOpenStateIsClosed_ChangeToClosedStateAllPendingInvitationsAreCancelled(){
+        //Setup(Given)
+        Guest firstGuest = GuestBuilder.buildAGuest()
+                                        .withConfirmation(InvitationState.ACCEPTED)
+                                        .build();
+
+        Guest secondGuest = GuestBuilder.buildAGuest()
+                                        .withConfirmation(InvitationState.PENDING)
+                                        .build();
+
+        Guest thirtGuest = GuestBuilder.buildAGuest()
+                                       .withConfirmation(InvitationState.CANCELLED)
+                                       .build();
+
+        Fiesta fiestaSUT = FiestaBuilder.buildAFiesta()
+                                        .addGuest(firstGuest)
+                                        .addGuest(secondGuest)
+                                        .addGuest(thirtGuest)
+                                        .withOpenState()
+                                        .build();
+        //Exercise(When)
+        fiestaSUT.close();
+
+        //Test(Then)
+        assertTrue("¡La fiesta no se cerro!", fiestaSUT.isClosed());
+        assertEquals("Se Cancelo la invitacion! Una invitacion aceptada no deberia cancelarce al cerrar una fiesta",
+                     InvitationState.ACCEPTED,
+                     getConfirmationAssistanceOfGuest(fiestaSUT, 0));
+        assertEquals("No se cancelo la invitacion del usuario pendiente a cancelada",
+                     InvitationState.CANCELLED,
+                     getConfirmationAssistanceOfGuest(fiestaSUT, 1));
+        assertEquals("Se cambio el estado de la invitacion del usuario y no debia suceder",
+                     InvitationState.CANCELLED,
+                     getConfirmationAssistanceOfGuest(fiestaSUT, 2));
+    }
+
+
+/**[}-{]---------------------------------------------[}-{]
+   [}-{]-------------[AUXILIARY METHODS]-------------[}-{]
+   [}-{]---------------------------------------------[}-{]**/
+    private InvitationState getConfirmationAssistanceOfGuest(Fiesta aFiesta, Integer position){
+        return aFiesta.getGuest().get(position).getConfirmAsistance();
     }
 }

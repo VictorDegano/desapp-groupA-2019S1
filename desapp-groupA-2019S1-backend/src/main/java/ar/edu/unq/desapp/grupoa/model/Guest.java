@@ -3,10 +3,10 @@ package ar.edu.unq.desapp.grupoa.model;
 public class Guest {
 
     private User user;
-    private Boolean confirmAsistance;
+    private InvitationState confirmAsistance;
 
     public void confirmAsistance(){
-        this.setConfirmAsistance(true);
+        this.setConfirmAsistance(InvitationState.ACCEPTED);
     }
 
     public String name() {
@@ -18,12 +18,20 @@ public class Guest {
         return this == guestToAssist;
     }
 
+    public boolean isInvitationPending() {
+        return this.getConfirmAsistance().equals(InvitationState.PENDING);
+    }
+
+    public void cancelInvitation() {
+        this.setConfirmAsistance(InvitationState.CANCELLED);
+    }
+
 /** [}-{]---------------------------------------------[}-{]
     [}-{]----------------[CONSTRUCTORS]---------------[}-{]
     [}-{]---------------------------------------------[}-{]**/
     public Guest(User user) {
         this.user = user;
-        this.confirmAsistance = false;
+        this.confirmAsistance = InvitationState.PENDING;
     }
 
     public Guest() {    }
@@ -32,8 +40,8 @@ public class Guest {
     [}-{]----------[GETTER & SETTER METHODS]----------[}-{]
     [}-{]---------------------------------------------[}-{]**/
 
-    public Boolean getConfirmAsistance() {  return confirmAsistance;    }
-    public void setConfirmAsistance(Boolean confirmAsistance) { this.confirmAsistance = confirmAsistance;   }
+    public InvitationState getConfirmAsistance() {  return this.confirmAsistance;    }
+    public void setConfirmAsistance(InvitationState confirmAsistance) { this.confirmAsistance = confirmAsistance;   }
 
     public User getUser() { return user;    }
     public void setUser(User user) {    this.user = user;   }

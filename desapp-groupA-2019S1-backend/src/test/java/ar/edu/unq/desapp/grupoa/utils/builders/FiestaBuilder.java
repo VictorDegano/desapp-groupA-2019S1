@@ -3,8 +3,8 @@ package ar.edu.unq.desapp.grupoa.utils.builders;
 import ar.edu.unq.desapp.grupoa.model.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.Good;
 import ar.edu.unq.desapp.grupoa.model.Guest;
-import ar.edu.unq.desapp.grupoa.model.StateFiesta.CloseFiesta;
-import ar.edu.unq.desapp.grupoa.model.StateFiesta.OpenFiesta;
+import ar.edu.unq.desapp.grupoa.model.stateFiesta.CloseFiesta;
+import ar.edu.unq.desapp.grupoa.model.stateFiesta.OpenFiesta;
 import ar.edu.unq.desapp.grupoa.model.User;
 
 import java.time.LocalDateTime;

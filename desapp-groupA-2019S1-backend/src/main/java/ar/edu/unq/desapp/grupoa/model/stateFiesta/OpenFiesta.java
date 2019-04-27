@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.model.StateFiesta;
+package ar.edu.unq.desapp.grupoa.model.stateFiesta;
 
 import ar.edu.unq.desapp.grupoa.exception.ConfirmationLimitException;
 import ar.edu.unq.desapp.grupoa.model.Fiesta;
@@ -16,10 +16,19 @@ public class OpenFiesta extends FiestaState {
         }
     }
 
+    @Override
+    public boolean isClosed() {
+        return false;
+    }
+
+    @Override
+    public FiestaState nextState() {
+        return new CloseFiesta(this.getFiesta());
+    }
+
     private Boolean acceptConfirmations() {
         return this.getFiesta().canConfirmInvitation(LocalDateTime.now());
     }
-
 
     public OpenFiesta(Fiesta aFiesta){
         this.setFiesta(aFiesta);

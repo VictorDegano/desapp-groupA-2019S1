@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa.utils.builders;
 
 import ar.edu.unq.desapp.grupoa.model.Guest;
+import ar.edu.unq.desapp.grupoa.model.InvitationState;
 import ar.edu.unq.desapp.grupoa.model.User;
 
 public class GuestBuilder {
@@ -22,5 +23,10 @@ public class GuestBuilder {
 
     public Guest build(){
         return this.guest;
+    }
+
+    public GuestBuilder withConfirmation(InvitationState invitation) {
+        this.guest.setConfirmAsistance(invitation);
+        return this;
     }
 }

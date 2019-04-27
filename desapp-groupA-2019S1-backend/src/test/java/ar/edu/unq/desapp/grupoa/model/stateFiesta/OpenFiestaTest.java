@@ -1,10 +1,12 @@
-package ar.edu.unq.desapp.grupoa.model.StateFiesta;
+package ar.edu.unq.desapp.grupoa.model.stateFiesta;
 
 import ar.edu.unq.desapp.grupoa.exception.ConfirmationLimitException;
 import ar.edu.unq.desapp.grupoa.model.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.Guest;
+import ar.edu.unq.desapp.grupoa.model.InvitationState;
 import ar.edu.unq.desapp.grupoa.utils.builders.FiestaBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builders.GuestBuilder;
+import org.aspectj.apache.bcel.classfile.Module;
 import org.junit.Test;
 import java.time.LocalDateTime;
 import static org.junit.Assert.*;
@@ -45,6 +47,36 @@ public class OpenFiestaTest {
         openFiestaSUT.confirmAssistanceOf(guestToConfirm);
 
         //Test(Then)
-        assertTrue("No Confirmo la asistencia, se deberia haber completado el proceso de confirmacion", guestToConfirm.getConfirmAsistance());
+        assertEquals("No Confirmo la asistencia, se deberia haber completado el proceso de confirmacion",
+                     InvitationState.ACCEPTED,
+                     guestToConfirm.getConfirmAsistance());
+    }
+
+    @Test
+    public void whenAskIfIsClosed_ReturnFalse() {
+        //Setup(Given)
+        Fiesta fiesta = FiestaBuilder.buildAFiesta().build();
+
+        OpenFiesta openStateSUT = new OpenFiesta(fiesta);
+        //Exercise(When)
+        Boolean isClosed = openStateSUT.isClosed();
+
+        //Test(Then)
+        assertFalse(isClosed);
+    }
+
+    @Test
+    public void whenGetTheNextState_GetClosedState() {
+        //Setup(Given)
+        Fiesta fiesta = FiestaBuilder.buildAFiesta().build();
+
+        OpenFiesta openStateSUT = new OpenFiesta(fiesta);
+        //Exercise(When)
+        FiestaState nextState = openStateSUT.nextState();
+
+        //Test(Then)
+        assertTrue(nextState.isClosed());
+        assertNotEquals(openStateSUT.getClass(), nextState.getClass());
+        assertEquals(CloseFiesta.class, nextState.getClass());
     }
 }

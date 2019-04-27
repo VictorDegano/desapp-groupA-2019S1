@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.model.StateFiesta;
+package ar.edu.unq.desapp.grupoa.model.stateFiesta;
 
 import ar.edu.unq.desapp.grupoa.exception.CloseEventException;
 import ar.edu.unq.desapp.grupoa.model.Fiesta;
@@ -22,5 +22,30 @@ public class CloseFiestaTest {
         closeStateSUT.confirmAssistanceOf(guest);
 
         //Test(Then)
+    }
+
+    @Test
+    public void whenAClosedStateAskIfIsClosed_ReturnTrue() {
+        //Setup(Given)
+        Fiesta fiesta = FiestaBuilder.buildAFiesta().build();
+
+        CloseFiesta closeStateSUT = new CloseFiesta(fiesta);
+        //Exercise(When)
+        Boolean isClosed = closeStateSUT.isClosed();
+
+        //Test(Then)
+        assertTrue(isClosed);
+    }
+
+    @Test
+    public void whenDoNextState_getTheSameState() {
+        //Setup(Given)
+        Fiesta fiesta = FiestaBuilder.buildAFiesta().build();
+
+        CloseFiesta closeStateSUT = new CloseFiesta(fiesta);
+        //Exercise(When)
+
+        //Test(Then)
+        assertEquals(closeStateSUT, closeStateSUT.nextState());
     }
 }
