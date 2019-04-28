@@ -84,7 +84,17 @@ public class Canasta {
 
     //easy way, refactor this
     public void confirmUser(User userToConfirmAssistance) {
-        Guest guestToConfirmAssistance = guests.stream().filter(guest1 -> guest1.getUser()==userToConfirmAssistance).collect(Collectors.toList()).get(0);
+        Guest guestToConfirmAssistance;
+
+        if(this.getState().isCloseCanasta()){
+            throw new ConfirmAsistanceException(this.name,userToConfirmAssistance.getFirstName());
+        }
+
+        try{
+            guestToConfirmAssistance = guests.stream().filter(guest1 -> guest1.getUser()==userToConfirmAssistance).collect(Collectors.toList()).get(0);
+        }catch (IndexOutOfBoundsException e){
+            throw new ConfirmAsistanceException(this.name,userToConfirmAssistance.getFirstName());
+        }
         guestToConfirmAssistance.confirmAsistance();
     }
 }
