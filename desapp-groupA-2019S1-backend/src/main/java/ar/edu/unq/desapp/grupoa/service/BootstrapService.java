@@ -5,10 +5,8 @@ import ar.edu.unq.desapp.grupoa.model.Guest;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.Arrays;
-
 import static org.apache.commons.collections.ListUtils.EMPTY_LIST;
 
 @Service
@@ -26,6 +24,7 @@ public class BootstrapService {
 
     private Fiesta ivanFiesta() {
         return new Fiesta(
+                        "La fiesta de Ivan",
                         createUserWithName("Ivan"),
                         Arrays.asList(
                                     new Guest(createUserWithName("Victor")),
@@ -37,6 +36,7 @@ public class BootstrapService {
 
     private Fiesta pepeLocoFiesta() {
         return new Fiesta(
+                "Pepallooza",
                 createUserWithName("Pepe Loco"),
                 Arrays.asList(
                         new Guest(createUserWithName("Ivan")),

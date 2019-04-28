@@ -24,6 +24,11 @@ public class GoodBuilder {
         return this;
     }
 
+    public GoodBuilder withFinalQuantity(Integer finalQuantity) {
+        this.aGood.setFinalQuantity(finalQuantity);
+        return this;
+    }
+
     public GoodBuilder withQuantityForPerson(Integer quantity){
         this.aGood.setQuantityForPerson(quantity);
         return this;
@@ -32,4 +37,6 @@ public class GoodBuilder {
     public Good build(){
         return this.aGood;
     }
+
+
 }

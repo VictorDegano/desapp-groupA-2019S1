@@ -6,10 +6,15 @@ public class Good {
     private String name;
     private Integer pricePerUnit;
     private Integer quantityForPerson;
+
     private Integer finalQuantity;
 
     public void multiplyFinalQuantityBy(Integer quantityToMultiply) {
         this.finalQuantity = this.quantityForPerson * quantityToMultiply;
+    }
+
+    public Integer totalCost() {
+        return this.pricePerUnit * this.quantityForPerson * this.finalQuantity;
     }
 
 /** [}-{]---------------------------------------------[}-{]
@@ -34,5 +39,7 @@ public class Good {
 
     public void setQuantityForPerson(Integer quantityForPerson) {   this.quantityForPerson = quantityForPerson; }
 
-    public Integer getFinalQuantity() { return finalQuantity;   }
+    public Integer getFinalQuantity() { return this.finalQuantity;   }
+    public void setFinalQuantity(Integer finalQuantity) {   this.finalQuantity = finalQuantity; }
+
 }

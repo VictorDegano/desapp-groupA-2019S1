@@ -100,4 +100,6 @@ public class User {
     public Boolean hasNormalState() {
         return this.state.equals(UserState.NORMAL);
     }
+
+    public void setLastName(String lastName) {  this.lastName = lastName;   }
 }
