@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa.model;
 
+import ar.edu.unq.desapp.grupoa.model.canasta_states.CloseCanasta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.utils.builders.GoodBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builders.GuestBuilder;
@@ -98,6 +99,86 @@ public class CanastaTest {
 
         assertFalse("El estado de la Canasta no es cerrado",
                 newCanasta.getState().isCloseCanasta());
+
+    }
+
+    @Test
+    public void whenAUserIsConfirmInACanastaTheGuestThatRepresentsThatUserIsConfirmed(){
+        //Setup(Given)
+        User userThatCreateTheCanasta = randomUserWithName("Ivan");
+        User userCarlos = randomUserWithName("Carlos");
+        List<Guest> listOfGuests = new ArrayList<>();
+
+        Guest guestCarlos = GuestBuilder.buildAGuest()
+                .withUser(userCarlos)
+                .build();
+
+        listOfGuests.add(guestCarlos);
+
+        List<Good> listOfGoods = new ArrayList<>();
+
+        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
+        //Exercise(When)
+        newCanasta.confirmUser(userCarlos);
+
+        //Test(Then)
+        assertEquals("La lista de invitados tiene 1 invitados",
+                1,
+                newCanasta.getGuests().size());
+
+        assertEquals("La lista de gastos tiene 0 items",
+                0,
+                newCanasta.getGoods().size());
+
+        assertEquals("el organizador de la canasta es el usuario que la creo",
+                userThatCreateTheCanasta.getFirstName(),
+                newCanasta.getOrganizer().getFirstName());
+
+        assertTrue("el guestCarlos esta confirmado",
+                    guestCarlos.getConfirmAsistance());
+    }
+
+    @Test(expected = ConfirmAsistanceException.class)
+    public void whenAUserIsConfirmInACanastaAndItIsNotInTheGuestListTheConfirmationThrowsConfirmAsistanceException(){
+        //Setup(Given)
+        User userThatCreateTheCanasta = randomUserWithName("Ivan");
+        User userCarlos = randomUserWithName("Carlos");
+        User userJose = randomUserWithName("Jose");
+        List<Guest> listOfGuests = new ArrayList<>();
+
+        Guest guestCarlos = GuestBuilder.buildAGuest()
+                .withUser(userCarlos)
+                .build();
+
+        listOfGuests.add(guestCarlos);
+
+        List<Good> listOfGoods = new ArrayList<>();
+
+        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
+        //Exercise(When)
+        newCanasta.confirmUser(userJose);
+
+    }
+
+    @Test(expected = ConfirmAsistanceException.class)
+    public void whenAUserIsConfirmInACanastaAndItsCloseThrowsConfirmAsistanceException(){
+        //Setup(Given)
+        User userThatCreateTheCanasta = randomUserWithName("Ivan");
+        User userCarlos = randomUserWithName("Carlos");
+        List<Guest> listOfGuests = new ArrayList<>();
+
+        Guest guestCarlos = GuestBuilder.buildAGuest()
+                .withUser(userCarlos)
+                .build();
+
+        listOfGuests.add(guestCarlos);
+
+        List<Good> listOfGoods = new ArrayList<>();
+
+        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
+        newCanasta.setState(new CloseCanasta());
+        //Exercise(When)
+        newCanasta.confirmUser(userCarlos);
 
     }
 
