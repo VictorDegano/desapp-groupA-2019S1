@@ -7,6 +7,7 @@ import ar.edu.unq.desapp.grupoa.model.user.User;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Canasta {
@@ -79,5 +80,11 @@ public class Canasta {
 
     public void setState(CanastaState aCanastaState) {
         this.canastaState = aCanastaState;
+    }
+
+    //easy way, refactor this
+    public void confirmUser(User userToConfirmAssistance) {
+        Guest guestToConfirmAssistance = guests.stream().filter(guest1 -> guest1.getUser()==userToConfirmAssistance).collect(Collectors.toList()).get(0);
+        guestToConfirmAssistance.confirmAsistance();
     }
 }
