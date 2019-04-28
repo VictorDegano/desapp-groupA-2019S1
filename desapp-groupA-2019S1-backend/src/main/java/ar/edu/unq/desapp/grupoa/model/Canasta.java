@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa.model;
 
 import ar.edu.unq.desapp.grupoa.model.canasta_states.CanastaState;
 import ar.edu.unq.desapp.grupoa.model.canasta_states.CanastaStateInPreparation;
+import ar.edu.unq.desapp.grupoa.model.User;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
