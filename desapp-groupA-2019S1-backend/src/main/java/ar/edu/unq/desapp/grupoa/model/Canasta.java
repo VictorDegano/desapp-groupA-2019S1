@@ -97,4 +97,14 @@ public class Canasta {
         }
         guestToConfirmAssistance.confirmAsistance();
     }
+
+    public void ownAGood(User user, CanastaGood good) {
+        Guest guest = guests.stream().filter(guest1 -> guest1.getUser()==user).collect(Collectors.toList()).get(0);
+
+        if(! guest.getConfirmAsistance()){
+            throw new OwnAGoodWithAnUnconfirmedGuestException(this.name,user.getFirstName());
+        }
+
+        guests.stream().filter(guest1 -> guest1.getUser()==user).collect(Collectors.toList()).get(0).ownAGood(good);
+    }
 }
