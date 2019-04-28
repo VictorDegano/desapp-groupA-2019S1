@@ -1,5 +1,8 @@
-package ar.edu.unq.desapp.grupoa.model;
+package ar.edu.unq.desapp.grupoa.model.user;
 
+import org.joda.time.DateTime;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,6 +10,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 public class User {
@@ -28,10 +32,11 @@ public class User {
     private  String password;
 
     @NotNull(message = "BornDay is mandatory")
-    private Date bornDay;
+    @Column
+    private LocalDateTime bornDay;
 
 
-    public User(String firstName, String lastName, String email, String password, Date bornDay) {
+    public User(String firstName, String lastName, String email, String password, LocalDateTime bornDay) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -39,8 +44,7 @@ public class User {
         this.bornDay = bornDay;
     }
 
-    public User() {
-    }
+    public User(){}
 
     public String getFirstName() {
         return firstName;
@@ -62,7 +66,7 @@ public class User {
     }
 
 
-    public Date getBornDay() {
+    public LocalDateTime getBornDay() {
         return bornDay;
     }
 

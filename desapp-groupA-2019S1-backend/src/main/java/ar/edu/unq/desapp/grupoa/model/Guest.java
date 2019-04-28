@@ -1,5 +1,7 @@
 package ar.edu.unq.desapp.grupoa.model;
 
+import ar.edu.unq.desapp.grupoa.model.user.User;
+
 public class Guest {
 
     private User user;

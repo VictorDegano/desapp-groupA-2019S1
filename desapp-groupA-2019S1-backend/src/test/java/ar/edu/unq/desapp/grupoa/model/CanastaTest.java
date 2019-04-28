@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa.model;
 
+import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.utils.builders.GoodBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builders.GuestBuilder;
 import org.junit.Test;
@@ -7,7 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ar.edu.unq.desapp.grupoa.model.utils.RandomUserGenerator.randomUserWithName;
+import static ar.edu.unq.desapp.grupoa.utils.builders.Randomizer.randomUserWithName;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;

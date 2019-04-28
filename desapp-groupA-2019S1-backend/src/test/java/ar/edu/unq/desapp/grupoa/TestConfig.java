@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoa;
 
-import ar.edu.unq.desapp.grupoa.controller.UserController;
+import ar.edu.unq.desapp.grupoa.controller.rest.UserController;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 import ar.edu.unq.desapp.grupoa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
