@@ -1,15 +1,15 @@
 package ar.edu.unq.desapp.grupoa.model.user;
 
-import org.joda.time.DateTime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,20 +20,26 @@ public class User {
     private Integer id;
 
     @NotBlank(message = "Name is mandatory")
-    private  String firstName;
+    private String firstName;
 
     @NotBlank(message = "LastName is mandatory")
-    private  String lastName;
+    private String lastName;
 
     @NotBlank(message = "Mail is mandatory")
-    private  String email;
+    private String email;
 
     @NotBlank(message = "Password is mandatory")
-    private  String password;
+    private String password;
 
     @NotNull(message = "BornDay is mandatory")
     @Column
     private LocalDateTime bornDay;
+
+
+    //TODO: Fijarse si se puede resolver desde una funcion
+    @Transient
+    @JsonIgnore
+    private UserState state;
 
 
     public User(String firstName, String lastName, String email, String password, LocalDateTime bornDay) {
@@ -42,6 +48,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.bornDay = bornDay;
+        this.state = UserState.NORMAL;
     }
 
     public User(){}
@@ -76,5 +83,21 @@ public class User {
 
     public void setFirstName(String name) {
         this.firstName= name;
+    }
+
+    public void defaultUser() {
+        this.state = UserState.DEFAULT;
+    }
+
+    public Boolean hasDefaulted() {
+        return this.state.equals(UserState.DEFAULT);
+    }
+
+    public boolean hasBeenDutiful() {
+        return this.state.equals(UserState.DUTIFUL);
+    }
+
+    public Boolean hasNormalState() {
+        return this.state.equals(UserState.NORMAL);
     }
 }

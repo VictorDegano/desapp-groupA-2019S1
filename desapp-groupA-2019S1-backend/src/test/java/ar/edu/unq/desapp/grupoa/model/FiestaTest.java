@@ -1,13 +1,13 @@
 package ar.edu.unq.desapp.grupoa.model;
 
 import ar.edu.unq.desapp.grupoa.model.user.User;
-import ar.edu.unq.desapp.grupoa.utils.builders.FiestaBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builders.GoodBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builders.GuestBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.FiestaBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.GoodBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;
 import org.junit.Test;
 import java.util.List;
 
-import static ar.edu.unq.desapp.grupoa.utils.builders.Randomizer.randomUserWithName;
+import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUserWithName;
 import static org.junit.Assert.*;
 
 public class FiestaTest {
