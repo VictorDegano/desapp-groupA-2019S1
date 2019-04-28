@@ -77,4 +77,6 @@ public class User {
     public void setFirstName(String name) {
         this.firstName= name;
     }
+
+    public void setLastName(String lastName) {  this.lastName = lastName;   }
 }
