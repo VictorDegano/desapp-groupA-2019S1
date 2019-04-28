@@ -182,6 +182,58 @@ public class CanastaTest {
 
     }
 
+    @Test
+    public void whenACanastaAssignAGoodToAnUserThatGoodBelongsToThatUser(){
+        //Setup(Given)
+        User userThatCreateTheCanasta = randomUserWithName("Ivan");
+        User userCarlos = randomUserWithName("Carlos");
+        List<Guest> listOfGuests = new ArrayList<>();
+
+        Guest guestCarlos = GuestBuilder.buildAGuest()
+                .withUser(userCarlos)
+                .build();
+
+        listOfGuests.add(guestCarlos);
+
+        CanastaGood beer = new CanastaGood("Beer",10,1);
+
+        List<Good> listOfGoods = new ArrayList<>();
+        listOfGoods.add(beer);
+
+        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
+        newCanasta.confirmUser(userCarlos);
+        //Exercise(When)
+        newCanasta.ownAGood(userCarlos,beer);
+
+        //Test(Then)
+        assertTrue("el guestCarlos esta confirmado",
+                guestCarlos.getConfirmAsistance());
+        assertTrue("el good beer no es de userCarlos",
+                beer.getUserThatOwnsTheGood().equals(userCarlos));
+    }
+
+    @Test(expected = OwnAGoodWithAnUnconfirmedGuestException.class)
+    public void whenACanastaAssignAGoodToAnUserThatIsNotConfirmedIsThrowsOwnAGoodWithAnUnconfirmedGuestException(){
+        //Setup(Given)
+        User userThatCreateTheCanasta = randomUserWithName("Ivan");
+        User userCarlos = randomUserWithName("Carlos");
+        List<Guest> listOfGuests = new ArrayList<>();
+
+        Guest guestCarlos = new Guest(userCarlos);
+
+        listOfGuests.add(guestCarlos);
+
+        CanastaGood beer = new CanastaGood("Beer",10,1);
+
+        List<Good> listOfGoods = new ArrayList<>();
+        listOfGoods.add(beer);
+
+        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
+        //Exercise(When)
+        newCanasta.ownAGood(userCarlos,beer);
+
+    }
+
 
 
 }
