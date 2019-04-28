@@ -14,6 +14,12 @@ public class ConfirmAsistanceException extends RuntimeException {
         this.fiestaName = fiesta.getName();
         this.guestName = guest.name();
     }
+    //TODO: hay que definir si se deja esta sobrecarga del metodo o se elige uno de los dos
+    public ConfirmAsistanceException(String fiesta, String guest){
+        super();
+        this.fiestaName = fiesta;
+        this.guestName = guest;
+    }
 
     @Override
     public String getMessage(){

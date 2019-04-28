@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa.utils.builders;
 
-import ar.edu.unq.desapp.grupoa.model.User;
+
+import ar.edu.unq.desapp.grupoa.model.user.User;
 
 public class UserBuilder {
 

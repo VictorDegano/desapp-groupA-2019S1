@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa.model;
 
+import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
 import ar.edu.unq.desapp.grupoa.model.canasta_states.CanastaState;
 import ar.edu.unq.desapp.grupoa.model.canasta_states.CanastaStateInPreparation;
 import ar.edu.unq.desapp.grupoa.model.user.User;
