@@ -27,7 +27,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Jacoco injects these variables in runtime from the configured plugin -->
-
         <jacoco.version>0.7.6.201602180812</jacoco.version>
         <jacoco.outputDir>${project.build.directory}</jacoco.outputDir>
 
@@ -113,6 +112,13 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.3</version>
+                <configuration>
+                    <excludes>
+                        <!-- Exclude Bootstrap and App Class-->
+                        <exclude>**/ar/edu/unq/desapp/grupoa/DesappGroupABackendApplication.class</exclude>
+                        <exclude>**/ar/edu/unq/desapp/grupoa/service/BootstrapService.class</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -145,7 +151,7 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.0</minimum>
+                                            <minimum>0.75</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
