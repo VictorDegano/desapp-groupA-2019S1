@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoa.model;
 
-import ar.edu.unq.desapp.grupoa.utils.builders.GoodBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builders.TemplateBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.GoodBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.TemplateBuilder;
 import org.junit.Test;
 
 import java.util.Arrays;
