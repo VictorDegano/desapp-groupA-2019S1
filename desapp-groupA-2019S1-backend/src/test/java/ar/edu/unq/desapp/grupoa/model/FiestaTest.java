@@ -4,13 +4,17 @@ import ar.edu.unq.desapp.grupoa.exception.CloseEventException;
 import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
 import ar.edu.unq.desapp.grupoa.exception.ConfirmationLimitException;
 import ar.edu.unq.desapp.grupoa.model.user.User;
-import ar.edu.unq.desapp.grupoa.utils.builders.FiestaBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builders.GoodBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builders.GuestBuilder;
+
+import ar.edu.unq.desapp.grupoa.utils.builder.FiestaBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.GoodBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;
+
 import ar.edu.unq.desapp.grupoa.utils.builders.UserBuilder;
+
 import org.junit.Test;
 import java.time.LocalDateTime;
 import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class FiestaTest {

@@ -3,8 +3,8 @@ package ar.edu.unq.desapp.grupoa.model.stateFiesta;
 import ar.edu.unq.desapp.grupoa.exception.CloseEventException;
 import ar.edu.unq.desapp.grupoa.model.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.Guest;
-import ar.edu.unq.desapp.grupoa.utils.builders.FiestaBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builders.GuestBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.FiestaBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

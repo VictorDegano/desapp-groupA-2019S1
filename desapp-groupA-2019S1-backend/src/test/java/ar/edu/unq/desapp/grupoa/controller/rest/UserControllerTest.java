@@ -16,8 +16,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 
-import static ar.edu.unq.desapp.grupoa.utils.builders.Randomizer.randomUser;
-import static ar.edu.unq.desapp.grupoa.utils.builders.Randomizer.randomUserWithName;
+import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;
+import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUserWithName;
 import static ar.edu.unq.desapp.grupoa.utils.throwing.Rethrowing.rethrow;
 import static org.aspectj.runtime.internal.Conversions.intValue;
 import static org.junit.Assert.assertEquals;
