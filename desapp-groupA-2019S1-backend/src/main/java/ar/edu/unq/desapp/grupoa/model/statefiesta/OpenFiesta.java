@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.model.stateFiesta;
+package ar.edu.unq.desapp.grupoa.model.statefiesta;
 
 import ar.edu.unq.desapp.grupoa.exception.ConfirmationLimitException;
 import ar.edu.unq.desapp.grupoa.model.Fiesta;

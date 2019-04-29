@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.model.stateFiesta;
+package ar.edu.unq.desapp.grupoa.model.statefiesta;
 
 import ar.edu.unq.desapp.grupoa.exception.ConfirmationLimitException;
 import ar.edu.unq.desapp.grupoa.model.Fiesta;
@@ -6,7 +6,6 @@ import ar.edu.unq.desapp.grupoa.model.Guest;
 import ar.edu.unq.desapp.grupoa.model.InvitationState;
 import ar.edu.unq.desapp.grupoa.utils.builders.FiestaBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builders.GuestBuilder;
-import org.aspectj.apache.bcel.classfile.Module;
 import org.junit.Test;
 import java.time.LocalDateTime;
 import static org.junit.Assert.*;

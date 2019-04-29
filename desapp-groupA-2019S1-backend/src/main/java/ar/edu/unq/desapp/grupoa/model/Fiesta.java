@@ -1,9 +1,10 @@
 package ar.edu.unq.desapp.grupoa.model;
 
+import ar.edu.unq.desapp.grupoa.exception.InvalidTemplateException;
+import ar.edu.unq.desapp.grupoa.model.statefiesta.FiestaState;
+import ar.edu.unq.desapp.grupoa.model.statefiesta.OpenFiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
-import ar.edu.unq.desapp.grupoa.model.stateFiesta.FiestaState;
-import ar.edu.unq.desapp.grupoa.model.stateFiesta.OpenFiesta;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,6 +26,13 @@ public class Fiesta {
     private String name;
     @Transient
     private FiestaState state;
+
+    public static Fiesta createWithATemplate(String name, User organizer, List<Guest> guests, LocalDateTime limitTime, Template template) {
+        if(!template.isForEvent(EventType.FIESTA)){
+            throw new InvalidTemplateException(EventType.FIESTA, template.getEventType());
+        }
+        return new Fiesta(name, organizer, guests, limitTime, template.getGoodsForEvent());
+    }
 
     public void confirmAsistancesOf(Guest guestToAssist){
         this.getState().confirmAssistanceOf(guestToAssist);
@@ -105,6 +113,7 @@ public class Fiesta {
     public LocalDateTime getLimitConfirmationDateTime() {   return this.limitConfirmationDateTime;   }
 
     public void setOrganizer(User organizer) {    this.organizer = organizer; }
+    public User getOrganizer() {    return organizer;   }
 
     public List<Good> getGoodsForGuest() {  return this.goodsForGuest;   }
     public void setGoodsForGuest(List<Good> goodsForGuest) {    this.goodsForGuest = goodsForGuest; }
