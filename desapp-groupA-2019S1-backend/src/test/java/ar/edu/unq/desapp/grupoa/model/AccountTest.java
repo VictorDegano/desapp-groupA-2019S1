@@ -1,74 +1,90 @@
 package ar.edu.unq.desapp.grupoa.model;
 
-import ar.edu.unq.desapp.grupoa.model.user.account.Account;
-import ar.edu.unq.desapp.grupoa.model.user.account.Movement;
-import ar.edu.unq.desapp.grupoa.model.user.account.MovementType;
+import ar.edu.unq.desapp.grupoa.model.account.Account;
+import ar.edu.unq.desapp.grupoa.model.account.MovementType;
 import org.junit.Before;
 import org.junit.Test;
 
-import static ar.edu.unq.desapp.grupoa.utils.builders.Randomizer.randomDate;
-import static ar.edu.unq.desapp.grupoa.utils.builders.Randomizer.randomNumber;
-import static ar.edu.unq.desapp.grupoa.utils.builders.Randomizer.randomUser;
+
+
+import static ar.edu.unq.desapp.grupoa.utils.Integer.integer;
+import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomNumber;
+import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;
+import static ar.edu.unq.desapp.grupoa.utils.factory.AccountFactory.accountForUserWithRandomBalance;
 import static org.junit.Assert.assertEquals;
+
+
 
 public class AccountTest {
 
+    Integer randomAmount;
 
     @Before
-    public void setup(){
+    public void setup() {
+        randomAmount = randomNumber();
     }
 
     @Test
-    public void accountIsCreatedWithNoMovementsAndZeroBalance(){
+    public void accountIsCreatedWithZeroBalanceAndZeroDebt() {
         Account account = new Account(randomUser());
 
-        assertEquals(integer(0) ,account.balance());
-        assertEquals(integer(0) ,movementsSize(account));
+        assertEquals(integer(0), account.balance());
+        assertEquals(integer(0), account.debt());
     }
 
     @Test
-    public void addAMovementWithPositiveAmountToUserAccount(){
-        Account account         = accountForUserWithRandomBalance();
-        Integer balanceBefore   = account.balance();
-        Integer movementsSizeBefore = movementsSize(account);
+    public void depositCashToAccount() {
+        Account account = accountForUserWithRandomBalance();
+        Integer balanceBefore = account.balance();
 
-        account.addMovement(movementWithRandomTypeAndDate(500));
+        account.deposit(randomAmount,MovementType.CASH);
 
-        assertEquals(integer(balanceBefore+500)     , account.balance());
-        assertEquals(integer(movementsSizeBefore +1),movementsSize(account));
+        assertEquals(integer(balanceBefore + randomAmount), account.balance());
     }
 
     @Test
-    public void addAMovementWithNegativeAmountToUserAccount(){
-        Account account         = accountForUserWithRandomBalance();
-        Integer balanceBefore   = account.balance();
-        Integer movementsSizeBefore = movementsSize(account);
+    public void extractCashFromAccount() {
+        Account account = accountForUserWithRandomBalance();
+        Integer balanceBefore = account.balance();
 
-        account.addMovement(movementWithRandomTypeAndDate(-500));
+        Integer amountExtracted = account.extract(randomAmount);
 
-        assertEquals(integer(balanceBefore-500)     , account.balance());
-        assertEquals(integer(movementsSizeBefore +1),movementsSize(account));
+        assertEquals(integer(balanceBefore - randomAmount), account.balance());
+        assertEquals(integer(randomAmount),amountExtracted);
     }
 
-    private Integer movementsSize(Account account) {
-        return account.movements().size();
+    @Test
+    public void addsDebtAndBalanceAndDebtGoesUpBySameAmount() {
+        Account account = accountForUserWithRandomBalance();
+        Integer balanceBefore = account.balance();
+        Integer debtBefore = account.debt();
+
+        account.addDebt(randomAmount);
+
+        assertEquals(integer(balanceBefore + randomAmount), account.balance());
+        assertEquals(integer(debtBefore + randomAmount), account.debt());
+
+        assertEquals(
+                integer(balanceBefore - account.balance()),
+                integer(debtBefore - account.debt())
+        );
     }
 
-    private Movement movementWithRandomTypeAndDate(Integer amount) {
-        return new Movement(amount, MovementType.CASH, randomDate());
-    }
+    @Test
+    public void takeDebtAndBalanceAndDebtGoesDownBySameAmount() {
+        Account account = accountForUserWithRandomBalance();
+        Integer balanceBefore = account.balance();
+        Integer debtBefore = account.debt();
 
+        account.addDebt(-randomAmount);
 
+        assertEquals(integer(balanceBefore - randomAmount), account.balance());
+        assertEquals(integer(debtBefore - randomAmount), account.debt());
 
-
-    private Account accountForUserWithRandomBalance() {
-        Account account = new Account(randomUser());
-        account.addMovement(movementWithRandomTypeAndDate(randomNumber()));
-        return account;
-    }
-
-    private Integer integer(int number) {
-        return number;
+        assertEquals(
+                integer(balanceBefore - account.balance()),
+                integer(debtBefore - account.debt())
+        );
     }
 
 }

@@ -1,5 +1,6 @@
-package ar.edu.unq.desapp.grupoa.exception;
+package ar.edu.unq.desapp.grupoa.exception.advicer;
 
+import ar.edu.unq.desapp.grupoa.exception.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

@@ -2,8 +2,10 @@ package ar.edu.unq.desapp.grupoa.model;
 
 import ar.edu.unq.desapp.grupoa.exception.CanastaCloseException;
 import ar.edu.unq.desapp.grupoa.exception.GoodAlreadyOwnedException;
-import ar.edu.unq.desapp.grupoa.model.canasta_states.CanastaState;
-import ar.edu.unq.desapp.grupoa.model.canasta_states.CanastaStateInPreparation;
+import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
+import ar.edu.unq.desapp.grupoa.exception.OwnAGoodWithAnUnconfirmedGuestException;
+import ar.edu.unq.desapp.grupoa.model.canasta.states.CanastaState;
+import ar.edu.unq.desapp.grupoa.model.canasta.states.CanastaStateInPreparation;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
 import javax.persistence.*;
@@ -107,7 +109,7 @@ public class Canasta {
             throw new CanastaCloseException(this.getName(),guest.getUser().getFirstName());
         }
 
-        if(! guest.getConfirmAsistance()){
+        if(! (guest.getConfirmAsistance() == InvitationState.ACCEPTED)){
             throw new OwnAGoodWithAnUnconfirmedGuestException(this.name,user.getFirstName());
         }
         if( good.getUserThatOwnsTheGood() == null){

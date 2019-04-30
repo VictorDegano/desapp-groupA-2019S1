@@ -2,16 +2,17 @@ package ar.edu.unq.desapp.grupoa.model;
 
 import ar.edu.unq.desapp.grupoa.exception.CanastaCloseException;
 import ar.edu.unq.desapp.grupoa.exception.GoodAlreadyOwnedException;
-import ar.edu.unq.desapp.grupoa.model.canasta_states.CloseCanasta;
+import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
+import ar.edu.unq.desapp.grupoa.exception.OwnAGoodWithAnUnconfirmedGuestException;
+import ar.edu.unq.desapp.grupoa.model.canasta.states.CloseCanasta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
-import ar.edu.unq.desapp.grupoa.utils.builders.GoodBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builders.GuestBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.GoodBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;
 import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static ar.edu.unq.desapp.grupoa.utils.builders.Randomizer.randomUserWithName;
+import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUserWithName;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
@@ -136,7 +137,7 @@ public class CanastaTest {
                 userThatCreateTheCanasta.getFirstName(),
                 newCanasta.getOrganizer().getFirstName());
 
-        assertTrue("el guestCarlos esta confirmado",
+        assertEquals("el guestCarlos esta confirmado",InvitationState.ACCEPTED,
                     guestCarlos.getConfirmAsistance());
     }
 
@@ -208,7 +209,8 @@ public class CanastaTest {
         newCanasta.ownAGood(userCarlos,beer);
 
         //Test(Then)
-        assertTrue("el guestCarlos esta confirmado",
+        assertEquals("el guestCarlos esta confirmado",
+                InvitationState.ACCEPTED,
                 guestCarlos.getConfirmAsistance());
         assertTrue("el good beer no es de userCarlos",
                 beer.getUserThatOwnsTheGood().equals(userCarlos));
@@ -288,7 +290,5 @@ public class CanastaTest {
         newCanasta.ownAGood(userGaby,beer);
 
     }
-
-
 
 }

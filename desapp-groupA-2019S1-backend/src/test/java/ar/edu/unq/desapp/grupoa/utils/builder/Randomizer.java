@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.utils.builders;
+package ar.edu.unq.desapp.grupoa.utils.builder;
 
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import org.apache.commons.lang.RandomStringUtils;
