@@ -109,7 +109,7 @@ public class Canasta {
             throw new CanastaCloseException(this.getName(),guest.getUser().getFirstName());
         }
 
-        if(! (guest.getConfirmAsistance() == InvitationState.ACCEPTED)){
+        if((guest.getConfirmAsistance() != InvitationState.ACCEPTED)){
             throw new OwnAGoodWithAnUnconfirmedGuestException(this.name,user.getFirstName());
         }
         if( good.getUserThatOwnsTheGood() == null){
