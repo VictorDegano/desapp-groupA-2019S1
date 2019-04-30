@@ -1,8 +1,9 @@
 package ar.edu.unq.desapp.grupoa.model.event.fiesta.state;
 
-import ar.edu.unq.desapp.grupoa.exception.CloseEventException;
-import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
+import ar.edu.unq.desapp.grupoa.exception.event.CloseEventException;
+import ar.edu.unq.desapp.grupoa.model.event.CloseFiesta;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.utils.builder.FiestaBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;
 import org.junit.Test;

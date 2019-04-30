@@ -1,6 +1,5 @@
-package ar.edu.unq.desapp.grupoa.model;
+package ar.edu.unq.desapp.grupoa.model.user;
 
-import ar.edu.unq.desapp.grupoa.model.user.User;
 import org.junit.Test;
 
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;

@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoa.service;
 
-import ar.edu.unq.desapp.grupoa.exception.NotEnoughCashToPerformOperation;
+import ar.edu.unq.desapp.grupoa.exception.account.NotEnoughCashToPerformOperation;
 import ar.edu.unq.desapp.grupoa.model.account.Account;
 
 public class PaymentService {

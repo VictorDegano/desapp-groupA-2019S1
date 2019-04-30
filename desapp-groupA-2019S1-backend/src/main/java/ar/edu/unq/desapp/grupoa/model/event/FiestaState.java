@@ -1,7 +1,6 @@
-package ar.edu.unq.desapp.grupoa.model.event.fiesta.state;
+package ar.edu.unq.desapp.grupoa.model.event;
 
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
-import ar.edu.unq.desapp.grupoa.model.event.Guest;
 
 public abstract class FiestaState {
 

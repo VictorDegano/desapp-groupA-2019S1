@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.exception;
+package ar.edu.unq.desapp.grupoa.exception.account;
 
 public class NotEnoughCashToPerformOperation extends RuntimeException {
 

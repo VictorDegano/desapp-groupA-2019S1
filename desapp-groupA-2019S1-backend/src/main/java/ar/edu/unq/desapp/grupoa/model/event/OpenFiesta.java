@@ -1,8 +1,8 @@
-package ar.edu.unq.desapp.grupoa.model.event.fiesta.state;
+package ar.edu.unq.desapp.grupoa.model.event;
 
-import ar.edu.unq.desapp.grupoa.exception.ConfirmationLimitException;
+import ar.edu.unq.desapp.grupoa.exception.event.ConfirmationLimitException;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
-import ar.edu.unq.desapp.grupoa.model.event.Guest;
+
 import java.time.LocalDateTime;
 
 public class OpenFiesta extends FiestaState {

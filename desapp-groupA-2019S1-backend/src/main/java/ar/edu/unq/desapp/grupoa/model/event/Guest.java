@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa.model.event;
 
+import ar.edu.unq.desapp.grupoa.model.event.canasta.CanastaGood;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
 public class Guest {
@@ -48,4 +49,7 @@ public class Guest {
     public User getUser() { return user;    }
     public void setUser(User user) {    this.user = user;   }
 
+    public void ownAGood(CanastaGood good) {
+        good.setUserThatOwnsTheGood(this.user);
+    }
 }

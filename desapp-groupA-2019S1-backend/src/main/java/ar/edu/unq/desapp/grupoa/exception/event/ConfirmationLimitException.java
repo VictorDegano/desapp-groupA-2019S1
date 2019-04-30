@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.exception;
+package ar.edu.unq.desapp.grupoa.exception.event;
 
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import java.time.LocalDateTime;

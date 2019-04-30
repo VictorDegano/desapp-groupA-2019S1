@@ -1,9 +1,9 @@
 package ar.edu.unq.desapp.grupoa.service;
 
-import ar.edu.unq.desapp.grupoa.exception.LoanOnCourseException;
-import ar.edu.unq.desapp.grupoa.exception.NoLoanOnCourseException;
-import ar.edu.unq.desapp.grupoa.exception.NotEnoughCashToPerformOperation;
-import ar.edu.unq.desapp.grupoa.exception.UserDefaultException;
+import ar.edu.unq.desapp.grupoa.exception.account.LoanOnCourseException;
+import ar.edu.unq.desapp.grupoa.exception.account.NoLoanOnCourseException;
+import ar.edu.unq.desapp.grupoa.exception.account.NotEnoughCashToPerformOperation;
+import ar.edu.unq.desapp.grupoa.exception.account.UserDefaultException;
 import ar.edu.unq.desapp.grupoa.model.account.Account;
 import ar.edu.unq.desapp.grupoa.model.account.Credit;
 import ar.edu.unq.desapp.grupoa.model.user.User;
@@ -14,10 +14,11 @@ import static ar.edu.unq.desapp.grupoa.service.LoanService.getCredit;
 import static ar.edu.unq.desapp.grupoa.service.LoanService.payQuota;
 import static ar.edu.unq.desapp.grupoa.service.LoanService.takeLoan;
 import static ar.edu.unq.desapp.grupoa.utils.Integer.integer;
-import static ar.edu.unq.desapp.grupoa.utils.factory.AccountFactory.accountForUserWithRandomBalance;
-import static ar.edu.unq.desapp.grupoa.utils.factory.AccountFactory.accountWithDebtAndNoBalance;
-import static ar.edu.unq.desapp.grupoa.utils.factory.AccountFactory.accountWithDefaultedUser;
-import static ar.edu.unq.desapp.grupoa.utils.factory.AccountFactory.loanedAccountWithRandomBalance;
+import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.accountForRandomUser;
+import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.withDefaultedUser;
+import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.withLoan;
+import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.withLoanAndNoBalance;
+import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.withRandomBalance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -26,14 +27,14 @@ public class LoanServiceTest {
 
     @Test(expected = LoanOnCourseException.class)
     public void cantTakeALoadIfTheAccountAlreadyHasOneInCourse() {
-        Account account = accountForUserWithRandomBalance();
+        Account account = accountForRandomUser(withRandomBalance());
 
         takeLoan(takeLoan(account));
     }
 
     @Test(expected = UserDefaultException.class)
     public void cantTakeALoadIfTheAccountUserHasDefaulted() {
-        Account account = accountWithDefaultedUser();
+        Account account = accountForRandomUser(withDefaultedUser());
 
         Account accountLoaned = takeLoan(account);
 
@@ -42,7 +43,8 @@ public class LoanServiceTest {
 
     @Test
     public void aQuoteOfTheLoanIsPaid() {
-        Account account = loanedAccountWithRandomBalance();
+        Account account = accountForRandomUser(withLoan(),withRandomBalance());
+
         Integer balanceBefore = account.balance();
         Integer debtBefore    = account.debt();
 
@@ -56,12 +58,14 @@ public class LoanServiceTest {
 
     @Test(expected = NoLoanOnCourseException.class)
     public void aQuoteOfTheLoanIsPaidWhenNoLoanIsOnCourse() {
-        payQuota(accountForUserWithRandomBalance());
+        Account account= accountForRandomUser(withRandomBalance());
+
+        payQuota(account);
     }
 
     @Test
     public void lastQuoteOfTheLoanIsPaid() {
-        Account account = loanedAccountWithRandomBalance();
+        Account account = accountForRandomUser(withLoan(),withRandomBalance());
 
         Account accountAfterPayedQuota= payQuota(payUntilOneQuotaIsLeft(account));
         assertFalse(accountIsInDebt(accountAfterPayedQuota));
@@ -69,7 +73,8 @@ public class LoanServiceTest {
 
     @Test(expected = NotEnoughCashToPerformOperation.class)
     public void aQuoteIsPaidWhenAccountDoesntHasEnoughMoneyToCoverTheQuoteAndTheUserDefaults() {
-        Account account = accountWithDebtAndNoBalance();
+        Account account = accountForRandomUser(withLoanAndNoBalance());
+
         User accountUser =  account.getUser();
         assertFalse(accountUser.hasDefaulted());
 
@@ -80,7 +85,7 @@ public class LoanServiceTest {
 
     @Test
     public void returnCreditOnCourseOfNormalUserWith5QuotasToPay() {
-        Account account = loanedAccountWithRandomBalance();
+        Account account = accountForRandomUser(withLoan(),withRandomBalance());
 
         Credit credit = getCredit(account);
 

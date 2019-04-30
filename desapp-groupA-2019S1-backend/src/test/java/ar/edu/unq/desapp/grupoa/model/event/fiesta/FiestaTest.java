@@ -1,22 +1,22 @@
-package ar.edu.unq.desapp.grupoa.model;
+package ar.edu.unq.desapp.grupoa.model.event.fiesta;
 
-import ar.edu.unq.desapp.grupoa.exception.CloseEventException;
-import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
-import ar.edu.unq.desapp.grupoa.exception.ConfirmationLimitException;
+import ar.edu.unq.desapp.grupoa.exception.event.CloseEventException;
+import ar.edu.unq.desapp.grupoa.exception.event.ConfirmAsistanceException;
+import ar.edu.unq.desapp.grupoa.exception.event.ConfirmationLimitException;
+
+import ar.edu.unq.desapp.grupoa.exception.event.InvalidTemplateException;
+import ar.edu.unq.desapp.grupoa.model.event.EventType;
+import ar.edu.unq.desapp.grupoa.model.event.Template;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
+
 import ar.edu.unq.desapp.grupoa.model.user.User;
-
-import ar.edu.unq.desapp.grupoa.utils.builder.FiestaBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builder.GoodBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;
-
-import ar.edu.unq.desapp.grupoa.utils.builders.UserBuilder;
-
+import ar.edu.unq.desapp.grupoa.utils.builder.*;
 import org.junit.Test;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -243,7 +243,7 @@ public class FiestaTest {
         fiestaSUT.close();
 
         //Test(Then)
-        assertTrue("¡La fiesta no se cerro!", fiestaSUT.isClosed());
+        assertTrue("¡La fiesta no se cerro!", fiestaSUT.eventIsClosed());
         assertEquals("Se Cancelo la invitacion! Una invitacion aceptada no deberia cancelarce al cerrar una fiesta",
                      InvitationState.ACCEPTED,
                      getConfirmationAssistanceOfGuest(fiestaSUT, 0));
@@ -255,6 +255,62 @@ public class FiestaTest {
                      getConfirmationAssistanceOfGuest(fiestaSUT, 2));
     }
 
+    @Test
+    public void whenCreateAFiestaIfCreateWithATemplate_TheFiestaIsCreatedWithTheirGoods(){
+        //Setup(Given)
+        User organizer = UserBuilder.buildAUser().build();
+
+        LocalDateTime limitTime = LocalDateTime.now();
+
+        Good asado = GoodBuilder.buildAGood().withName("Asado").build();
+
+        Good laDelDiego = GoodBuilder.buildAGood().withName("La del Diego").build();
+
+        Template fiestaLocaTemplate = TemplateBuilder.buildATemplate()
+                                                     .withEventType(EventType.FIESTA)
+                                                     .addGood(asado)
+                                                     .addGood(laDelDiego)
+                                                     .build();
+
+        //Exercise(Exercise)
+        Fiesta fiestaSUT = Fiesta.createWithATemplate("La Fiesta Loca", organizer, new ArrayList<>(), limitTime, fiestaLocaTemplate);
+
+        //Test(Test)
+        assertEquals("No se cargo el nombre cuando se creo la fiesta con el template",
+                     "La Fiesta Loca",
+                     fiestaSUT.getName());
+
+        assertEquals("El organizado no se asigno cuando se creo la fiesta",
+                     organizer,
+                     fiestaSUT.getOrganizer());
+
+        assertTrue("Se cargaron invitados y la fiesta se creo sin invitados!",
+                    fiestaSUT.getGuest().isEmpty());
+
+        assertEquals("Se cambio la fecha limite al crear la fiesta!",
+                     limitTime,
+                     fiestaSUT.getLimitConfirmationDateTime());
+
+        assertEquals("No es el asado! No es la Good del template",
+                     asado.getName(),
+                     fiestaSUT.getGoodsForGuest().get(0).getName());
+        assertEquals("No es 'La Del Diego'! No es la Good del template",
+                     laDelDiego.getName(),
+                     fiestaSUT.getGoodsForGuest().get(1).getName());
+    }
+
+    @Test(expected = InvalidTemplateException.class)
+    public void ifTryCreateAFiestaWithATemplateAndTheTemplateNotIsForFiesta_GetAnException(){
+        //Setup(Given)
+        Template canastaVaciaTemplate = TemplateBuilder.buildATemplate()
+                .withEventType(EventType.CANASTA)
+                .build();
+
+        //Exercise(Exercise)
+        Fiesta.createWithATemplate("", null, new ArrayList<>(), null, canastaVaciaTemplate);
+
+        //Test(Test)
+    }
 
 /**[}-{]---------------------------------------------[}-{]
    [}-{]-------------[AUXILIARY METHODS]-------------[}-{]

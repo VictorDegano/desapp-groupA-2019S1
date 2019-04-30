@@ -1,9 +1,9 @@
 package ar.edu.unq.desapp.grupoa.service;
 
-import ar.edu.unq.desapp.grupoa.exception.LoanOnCourseException;
-import ar.edu.unq.desapp.grupoa.exception.NoLoanOnCourseException;
-import ar.edu.unq.desapp.grupoa.exception.NotEnoughCashToPerformOperation;
-import ar.edu.unq.desapp.grupoa.exception.UserDefaultException;
+import ar.edu.unq.desapp.grupoa.exception.account.LoanOnCourseException;
+import ar.edu.unq.desapp.grupoa.exception.account.NoLoanOnCourseException;
+import ar.edu.unq.desapp.grupoa.exception.account.NotEnoughCashToPerformOperation;
+import ar.edu.unq.desapp.grupoa.exception.account.UserDefaultException;
 import ar.edu.unq.desapp.grupoa.model.account.Account;
 import ar.edu.unq.desapp.grupoa.model.account.Credit;
 

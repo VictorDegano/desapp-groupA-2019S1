@@ -1,12 +1,16 @@
 package ar.edu.unq.desapp.grupoa.model.event.fiesta.state;
 
-import ar.edu.unq.desapp.grupoa.exception.ConfirmationLimitException;
-import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
+import ar.edu.unq.desapp.grupoa.exception.event.ConfirmationLimitException;
+import ar.edu.unq.desapp.grupoa.model.event.CloseFiesta;
+import ar.edu.unq.desapp.grupoa.model.event.FiestaState;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
+import ar.edu.unq.desapp.grupoa.model.event.OpenFiesta;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.utils.builder.FiestaBuilder;
 
 import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;
+import org.junit.Assert;
 import org.junit.Test;
 import java.time.LocalDateTime;
 import static org.junit.Assert.*;
@@ -47,7 +51,7 @@ public class OpenFiestaTest {
         openFiestaSUT.confirmAssistanceOf(guestToConfirm);
 
         //Test(Then)
-        assertEquals("No Confirmo la asistencia, se deberia haber completado el proceso de confirmacion",
+        Assert.assertEquals("No Confirmo la asistencia, se deberia haber completado el proceso de confirmacion",
                      InvitationState.ACCEPTED,
                      guestToConfirm.getConfirmAsistance());
     }

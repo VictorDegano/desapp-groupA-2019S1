@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect }from 'react-redux'
 import PropTypes from 'prop-types'
+import EventApi from '../api/EventApi.js'
 
 //Actions
 import * as actions from '../actions/actions'
@@ -19,7 +20,11 @@ class EventList extends Component {
     //Ocurre antes de que el componente se monte(o complete de montarse)
     componentWillMount(){
         console.log('componentWilMount()') 
-        this.props.loadEvents()
+        var eventApi = new EventApi()
+        eventApi.fetchEvents().then(events =>{
+            this.props.loadEvents(events)
+            })
+        
     }
 
     render (){
@@ -32,11 +37,12 @@ class EventList extends Component {
 
             <ul>
                 {eventsLoaded.map(i => {
-                                    return <li>
-                                            {i.Nombre}
-                                            <ul>
-                                                {i.Insumos.map(i => {return <li>{i.Nombre}</li>})}
-                                            </ul>
+                                    return <li key={i.name+i.name.length}>
+                                            {i.name}
+                                            <br/>
+                                            Confirmations: {i.confirmations}
+                                            <br/>
+                                            {createListOfGoods(i.goodsForGuest,i.name)}
                                            </li>
                                 })}
             </ul>
@@ -44,6 +50,18 @@ class EventList extends Component {
     }
 
 }
+
+function createListOfGoods(listOfGoods,name){
+    
+    if(listOfGoods !== null) {
+        return  <ul key={'goodsOf'+name}>
+                    {listOfGoods.map(i => {return <li key={i.name+i.name.length}>{i.name}</li>})}
+                </ul>
+    }      
+    
+}
+
+
 
 
 function mapStateToProps (state){

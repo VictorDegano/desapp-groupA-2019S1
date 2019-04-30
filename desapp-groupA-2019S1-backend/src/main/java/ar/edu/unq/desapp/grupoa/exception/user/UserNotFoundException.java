@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.exception;
+package ar.edu.unq.desapp.grupoa.exception.user;
 
 public class UserNotFoundException extends RuntimeException {
 

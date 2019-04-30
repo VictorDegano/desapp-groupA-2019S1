@@ -1,11 +1,15 @@
 package ar.edu.unq.desapp.grupoa.model.event.fiesta;
 
+
+import ar.edu.unq.desapp.grupoa.exception.event.InvalidTemplateException;
+import ar.edu.unq.desapp.grupoa.model.event.EventType;
+import ar.edu.unq.desapp.grupoa.model.event.Template;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
+import ar.edu.unq.desapp.grupoa.model.event.FiestaState;
+import ar.edu.unq.desapp.grupoa.model.event.OpenFiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
-import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
-import ar.edu.unq.desapp.grupoa.model.event.fiesta.state.FiestaState;
-import ar.edu.unq.desapp.grupoa.model.event.fiesta.state.OpenFiesta;
+import ar.edu.unq.desapp.grupoa.exception.event.ConfirmAsistanceException;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,6 +31,13 @@ public class Fiesta {
     private String name;
     @Transient
     private FiestaState state;
+
+    public static Fiesta createWithATemplate(String name, User organizer, List<Guest> guests, LocalDateTime limitTime, Template template) {
+        if(!template.isForEvent(EventType.FIESTA)){
+            throw new InvalidTemplateException(EventType.FIESTA, template.getEventType());
+        }
+        return new Fiesta(name, organizer, guests, limitTime, template.getGoodsForEvent());
+    }
 
     public void confirmAsistancesOf(Guest guestToAssist){
         this.getState().confirmAssistanceOf(guestToAssist);
@@ -63,7 +74,7 @@ public class Fiesta {
         return this.limitConfirmationDateTime.isAfter(aLocalDateTimeToCompare);
     }
 
-    public boolean isClosed() {
+    public boolean eventIsClosed() {
         return this.getState().isClosed();
     }
 
@@ -107,6 +118,7 @@ public class Fiesta {
     public LocalDateTime getLimitConfirmationDateTime() {   return this.limitConfirmationDateTime;   }
 
     public void setOrganizer(User organizer) {    this.organizer = organizer; }
+    public User getOrganizer() {    return organizer;   }
 
     public List<Good> getGoodsForGuest() {  return this.goodsForGuest;   }
     public void setGoodsForGuest(List<Good> goodsForGuest) {    this.goodsForGuest = goodsForGuest; }

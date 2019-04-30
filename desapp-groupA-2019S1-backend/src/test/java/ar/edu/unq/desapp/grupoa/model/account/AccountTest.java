@@ -1,15 +1,13 @@
-package ar.edu.unq.desapp.grupoa.model;
+package ar.edu.unq.desapp.grupoa.model.account;
 
-import ar.edu.unq.desapp.grupoa.model.account.Account;
 import org.junit.Before;
 import org.junit.Test;
 
 
-import static ar.edu.unq.desapp.grupoa.model.account.Account.newAccount;
 import static ar.edu.unq.desapp.grupoa.utils.Integer.integer;
+import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.accountForRandomUser;
+import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.withRandomBalance;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomNumber;
-import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;
-import static ar.edu.unq.desapp.grupoa.utils.factory.AccountFactory.accountForUserWithRandomBalance;
 import static org.junit.Assert.assertEquals;
 
 
@@ -25,7 +23,7 @@ public class AccountTest {
 
     @Test
     public void accountIsCreatedWithZeroBalanceAndZeroDebt() {
-        Account account = newAccount(randomUser());
+        Account account = accountForRandomUser();
 
         assertEquals(integer(0), account.balance());
         assertEquals(integer(0), account.debt());
@@ -33,7 +31,7 @@ public class AccountTest {
 
     @Test
     public void depositCashToAccount() {
-        Account account = accountForUserWithRandomBalance();
+        Account account = accountForRandomUser(withRandomBalance());
         Integer balanceBefore = account.balance();
 
         account.deposit(randomAmount);
@@ -43,7 +41,7 @@ public class AccountTest {
 
     @Test
     public void extractCashFromAccount() {
-        Account account = accountForUserWithRandomBalance();
+        Account account = accountForRandomUser(withRandomBalance());
         Integer balanceBefore = account.balance();
 
         account.extract(randomAmount);
@@ -53,7 +51,7 @@ public class AccountTest {
 
     @Test
     public void addsDebtAndBalanceAndDebtGoesUpBySameAmount() {
-        Account account = accountForUserWithRandomBalance();
+        Account account = accountForRandomUser(withRandomBalance());
         Integer balanceBefore = account.balance();
         Integer debtBefore = account.debt();
 
@@ -70,7 +68,7 @@ public class AccountTest {
 
     @Test
     public void takeDebtAndBalanceAndDebtGoesDownBySameAmount() {
-        Account account = accountForUserWithRandomBalance();
+        Account account = accountForRandomUser(withRandomBalance());
         Integer balanceBefore = account.balance();
         Integer debtBefore = account.debt();
 

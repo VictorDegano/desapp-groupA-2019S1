@@ -1,10 +1,15 @@
 package ar.edu.unq.desapp.grupoa.model.event.canasta;
 
-import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
+import ar.edu.unq.desapp.grupoa.exception.event.CanastaCloseException;
+import ar.edu.unq.desapp.grupoa.exception.event.GoodAlreadyOwnedException;
+import ar.edu.unq.desapp.grupoa.exception.event.ConfirmAsistanceException;
+import ar.edu.unq.desapp.grupoa.exception.event.OwnAGoodWithAnUnconfirmedGuestException;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
+import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CanastaState;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CanastaStateInPreparation;
+
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
 import javax.persistence.*;
@@ -99,5 +104,22 @@ public class Canasta {
             throw new ConfirmAsistanceException(this.name,userToConfirmAssistance.getFirstName());
         }
         guestToConfirmAssistance.confirmAsistance();
+    }
+
+    public void ownAGood(User user, CanastaGood good) {
+        Guest guest = guests.stream().filter(guest1 -> guest1.getUser()==user).collect(Collectors.toList()).get(0);
+
+        if(this.getState().isCloseCanasta()){
+            throw new CanastaCloseException(this.getName(),guest.getUser().getFirstName());
+        }
+
+        if((guest.getConfirmAsistance() != InvitationState.ACCEPTED)){
+            throw new OwnAGoodWithAnUnconfirmedGuestException(this.name,user.getFirstName());
+        }
+        if( good.getUserThatOwnsTheGood() == null){
+        guests.stream().filter(guest1 -> guest1.getUser()==user).collect(Collectors.toList()).get(0).ownAGood(good);
+        }else{
+            throw new GoodAlreadyOwnedException(this.getName(),user.getFirstName());
+        }
     }
 }
