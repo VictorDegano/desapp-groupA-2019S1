@@ -1,5 +1,7 @@
 package ar.edu.unq.desapp.grupoa.model.user;
 
+import ar.edu.unq.desapp.grupoa.model.account.Account;
+import ar.edu.unq.desapp.grupoa.model.account.MovementType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Column;
@@ -41,6 +43,11 @@ public class User {
     @JsonIgnore
     private UserState state;
 
+    //TODO: Provisorio, a confirmar
+    @Transient
+    @JsonIgnore
+    private Account account;
+
 
     public User(String firstName, String lastName, String email, String password, LocalDateTime bornDay) {
         this.firstName = firstName;
@@ -49,6 +56,7 @@ public class User {
         this.password = password;
         this.bornDay = bornDay;
         this.state = UserState.NORMAL;
+        this.account = new Account(this);
     }
 
     public User(){}
@@ -102,4 +110,16 @@ public class User {
     }
 
     public void setLastName(String lastName) {  this.lastName = lastName;   }
+
+    public void deposit(Integer amount, MovementType movementType) {
+        this.account.deposit(amount,movementType);
+    }
+
+    public Integer balance() {
+        return this.account.balance();
+    }
+
+    public void extract(Integer totalCost) {
+        this.account.extract(totalCost);
+    }
 }
