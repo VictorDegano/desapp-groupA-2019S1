@@ -1,5 +1,7 @@
 package ar.edu.unq.desapp.grupoa.model;
 
+import ar.edu.unq.desapp.grupoa.exception.CanastaCloseException;
+import ar.edu.unq.desapp.grupoa.exception.GoodAlreadyOwnedException;
 import ar.edu.unq.desapp.grupoa.model.canasta_states.CanastaState;
 import ar.edu.unq.desapp.grupoa.model.canasta_states.CanastaStateInPreparation;
 import ar.edu.unq.desapp.grupoa.model.user.User;
@@ -101,10 +103,17 @@ public class Canasta {
     public void ownAGood(User user, CanastaGood good) {
         Guest guest = guests.stream().filter(guest1 -> guest1.getUser()==user).collect(Collectors.toList()).get(0);
 
+        if(this.getState().isCloseCanasta()){
+            throw new CanastaCloseException(this.getName(),guest.getUser().getFirstName());
+        }
+
         if(! guest.getConfirmAsistance()){
             throw new OwnAGoodWithAnUnconfirmedGuestException(this.name,user.getFirstName());
         }
-
+        if( good.getUserThatOwnsTheGood() == null){
         guests.stream().filter(guest1 -> guest1.getUser()==user).collect(Collectors.toList()).get(0).ownAGood(good);
+        }else{
+            throw new GoodAlreadyOwnedException(this.getName(),user.getFirstName());
+        }
     }
 }
