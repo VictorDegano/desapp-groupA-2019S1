@@ -4,10 +4,11 @@ import ar.edu.unq.desapp.grupoa.exception.CanastaCloseException;
 import ar.edu.unq.desapp.grupoa.exception.GoodAlreadyOwnedException;
 import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
 import ar.edu.unq.desapp.grupoa.exception.OwnAGoodWithAnUnconfirmedGuestException;
+import ar.edu.unq.desapp.grupoa.model.account.MovementType;
 import ar.edu.unq.desapp.grupoa.model.canasta.states.CloseCanasta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
-import ar.edu.unq.desapp.grupoa.utils.builder.GoodBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;
+import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,13 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 
 public class CanastaTest {
+    private CanastaGood beer;
+    private List<CanastaGood> listOfGoods;
+    @Before
+    public void setUp(){
+        beer = new CanastaGood("Beer",10,1);
+        listOfGoods = new ArrayList<>();
+    }
 
     @Test
     public void whenAnUserCreatesACanastaWithANameTheGoodsListAndTheGuestsListAreEmpty(){
@@ -63,12 +71,6 @@ public class CanastaTest {
         listOfGuests.add(guestCarlos);
         listOfGuests.add(guestJose);
 
-        Good beer = GoodBuilder.buildAGood()
-                .withName("Beer")
-                .withQuantityForPerson(2)
-                .build();
-
-        List<Good> listOfGoods = new ArrayList<>();
         listOfGoods.add(beer);
 
         //Exercise(When)
@@ -118,8 +120,6 @@ public class CanastaTest {
 
         listOfGuests.add(guestCarlos);
 
-        List<Good> listOfGoods = new ArrayList<>();
-
         Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
         //Exercise(When)
         newCanasta.confirmUser(userCarlos);
@@ -155,8 +155,6 @@ public class CanastaTest {
 
         listOfGuests.add(guestCarlos);
 
-        List<Good> listOfGoods = new ArrayList<>();
-
         Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
         //Exercise(When)
         newCanasta.confirmUser(userJose);
@@ -175,8 +173,6 @@ public class CanastaTest {
                 .build();
 
         listOfGuests.add(guestCarlos);
-
-        List<Good> listOfGoods = new ArrayList<>();
 
         Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
         newCanasta.setState(new CloseCanasta());
@@ -198,9 +194,6 @@ public class CanastaTest {
 
         listOfGuests.add(guestCarlos);
 
-        CanastaGood beer = new CanastaGood("Beer",10,1);
-
-        List<Good> listOfGoods = new ArrayList<>();
         listOfGoods.add(beer);
 
         Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
@@ -212,8 +205,9 @@ public class CanastaTest {
         assertEquals("el guestCarlos esta confirmado",
                 InvitationState.ACCEPTED,
                 guestCarlos.getConfirmAsistance());
-        assertTrue("el good beer no es de userCarlos",
-                beer.getUserThatOwnsTheGood().equals(userCarlos));
+        assertEquals("el good beer no es de userCarlos",
+                beer.getUserThatOwnsTheGood(),
+                userCarlos);
     }
 
     @Test(expected = OwnAGoodWithAnUnconfirmedGuestException.class)
@@ -227,9 +221,6 @@ public class CanastaTest {
 
         listOfGuests.add(guestCarlos);
 
-        CanastaGood beer = new CanastaGood("Beer",10,1);
-
-        List<Good> listOfGoods = new ArrayList<>();
         listOfGoods.add(beer);
 
         Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
@@ -249,9 +240,6 @@ public class CanastaTest {
 
         listOfGuests.add(guestCarlos);
 
-        CanastaGood beer = new CanastaGood("Beer",10,1);
-
-        List<Good> listOfGoods = new ArrayList<>();
         listOfGoods.add(beer);
 
         Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
@@ -276,9 +264,6 @@ public class CanastaTest {
         listOfGuests.add(guestCarlos);
         listOfGuests.add(guestGaby);
 
-        CanastaGood beer = new CanastaGood("Beer",10,1);
-
-        List<Good> listOfGoods = new ArrayList<>();
         listOfGoods.add(beer);
 
         Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
@@ -305,8 +290,6 @@ public class CanastaTest {
         listOfGuests.add(guestCarlos);
         listOfGuests.add(guestGaby);
 
-        List<Good> listOfGoods = new ArrayList<>();
-
         Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
         newCanasta.confirmUser(userGaby);
 
@@ -319,6 +302,38 @@ public class CanastaTest {
         assertEquals("el estado de la invitacion del guestCarlos deberia estar cancelada porque se cerro la canasta ",
                 InvitationState.CANCELLED,
                 guestCarlos.getConfirmAsistance());
+
+    }
+
+    @Test
+    public void whenACanastaAssignAGoodToAnUserAndTheCanastaClosesTheUserPayTheGood(){
+        //Setup(Given)
+        User userThatCreateTheCanasta = randomUserWithName("Ivan");
+        User userCarlos = randomUserWithName("Carlos");
+        List<Guest> listOfGuests = new ArrayList<>();
+
+        Guest guestCarlos = GuestBuilder.buildAGuest()
+                .withUser(userCarlos)
+                .build();
+
+        listOfGuests.add(guestCarlos);
+
+        listOfGoods.add(beer);
+
+        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
+        newCanasta.confirmUser(userCarlos);
+        newCanasta.ownAGood(userCarlos,beer);
+        userCarlos.deposit(200, MovementType.CASH);
+        assertEquals("the initial balance should be 200",
+                Integer.valueOf(200),
+                userCarlos.balance());
+
+        //Exercise(When)
+        newCanasta.closeCanasta();
+        //Test(Then)
+        assertEquals("the user account has the same money!!",
+                Integer.valueOf(190),
+                userCarlos.balance());
 
     }
 
