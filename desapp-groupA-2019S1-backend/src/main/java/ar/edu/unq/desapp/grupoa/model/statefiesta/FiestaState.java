@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.model.stateFiesta;
+package ar.edu.unq.desapp.grupoa.model.statefiesta;
 
 import ar.edu.unq.desapp.grupoa.model.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.Guest;
