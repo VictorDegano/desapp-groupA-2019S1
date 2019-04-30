@@ -239,7 +239,7 @@ public class FiestaTest {
         fiestaSUT.close();
 
         //Test(Then)
-        assertTrue("¡La fiesta no se cerro!", fiestaSUT.isClosed());
+        assertTrue("¡La fiesta no se cerro!", fiestaSUT.eventIsClosed());
         assertEquals("Se Cancelo la invitacion! Una invitacion aceptada no deberia cancelarce al cerrar una fiesta",
                      InvitationState.ACCEPTED,
                      getConfirmationAssistanceOfGuest(fiestaSUT, 0));

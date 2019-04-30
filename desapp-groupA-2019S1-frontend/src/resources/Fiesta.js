@@ -1,43 +1,44 @@
 const fiestaMock = {
     "Fiestas": [
-
-    
       {
-        "Nombre": "La Fiesta de Pepe",
-        "Insumos": [
-                { "Nombre": "Papas",
+        "name": "La Fiesta de Pepe",
+        "confirmations": "0",
+        "goodsForGuest": [
+                { "name": "Papas",
                   "Cantidad": "2"},
-                { "Nombre": "Fernet",
+                { "name": "Fernet",
                   "Cantidad": "1"},
-                { "Nombre": "Coca",
+                { "name": "Coca",
                   "Cantidad": "4"},
-                { "Nombre": "Queso",
+                { "name": "Queso",
                   "Cantidad": "6"}
             ]
       },
       {
-        "Nombre": "Pepellooza",
-        "Insumos": [
-                { "Nombre": "Papas",
+        "name": "Pepellooza",
+        "confirmations": "2",
+        "goodsForGuest": [
+                { "name": "Papas",
                   "Cantidad": "2"},
-                { "Nombre": "Fernet",
+                { "name": "Fernet",
                   "Cantidad": "1"},
-                { "Nombre": "Coca",
+                { "name": "Coca",
                   "Cantidad": "4"},
-                { "Nombre": "Queso",
+                { "name": "Queso",
                   "Cantidad": "6"}
             ]
       },
       {
-        "Nombre": "Pepe Weekend",
-        "Insumos": [
-                { "Nombre": "Papas",
+        "name": "Pepe Weekend",
+        "confirmations": "-1",
+        "goodsForGuest": [
+                { "name": "Papas",
                   "Cantidad": "2"},
-                { "Nombre": "Fernet",
+                { "name": "Fernet",
                   "Cantidad": "1"},
-                { "Nombre": "Coca",
+                { "name": "Coca",
                   "Cantidad": "4"},
-                { "Nombre": "Queso",
+                { "name": "Queso",
                   "Cantidad": "6"}
             ]
       }

@@ -9,6 +9,9 @@ target/
 node_modules/
 build/
 
+#VisualStudioCode
+.vscode/
+
 # Compiled class file
 *.class
 
