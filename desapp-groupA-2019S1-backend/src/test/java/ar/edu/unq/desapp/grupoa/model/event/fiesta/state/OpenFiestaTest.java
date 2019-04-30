@@ -1,9 +1,9 @@
-package ar.edu.unq.desapp.grupoa.model.stateFiesta;
+package ar.edu.unq.desapp.grupoa.model.event.fiesta.state;
 
 import ar.edu.unq.desapp.grupoa.exception.ConfirmationLimitException;
-import ar.edu.unq.desapp.grupoa.model.Fiesta;
-import ar.edu.unq.desapp.grupoa.model.Guest;
-import ar.edu.unq.desapp.grupoa.model.InvitationState;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
+import ar.edu.unq.desapp.grupoa.model.event.Guest;
+import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
 import ar.edu.unq.desapp.grupoa.utils.builder.FiestaBuilder;
 
 import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;

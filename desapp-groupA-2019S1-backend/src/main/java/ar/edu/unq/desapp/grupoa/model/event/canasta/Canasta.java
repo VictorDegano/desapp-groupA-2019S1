@@ -1,8 +1,10 @@
-package ar.edu.unq.desapp.grupoa.model;
+package ar.edu.unq.desapp.grupoa.model.event.canasta;
 
 import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
-import ar.edu.unq.desapp.grupoa.model.canasta.states.CanastaState;
-import ar.edu.unq.desapp.grupoa.model.canasta.states.CanastaStateInPreparation;
+import ar.edu.unq.desapp.grupoa.model.event.Good;
+import ar.edu.unq.desapp.grupoa.model.event.Guest;
+import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CanastaState;
+import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CanastaStateInPreparation;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
 import javax.persistence.*;

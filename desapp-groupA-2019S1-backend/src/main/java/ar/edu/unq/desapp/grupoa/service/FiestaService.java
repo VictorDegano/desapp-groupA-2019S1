@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoa.service;
 
-import ar.edu.unq.desapp.grupoa.model.Fiesta;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.persistence.FiestaDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

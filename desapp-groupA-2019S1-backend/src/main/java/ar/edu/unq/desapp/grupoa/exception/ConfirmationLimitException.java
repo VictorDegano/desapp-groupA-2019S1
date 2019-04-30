@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoa.exception;
 
-import ar.edu.unq.desapp.grupoa.model.Fiesta;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import java.time.LocalDateTime;
 
 // TODO: 27/4/2019 Al momento que se use para el resto de los eventos hay que hacer algunos cambios sintacticos

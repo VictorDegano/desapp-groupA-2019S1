@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-
+import static ar.edu.unq.desapp.grupoa.model.account.Account.newAccount;
 import static ar.edu.unq.desapp.grupoa.utils.Integer.integer;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomNumber;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;
@@ -25,7 +25,7 @@ public class AccountTest {
 
     @Test
     public void accountIsCreatedWithZeroBalanceAndZeroDebt() {
-        Account account = new Account(randomUser());
+        Account account = newAccount(randomUser());
 
         assertEquals(integer(0), account.balance());
         assertEquals(integer(0), account.debt());

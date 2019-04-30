@@ -1,9 +1,11 @@
-package ar.edu.unq.desapp.grupoa.model;
+package ar.edu.unq.desapp.grupoa.model.event.fiesta;
 
+import ar.edu.unq.desapp.grupoa.model.event.Good;
+import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
-import ar.edu.unq.desapp.grupoa.model.stateFiesta.FiestaState;
-import ar.edu.unq.desapp.grupoa.model.stateFiesta.OpenFiesta;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.state.FiestaState;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.state.OpenFiesta;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;

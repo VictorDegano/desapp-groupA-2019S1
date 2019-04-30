@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.model;
+package ar.edu.unq.desapp.grupoa.model.event;
 
 public enum InvitationState {
 

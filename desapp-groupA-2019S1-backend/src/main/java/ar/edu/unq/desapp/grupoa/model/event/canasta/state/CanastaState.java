@@ -1,6 +1,6 @@
-package ar.edu.unq.desapp.grupoa.model.canasta.states;
+package ar.edu.unq.desapp.grupoa.model.event.canasta.state;
 
-import ar.edu.unq.desapp.grupoa.model.Canasta;
+import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
 
 public abstract class CanastaState {
 

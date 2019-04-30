@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.model.canasta.states;
+package ar.edu.unq.desapp.grupoa.model.event.canasta.state;
 
 public class CanastaStateInPreparation extends CanastaState {
 

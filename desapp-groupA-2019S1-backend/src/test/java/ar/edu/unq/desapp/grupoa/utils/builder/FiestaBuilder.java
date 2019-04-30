@@ -1,10 +1,10 @@
 package ar.edu.unq.desapp.grupoa.utils.builder;
 
-import ar.edu.unq.desapp.grupoa.model.Fiesta;
-import ar.edu.unq.desapp.grupoa.model.Good;
-import ar.edu.unq.desapp.grupoa.model.Guest;
-import ar.edu.unq.desapp.grupoa.model.stateFiesta.CloseFiesta;
-import ar.edu.unq.desapp.grupoa.model.stateFiesta.OpenFiesta;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
+import ar.edu.unq.desapp.grupoa.model.event.Good;
+import ar.edu.unq.desapp.grupoa.model.event.Guest;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.state.CloseFiesta;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.state.OpenFiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
 import java.time.LocalDateTime;

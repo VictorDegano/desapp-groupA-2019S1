@@ -3,6 +3,10 @@ package ar.edu.unq.desapp.grupoa.model;
 import ar.edu.unq.desapp.grupoa.exception.CloseEventException;
 import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
 import ar.edu.unq.desapp.grupoa.exception.ConfirmationLimitException;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
+import ar.edu.unq.desapp.grupoa.model.event.Good;
+import ar.edu.unq.desapp.grupoa.model.event.Guest;
+import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
 import ar.edu.unq.desapp.grupoa.utils.builder.FiestaBuilder;

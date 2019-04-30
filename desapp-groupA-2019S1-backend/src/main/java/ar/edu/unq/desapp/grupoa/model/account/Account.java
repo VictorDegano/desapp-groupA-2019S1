@@ -3,38 +3,52 @@ package ar.edu.unq.desapp.grupoa.model.account;
 import ar.edu.unq.desapp.grupoa.model.account.movement.Movement;
 import ar.edu.unq.desapp.grupoa.model.account.movement.MovementType;
 import ar.edu.unq.desapp.grupoa.model.user.User;
+import com.google.inject.internal.util.ImmutableList;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 public class Account {
 
     private final User user;
-    private final List<Movement> movements;
+    private final ImmutableList<Movement> movements;
 
-    public Account(User user) {
+    public static Account newAccount(User user) {
+        return new Account(user, new ArrayList<>());
+    }
+
+    private Account(User user, List<Movement> movements) {
         this.user = user;
-        this.movements = new ArrayList<>();
+        this.movements = ImmutableList.copyOf(movements);
     }
 
-    public void extract(Integer amount) {
-        movements.add(Movement.extraction(amount));
+    public Account extract(Integer amount) {
+        return addMovement(Movement.extraction(amount));
     }
 
-    public void deposit(Integer amount) {
-        movements.add(Movement.deposit(amount));
+    public Account deposit(Integer amount) {
+        return addMovement(Movement.deposit(amount));
     }
 
-    public void debt(Integer amount) {
-        movements.add(Movement.debt(amount));
+    public Account debt(Integer amount) {
+        return addMovement(Movement.debt(amount));
     }
 
-    public void payDebt(Integer amount) {
-        movements.add(Movement.paydebt(amount));
+    public Account payDebt(Integer amount) {
+        return addMovement(Movement.paydebt(amount));
     }
 
-    public Integer balance(){
+
+    private Account addMovement(Movement movement) {
+        List<Movement> movements = new ArrayList<>(this.movements);
+        movements.add(movement);
+        return new Account(this.user, movements);
+    }
+
+
+    public Integer balance() {
         return sumMovements(movements);
     }
 
@@ -42,7 +56,7 @@ public class Account {
         return sumMovements(debtMovements());
     }
 
-    public User getUser(){
+    public User getUser() {
         return this.user;
     }
 

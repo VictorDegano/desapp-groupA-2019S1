@@ -1,7 +1,11 @@
 package ar.edu.unq.desapp.grupoa.model;
 
 import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
-import ar.edu.unq.desapp.grupoa.model.canasta.states.CloseCanasta;
+import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
+import ar.edu.unq.desapp.grupoa.model.event.Good;
+import ar.edu.unq.desapp.grupoa.model.event.Guest;
+import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
+import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CloseCanasta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.utils.builder.GoodBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;
@@ -134,7 +138,7 @@ public class CanastaTest {
                 userThatCreateTheCanasta.getFirstName(),
                 newCanasta.getOrganizer().getFirstName());
 
-        assertEquals("el guestCarlos esta confirmado",InvitationState.ACCEPTED,
+        assertEquals("el guestCarlos esta confirmado", InvitationState.ACCEPTED,
                     guestCarlos.getConfirmAsistance());
     }
 

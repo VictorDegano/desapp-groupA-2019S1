@@ -11,10 +11,23 @@ public class LoanService {
 
     private LoanService(){}
 
-    public static void takeLoan(Account account) {
+    public static Account takeLoan(Account account) {
        validateLoan(account);
-       account.debt(1000);
+       return account.debt(1000);
+    }
 
+    public static Account payQuota(Account account){
+        validateQuota(account);
+        return account.payDebt(200);
+    }
+
+    public static Credit getCredit(Account account){
+        return new Credit(account.getUser(),quotasToPay(account.debt()));
+    }
+
+
+    public static boolean accountIsInDebt(Account account) {
+        return account.debt() > 0;
     }
 
     private static void validateLoan(Account account) {
@@ -22,11 +35,6 @@ public class LoanService {
             throw new LoanOnCourseException();
         if (account.getUser().hasDefaulted())
             throw new UserDefaultException();
-    }
-
-    public static void payQuota(Account account){
-        validateQuota(account);
-        account.payDebt(200);
     }
 
     private static void validateQuota(Account account) {
@@ -37,16 +45,7 @@ public class LoanService {
             throw new NotEnoughCashToPerformOperation("User doesn't has enough cash to pay the quota");
         }
     }
-
-    public static Credit getCredit(Account account){
-        return new Credit(account.getUser(),quotasToPay(account.debt()));
-    }
-
     private static Integer quotasToPay(Integer debt) {
         return debt/200;
-    }
-
-    public static boolean accountIsInDebt(Account account) {
-        return account.debt() > 0;
     }
 }
