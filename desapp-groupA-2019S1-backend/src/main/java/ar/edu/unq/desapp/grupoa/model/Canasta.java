@@ -123,6 +123,12 @@ public class Canasta {
     public void closeCanasta() {
         this.setState(new CloseCanasta());
         this.guests.forEach((guest) -> { if(guest.isInvitationPending()){ guest.cancelInvitation();}});
-        this.goods.forEach((good) -> good.getUserThatOwnsTheGood().extract(good.totalCost()));
+        this.goods.forEach((good) -> {
+            if (good.getUserThatOwnsTheGood() != null) {
+                good.getUserThatOwnsTheGood().extract(good.totalCost());
+            } else{
+                this.getOrganizer().extract(good.totalCost());
+                 }});
+
     }
 }
