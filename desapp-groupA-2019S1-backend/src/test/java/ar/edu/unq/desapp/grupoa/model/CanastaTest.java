@@ -1,5 +1,7 @@
 package ar.edu.unq.desapp.grupoa.model;
 
+import ar.edu.unq.desapp.grupoa.exception.CanastaCloseException;
+import ar.edu.unq.desapp.grupoa.exception.GoodAlreadyOwnedException;
 import ar.edu.unq.desapp.grupoa.model.canasta_states.CloseCanasta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.utils.builders.GoodBuilder;
@@ -231,6 +233,59 @@ public class CanastaTest {
         Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
         //Exercise(When)
         newCanasta.ownAGood(userCarlos,beer);
+
+    }
+
+    @Test(expected = CanastaCloseException.class)
+    public void whenACanastaAssignAGoodToAnUserAndTheCanastaIsCloseItThrowsCanastaCloseException(){
+        //Setup(Given)
+        User userThatCreateTheCanasta = randomUserWithName("Ivan");
+        User userCarlos = randomUserWithName("Carlos");
+        List<Guest> listOfGuests = new ArrayList<>();
+
+        Guest guestCarlos = new Guest(userCarlos);
+
+        listOfGuests.add(guestCarlos);
+
+        CanastaGood beer = new CanastaGood("Beer",10,1);
+
+        List<Good> listOfGoods = new ArrayList<>();
+        listOfGoods.add(beer);
+
+        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
+        newCanasta.confirmUser(userCarlos);
+        newCanasta.setState(new CloseCanasta());
+        //Exercise(When)
+        newCanasta.ownAGood(userCarlos,beer);
+
+    }
+
+    @Test(expected = GoodAlreadyOwnedException.class)
+    public void whenACanastaAssignAGoodToAnUserAndOtherUserWantToOwnTheSameGoodItThrowsGoodAlreadyOwnedException(){
+        //Setup(Given)
+        User userThatCreateTheCanasta = randomUserWithName("Ivan");
+        User userCarlos = randomUserWithName("Carlos");
+        User userGaby = randomUserWithName("Gaby");
+        List<Guest> listOfGuests = new ArrayList<>();
+
+        Guest guestCarlos = new Guest(userCarlos);
+        Guest guestGaby = new Guest(userGaby);
+
+        listOfGuests.add(guestCarlos);
+        listOfGuests.add(guestGaby);
+
+        CanastaGood beer = new CanastaGood("Beer",10,1);
+
+        List<Good> listOfGoods = new ArrayList<>();
+        listOfGoods.add(beer);
+
+        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
+        newCanasta.confirmUser(userCarlos);
+        newCanasta.confirmUser(userGaby);
+
+        //Exercise(When)
+        newCanasta.ownAGood(userCarlos,beer);
+        newCanasta.ownAGood(userGaby,beer);
 
     }
 
