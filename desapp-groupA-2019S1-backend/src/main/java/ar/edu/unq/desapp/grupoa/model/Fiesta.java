@@ -69,7 +69,7 @@ public class Fiesta {
         return this.limitConfirmationDateTime.isAfter(aLocalDateTimeToCompare);
     }
 
-    public boolean isClosed() {
+    public boolean eventIsClosed() {
         return this.getState().isClosed();
     }
 
