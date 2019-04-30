@@ -1,7 +1,6 @@
 package ar.edu.unq.desapp.grupoa.model;
 
 import ar.edu.unq.desapp.grupoa.model.account.Account;
-import ar.edu.unq.desapp.grupoa.model.account.MovementType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 
 public class AccountTest {
 
-    Integer randomAmount;
+    private Integer randomAmount;
 
     @Before
     public void setup() {
@@ -37,7 +36,7 @@ public class AccountTest {
         Account account = accountForUserWithRandomBalance();
         Integer balanceBefore = account.balance();
 
-        account.deposit(randomAmount,MovementType.CASH);
+        account.deposit(randomAmount);
 
         assertEquals(integer(balanceBefore + randomAmount), account.balance());
     }
@@ -47,10 +46,9 @@ public class AccountTest {
         Account account = accountForUserWithRandomBalance();
         Integer balanceBefore = account.balance();
 
-        Integer amountExtracted = account.extract(randomAmount);
+        account.extract(randomAmount);
 
         assertEquals(integer(balanceBefore - randomAmount), account.balance());
-        assertEquals(integer(randomAmount),amountExtracted);
     }
 
     @Test
@@ -59,7 +57,7 @@ public class AccountTest {
         Integer balanceBefore = account.balance();
         Integer debtBefore = account.debt();
 
-        account.addDebt(randomAmount);
+        account.debt(randomAmount);
 
         assertEquals(integer(balanceBefore + randomAmount), account.balance());
         assertEquals(integer(debtBefore + randomAmount), account.debt());
@@ -76,7 +74,7 @@ public class AccountTest {
         Integer balanceBefore = account.balance();
         Integer debtBefore = account.debt();
 
-        account.addDebt(-randomAmount);
+        account.debt(-randomAmount);
 
         assertEquals(integer(balanceBefore - randomAmount), account.balance());
         assertEquals(integer(debtBefore - randomAmount), account.debt());

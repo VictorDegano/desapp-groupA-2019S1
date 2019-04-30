@@ -7,13 +7,13 @@ import ar.edu.unq.desapp.grupoa.exception.UserDefaultException;
 import ar.edu.unq.desapp.grupoa.model.account.Account;
 import ar.edu.unq.desapp.grupoa.model.account.Credit;
 
-public class CreditService {
+public class LoanService {
 
-    private CreditService(){}
+    private LoanService(){}
 
     public static void takeLoan(Account account) {
        validateLoan(account);
-       account.addDebt(1000);
+       account.debt(1000);
 
     }
 
@@ -26,7 +26,7 @@ public class CreditService {
 
     public static void payQuota(Account account){
         validateQuota(account);
-        account.addDebt(-200);
+        account.payDebt(200);
     }
 
     private static void validateQuota(Account account) {

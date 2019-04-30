@@ -8,9 +8,9 @@ import ar.edu.unq.desapp.grupoa.model.account.Account;
 import ar.edu.unq.desapp.grupoa.model.account.Credit;
 import org.junit.Test;
 
-import static ar.edu.unq.desapp.grupoa.service.CreditService.getCredit;
-import static ar.edu.unq.desapp.grupoa.service.CreditService.payQuota;
-import static ar.edu.unq.desapp.grupoa.service.CreditService.takeLoan;
+import static ar.edu.unq.desapp.grupoa.service.LoanService.getCredit;
+import static ar.edu.unq.desapp.grupoa.service.LoanService.payQuota;
+import static ar.edu.unq.desapp.grupoa.service.LoanService.takeLoan;
 import static ar.edu.unq.desapp.grupoa.model.utils.StreamUtils.repeat;
 import static ar.edu.unq.desapp.grupoa.utils.Integer.integer;
 import static ar.edu.unq.desapp.grupoa.utils.factory.AccountFactory.accountForUserWithRandomBalance;
@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class CreditServiceTest {
+public class LoanServiceTest {
 
     @Test(expected = LoanOnCourseException.class)
     public void cantTakeALoadIfTheAccountAlreadyHasOneInCourse() {
@@ -36,7 +36,7 @@ public class CreditServiceTest {
 
         takeLoan(account);
 
-        assertFalse(CreditService.accountIsInDebt(account));
+        assertFalse(LoanService.accountIsInDebt(account));
     }
 
     @Test
@@ -49,7 +49,7 @@ public class CreditServiceTest {
 
         payQuota(account);
 
-        assertTrue(CreditService.accountIsInDebt(account));
+        assertTrue(LoanService.accountIsInDebt(account));
         assertEquals(integer(debtBefore-200), account.debt());
         assertEquals(integer(balanceBefore - 200), account.balance());
     }
@@ -68,7 +68,7 @@ public class CreditServiceTest {
 
         payUntilOneQuotaIsLeft(account);
         payQuota(account);
-        assertFalse(CreditService.accountIsInDebt(account));
+        assertFalse(LoanService.accountIsInDebt(account));
     }
 
     @Test(expected = NotEnoughCashToPerformOperation.class)
