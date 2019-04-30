@@ -25,26 +25,31 @@ public class Account {
     }
 
     public Account extract(Integer amount) {
-        return addMovement(Movement.extraction(amount));
+        return newMovement(Movement.extraction(amount));
     }
 
     public Account deposit(Integer amount) {
-        return addMovement(Movement.deposit(amount));
+        return newMovement(Movement.deposit(amount));
     }
 
     public Account debt(Integer amount) {
-        return addMovement(Movement.debt(amount));
+
+        return newMovement(Movement.debt(amount));
     }
 
     public Account payDebt(Integer amount) {
-        return addMovement(Movement.paydebt(amount));
+        return newMovement(Movement.paydebt(amount));
     }
 
 
-    private Account addMovement(Movement movement) {
+    private Account newMovement(Movement movement) {
+        return new Account(this.user,addMovement(movement));
+    }
+
+    private List<Movement> addMovement(Movement movement) {
         List<Movement> movements = new ArrayList<>(this.movements);
         movements.add(movement);
-        return new Account(this.user, movements);
+        return movements;
     }
 
 
