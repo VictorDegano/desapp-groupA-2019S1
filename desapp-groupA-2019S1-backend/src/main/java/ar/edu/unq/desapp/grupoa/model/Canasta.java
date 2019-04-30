@@ -26,7 +26,7 @@ public class Canasta {
     @Transient
     private List<Guest> guests;
     @Transient
-    private List<Good> goods;
+    private List<CanastaGood> goods;
     @Transient
     private CanastaState canastaState;
 
@@ -39,7 +39,7 @@ public class Canasta {
         this.setState(new CanastaStateInPreparation());
     }
 
-    public Canasta(String name, User organizer, List<Guest> guests, List<Good> goods) {
+    public Canasta(String name, User organizer, List<Guest> guests, List<CanastaGood> goods) {
         this.setName(name);
         this.setOrganizer(organizer);
         this.setGuests(guests);
@@ -71,11 +71,11 @@ public class Canasta {
         this.guests = guests;
     }
 
-    public List<Good> getGoods() {
+    public List<CanastaGood> getGoods() {
         return goods;
     }
 
-    public void setGoods(List<Good> goods) {
+    public void setGoods(List<CanastaGood> goods) {
         this.goods = goods;
     }
 
@@ -123,5 +123,6 @@ public class Canasta {
     public void closeCanasta() {
         this.setState(new CloseCanasta());
         this.guests.forEach((guest) -> { if(guest.isInvitationPending()){ guest.cancelInvitation();}});
+        this.goods.forEach((good) -> good.getUserThatOwnsTheGood().extract(good.totalCost()));
     }
 }
