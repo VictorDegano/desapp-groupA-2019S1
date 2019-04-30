@@ -6,6 +6,7 @@ import ar.edu.unq.desapp.grupoa.exception.ConfirmAsistanceException;
 import ar.edu.unq.desapp.grupoa.exception.OwnAGoodWithAnUnconfirmedGuestException;
 import ar.edu.unq.desapp.grupoa.model.canasta.states.CanastaState;
 import ar.edu.unq.desapp.grupoa.model.canasta.states.CanastaStateInPreparation;
+import ar.edu.unq.desapp.grupoa.model.canasta.states.CloseCanasta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
 import javax.persistence.*;
@@ -117,5 +118,10 @@ public class Canasta {
         }else{
             throw new GoodAlreadyOwnedException(this.getName(),user.getFirstName());
         }
+    }
+
+    public void closeCanasta() {
+        this.setState(new CloseCanasta());
+        this.guests.forEach((guest) -> { if(guest.isInvitationPending()){ guest.cancelInvitation();}});
     }
 }
