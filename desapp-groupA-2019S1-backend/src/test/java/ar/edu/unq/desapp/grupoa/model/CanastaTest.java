@@ -291,4 +291,35 @@ public class CanastaTest {
 
     }
 
+    @Test
+    public void whenACanastaIsClosedAllThePendingGuestConvertsToCancelled(){
+        //Setup(Given)
+        User userThatCreateTheCanasta = randomUserWithName("Ivan");
+        User userCarlos = randomUserWithName("Carlos");
+        User userGaby = randomUserWithName("Gaby");
+        List<Guest> listOfGuests = new ArrayList<>();
+
+        Guest guestCarlos = new Guest(userCarlos);
+        Guest guestGaby = new Guest(userGaby);
+
+        listOfGuests.add(guestCarlos);
+        listOfGuests.add(guestGaby);
+
+        List<Good> listOfGoods = new ArrayList<>();
+
+        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
+        newCanasta.confirmUser(userGaby);
+
+        //Exercise(When)
+        newCanasta.closeCanasta();
+        //Test(Then)
+        assertEquals("el guestGaby no esta ACCEPTED,y deberia estarlo porque se lo confirmo",
+                InvitationState.ACCEPTED,
+                guestGaby.getConfirmAsistance());
+        assertEquals("el estado de la invitacion del guestCarlos deberia estar cancelada porque se cerro la canasta ",
+                InvitationState.CANCELLED,
+                guestCarlos.getConfirmAsistance());
+
+    }
+
 }
