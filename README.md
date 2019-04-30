@@ -12,8 +12,12 @@ Ivan Jara            |[@jaraivan](https://github.com/jaraivan)          |    333
 ###### Travis
 [![Build Status](https://travis-ci.com/VictorDegano/desapp-groupA-2019S1.svg?token=drGKKQpy8a3rz3mat6Cb&branch=master)](https://travis-ci.com/VictorDegano/desapp-groupA-2019S1) Master Branch
 
+[![Build Status](https://travis-ci.com/VictorDegano/desapp-groupA-2019S1.svg?branch=dev)](https://travis-ci.com/VictorDegano/desapp-groupA-2019S1) Dev Branch 
+
 ###### Codacy
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/47b2d81337374aed89c69ab5251f75ee)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=VictorDegano/desapp-groupA-backend&amp;utm_campaign=Badge_Grade) Master Branch
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/47b2d81337374aed89c69ab5251f75ee?branch=master)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=VictorDegano/desapp-groupA-backend&amp;utm_campaign=Badge_Grade) Master Branch
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/47b2d81337374aed89c69ab5251f75ee?branch=dev)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=VictorDegano/desapp-groupA-backend&amp;utm_campaign=Badge_Grade) Dev Branch
 
 
 ## Enunciado
