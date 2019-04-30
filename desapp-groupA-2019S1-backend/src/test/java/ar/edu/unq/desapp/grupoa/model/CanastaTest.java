@@ -337,4 +337,36 @@ public class CanastaTest {
 
     }
 
+    @Test
+    public void whenACanastaClosesTheOrganizerPaysForAllTheGoodsThatWereNotBeOwned(){
+        //Setup(Given)
+        User userThatCreateTheCanasta = randomUserWithName("Ivan");
+        User userCarlos = randomUserWithName("Carlos");
+        List<Guest> listOfGuests = new ArrayList<>();
+
+        Guest guestCarlos = GuestBuilder.buildAGuest()
+                .withUser(userCarlos)
+                .build();
+
+        listOfGuests.add(guestCarlos);
+
+        listOfGoods.add(beer);
+
+        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
+        newCanasta.confirmUser(userCarlos);
+
+        userThatCreateTheCanasta.deposit(200, MovementType.CASH);
+        assertEquals("the initial balance should be 200",
+                Integer.valueOf(200),
+                userThatCreateTheCanasta.balance());
+
+        //Exercise(When)
+        newCanasta.closeCanasta();
+        //Test(Then)
+        assertEquals("the user account has the same money!!",
+                Integer.valueOf(190),
+                userThatCreateTheCanasta.balance());
+
+    }
+
 }
