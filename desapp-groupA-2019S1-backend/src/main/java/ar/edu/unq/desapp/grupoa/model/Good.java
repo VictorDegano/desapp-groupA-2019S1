@@ -43,4 +43,11 @@ public class Good {
     public Integer getFinalQuantity() { return this.finalQuantity;   }
     public void setFinalQuantity(Integer finalQuantity) {   this.finalQuantity = finalQuantity; }
 
+    protected Integer getPricePerUnit() {
+        return this.pricePerUnit;
+    }
+
+    protected Integer getQuantityForPerson() {
+        return this.quantityForPerson;
+    }
 }
