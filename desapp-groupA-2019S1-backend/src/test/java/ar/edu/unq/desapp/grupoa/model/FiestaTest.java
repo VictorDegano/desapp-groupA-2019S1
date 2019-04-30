@@ -18,13 +18,7 @@ public class FiestaTest {
     @Test
     public void whenAGuestConfirmTheAssistance_TheQuantityOfConfirmationsChangeAndTheGuestHaveYourConfirmationInTrue(){
         //Setup(Given)
-        User userToAssist = UserBuilder.buildAUser()
-                                       .withFirstName("Ivan")
-                                       .build();
-
-        Guest firstGuest = GuestBuilder.buildAGuest()
-                                       .withUser(userToAssist)
-                                       .build();
+        Guest firstGuest = GuestBuilder.buildAGuest().build();
 
         Fiesta fiestaSUT = FiestaBuilder.buildAFiesta()
                                         .addGuest(firstGuest)
@@ -46,21 +40,13 @@ public class FiestaTest {
     @Test
     public void whenAGuestConfirmTheAsistance_TheQuantityOfGoodsAreRecalculated(){
         //Setup(Given)
-        User userToAssist = UserBuilder.buildAUser()
-                                       .withFirstName("Ivan")
-                                       .build();
-
-        Guest firstGuest = GuestBuilder.buildAGuest()
-                                       .withUser(userToAssist)
-                                       .build();
+        Guest firstGuest = GuestBuilder.buildAGuest().build();
 
         Good beer = GoodBuilder.buildAGood()
-                               .withName("Beer")
                                .withQuantityForPerson(2)
                                .build();
 
         Good doritoPack  = GoodBuilder.buildAGood()
-                                      .withName("Dorito")
                                       .withQuantityForPerson(1)
                                       .build();
 
