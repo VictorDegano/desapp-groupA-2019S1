@@ -1,26 +1,24 @@
 package ar.edu.unq.desapp.grupoa.example;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Embeddable;
 
-@Entity
+@Embeddable
+//@MappedSuperclass you can use this annotation if you got a hierarchy of value objects.
 public class Item {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer id;
-
-    String name;
-
-    public Item(){ }
+    private final String itemName;
 
     public Item(String name){
-        this.name = name;
+        this.itemName = name;
     }
 
-    public String getName() {
-        return name;
+    public String getItemName() {
+        return itemName;
     }
+
+    //FOR JPA
+    private Item(){
+        itemName = null;
+    }
+
 }

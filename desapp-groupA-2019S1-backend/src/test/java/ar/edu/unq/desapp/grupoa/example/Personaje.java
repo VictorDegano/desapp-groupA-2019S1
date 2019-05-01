@@ -15,14 +15,20 @@ public class Personaje {
     private String  name;
     private Integer life;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    //For a collection of value objects you use this
+    @ElementCollection
     private Set<Item> items;
 
-    public Personaje(){}
+    //For only one, you can use this.
+    @Embedded
+    private Item itemfavorito;
+
+    private Personaje(){}
 
 
-    public Personaje(String name,Integer life ){
+    public Personaje(String name,Integer life, Item itemfavorito){
         this.items = new HashSet<>();
+        this.itemfavorito = itemfavorito;
         this.name = name;
         this.life = life;
     }
@@ -49,6 +55,6 @@ public class Personaje {
     }
 
     public boolean hasItem(Item item) {
-       return getItems().stream().anyMatch(personajeItem-> personajeItem.getName().equalsIgnoreCase(item.getName()));
+       return getItems().stream().anyMatch(personajeItem-> personajeItem.getItemName().equalsIgnoreCase(item.getItemName()));
     }
 }

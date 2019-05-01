@@ -45,7 +45,7 @@ public class MaguitoControllerTest {
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new Jdk8Module());
 
-        maguito = new Personaje("Maguito", 20);
+        maguito = new Personaje("Maguito", 20, new Item("sombrero de mago"));
     }
 
 
