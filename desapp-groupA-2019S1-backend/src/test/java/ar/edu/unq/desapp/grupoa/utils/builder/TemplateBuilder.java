@@ -1,8 +1,8 @@
 package ar.edu.unq.desapp.grupoa.utils.builder;
 
-import ar.edu.unq.desapp.grupoa.model.EventType;
-import ar.edu.unq.desapp.grupoa.model.Good;
-import ar.edu.unq.desapp.grupoa.model.Template;
+import ar.edu.unq.desapp.grupoa.model.event.EventType;
+import ar.edu.unq.desapp.grupoa.model.event.Template;
+import ar.edu.unq.desapp.grupoa.model.event.Good;
 
 import java.util.ArrayList;
 import java.util.List;
