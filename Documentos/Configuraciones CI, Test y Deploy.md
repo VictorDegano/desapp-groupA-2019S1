@@ -53,6 +53,9 @@ jobs:
       stage: Test
       language: java
       jdk: oraclejdk11
+      cache:
+        directories:
+          - $HOME/.m2
       before_install:
         - "sudo apt-get install jq"
         - "wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)"
@@ -69,8 +72,13 @@ jobs:
 
     -
       stage: "Deploy Back-end"
+      # require the branch name to be master (note for PRs this is the base branch name)
+      if: branch = master
       language: java
       jdk: oraclejdk11
+      cache:
+        directories:
+          - $HOME/.m2
       script: 
         - "cd desapp-groupA-2019S1-backend"
         - "mvn clean install -DskipTests=true"
@@ -84,6 +92,8 @@ jobs:
 
     -
       stage: "Deploy Front-end"
+      # require the branch name to be master (note for PRs this is the base branch name)
+      if: branch = master
       language: node_js
       node_js: "10"
       cache: npm
@@ -100,7 +110,7 @@ jobs:
         app: desapp-grupoa-2019s1-frontend
         strategy: api
 ```
-Como se ve, hay bastante configuracion. Pero para que se entienda la idea de jobs, se define asi:
+Como se ve, hay bastante configuracion, pero para que se entienda la idea de jobs se definen asi:
 
 ```
 jobs:
@@ -117,6 +127,7 @@ Para el test se realizo la siguiente configuracion:
 - El nombre del trabajo mediante `stage`
 - Se especifico el lenguaje Java mediante `language`
 - Para este caso se indico que version de jdk se utiliza (Se puede poner mas de 1), mediante `jdk`
+- Se especifico que se guarde la carpeta de dependencias de maven mediante `cache` y con la `directories`
 - Se indico en el `before_install` que se instale el paquete de reporte de covertura de codacy (Codacy se vera mas adelante).
 - Se instalo las dependencias de maven con `before-script` el cual ejecuta comandos antes de que se haga lo especificado en el `script`. Antes de instalar las dependencias se hizo un `cd` para moverse a la carpeta de backend y asi poder instalar las dependencias
 - Con el comando `script` se ejecuto los test
@@ -126,7 +137,8 @@ Para el test se realizo la siguiente configuracion:
 En esta estapa se definio como va a ser el deploy de nuestra aplicacion backend, el cual se va a hacer contra heroku(ya veremos mas adelante como configurar heroku). Para las configuraciones de lenguaje, jdk y nombre de stage se pusieron las mismas que para la etapa test.
 
 Ademas de eso se configuro:
-- En `script` se movio a la carpeta dle backend y se realizo un clean instal de las dependencias de maven salteandose los test.
+- Se especifico que solo ejecute el trabajo de deploy si es en la rama master. Esto se hace con `if: branch =`
+- En `script` se movio a la carpeta del backend y se realizo un clean instal de las dependencias de maven salteandose los test.
 - Con la palabra `deploy`, definimos como vamos a deployar la aplicacion: 	
 	- Especificamos a heroku como proveedor mediante `provider` 
 	- Indicamos a travis que no limpie archivos adicionales (Por defecto lo hace), mediante `skip_cleanup`
@@ -149,3 +161,125 @@ Configuracion:
 Hacer esto es sencillo, vamos a la pagina de travis y entramos al repositorio en el cual queremos definir la variable. En la pestaña `Settings` bajamos hasta el apartado *Environment Variables* y ahi podemos definir un nombre para la variable y su valor. Tras completar esos campos, con add, lo agregamos al repositorio y para acceder solo se tiene que llamar a la variable con `$` (Como se hace en la configuracion para la key de heroku).
 
 ##Configuracion de Codacy
+
+Primero y principal necesitamos tener una cuenta en Codacy para poder hacer el analisis del codigo de nuestro repo. Para agregar el repo a codacy, en la configuracion de nuestra cuenta de codacy podremos integrar nuestra cuenta de GitHub para visualizar los repos. Luego en la pagina principal solo hay que agregar el repo con la opcion "Add Project" donde nos listaran los repositoriso disponibles y seleccionaremos el nuestro.
+
+Ya con esto nuestro repositorio sera analisado y nos dara un reporte con codigo duplicado, issues, codigo complejo, cobertura, etc.
+
+
+##### Cobertura
+Para poder ver el procentaje de cobertura de nuestro codigo se necesita recibir un reporte de cobertura. Para esto vamos a utilizar JaCoCo, y codacy recibira este reporte a traves de Travis.
+
+######Codacy y Travis
+Para poder enviar los reportes desde travis hay que obtener un API Token. Para obtenerla vamos a nuestra configuracion de cuenta en codacy y en la seccion de API Tokens podremos generar el token. Este token se agregara como una variable de entorno `CODACY_PROJECT_TOKEN` en Travis.
+
+##Configuracion de JaCoCo
+Usaremos JaCoCo para enviar los reportes de cobertura a codacy y, tambien, para poner un limite de cobertura minima.
+
+Para poder utilizarlo necesitamos agregar el siguiente dependencia en el pom.xml:
+
+```
+<!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+<dependency>
+    <groupId>org.jacoco</groupId>
+    <artifactId>jacoco-maven-plugin</artifactId>
+    <version>0.8.3</version>
+</dependency>
+```
+
+Podemos agregar algunas rutas de configuracion como el directorio de salida y los directorio de los reportes:
+```
+<!-- Jacoco injects these variables in runtime from the configured plugin -->
+<jacoco.version>0.7.6.201602180812</jacoco.version>
+<jacoco.outputDir>${project.build.directory}</jacoco.outputDir>
+
+<jacoco.utreportpath>${project.build.directory}/jacoco</jacoco.utreportpath>
+<jacoco.utreportfile>${jacoco.utreportpath}/jacoco.exec</jacoco.utreportfile>
+
+<jacoco.itreportpath>${project.build.directory}/jacoco</jacoco.itreportpath>
+<jacoco.itreportfile>${jacoco.itreportpath}/jacoco-it.exec</jacoco.itreportfile>
+```
+
+Por ultimo para configurar el reporte a la hora de la ejecucion del maven se poneesta configuracion entre los tags de `<build><plugins> </plugins></build>`:
+```
+<plugin>
+    <groupId>org.jacoco</groupId>
+    <artifactId>jacoco-maven-plugin</artifactId>
+    <version>0.8.3</version>
+    <configuration>
+        <excludes>
+            <exclude></exclude>
+		</excludes>
+    </configuration>
+    <executions>
+        <execution>
+            <goals>
+                <goal>prepare-agent</goal>
+            </goals>
+        </execution>
+        <!-- attached to Maven test phase -->
+        <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals>
+                <goal>report</goal>
+            </goals>
+            <!-- default target/jscoco/site/* -->
+            <configuration>
+                <outputDirectory>target/jacoco-report</outputDirectory>
+            </configuration>
+        </execution>
+        <!--Check if the code reach the porcent of coverage-->
+        <execution>
+            <id>jacoco-check</id>
+            <goals>
+                <goal>check</goal>
+            </goals>
+            <configuration>
+                <rules>
+                    <rule>
+                        <element>PACKAGE</element>
+                        <limits>
+                            <limit>
+                                <counter>CLASS</counter>
+                                <value>COVEREDRATIO</value>
+                                <minimum>0.90</minimum>
+                            </limit>
+                        </limits>
+                    </rule>
+                </rules>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+```
+
+Las configuraciones mas importante son las siguientes:
+- `<excludes></excludes>` con estos tags podremos definir rutas, archivos o paquetes que queremos que queden excluidos de la cobertura. Estas rutas las definimos una por una entre los tagas `<exclude></exclude>`
+
+- Definicion de limites minimo de cobertura. Esto se puede definir en este tramo de codigo:
+```
+    <configuration>
+        <rules>
+            <rule>
+                <element>PACKAGE</element>
+                <limits>
+                    <limit>
+                        <counter>CLASS</counter>
+                        <value>COVEREDRATIO</value>
+                        <minimum>0.90</minimum>
+                    </limit>
+                </limits>
+            </rule>
+        </rules>
+    </configuration>
+```
+Con esto le decimos a Jacoco que por paquete la cobertura minima de las clases son de un 90%
+
+Ya con esto queda configurado y cada vez que se corra `maven test` se generara un reporte en la carpeta `target\jacoco-report\` el cual podremos ver abriendo el archivo ++**index.html**++.
+
+##Configuracion de Heroku
+
+Para poder deployar nuestra aplicacion en Heroku va a ser simple ya que la mayoria de la configuracion del deploy ya esta armado en la configuracion con la configuracion de travis. Una vez creada las aplicaciones solo necesitamos conseguir el token de seguridad de nuestra cuenta, esto se consigue yendo a la configuracion de nuestra cuenta en heroku y bajar hasta la opcion de `API key` donde podremos generar la clave. Esta clave se tiene que agregar como una variable de entorno en Travis bajo el nombre de `HEROKU_API_KEY.`
+
+Con esta configuracion cada vez que travis pase una build y este en la rama master, esta sera deployada en las aplicaciones de heroku.
