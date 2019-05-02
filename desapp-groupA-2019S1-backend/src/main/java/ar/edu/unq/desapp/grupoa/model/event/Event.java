@@ -1,7 +1,5 @@
 package ar.edu.unq.desapp.grupoa.model.event;
 
-import ar.edu.unq.desapp.grupoa.model.Good;
-import ar.edu.unq.desapp.grupoa.model.Guest;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import javax.persistence.*;
 import java.util.List;
