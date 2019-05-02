@@ -10,6 +10,7 @@ import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CloseCanasta;
 import ar.edu.unq.desapp.grupoa.exception.event.OwnAGoodWithAnUnconfirmedGuestException;
 
 import ar.edu.unq.desapp.grupoa.model.user.User;
+import ar.edu.unq.desapp.grupoa.utils.builder.CanastaBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,34 +25,36 @@ import static org.junit.Assert.assertFalse;
 public class CanastaTest {
     private CanastaGood beer;
     private List<CanastaGood> listOfGoods;
+    private User userThatCreateTheCanasta;
     @Before
     public void setUp(){
         beer = new CanastaGood("Beer",10,1);
         listOfGoods = new ArrayList<>();
+        userThatCreateTheCanasta = randomUserWithName("Ivan");
     }
 
     @Test
     public void whenAnUserCreatesACanastaWithANameTheGoodsListAndTheGuestsListAreEmpty(){
-        //Setup(Given)
-        User userThatCreateTheCanasta = randomUserWithName("Ivan");
 
         //Exercise(When)
-        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta);
-
+        Canasta newCanasta = CanastaBuilder.buildCanasta()
+                .withOrganizer(randomUserWithName("Ivan"))
+                .withName("Canastita")
+                .build();
         //Test(Then)
-        assertEquals("La lista de invitados esta vacia",
+        assertEquals("The Guests list should be empty at the initialization!",
                 0,
                 newCanasta.getGuests().size());
 
-        assertEquals("La lista de gastos esta vacia",
+        assertEquals("The Goods list should be empty at the initialization!",
                 0,
                 newCanasta.getGoods().size());
 
-        assertEquals("el organizador de la canasta es el usuario que la creo",
+        assertEquals("The organizer is wrong!",
                 userThatCreateTheCanasta.getFirstName(),
                 newCanasta.getOrganizer().getFirstName());
 
-        assertEquals("el nombre de la canasta es el correcto",
+        assertEquals("Canasta name is WRONG!",
                 "Canastita",
                 newCanasta.getName());
     }
@@ -59,10 +62,8 @@ public class CanastaTest {
     @Test
     public void whenAnUserCreatesACanastaWithANameTheGoodsListAndTheGuestsListAreTheOnesProvided(){
         //Setup(Given)
-        User userThatCreateTheCanasta = randomUserWithName("Ivan");
         User userCarlos = randomUserWithName("Carlos");
         User userJose = randomUserWithName("Jose");
-        List<Guest> listOfGuests = new ArrayList<>();
 
         Guest guestCarlos = GuestBuilder.buildAGuest()
         .withUser(userCarlos)
@@ -71,13 +72,14 @@ public class CanastaTest {
         .withUser(userJose)
         .build();
 
-        listOfGuests.add(guestCarlos);
-        listOfGuests.add(guestJose);
-
-        listOfGoods.add(beer);
-
         //Exercise(When)
-        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
+        Canasta newCanasta = CanastaBuilder.buildCanasta()
+                .withOrganizer(randomUserWithName("Ivan"))
+                .withName("Canastita")
+                .addGuest(guestCarlos)
+                .addGuest(guestJose)
+                .addGood(beer)
+                .build();
 
         //Test(Then)
         assertEquals("La lista de invitados tiene 2 invitados",
@@ -95,11 +97,10 @@ public class CanastaTest {
 
     @Test
     public void whenAnUserCreatesACanastaTheInitialStateIsOpen(){
-        //Setup(Given)
-        User userThatCreateTheCanasta = randomUserWithName("Ivan");
 
         //Exercise(When)
-        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta);
+        Canasta newCanasta = CanastaBuilder.buildCanasta()
+                .build();
 
         //Test(Then)
         assertTrue("El estado de la Canasta es en preparacion cuando se inicializa",
@@ -113,17 +114,17 @@ public class CanastaTest {
     @Test
     public void whenAUserIsConfirmInACanastaTheGuestThatRepresentsThatUserIsConfirmed(){
         //Setup(Given)
-        User userThatCreateTheCanasta = randomUserWithName("Ivan");
         User userCarlos = randomUserWithName("Carlos");
-        List<Guest> listOfGuests = new ArrayList<>();
 
         Guest guestCarlos = GuestBuilder.buildAGuest()
                 .withUser(userCarlos)
                 .build();
 
-        listOfGuests.add(guestCarlos);
-
-        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
+        Canasta newCanasta = CanastaBuilder.buildCanasta()
+                .withOrganizer(randomUserWithName("Ivan"))
+                .withName("Canastita")
+                .addGuest(guestCarlos)
+                .build();
         //Exercise(When)
         newCanasta.confirmUser(userCarlos);
 
@@ -147,18 +148,18 @@ public class CanastaTest {
     @Test(expected = ConfirmAsistanceException.class)
     public void whenAUserIsConfirmInACanastaAndItIsNotInTheGuestListTheConfirmationThrowsConfirmAsistanceException(){
         //Setup(Given)
-        User userThatCreateTheCanasta = randomUserWithName("Ivan");
         User userCarlos = randomUserWithName("Carlos");
         User userJose = randomUserWithName("Jose");
-        List<Guest> listOfGuests = new ArrayList<>();
 
         Guest guestCarlos = GuestBuilder.buildAGuest()
                 .withUser(userCarlos)
                 .build();
 
-        listOfGuests.add(guestCarlos);
-
-        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
+        Canasta newCanasta = CanastaBuilder.buildCanasta()
+                .withOrganizer(randomUserWithName("Ivan"))
+                .withName("Canastita")
+                .addGuest(guestCarlos)
+                .build();
         //Exercise(When)
         newCanasta.confirmUser(userJose);
 
@@ -167,18 +168,18 @@ public class CanastaTest {
     @Test(expected = ConfirmAsistanceException.class)
     public void whenAUserIsConfirmInACanastaAndItsCloseThrowsConfirmAsistanceException(){
         //Setup(Given)
-        User userThatCreateTheCanasta = randomUserWithName("Ivan");
         User userCarlos = randomUserWithName("Carlos");
-        List<Guest> listOfGuests = new ArrayList<>();
 
         Guest guestCarlos = GuestBuilder.buildAGuest()
                 .withUser(userCarlos)
                 .build();
 
-        listOfGuests.add(guestCarlos);
-
-        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
-        newCanasta.setState(new CloseCanasta());
+        Canasta newCanasta = CanastaBuilder.buildCanasta()
+                .withOrganizer(randomUserWithName("Ivan"))
+                .withName("Canastita")
+                .addGuest(guestCarlos)
+                .withClosedState()
+                .build();
         //Exercise(When)
         newCanasta.confirmUser(userCarlos);
 
@@ -187,19 +188,18 @@ public class CanastaTest {
     @Test
     public void whenACanastaAssignAGoodToAnUserThatGoodBelongsToThatUser(){
         //Setup(Given)
-        User userThatCreateTheCanasta = randomUserWithName("Ivan");
         User userCarlos = randomUserWithName("Carlos");
-        List<Guest> listOfGuests = new ArrayList<>();
 
         Guest guestCarlos = GuestBuilder.buildAGuest()
                 .withUser(userCarlos)
                 .build();
 
-        listOfGuests.add(guestCarlos);
-
-        listOfGoods.add(beer);
-
-        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
+        Canasta newCanasta = CanastaBuilder.buildCanasta()
+                .withOrganizer(randomUserWithName("Ivan"))
+                .withName("Canastita")
+                .addGuest(guestCarlos)
+                .addGood(beer)
+                .build();
         newCanasta.confirmUser(userCarlos);
         //Exercise(When)
         newCanasta.ownAGood(userCarlos,beer);
@@ -216,17 +216,18 @@ public class CanastaTest {
     @Test(expected = OwnAGoodWithAnUnconfirmedGuestException.class)
     public void whenACanastaAssignAGoodToAnUserThatIsNotConfirmedIsThrowsOwnAGoodWithAnUnconfirmedGuestException(){
         //Setup(Given)
-        User userThatCreateTheCanasta = randomUserWithName("Ivan");
         User userCarlos = randomUserWithName("Carlos");
-        List<Guest> listOfGuests = new ArrayList<>();
 
-        Guest guestCarlos = new Guest(userCarlos);
+        Guest guestCarlos = GuestBuilder.buildAGuest()
+                .withUser(userCarlos)
+                .build();
 
-        listOfGuests.add(guestCarlos);
-
-        listOfGoods.add(beer);
-
-        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
+        Canasta newCanasta = CanastaBuilder.buildCanasta()
+                .withOrganizer(randomUserWithName("Ivan"))
+                .withName("Canastita")
+                .addGuest(guestCarlos)
+                .addGood(beer)
+                .build();
         //Exercise(When)
         newCanasta.ownAGood(userCarlos,beer);
 
@@ -235,19 +236,21 @@ public class CanastaTest {
     @Test(expected = CanastaCloseException.class)
     public void whenACanastaAssignAGoodToAnUserAndTheCanastaIsCloseItThrowsCanastaCloseException(){
         //Setup(Given)
-        User userThatCreateTheCanasta = randomUserWithName("Ivan");
         User userCarlos = randomUserWithName("Carlos");
-        List<Guest> listOfGuests = new ArrayList<>();
 
-        Guest guestCarlos = new Guest(userCarlos);
+        Guest guestCarlos = GuestBuilder.buildAGuest()
+                .withUser(userCarlos)
+                .build();
 
-        listOfGuests.add(guestCarlos);
+        Canasta newCanasta = CanastaBuilder.buildCanasta()
+                .withOrganizer(randomUserWithName("Ivan"))
+                .withName("Canastita")
+                .addGuest(guestCarlos)
+                .addGood(beer)
+                .build();
 
-        listOfGoods.add(beer);
-
-        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
         newCanasta.confirmUser(userCarlos);
-        newCanasta.setState(new CloseCanasta());
+        newCanasta.closeCanasta();
         //Exercise(When)
         newCanasta.ownAGood(userCarlos,beer);
 
@@ -256,20 +259,23 @@ public class CanastaTest {
     @Test(expected = GoodAlreadyOwnedException.class)
     public void whenACanastaAssignAGoodToAnUserAndOtherUserWantToOwnTheSameGoodItThrowsGoodAlreadyOwnedException(){
         //Setup(Given)
-        User userThatCreateTheCanasta = randomUserWithName("Ivan");
         User userCarlos = randomUserWithName("Carlos");
         User userGaby = randomUserWithName("Gaby");
-        List<Guest> listOfGuests = new ArrayList<>();
 
-        Guest guestCarlos = new Guest(userCarlos);
-        Guest guestGaby = new Guest(userGaby);
+        Guest guestCarlos = GuestBuilder.buildAGuest()
+                .withUser(userCarlos)
+                .build();
+        Guest guestGaby = GuestBuilder.buildAGuest()
+                .withUser(userGaby)
+                .build();
 
-        listOfGuests.add(guestCarlos);
-        listOfGuests.add(guestGaby);
-
-        listOfGoods.add(beer);
-
-        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
+        Canasta newCanasta = CanastaBuilder.buildCanasta()
+                .withOrganizer(randomUserWithName("Ivan"))
+                .withName("Canastita")
+                .addGuest(guestCarlos)
+                .addGuest(guestGaby)
+                .addGood(beer)
+                .build();
         newCanasta.confirmUser(userCarlos);
         newCanasta.confirmUser(userGaby);
 
@@ -282,19 +288,25 @@ public class CanastaTest {
     @Test
     public void whenACanastaIsClosedAllThePendingGuestConvertsToCancelled(){
         //Setup(Given)
-        User userThatCreateTheCanasta = randomUserWithName("Ivan");
         User userCarlos = randomUserWithName("Carlos");
         User userGaby = randomUserWithName("Gaby");
-        List<Guest> listOfGuests = new ArrayList<>();
 
-        Guest guestCarlos = new Guest(userCarlos);
-        Guest guestGaby = new Guest(userGaby);
+        Guest guestCarlos = GuestBuilder.buildAGuest()
+                .withUser(userCarlos)
+                .withConfirmation(InvitationState.PENDING)
+                .build();
+        Guest guestGaby = GuestBuilder.buildAGuest()
+                .withUser(userGaby)
+                .withConfirmation(InvitationState.ACCEPTED)
+                .build();
 
-        listOfGuests.add(guestCarlos);
-        listOfGuests.add(guestGaby);
-
-        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
-        newCanasta.confirmUser(userGaby);
+        Canasta newCanasta = CanastaBuilder.buildCanasta()
+                .withOrganizer(randomUserWithName("Ivan"))
+                .withName("Canastita")
+                .addGuest(guestCarlos)
+                .addGuest(guestGaby)
+                .addGood(beer)
+                .build();
 
         //Exercise(When)
         newCanasta.closeCanasta();
@@ -311,19 +323,20 @@ public class CanastaTest {
     @Test
     public void whenACanastaAssignAGoodToAnUserAndTheCanastaClosesTheUserPayTheGood(){
         //Setup(Given)
-        User userThatCreateTheCanasta = randomUserWithName("Ivan");
         User userCarlos = randomUserWithName("Carlos");
-        List<Guest> listOfGuests = new ArrayList<>();
 
         Guest guestCarlos = GuestBuilder.buildAGuest()
                 .withUser(userCarlos)
+                .withConfirmation(InvitationState.PENDING)
                 .build();
 
-        listOfGuests.add(guestCarlos);
+        Canasta newCanasta = CanastaBuilder.buildCanasta()
+                .withOrganizer(randomUserWithName("Ivan"))
+                .withName("Canastita")
+                .addGuest(guestCarlos)
+                .addGood(beer)
+                .build();
 
-        listOfGoods.add(beer);
-
-        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
         newCanasta.confirmUser(userCarlos);
         newCanasta.ownAGood(userCarlos,beer);
         userCarlos.deposit(200);
@@ -343,19 +356,19 @@ public class CanastaTest {
     @Test
     public void whenACanastaClosesTheOrganizerPaysForAllTheGoodsThatWereNotBeOwned(){
         //Setup(Given)
-        User userThatCreateTheCanasta = randomUserWithName("Ivan");
         User userCarlos = randomUserWithName("Carlos");
-        List<Guest> listOfGuests = new ArrayList<>();
 
         Guest guestCarlos = GuestBuilder.buildAGuest()
                 .withUser(userCarlos)
+                .withConfirmation(InvitationState.PENDING)
                 .build();
 
-        listOfGuests.add(guestCarlos);
-
-        listOfGoods.add(beer);
-
-        Canasta newCanasta = new Canasta("Canastita",userThatCreateTheCanasta, listOfGuests,listOfGoods);
+        Canasta newCanasta = CanastaBuilder.buildCanasta()
+                .withOrganizer(userThatCreateTheCanasta)
+                .withName("Canastita")
+                .addGuest(guestCarlos)
+                .addGood(beer)
+                .build();
         newCanasta.confirmUser(userCarlos);
 
         userThatCreateTheCanasta.deposit(200);
