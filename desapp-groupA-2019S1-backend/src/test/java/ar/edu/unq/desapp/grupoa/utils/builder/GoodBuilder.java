@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoa.utils.builder;
 
-import ar.edu.unq.desapp.grupoa.model.Good;
+import ar.edu.unq.desapp.grupoa.model.event.Good;
 
 public class GoodBuilder {
 
