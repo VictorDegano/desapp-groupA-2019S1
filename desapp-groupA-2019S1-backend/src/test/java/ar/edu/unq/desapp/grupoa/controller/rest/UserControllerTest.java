@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoa.controller.rest;
 
 import ar.edu.unq.desapp.grupoa.TestConfig;
-import ar.edu.unq.desapp.grupoa.exception.UserNotFoundException;
+import ar.edu.unq.desapp.grupoa.exception.user.UserNotFoundException;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;

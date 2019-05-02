@@ -1,7 +1,6 @@
 package ar.edu.unq.desapp.grupoa.model.user;
 
 import ar.edu.unq.desapp.grupoa.model.account.Account;
-import ar.edu.unq.desapp.grupoa.model.account.MovementType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Column;
@@ -56,7 +55,7 @@ public class User {
         this.password = password;
         this.bornDay = bornDay;
         this.state = UserState.NORMAL;
-        this.account = new Account(this);
+        this.account = Account.newAccount(this);
     }
 
     public User(){}
@@ -111,8 +110,8 @@ public class User {
 
     public void setLastName(String lastName) {  this.lastName = lastName;   }
 
-    public void deposit(Integer amount, MovementType movementType) {
-        this.account.deposit(amount,movementType);
+    public void deposit(Integer amount) {
+        this.account = this.account.deposit(amount);
     }
 
     public Integer balance() {
@@ -120,6 +119,6 @@ public class User {
     }
 
     public void extract(Integer totalCost) {
-        this.account.extract(totalCost);
+        this.account = this.account.extract(totalCost);
     }
 }

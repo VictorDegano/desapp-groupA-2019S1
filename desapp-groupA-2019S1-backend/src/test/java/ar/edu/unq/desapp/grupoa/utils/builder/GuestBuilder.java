@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoa.utils.builder;
 
-import ar.edu.unq.desapp.grupoa.model.Guest;
-import ar.edu.unq.desapp.grupoa.model.InvitationState;
+import ar.edu.unq.desapp.grupoa.model.event.Guest;
+import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
 public class GuestBuilder {
