@@ -1,6 +1,7 @@
-package ar.edu.unq.desapp.grupoa.model.event;
+package ar.edu.unq.desapp.grupoa.model.event.fiesta.state;
 
 import ar.edu.unq.desapp.grupoa.exception.event.ConfirmationLimitException;
+import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 
 import java.time.LocalDateTime;

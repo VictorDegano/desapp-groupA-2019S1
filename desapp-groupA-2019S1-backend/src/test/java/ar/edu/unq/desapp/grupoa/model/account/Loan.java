@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.service;
+package ar.edu.unq.desapp.grupoa.model.account;
 
 import ar.edu.unq.desapp.grupoa.exception.account.LoanOnCourseException;
 import ar.edu.unq.desapp.grupoa.exception.account.NoLoanOnCourseException;
@@ -9,10 +9,10 @@ import ar.edu.unq.desapp.grupoa.model.account.Credit;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import org.junit.Test;
 
-import static ar.edu.unq.desapp.grupoa.service.LoanService.accountIsInDebt;
-import static ar.edu.unq.desapp.grupoa.service.LoanService.getCredit;
-import static ar.edu.unq.desapp.grupoa.service.LoanService.payQuota;
-import static ar.edu.unq.desapp.grupoa.service.LoanService.takeLoan;
+import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Loan.accountIsInDebt;
+import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Loan.getCredit;
+import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Loan.payQuota;
+import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Loan.takeLoan;
 import static ar.edu.unq.desapp.grupoa.utils.Integer.integer;
 import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.accountForRandomUser;
 import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.withDefaultedUser;
@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class LoanServiceTest {
+public class Loan {
 
     @Test(expected = LoanOnCourseException.class)
     public void cantTakeALoadIfTheAccountAlreadyHasOneInCourse() {

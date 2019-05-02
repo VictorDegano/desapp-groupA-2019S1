@@ -1,15 +1,15 @@
-package ar.edu.unq.desapp.grupoa.service;
+package ar.edu.unq.desapp.grupoa.model.account;
 
 import ar.edu.unq.desapp.grupoa.exception.account.NotEnoughCashToPerformOperation;
 import ar.edu.unq.desapp.grupoa.model.account.Account;
 import org.junit.Test;
 
-import static ar.edu.unq.desapp.grupoa.service.PaymentService.extract;
+import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.extract;
 import static ar.edu.unq.desapp.grupoa.utils.Integer.integer;
 import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.accountForRandomUser;
 import static org.junit.Assert.assertEquals;
 
-public class PaymentServiceTest {
+public class Payment {
 
 
     @Test(expected = NotEnoughCashToPerformOperation.class)
