@@ -5,17 +5,12 @@ import ar.edu.unq.desapp.grupoa.exception.event.GoodAlreadyOwnedException;
 import ar.edu.unq.desapp.grupoa.exception.event.ConfirmAsistanceException;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
-import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CloseCanasta;
-
 import ar.edu.unq.desapp.grupoa.exception.event.OwnAGoodWithAnUnconfirmedGuestException;
-
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.utils.builder.CanastaBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;
 import org.junit.Before;
 import org.junit.Test;
-import java.util.ArrayList;
-import java.util.List;
 
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUserWithName;
 import static junit.framework.TestCase.assertEquals;
@@ -24,12 +19,10 @@ import static org.junit.Assert.assertFalse;
 
 public class CanastaTest {
     private CanastaGood beer;
-    private List<CanastaGood> listOfGoods;
     private User userThatCreateTheCanasta;
     @Before
     public void setUp(){
         beer = new CanastaGood("Beer",10,1);
-        listOfGoods = new ArrayList<>();
         userThatCreateTheCanasta = randomUserWithName("Ivan");
     }
 
