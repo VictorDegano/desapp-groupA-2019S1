@@ -33,6 +33,8 @@ public class Canasta {
     @Transient
     private CanastaState canastaState;
 
+    public Canasta(){
+    }
 
     public Canasta(String name, User organizer) {
         this.setName(name);
