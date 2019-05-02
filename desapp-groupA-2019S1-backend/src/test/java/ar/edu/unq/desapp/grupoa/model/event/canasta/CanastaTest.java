@@ -3,7 +3,6 @@ package ar.edu.unq.desapp.grupoa.model.event.canasta;
 import ar.edu.unq.desapp.grupoa.exception.event.CanastaCloseException;
 import ar.edu.unq.desapp.grupoa.exception.event.GoodAlreadyOwnedException;
 import ar.edu.unq.desapp.grupoa.exception.event.ConfirmAsistanceException;
-import ar.edu.unq.desapp.grupoa.model.account.movement.MovementType;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CloseCanasta;
