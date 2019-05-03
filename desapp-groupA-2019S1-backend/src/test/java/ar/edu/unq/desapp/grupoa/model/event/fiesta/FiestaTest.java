@@ -7,7 +7,6 @@ import ar.edu.unq.desapp.grupoa.exception.event.ConfirmationLimitException;
 import ar.edu.unq.desapp.grupoa.exception.event.InvalidTemplateException;
 import ar.edu.unq.desapp.grupoa.model.event.EventType;
 import ar.edu.unq.desapp.grupoa.model.event.Template;
-import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.InvitationState;

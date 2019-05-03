@@ -14,7 +14,7 @@ import static ar.edu.unq.desapp.grupoa.service.LoanService.getCredit;
 import static ar.edu.unq.desapp.grupoa.service.LoanService.payQuota;
 import static ar.edu.unq.desapp.grupoa.service.LoanService.takeLoan;
 import static ar.edu.unq.desapp.grupoa.utils.Integer.integer;
-import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.accountForRandomUser;
+import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.newAccountForRandomUser;
 import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.withDefaultedUser;
 import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.withLoan;
 import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.withLoanAndNoBalance;
@@ -27,14 +27,14 @@ public class LoanServiceTest {
 
     @Test(expected = LoanOnCourseException.class)
     public void cantTakeALoadIfTheAccountAlreadyHasOneInCourse() {
-        Account account = accountForRandomUser(withRandomBalance());
+        Account account = newAccountForRandomUser(withRandomBalance());
 
         takeLoan(takeLoan(account));
     }
 
     @Test(expected = UserDefaultException.class)
     public void cantTakeALoadIfTheAccountUserHasDefaulted() {
-        Account account = accountForRandomUser(withDefaultedUser());
+        Account account = newAccountForRandomUser(withDefaultedUser());
 
         Account accountLoaned = takeLoan(account);
 
@@ -43,7 +43,7 @@ public class LoanServiceTest {
 
     @Test
     public void aQuoteOfTheLoanIsPaid() {
-        Account account = accountForRandomUser(withLoan(),withRandomBalance());
+        Account account = newAccountForRandomUser(withLoan(),withRandomBalance());
 
         Integer balanceBefore = account.balance();
         Integer debtBefore    = account.debt();
@@ -58,14 +58,14 @@ public class LoanServiceTest {
 
     @Test(expected = NoLoanOnCourseException.class)
     public void aQuoteOfTheLoanIsPaidWhenNoLoanIsOnCourse() {
-        Account account= accountForRandomUser(withRandomBalance());
+        Account account= newAccountForRandomUser(withRandomBalance());
 
         payQuota(account);
     }
 
     @Test
     public void lastQuoteOfTheLoanIsPaid() {
-        Account account = accountForRandomUser(withLoan(),withRandomBalance());
+        Account account = newAccountForRandomUser(withLoan(),withRandomBalance());
 
         Account accountAfterPayedQuota= payQuota(payUntilOneQuotaIsLeft(account));
         assertFalse(accountIsInDebt(accountAfterPayedQuota));
@@ -73,7 +73,7 @@ public class LoanServiceTest {
 
     @Test(expected = NotEnoughCashToPerformOperation.class)
     public void aQuoteIsPaidWhenAccountDoesntHasEnoughMoneyToCoverTheQuoteAndTheUserDefaults() {
-        Account account = accountForRandomUser(withLoanAndNoBalance());
+        Account account = newAccountForRandomUser(withLoanAndNoBalance());
 
         User accountUser =  account.getUser();
         assertFalse(accountUser.hasDefaulted());
@@ -85,7 +85,7 @@ public class LoanServiceTest {
 
     @Test
     public void returnCreditOnCourseOfNormalUserWith5QuotasToPay() {
-        Account account = accountForRandomUser(withLoan(),withRandomBalance());
+        Account account = newAccountForRandomUser(withLoan(),withRandomBalance());
 
         Credit credit = getCredit(account);
 
