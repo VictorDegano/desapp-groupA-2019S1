@@ -1,12 +1,15 @@
 package ar.edu.unq.desapp.grupoa.utils.builder;
 
 import ar.edu.unq.desapp.grupoa.model.account.Account;
-import java.util.Arrays;
+
 import java.util.function.Function;
 
 import static ar.edu.unq.desapp.grupoa.model.account.Account.newAccount;
-import static ar.edu.unq.desapp.grupoa.service.LoanService.takeLoan;
+
 import static ar.edu.unq.desapp.grupoa.utils.ComposeFunctions.compose;
+
+import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Loan.takeLoan;
+
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomNumber;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;
 

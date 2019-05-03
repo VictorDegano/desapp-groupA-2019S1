@@ -17,4 +17,9 @@ public class CanastaGood extends Good {
     public void setUserThatOwnsTheGood(User userThatOwnsTheGood) {
         this.userThatOwnsTheGood = userThatOwnsTheGood;
     }
+
+    @Override
+    public Integer totalCost() {
+        return this.getPricePerUnit() * this.getQuantityForPerson();
+    }
 }

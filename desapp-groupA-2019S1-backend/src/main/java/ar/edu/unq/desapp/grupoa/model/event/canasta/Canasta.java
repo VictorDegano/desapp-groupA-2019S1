@@ -4,12 +4,12 @@ import ar.edu.unq.desapp.grupoa.exception.event.CanastaCloseException;
 import ar.edu.unq.desapp.grupoa.exception.event.GoodAlreadyOwnedException;
 import ar.edu.unq.desapp.grupoa.exception.event.ConfirmAsistanceException;
 import ar.edu.unq.desapp.grupoa.exception.event.OwnAGoodWithAnUnconfirmedGuestException;
-import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CanastaState;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CanastaStateInPreparation;
 
+import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CloseCanasta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
 import javax.persistence.*;
@@ -29,10 +29,12 @@ public class Canasta {
     @Transient
     private List<Guest> guests;
     @Transient
-    private List<Good> goods;
+    private List<CanastaGood> goods;
     @Transient
     private CanastaState canastaState;
 
+    public Canasta(){
+    }
 
     public Canasta(String name, User organizer) {
         this.setName(name);
@@ -42,7 +44,7 @@ public class Canasta {
         this.setState(new CanastaStateInPreparation());
     }
 
-    public Canasta(String name, User organizer, List<Guest> guests, List<Good> goods) {
+    public Canasta(String name, User organizer, List<Guest> guests, List<CanastaGood> goods) {
         this.setName(name);
         this.setOrganizer(organizer);
         this.setGuests(guests);
@@ -74,11 +76,11 @@ public class Canasta {
         this.guests = guests;
     }
 
-    public List<Good> getGoods() {
+    public List<CanastaGood> getGoods() {
         return goods;
     }
 
-    public void setGoods(List<Good> goods) {
+    public void setGoods(List<CanastaGood> goods) {
         this.goods = goods;
     }
 
@@ -121,5 +123,17 @@ public class Canasta {
         }else{
             throw new GoodAlreadyOwnedException(this.getName(),user.getFirstName());
         }
+    }
+
+    public void closeCanasta() {
+        this.setState(new CloseCanasta());
+        this.guests.forEach((guest) -> { if(guest.isInvitationPending()){ guest.cancelInvitation();}});
+        this.goods.forEach((good) -> {
+            if (good.getUserThatOwnsTheGood() != null) {
+                good.getUserThatOwnsTheGood().extract(good.totalCost());
+            } else{
+                this.getOrganizer().extract(good.totalCost());
+                 }});
+
     }
 }
