@@ -33,12 +33,13 @@ public class Good {
     [}-{]----------[GETTER & SETTER METHODS]----------[}-{]
     [}-{]---------------------------------------------[}-{]**/
 
-    public String getName() {   return name;    }
+    public String getName() {   return this.name;    }
     public void setName(String name) {  this.name = name;   }
 
     public void setPricePerUnit(Integer pricePerUnit) { this.pricePerUnit = pricePerUnit;   }
 
     public void setQuantityForPerson(Integer quantityForPerson) {   this.quantityForPerson = quantityForPerson; }
+    public Integer getQuantityForPerson() { return this.quantityForPerson;   }
 
     public Integer getFinalQuantity() { return this.finalQuantity;   }
     public void setFinalQuantity(Integer finalQuantity) {   this.finalQuantity = finalQuantity; }

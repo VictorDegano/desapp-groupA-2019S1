@@ -2,12 +2,9 @@ package ar.edu.unq.desapp.grupoa.model.event.fiesta;
 
 
 import ar.edu.unq.desapp.grupoa.exception.event.InvalidTemplateException;
-import ar.edu.unq.desapp.grupoa.model.event.EventType;
-import ar.edu.unq.desapp.grupoa.model.event.Template;
-import ar.edu.unq.desapp.grupoa.model.event.Good;
-import ar.edu.unq.desapp.grupoa.model.event.Guest;
-import ar.edu.unq.desapp.grupoa.model.event.FiestaState;
-import ar.edu.unq.desapp.grupoa.model.event.OpenFiesta;
+import ar.edu.unq.desapp.grupoa.model.event.*;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.state.FiestaState;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.state.OpenFiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.exception.event.ConfirmAsistanceException;
 import javax.persistence.*;
@@ -15,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-public class Fiesta {
+public class Fiesta extends Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

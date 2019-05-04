@@ -3,23 +3,17 @@ package ar.edu.unq.desapp.grupoa.model.event.canasta;
 import ar.edu.unq.desapp.grupoa.exception.event.CanastaCloseException;
 import ar.edu.unq.desapp.grupoa.exception.event.GoodAlreadyOwnedException;
 import ar.edu.unq.desapp.grupoa.exception.event.ConfirmAsistanceException;
-
-import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
-import ar.edu.unq.desapp.grupoa.model.event.canasta.CanastaGood;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CloseCanasta;
-
 import ar.edu.unq.desapp.grupoa.exception.event.OwnAGoodWithAnUnconfirmedGuestException;
-
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.utils.builder.GoodBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
-
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUserWithName;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
@@ -38,11 +32,11 @@ public class CanastaTest {
         //Test(Then)
         assertEquals("La lista de invitados esta vacia",
                 0,
-                newCanasta.getGuests().size());
+                newCanasta.getGuest().size());
 
         assertEquals("La lista de gastos esta vacia",
                 0,
-                newCanasta.getGoods().size());
+                newCanasta.getGoodsForGuest().size());
 
         assertEquals("el organizador de la canasta es el usuario que la creo",
                 userThatCreateTheCanasta.getFirstName(),
@@ -85,11 +79,11 @@ public class CanastaTest {
         //Test(Then)
         assertEquals("La lista de invitados tiene 2 invitados",
                 2,
-                newCanasta.getGuests().size());
+                newCanasta.getGuest().size());
 
         assertEquals("La lista de gastos tiene 1 item",
                 1,
-                newCanasta.getGoods().size());
+                newCanasta.getGoodsForGuest().size());
 
         assertEquals("el organizador de la canasta es el usuario que la creo",
                 userThatCreateTheCanasta.getFirstName(),
@@ -135,11 +129,11 @@ public class CanastaTest {
         //Test(Then)
         assertEquals("La lista de invitados tiene 1 invitados",
                 1,
-                newCanasta.getGuests().size());
+                newCanasta.getGuest().size());
 
         assertEquals("La lista de gastos tiene 0 items",
                 0,
-                newCanasta.getGoods().size());
+                newCanasta.getGoodsForGuest().size());
 
         assertEquals("el organizador de la canasta es el usuario que la creo",
                 userThatCreateTheCanasta.getFirstName(),

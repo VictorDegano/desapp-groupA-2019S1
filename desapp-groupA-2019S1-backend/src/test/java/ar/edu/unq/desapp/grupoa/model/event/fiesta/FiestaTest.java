@@ -3,22 +3,18 @@ package ar.edu.unq.desapp.grupoa.model.event.fiesta;
 import ar.edu.unq.desapp.grupoa.exception.event.CloseEventException;
 import ar.edu.unq.desapp.grupoa.exception.event.ConfirmAsistanceException;
 import ar.edu.unq.desapp.grupoa.exception.event.ConfirmationLimitException;
-
 import ar.edu.unq.desapp.grupoa.exception.event.InvalidTemplateException;
 import ar.edu.unq.desapp.grupoa.model.event.EventType;
 import ar.edu.unq.desapp.grupoa.model.event.Template;
-import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
-
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.utils.builder.*;
 import org.junit.Test;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.Assert.*;
 
 public class FiestaTest {
