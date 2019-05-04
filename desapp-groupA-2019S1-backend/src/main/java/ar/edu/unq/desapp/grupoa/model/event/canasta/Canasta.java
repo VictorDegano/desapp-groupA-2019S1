@@ -39,6 +39,8 @@ public class Canasta extends Event {
         }
         return new Canasta(name, organizer, guests, template.getGoodsForEvent());
     }
+    public Canasta(){
+    }
 
     public Canasta(String name, User organizer) {
         this.setName(name);
@@ -54,6 +56,38 @@ public class Canasta extends Event {
         this.setGuest(guests);
         this.setGoodsForGuest(goods);
         this.setState(new CanastaStateInPreparation());
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public User getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(User organizer) {
+        this.organizer = organizer;
+    }
+
+    public List<Guest> getGuests() {
+        return guests;
+    }
+
+    public void setGuests(List<Guest> guests) {
+        this.guests = guests;
+    }
+
+    public List<CanastaGood> getGoods() {
+        return goods;
+    }
+
+    public void setGoods(List<CanastaGood> goods) {
+        this.goods = goods;
     }
 
     public CanastaState getState() {
@@ -95,5 +129,17 @@ public class Canasta extends Event {
         }else{
             throw new GoodAlreadyOwnedException(this.getName(),user.getFirstName());
         }
+    }
+
+    public void closeCanasta() {
+        this.setState(new CloseCanasta());
+        this.guests.forEach((guest) -> { if(guest.isInvitationPending()){ guest.cancelInvitation();}});
+        this.goods.forEach((good) -> {
+            if (good.getUserThatOwnsTheGood() != null) {
+                good.getUserThatOwnsTheGood().extract(good.totalCost());
+            } else{
+                this.getOrganizer().extract(good.totalCost());
+                 }});
+
     }
 }

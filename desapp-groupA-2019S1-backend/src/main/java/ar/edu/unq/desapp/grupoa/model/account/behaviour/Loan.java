@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.service;
+package ar.edu.unq.desapp.grupoa.model.account.behaviour;
 
 import ar.edu.unq.desapp.grupoa.exception.account.LoanOnCourseException;
 import ar.edu.unq.desapp.grupoa.exception.account.NoLoanOnCourseException;
@@ -7,9 +7,9 @@ import ar.edu.unq.desapp.grupoa.exception.account.UserDefaultException;
 import ar.edu.unq.desapp.grupoa.model.account.Account;
 import ar.edu.unq.desapp.grupoa.model.account.Credit;
 
-public class LoanService {
+public class Loan {
 
-    private LoanService(){}
+    private Loan(){}
 
     public static Account takeLoan(Account account) {
        validateLoan(account);
