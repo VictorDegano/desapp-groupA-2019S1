@@ -3,10 +3,7 @@ package ar.edu.unq.desapp.grupoa.model.event.createstrategy;
 import ar.edu.unq.desapp.grupoa.model.event.*;
 import ar.edu.unq.desapp.grupoa.model.event.createstrategy.CreateFiestaStrategy;
 import ar.edu.unq.desapp.grupoa.model.user.User;
-import ar.edu.unq.desapp.grupoa.utils.builder.GoodBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builder.TemplateBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builder.UserBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.*;
 import org.junit.Before;
 import org.junit.Test;
 import java.time.LocalDateTime;
@@ -55,11 +52,11 @@ public class CreateFiestaStrategyTest {
 
         Guest firstGuest = GuestBuilder.buildAGuest().build();
 
-        Good beer = GoodBuilder.buildAGood()
+        Good beer = FiestaGoodBuilder.buildAGood()
                                .withQuantityForPerson(2)
                                .build();
 
-        Good doritoPack  = GoodBuilder.buildAGood()
+        Good doritoPack  = FiestaGoodBuilder.buildAGood()
                                       .withQuantityForPerson(1)
                                       .build();
 

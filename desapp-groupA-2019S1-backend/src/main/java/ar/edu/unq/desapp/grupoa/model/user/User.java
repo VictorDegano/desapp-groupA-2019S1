@@ -121,4 +121,8 @@ public class User {
     public void extract(Integer totalCost) {
         this.account = this.account.extract(totalCost);
     }
+
+    public String fullName(){
+        return this.getFirstName() + ' ' + this.getLastName();
+    }
 }

@@ -1,20 +1,21 @@
 package ar.edu.unq.desapp.grupoa.model.event.canasta;
 
-import ar.edu.unq.desapp.grupoa.exception.event.CanastaCloseException;
-import ar.edu.unq.desapp.grupoa.exception.event.GoodAlreadyOwnedException;
-import ar.edu.unq.desapp.grupoa.exception.event.ConfirmAsistanceException;
-import ar.edu.unq.desapp.grupoa.model.event.Good;
+import ar.edu.unq.desapp.grupoa.exception.event.*;
+import ar.edu.unq.desapp.grupoa.model.event.EventType;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
-import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CloseCanasta;
-import ar.edu.unq.desapp.grupoa.exception.event.OwnAGoodWithAnUnconfirmedGuestException;
+import ar.edu.unq.desapp.grupoa.model.event.Template;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.utils.builder.CanastaBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.TemplateBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.UserBuilder;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.util.ArrayList;
-import java.util.List;
+
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUserWithName;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
@@ -246,7 +247,7 @@ public class CanastaTest {
                 .build();
 
         newCanasta.confirmUser(userCarlos);
-        newCanasta.closeCanasta();
+        newCanasta.close();
         //Exercise(When)
         newCanasta.ownAGood(userCarlos,beer);
 
@@ -305,7 +306,7 @@ public class CanastaTest {
                 .build();
 
         //Exercise(When)
-        newCanasta.closeCanasta();
+        newCanasta.close();
         //Test(Then)
         assertEquals("el guestGaby no esta ACCEPTED,y deberia estarlo porque se lo confirmo",
                 InvitationState.ACCEPTED,
@@ -341,7 +342,7 @@ public class CanastaTest {
                 userCarlos.balance());
 
         //Exercise(When)
-        newCanasta.closeCanasta();
+        newCanasta.close();
         //Test(Then)
         assertEquals("the user account has the same money!!",
                 Integer.valueOf(190),
@@ -373,7 +374,7 @@ public class CanastaTest {
                 userThatCreateTheCanasta.balance());
 
         //Exercise(When)
-        newCanasta.closeCanasta();
+        newCanasta.close();
         //Test(Then)
         assertEquals("the user account has the same money!!",
                 Integer.valueOf(190),
@@ -381,4 +382,37 @@ public class CanastaTest {
 
     }
 
+    @Test(expected = InvalidTemplateException.class)
+    public void ifTryCreateACanastaWithATemplateAndTheTemplateNotIsForCanasta_GetAnException(){
+        //Setup(Given)
+        Template baquitaComunitariaVaciaTemplate = TemplateBuilder.buildATemplate()
+                                                       .withEventType(EventType.BAQUITA_COMUNITARIA)
+                                                       .build();
+
+        //Exercise(Exercise)
+        Fiesta.createWithATemplate("", null, new ArrayList<>(), null, baquitaComunitariaVaciaTemplate);
+
+        //Test(Test)
+    }
+
+    @Test
+    public void inAOpenCanastaIfTryToConfirmAsistanceOfAInvitedGuest_TheConfirmationOcurrs(){
+        //Setup(Given)
+        User userToAssist = UserBuilder.buildAUser().build();
+
+        Guest guest = GuestBuilder.buildAGuest()
+                                  .withUser(userToAssist)
+                                  .build();
+
+        Canasta canastaSUT = CanastaBuilder.buildCanasta()
+                                           .withOpenState()
+                                           .addGuest(guest)
+                                           .build();
+
+        //Exercise(When)
+        canastaSUT.confirmAsistancesOf(guest);
+
+        //Test(Then)
+        assertEquals(InvitationState.ACCEPTED, guest.getConfirmAsistance());
+    }
 }

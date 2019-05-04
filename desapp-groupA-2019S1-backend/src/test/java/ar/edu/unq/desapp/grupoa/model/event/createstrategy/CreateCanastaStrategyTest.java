@@ -2,10 +2,7 @@ package ar.edu.unq.desapp.grupoa.model.event.createstrategy;
 
 import ar.edu.unq.desapp.grupoa.model.event.*;
 import ar.edu.unq.desapp.grupoa.model.user.User;
-import ar.edu.unq.desapp.grupoa.utils.builder.GoodBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builder.TemplateBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builder.UserBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -56,13 +53,13 @@ public class CreateCanastaStrategyTest {
 
         Guest firstGuest = GuestBuilder.buildAGuest().build();
 
-        Good beer = GoodBuilder.buildAGood()
-                               .withQuantityForPerson(4)
-                               .build();
-
-        Good doritoPack  = GoodBuilder.buildAGood()
-                                      .withQuantityForPerson(33)
+        Good beer = CanastaGoodBuilder.buildAGood()
+                                      .withQuantityForPerson(4)
                                       .build();
+
+        Good doritoPack  = CanastaGoodBuilder.buildAGood()
+                                             .withQuantityForPerson(33)
+                                             .build();
 
         Template canastaTemplate = TemplateBuilder.buildATemplate()
                                                   .addGood(beer)

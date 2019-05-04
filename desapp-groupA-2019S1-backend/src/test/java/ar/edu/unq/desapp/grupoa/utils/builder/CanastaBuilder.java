@@ -15,8 +15,8 @@ public class CanastaBuilder {
 
     private CanastaBuilder(){
         this.canasta = new Canasta();
-        this.canasta.setGoods(new ArrayList<>());
-        this.canasta.setGuests(new ArrayList<>());
+        this.canasta.setGoodsForGuest(new ArrayList<>());
+        this.canasta.setGuest(new ArrayList<>());
     }
 
     public static CanastaBuilder buildCanasta(){
@@ -29,13 +29,13 @@ public class CanastaBuilder {
     }
 
     public CanastaBuilder addGuest(Guest aGuest){
-        this.canasta.getGuests()
+        this.canasta.getGuest()
                    .add(aGuest);
         return this;
     }
 
     public CanastaBuilder addGood(CanastaGood aCanastaGood){
-        this.canasta.getGoods()
+        this.canasta.getGoodsForGuest()
                    .add(aCanastaGood);
         return this;
     }

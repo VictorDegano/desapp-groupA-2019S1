@@ -1,15 +1,12 @@
 package ar.edu.unq.desapp.grupoa.model.event;
 
+import ar.edu.unq.desapp.grupoa.exception.event.InvitationException;
+import ar.edu.unq.desapp.grupoa.exception.event.InvitationLimitException;
 import ar.edu.unq.desapp.grupoa.model.user.User;
-import ar.edu.unq.desapp.grupoa.utils.builder.GoodBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builder.TemplateBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builder.UserBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.*;
 import org.junit.Test;
-
 import java.time.LocalDateTime;
 import java.util.Arrays;
-
 import static org.junit.Assert.*;
 
 public class EventTest {
@@ -23,9 +20,9 @@ public class EventTest {
 
         Guest firstGuest = GuestBuilder.buildAGuest().build();
 
-        Good beer = GoodBuilder.buildAGood()
-                               .withQuantityForPerson(1)
-                               .build();
+        Good beer = CanastaGoodBuilder.buildAGood()
+                                      .withQuantityForPerson(1)
+                                      .build();
 
         Template fiestaTemplate = TemplateBuilder.buildATemplate()
                                                  .addGood(beer)
@@ -44,5 +41,77 @@ public class EventTest {
         assertEquals(1, eventCreated.getGoodsForGuest().size());
         assertEquals(Integer.valueOf(1), eventCreated.getGoodsForGuest().get(0).getQuantityForPerson());
         assertEquals(beer, eventCreated.getGoodsForGuest().get(0));
+    }
+
+    @Test(expected = InvitationLimitException.class)
+    public void whenTryToinviteAUserAndTheEventIsClosed_GetAException(){
+        //Setup(Given)
+        Event anyEvent = FiestaBuilder.buildAFiesta().withClosedState().build();
+
+        User anyUser = UserBuilder.buildAUser().build();
+
+        //Exercise(When)
+        anyEvent.inviteUser(anyUser);
+
+        //Test(Then)
+    }
+
+    @Test(expected = InvitationException.class)
+    public void whenTryToInviteAUserAndTheEventAlreadyHaveAtTheUserHasAGuest_GetAException(){
+        //Setup(Given)
+        User aUser = UserBuilder.buildAUser()
+                                .withFirstName("Pepe")
+                                .withLastName("Locura")
+                                .build();
+
+        Guest guest = GuestBuilder.buildAGuest()
+                                  .withUser(aUser)
+                                  .build();
+
+        Event anyEvent = FiestaBuilder.buildAFiesta()
+                                      .addGuest(guest)
+                                      .withLimitConfirmationDateTime(LocalDateTime.now().plusDays(2))
+                                      .withOpenState()
+                                      .build();
+
+        //Exercise(When)
+        anyEvent.inviteUser(aUser);
+
+        //Test(Then)
+    }
+
+    @Test
+    public void whenTryToInviteAUserAndTheEventIsOpenAndDontHaveItAsAGuest_TheUserIsInvited(){
+        //Setup(Given)
+        User aUser = UserBuilder.buildAUser()
+                                .build();
+
+        Event anyEvent = FiestaBuilder.buildAFiesta()
+                                      .withLimitConfirmationDateTime(LocalDateTime.now().plusDays(2))
+                                      .withOpenState()
+                                      .build();
+
+        //Exercise(When)
+        anyEvent.inviteUser(aUser);
+
+        //Test(Then)
+        assertEquals("No invito al usuario y el evento esta abierto y sin el usuario como invitado.",
+                     1,
+                      anyEvent.getGuest().size());
+    }
+
+    @Test
+    public void whenAskAnEventIfCanInviteUsersAndIsClosed_GetTrue(){
+        //Setup(Given)
+        Event anyEvent = CanastaBuilder.buildCanasta()
+                                       .withClosedState()
+                                       .build();
+
+        //Exercise(When)
+        Boolean canInvite = anyEvent.canInviteUser();
+
+        //Test(Then)
+        assertFalse("Tendria que haber sido False, el evento que se usa para testear se le puso un estado de cerrado!",
+                    canInvite);
     }
 }

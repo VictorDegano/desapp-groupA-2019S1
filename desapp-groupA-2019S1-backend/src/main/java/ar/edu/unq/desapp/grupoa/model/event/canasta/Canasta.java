@@ -4,9 +4,9 @@ import ar.edu.unq.desapp.grupoa.exception.event.*;
 import ar.edu.unq.desapp.grupoa.model.event.*;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CanastaState;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CanastaStateInPreparation;
+import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CloseCanasta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,83 +19,23 @@ public class Canasta extends Event {
     @Transient
     private CanastaState canastaState;
 
-    // TODO: 3/5/2019 metodos a definir!
-    @Override
-    public boolean eventIsClosed() {    return false;   }
-
-    @Override
-    public void close() {   }
-
-    @Override
-    public Integer totalCost() {    return null;    }
-
-    @Override
-    public void confirmAsistancesOf(Guest guestToAssist) {  }
-
-
     public static Canasta createWithATemplate(String name, User organizer, List<Guest> guests, Template template) {
         if(!template.isForEvent(EventType.CANASTA)){
             throw new InvalidTemplateException(EventType.CANASTA, template.getEventType());
         }
         return new Canasta(name, organizer, guests, template.getGoodsForEvent());
     }
-    public Canasta(){
-    }
 
-    public Canasta(String name, User organizer) {
-        this.setName(name);
-        this.setOrganizer(organizer);
-        this.setGuest(new ArrayList<>());
-        this.setGoodsForGuest(new ArrayList<>());
-        this.setState(new CanastaStateInPreparation());
-    }
+    @Override
+    public boolean eventIsClosed() {    return this.canastaState.isCloseCanasta();   }
 
-    public Canasta(String name, User organizer, List<Guest> guests, List<Good> goods) {
-        this.setName(name);
-        this.setOrganizer(organizer);
-        this.setGuest(guests);
-        this.setGoodsForGuest(goods);
-        this.setState(new CanastaStateInPreparation());
-    }
+    // todo falta calcular el costo total
+    @Override
+    public Integer totalCost() {    return null;    }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public User getOrganizer() {
-        return organizer;
-    }
-
-    public void setOrganizer(User organizer) {
-        this.organizer = organizer;
-    }
-
-    public List<Guest> getGuests() {
-        return guests;
-    }
-
-    public void setGuests(List<Guest> guests) {
-        this.guests = guests;
-    }
-
-    public List<CanastaGood> getGoods() {
-        return goods;
-    }
-
-    public void setGoods(List<CanastaGood> goods) {
-        this.goods = goods;
-    }
-
-    public CanastaState getState() {
-        return this.canastaState;
-    }
-
-    public void setState(CanastaState aCanastaState) {
-        this.canastaState = aCanastaState;
+    @Override
+    public void confirmAsistancesOf(Guest guestToAssist) {
+        this.confirmUser(guestToAssist.getUser());
     }
 
     //easy way, refactor this
@@ -103,13 +43,13 @@ public class Canasta extends Event {
         Guest guestToConfirmAssistance;
 
         if(this.getState().isCloseCanasta()){
-            throw new ConfirmAsistanceException(this.getName(),userToConfirmAssistance.getFirstName());
+            throw new ConfirmAsistanceException(this, userToConfirmAssistance);
         }
 
         try{
             guestToConfirmAssistance = this.getGuest().stream().filter(guest1 -> guest1.getUser()==userToConfirmAssistance).collect(Collectors.toList()).get(0);
         }catch (IndexOutOfBoundsException e){
-            throw new ConfirmAsistanceException(this.getName(),userToConfirmAssistance.getFirstName());
+            throw new ConfirmAsistanceException(this,userToConfirmAssistance);
         }
         guestToConfirmAssistance.confirmAsistance();
     }
@@ -131,15 +71,34 @@ public class Canasta extends Event {
         }
     }
 
-    public void closeCanasta() {
+    @Override
+    public void close() {
         this.setState(new CloseCanasta());
-        this.guests.forEach((guest) -> { if(guest.isInvitationPending()){ guest.cancelInvitation();}});
-        this.goods.forEach((good) -> {
+        this.getGuest().forEach((guest) -> { if(guest.isInvitationPending()){ guest.cancelInvitation();}});
+        this.getGoodsForGuest().forEach((good) -> {
             if (good.getUserThatOwnsTheGood() != null) {
                 good.getUserThatOwnsTheGood().extract(good.totalCost());
             } else{
                 this.getOrganizer().extract(good.totalCost());
-                 }});
-
+            }});
     }
+
+/**[}-{]---------------------------------------------[}-{]
+   [}-{]----------------[CONSTRUCTORS]---------------[}-{]
+   [}-{]---------------------------------------------[}-{]**/
+    public Canasta(){   }
+
+    public Canasta(String name, User organizer, List<Guest> guests, List<Good> goods) {
+        this.setName(name);
+        this.setOrganizer(organizer);
+        this.setGuest(guests);
+        this.setGoodsForGuest(goods);
+        this.setState(new CanastaStateInPreparation());
+    }
+
+/** [}-{]---------------------------------------------[}-{]
+    [}-{]----------[GETTER & SETTER METHODS]----------[}-{]
+    [}-{]---------------------------------------------[}-{]**/
+    public CanastaState getState() {    return this.canastaState;   }
+    public void setState(CanastaState aCanastaState) {  this.canastaState = aCanastaState;  }
 }
