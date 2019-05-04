@@ -150,9 +150,9 @@
                                     <element>BUNDLE</element>
                                     <limits>
                                         <limit>
-                                            <counter>CLASS</counter>
+                                            <counter>INSTRUCTIO</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.90</minimum>
+                                            <minimum>90%</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
