@@ -22,4 +22,12 @@ public class CanastaGood extends Good {
     public Integer totalCost() {
         return this.getPricePerUnit() * this.getQuantityForPerson();
     }
+
+    public Boolean isAvailable() {
+        return this.userThatOwnsTheGood == null;
+    }
+
+    public Boolean hasOwner() {
+        return this.getUserThatOwnsTheGood() != null;
+    }
 }
