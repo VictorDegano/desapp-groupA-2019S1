@@ -1,11 +1,7 @@
 package ar.edu.unq.desapp.grupoa.model.event.canasta;
 
-import ar.edu.unq.desapp.grupoa.exception.event.CanastaCloseException;
-import ar.edu.unq.desapp.grupoa.exception.event.GoodAlreadyOwnedException;
 import ar.edu.unq.desapp.grupoa.exception.event.ConfirmAsistanceException;
-import ar.edu.unq.desapp.grupoa.exception.event.OwnAGoodWithAnUnconfirmedGuestException;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
-import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CanastaState;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CanastaStateInPreparation;
 
@@ -41,7 +37,7 @@ public class Canasta {
         this.setOrganizer(organizer);
         this.setGuests(new ArrayList<>());
         this.setGoods(new ArrayList<>());
-        this.setState(new CanastaStateInPreparation());
+        this.setState(new CanastaStateInPreparation(this));
     }
 
     public Canasta(String name, User organizer, List<Guest> guests, List<CanastaGood> goods) {
@@ -49,7 +45,7 @@ public class Canasta {
         this.setOrganizer(organizer);
         this.setGuests(guests);
         this.setGoods(goods);
-        this.setState(new CanastaStateInPreparation());
+        this.setState(new CanastaStateInPreparation(this));
     }
 
     public String getName() {
@@ -92,48 +88,43 @@ public class Canasta {
         this.canastaState = aCanastaState;
     }
 
-    //easy way, refactor this
     public void confirmUser(User userToConfirmAssistance) {
-        Guest guestToConfirmAssistance;
-
-        if(this.getState().isCloseCanasta()){
-            throw new ConfirmAsistanceException(this.name,userToConfirmAssistance.getFirstName());
-        }
-
-        try{
-            guestToConfirmAssistance = guests.stream().filter(guest1 -> guest1.getUser()==userToConfirmAssistance).collect(Collectors.toList()).get(0);
-        }catch (IndexOutOfBoundsException e){
-            throw new ConfirmAsistanceException(this.name,userToConfirmAssistance.getFirstName());
-        }
-        guestToConfirmAssistance.confirmAsistance();
+        this.getState().confirmUser(userToConfirmAssistance);
     }
 
     public void ownAGood(User user, CanastaGood good) {
-        Guest guest = guests.stream().filter(guest1 -> guest1.getUser()==user).collect(Collectors.toList()).get(0);
-
-        if(this.getState().isCloseCanasta()){
-            throw new CanastaCloseException(this.getName(),guest.getUser().getFirstName());
-        }
-
-        if((guest.getConfirmAsistance() != InvitationState.ACCEPTED)){
-            throw new OwnAGoodWithAnUnconfirmedGuestException(this.name,user.getFirstName());
-        }
-        if( good.getUserThatOwnsTheGood() == null){
-        guests.stream().filter(guest1 -> guest1.getUser()==user).collect(Collectors.toList()).get(0).ownAGood(good);
-        }else{
-            throw new GoodAlreadyOwnedException(this.getName(),user.getFirstName());
-        }
+        this.getState().ownAGood(user,good);
     }
 
     public void closeCanasta() {
-        this.setState(new CloseCanasta());
-        this.guests.forEach((guest) -> { if(guest.isInvitationPending()){ guest.cancelInvitation();}});
+        this.changeStateToClose();
+        this.cancelPendingInvitations();
+        this.chargeTheExpenses();
+
+    }
+
+    private void chargeTheExpenses() {
         this.goods.forEach((good) -> {
-            if (good.getUserThatOwnsTheGood() != null) {
+            if (good.hasOwner()) {
                 good.getUserThatOwnsTheGood().extract(good.totalCost());
             } else{
                 this.getOrganizer().extract(good.totalCost());
-                 }});
+            }});
+    }
 
+    private void cancelPendingInvitations() {
+        this.guests.forEach((guest) -> { if(guest.isInvitationPending()){ guest.cancelInvitation();}});
+    }
+
+    private void changeStateToClose() {
+        this.setState(new CloseCanasta(this));
+    }
+
+    public Guest getGuestOfUser(User userToConfirmAssistance) {
+        try{
+            return this.getGuests().stream().filter(guest1 -> guest1.getUser()==userToConfirmAssistance).collect(Collectors.toList()).get(0);
+        }catch (IndexOutOfBoundsException e){
+            throw new ConfirmAsistanceException(this.getName(),userToConfirmAssistance.getFirstName());
+        }
     }
 }
