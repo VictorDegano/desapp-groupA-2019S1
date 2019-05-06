@@ -52,4 +52,8 @@ public class Guest {
     public void ownAGood(CanastaGood good) {
         good.setUserThatOwnsTheGood(this.user);
     }
+
+    public Boolean isInvitationAccepted() {
+        return this.getConfirmAsistance() == InvitationState.ACCEPTED;
+    }
 }
