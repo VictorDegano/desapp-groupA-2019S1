@@ -2,10 +2,7 @@ package ar.edu.unq.desapp.grupoa.model.event.fiesta;
 
 
 import ar.edu.unq.desapp.grupoa.exception.event.InvalidTemplateException;
-import ar.edu.unq.desapp.grupoa.model.event.EventType;
-import ar.edu.unq.desapp.grupoa.model.event.Template;
-import ar.edu.unq.desapp.grupoa.model.event.Good;
-import ar.edu.unq.desapp.grupoa.model.event.Guest;
+import ar.edu.unq.desapp.grupoa.model.event.*;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.state.FiestaState;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.state.OpenFiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
@@ -36,6 +33,7 @@ public class Fiesta {
         if(!template.isForEvent(EventType.FIESTA)){
             throw new InvalidTemplateException(EventType.FIESTA, template.getEventType());
         }
+        TemplateRelations.useTemplate(organizer,template);
         return new Fiesta(name, organizer, guests, limitTime, template.getGoodsForEvent());
     }
 
