@@ -10,5 +10,8 @@ NEW FEATURES (lo que están entregando y está funcionando):
 - One end-to-end Service
 
 NOTES (ej: funcionalidad que falta, alguna consideración especial):
+- Integration of Baquita to master branch
+- Redesign and refactors of project
 
 KNOWN ISSUES (ej: funcionalidad que saben que están funcionando diferente, algún error conocido en la funcionalidad terminada, etc) :
+- Codacy resolve null when try to pass the Test Stage in Travis Build.

@@ -5,16 +5,19 @@ import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.utils.builder.FiestaGoodBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builder.TemplateBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builder.UserBuilder;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import static org.apache.commons.collections.ListUtils.EMPTY_LIST;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TemplateRelationsTest {
-
+/*
     @Test
     public void whenAnUserUsesATemplateTheTemplateListHaveTheTemplate() {
 
@@ -39,7 +42,7 @@ public class TemplateRelationsTest {
                 1,
                 TemplateRelations.getAllTemplates().size());
 
-    }
+    }*/
 
     @Test
     public void whenAnUserUsesATemplateThatTemplateIsInTemplatesUsedByUser() {
