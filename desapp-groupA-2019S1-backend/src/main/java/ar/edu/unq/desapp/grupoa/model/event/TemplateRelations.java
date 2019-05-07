@@ -11,7 +11,7 @@ public class TemplateRelations {
 
     public static List<Template> getAllTemplates() {
         if(templates == null){
-            List<Template> templates = new ArrayList<>();
+            templates = new ArrayList<>();
             return templates;
         }else{
             return templates;
@@ -40,5 +40,9 @@ public class TemplateRelations {
             }
         }
         return templatesAux;
+    }
+
+    public static void destroy() {
+        templates = null;
     }
 }

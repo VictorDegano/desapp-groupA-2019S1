@@ -17,7 +17,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TemplateRelationsTest {
-/*
+    @Before
+    public void setUp(){
+        TemplateRelations.destroy();
+    }
+
     @Test
     public void whenAnUserUsesATemplateTheTemplateListHaveTheTemplate() {
 
@@ -42,7 +46,7 @@ public class TemplateRelationsTest {
                 1,
                 TemplateRelations.getAllTemplates().size());
 
-    }*/
+    }
 
     @Test
     public void whenAnUserUsesATemplateThatTemplateIsInTemplatesUsedByUser() {
