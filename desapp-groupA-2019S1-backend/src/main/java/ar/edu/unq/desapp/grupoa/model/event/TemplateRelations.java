@@ -35,7 +35,7 @@ public class TemplateRelations {
         List<User> usersThatUseThisTemplate = template.getUsersThatUsedIt();
         List<Template> templatesAux = new ArrayList<>();
         for(Template t  : getAllTemplates()){
-            if(t.getUsersThatUsedIt().stream().anyMatch(u->usersThatUseThisTemplate.contains(u)) && template != t){
+            if(t.getUsersThatUsedIt().stream().anyMatch(u->usersThatUseThisTemplate.contains(u)) && !template.equals(t)){
                 templatesAux.add(t);
             }
         }
