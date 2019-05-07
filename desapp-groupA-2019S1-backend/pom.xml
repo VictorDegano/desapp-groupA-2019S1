@@ -116,7 +116,7 @@
                     <excludes>
                         <!-- Exclude Bootstrap and App Class-->
                         <exclude>**/ar/edu/unq/desapp/grupoa/DesappGroupABackendApplication.class</exclude>
-                        <exclude>**/ar/edu/unq/desapp/grupoa/service/BootstrapService.class</exclude>
+                        <exclude>**/ar/edu/unq/desapp/grupoa/runner/BootStrapRunner.class</exclude>
                         <exclude>**/ar/edu/unq/desapp/grupoa/controller/rest/advice/UserControllerAdvice.class</exclude>
                     </excludes>
                 </configuration>

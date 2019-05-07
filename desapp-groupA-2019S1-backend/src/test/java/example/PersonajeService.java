@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.example;
+package example;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

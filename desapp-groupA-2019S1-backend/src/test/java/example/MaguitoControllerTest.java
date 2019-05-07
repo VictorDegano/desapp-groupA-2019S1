@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa.example;
+package example;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
