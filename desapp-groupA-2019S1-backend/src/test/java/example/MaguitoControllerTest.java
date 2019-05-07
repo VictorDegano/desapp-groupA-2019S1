@@ -49,7 +49,7 @@ public class MaguitoControllerTest {
         objectMapper.registerModule(new JodaModule());
         objectMapper.registerModule(new JavaTimeModule());
 
-        maguito = new Personaje("Maguito", 20);
+        maguito = new Personaje("Maguito", 20, new Item("sombrero de mago"));
     }
 
 
