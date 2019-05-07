@@ -13,9 +13,10 @@ import java.util.stream.Collectors;
 @Transactional
 public class FiestaService {
 
+    @Autowired
     private FiestaDAO fiestaDao;
 
-    @Autowired
+
     public FiestaService(FiestaDAO aFiestaDAO){
         this.fiestaDao = aFiestaDAO;
     }

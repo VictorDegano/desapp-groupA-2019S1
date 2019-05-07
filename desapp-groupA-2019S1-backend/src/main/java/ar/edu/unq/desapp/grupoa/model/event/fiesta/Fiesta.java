@@ -8,6 +8,8 @@ import ar.edu.unq.desapp.grupoa.model.event.fiesta.state.OpenFiesta;
 import ar.edu.unq.desapp.grupoa.model.event.*;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.exception.event.ConfirmAsistanceException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +22,7 @@ public class Fiesta extends Event {
     private Integer id;
     private LocalDateTime limitConfirmationDateTime;
     private Integer confirmations;
+    @JsonIgnore
     @Transient
     private FiestaState state;
 

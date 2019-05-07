@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa;
 
 import ar.edu.unq.desapp.grupoa.controller.rest.UserController;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
+import ar.edu.unq.desapp.grupoa.service.FiestaService;
 import ar.edu.unq.desapp.grupoa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -26,6 +27,11 @@ public class TestConfig {
     @Bean
     public UserController userController(){
         return new UserController();
+    }
+
+    @Bean
+    public FiestaService fiestaService(){
+        return new FiestaService();
     }
 
 }
