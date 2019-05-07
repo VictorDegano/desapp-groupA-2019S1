@@ -25,7 +25,7 @@ public class CloseCanasta extends CanastaState {
 
     @Override
     public void confirmUser(User userToConfirmAssistance) {
-            throw new ConfirmAsistanceException(this.getCanasta().getName(),userToConfirmAssistance.getFirstName());
+            throw new ConfirmAsistanceException(this.getCanasta(),userToConfirmAssistance);
 
     }
 }

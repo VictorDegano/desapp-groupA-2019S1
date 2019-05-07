@@ -1,7 +1,6 @@
 package ar.edu.unq.desapp.grupoa.model.account;
 
 import ar.edu.unq.desapp.grupoa.model.user.User;
-
 import java.time.LocalDateTime;
 
 public class Credit {
@@ -21,9 +20,4 @@ public class Credit {
     public Integer getQuotasToPay() {
         return quotasToPay;
     }
-
-    public User getUser() {
-        return user;
-    }
-
 }
