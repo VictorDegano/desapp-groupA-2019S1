@@ -38,54 +38,50 @@ public class Canasta extends Event {
         this.confirmUser(guestToAssist.getUser());
     }
 
-    //easy way, refactor this
     public void confirmUser(User userToConfirmAssistance) {
-        Guest guestToConfirmAssistance;
-
-        if(this.getState().isCloseCanasta()){
-            throw new ConfirmAsistanceException(this, userToConfirmAssistance);
-        }
-
-        try{
-            guestToConfirmAssistance = this.getGuest().stream().filter(guest1 -> guest1.getUser()==userToConfirmAssistance).collect(Collectors.toList()).get(0);
-        }catch (IndexOutOfBoundsException e){
-            throw new ConfirmAsistanceException(this,userToConfirmAssistance);
-        }
-        guestToConfirmAssistance.confirmAsistance();
+        this.getState().confirmUser(userToConfirmAssistance);
     }
 
     public void ownAGood(User user, CanastaGood good) {
-        Guest guest = this.getGuest().stream().filter(guest1 -> guest1.getUser()==user).collect(Collectors.toList()).get(0);
-
-        if(this.getState().isCloseCanasta()){
-            throw new CanastaCloseException(this.getName(),guest.getUser().getFirstName());
-        }
-
-        if((guest.getConfirmAsistance() != InvitationState.ACCEPTED)){
-            throw new OwnAGoodWithAnUnconfirmedGuestException(this.getName(),user.getFirstName());
-        }
-        if( good.getUserThatOwnsTheGood() == null){
-            this.getGuest().stream().filter(guest1 -> guest1.getUser()==user).collect(Collectors.toList()).get(0).ownAGood(good);
-        }else{
-            throw new GoodAlreadyOwnedException(this.getName(),user.getFirstName());
-        }
+        this.getState().ownAGood(user,good);
     }
 
     @Override
     public void close() {
-        this.setState(new CloseCanasta());
-        this.getGuest().forEach((guest) -> { if(guest.isInvitationPending()){ guest.cancelInvitation();}});
+        this.changeStateToClose();
+        this.cancelPendingInvitations();
+        this.chargeTheExpenses();
+
+    }
+
+    private void chargeTheExpenses() {
         this.getGoodsForGuest().forEach((good) -> {
-            if (good.getUserThatOwnsTheGood() != null) {
+            if (good.hasOwner()) {
                 good.getUserThatOwnsTheGood().extract(good.totalCost());
             } else{
                 this.getOrganizer().extract(good.totalCost());
             }});
     }
 
-/**[}-{]---------------------------------------------[}-{]
-   [}-{]----------------[CONSTRUCTORS]---------------[}-{]
-   [}-{]---------------------------------------------[}-{]**/
+    private void cancelPendingInvitations() {
+        this.getGuest().forEach((guest) -> { if(guest.isInvitationPending()){ guest.cancelInvitation();}});
+    }
+
+    private void changeStateToClose() {
+        this.setState(new CloseCanasta(this));
+    }
+
+    public Guest getGuestOfUser(User userToConfirmAssistance) {
+        try{
+            return this.getGuest().stream().filter(guest1 -> guest1.getUser()==userToConfirmAssistance).collect(Collectors.toList()).get(0);
+        }catch (IndexOutOfBoundsException e){
+            throw new ConfirmAsistanceException(this,userToConfirmAssistance);
+        }
+    }
+
+    /**[}-{]---------------------------------------------[}-{]
+     [}-{]----------------[CONSTRUCTORS]---------------[}-{]
+     [}-{]---------------------------------------------[}-{]**/
     public Canasta(){   }
 
     public Canasta(String name, User organizer, List<Guest> guests, List<Good> goods) {
@@ -93,7 +89,7 @@ public class Canasta extends Event {
         this.setOrganizer(organizer);
         this.setGuest(guests);
         this.setGoodsForGuest(goods);
-        this.setState(new CanastaStateInPreparation());
+        this.setState(new CanastaStateInPreparation(this));
     }
 
 /** [}-{]---------------------------------------------[}-{]

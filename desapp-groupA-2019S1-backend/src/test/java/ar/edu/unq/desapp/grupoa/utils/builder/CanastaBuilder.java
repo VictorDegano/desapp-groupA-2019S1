@@ -47,12 +47,12 @@ public class CanastaBuilder {
 
 
     public CanastaBuilder withClosedState(){
-        this.canasta.setState(new CloseCanasta());
+        this.canasta.setState(new CloseCanasta(this.canasta));
         return this;
     }
 
     public CanastaBuilder withOpenState(){
-        this.canasta.setState(new CanastaStateInPreparation());
+        this.canasta.setState(new CanastaStateInPreparation(this.canasta));
         return this;
     }
 

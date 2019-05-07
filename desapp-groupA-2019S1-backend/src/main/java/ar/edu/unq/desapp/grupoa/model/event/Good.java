@@ -37,4 +37,6 @@ public abstract class Good {
     protected Integer getPricePerUnit() {
         return this.pricePerUnit;
     }
+
+    public abstract Boolean hasOwner();
 }
