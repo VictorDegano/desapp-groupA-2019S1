@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa.model.event.fiesta;
 
 import ar.edu.unq.desapp.grupoa.exception.event.InvalidTemplateException;
+import ar.edu.unq.desapp.grupoa.model.event.*;
 
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.state.FiestaState;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.state.OpenFiesta;
@@ -26,6 +27,7 @@ public class Fiesta extends Event {
         if (!template.isForEvent(EventType.FIESTA)) {
             throw new InvalidTemplateException(EventType.FIESTA, template.getEventType());
         }
+        TemplateRelations.useTemplate(organizer,template);
         return new Fiesta(name, organizer, guests, limitTime, template.getGoodsForEvent());
     }
 
@@ -34,8 +36,8 @@ public class Fiesta extends Event {
         this.getState().confirmAssistanceOf(guestToAssist);
     }
 
-    public void completeConfirmationAsistance(Guest guestToAssist) {
-        if (isInvited(guestToAssist)) {
+    public void completeConfirmationAsistance(Guest guestToAssist){
+        if(isInvited(guestToAssist)){
             this.confirmations += 1;
 
             guestToAssist.confirmAsistance();
@@ -90,7 +92,7 @@ public class Fiesta extends Event {
 
     // TODO: 4/5/2019 ¿Comportamiento de Evento?
     private void cancelPendingInvitation(Guest invitedGuest) {
-        if (invitedGuest.isInvitationPending()) {
+        if(invitedGuest.isInvitationPending()){
             invitedGuest.cancelInvitation();
         }
     }
