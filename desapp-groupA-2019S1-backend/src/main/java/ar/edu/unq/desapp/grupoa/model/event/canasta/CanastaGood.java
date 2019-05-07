@@ -7,8 +7,12 @@ public class CanastaGood extends Good {
     private User userThatOwnsTheGood;
 
     public CanastaGood(String name, Integer price, Integer quantity) {
-        super(name, price, quantity);
+        this.setName(name);
+        this.setPricePerUnit(price);
+        this.setQuantityForPerson(quantity);
     }
+
+    public CanastaGood() {  }
 
     public User getUserThatOwnsTheGood() {
         return userThatOwnsTheGood;

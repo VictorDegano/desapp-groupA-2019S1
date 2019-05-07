@@ -1,18 +1,10 @@
 package ar.edu.unq.desapp.grupoa.exception.event;
 
 public class OwnAGoodWithAnUnconfirmedGuestException extends RuntimeException {
-    private String canastaName;
-    private String guestName;
 
     public OwnAGoodWithAnUnconfirmedGuestException(String canastaName, String guestName){
-        this.canastaName = canastaName;
-        this.guestName = guestName;
-    }
-
-    @Override
-    public String getMessage(){
-        return String.format("Error al posser el gasto. La Fiesta: %s no tiene como invitado a %s",
-                this.canastaName,
-                this.guestName);
+        super(String.format("Error when try to take the cost. The Event: %s has not as guest to %s.",
+                canastaName,
+                guestName));
     }
 }

@@ -12,13 +12,12 @@ public class Guest {
         this.setConfirmAsistance(InvitationState.ACCEPTED);
     }
 
-    public String name() {
-        // TODO: 26/4/2019 La responsabilidad de dar su nombre completo tiene que ser del usuario
-        return this.getUser().getFirstName() + ' ' + this.getUser().getLastName();
-    }
-
     public boolean areThatGuest (Guest guestToAssist){
         return this == guestToAssist;
+    }
+
+    public boolean isTheUser(User userToInvite) {
+        return userToInvite == this.user;
     }
 
     public boolean isInvitationPending() {
