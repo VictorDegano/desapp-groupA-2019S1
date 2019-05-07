@@ -2,7 +2,7 @@ package ar.edu.unq.desapp.grupoa.model.event;
 
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
-import ar.edu.unq.desapp.grupoa.utils.builder.GoodBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.FiestaGoodBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builder.TemplateBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builder.UserBuilder;
 import org.junit.Test;
@@ -23,9 +23,9 @@ public class TemplateRelationsTest {
 
         LocalDateTime limitTime = LocalDateTime.now();
 
-        Good asado = GoodBuilder.buildAGood().withName("Asado").build();
+        Good asado = FiestaGoodBuilder.buildAGood().withName("Asado").build();
 
-        Good laDelDiego = GoodBuilder.buildAGood().withName("La del Diego").build();
+        Good laDelDiego = FiestaGoodBuilder.buildAGood().withName("La del Diego").build();
 
         Template fiestaLocaTemplate = TemplateBuilder.buildATemplate()
                 .withEventType(EventType.FIESTA)
@@ -49,9 +49,9 @@ public class TemplateRelationsTest {
 
         LocalDateTime limitTime = LocalDateTime.now();
 
-        Good asado = GoodBuilder.buildAGood().withName("Asado").build();
+        Good asado = FiestaGoodBuilder.buildAGood().withName("Asado").build();
 
-        Good laDelDiego = GoodBuilder.buildAGood().withName("La del Diego").build();
+        Good laDelDiego = FiestaGoodBuilder.buildAGood().withName("La del Diego").build();
 
         Template fiestaLocaTemplate = TemplateBuilder.buildATemplate()
                 .withEventType(EventType.FIESTA)
@@ -75,9 +75,9 @@ public class TemplateRelationsTest {
 
         LocalDateTime limitTime = LocalDateTime.now();
 
-        Good asado = GoodBuilder.buildAGood().withName("Asado").build();
+        Good asado = FiestaGoodBuilder.buildAGood().withName("Asado").build();
 
-        Good laDelDiego = GoodBuilder.buildAGood().withName("La del Diego").build();
+        Good laDelDiego = FiestaGoodBuilder.buildAGood().withName("La del Diego").build();
 
         Template fiestaLocaTemplate1 = TemplateBuilder.buildATemplate()
                 .withEventType(EventType.FIESTA)

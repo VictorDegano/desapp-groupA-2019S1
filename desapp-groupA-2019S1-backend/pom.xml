@@ -117,7 +117,7 @@
                         <!-- Exclude Bootstrap and App Class-->
                         <exclude>**/ar/edu/unq/desapp/grupoa/DesappGroupABackendApplication.class</exclude>
                         <exclude>**/ar/edu/unq/desapp/grupoa/service/BootstrapService.class</exclude>
-                        <exclude>**/ar/edu/unq/desapp/grupoa/exception/advicer/UserControllerAdvice.class</exclude>
+                        <exclude>**/ar/edu/unq/desapp/grupoa/controller/rest/advice/UserControllerAdvice.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -150,9 +150,9 @@
                                     <element>BUNDLE</element>
                                     <limits>
                                         <limit>
-                                            <counter>CLASS</counter>
+                                            <counter>INSTRUCTION</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.10</minimum>
+                                            <minimum>90%</minimum>
                                         </limit>
                                     </limits>
                                 </rule>

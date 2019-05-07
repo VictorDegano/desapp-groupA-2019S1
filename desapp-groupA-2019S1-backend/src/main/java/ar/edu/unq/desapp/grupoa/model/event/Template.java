@@ -1,7 +1,5 @@
 package ar.edu.unq.desapp.grupoa.model.event;
 
-import ar.edu.unq.desapp.grupoa.model.event.EventType;
-import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
 import java.util.ArrayList;
@@ -22,9 +20,9 @@ public class Template {
    [}-{]----------------[CONSTRUCTORS]---------------[}-{]
    [}-{]---------------------------------------------[}-{]**/
     public Template(String templateName, EventType eventType, List<Good> listOfGoods) {
-        this.name = templateName;
-        this.eventType = eventType;
-        this.goodsForEvent = listOfGoods;
+        this.setName(templateName);
+        this.setEventType(eventType);
+        this.setGoodsForEvent(listOfGoods);
     }
 
     public Template() { }

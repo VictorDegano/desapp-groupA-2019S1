@@ -4,5 +4,6 @@ public enum EventType {
 
     FIESTA,
     CANASTA,
-    BAQUITA
+    BAQUITA_COMUNITARIA,
+    BAQUITA_REPRESENTANTES
 }

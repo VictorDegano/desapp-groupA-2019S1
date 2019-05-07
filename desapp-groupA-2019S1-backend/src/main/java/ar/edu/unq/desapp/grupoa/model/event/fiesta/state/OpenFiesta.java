@@ -13,7 +13,7 @@ public class OpenFiesta extends FiestaState {
         if(this.acceptConfirmations()){
             this.getFiesta().completeConfirmationAsistance(aGuest);
         } else {
-            throw new ConfirmationLimitException(this.getFiesta());
+            throw new ConfirmationLimitException(this.getFiesta(), this.getFiesta().getLimitConfirmationDateTime());
         }
     }
 

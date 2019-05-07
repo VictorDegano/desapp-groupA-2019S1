@@ -31,10 +31,6 @@ public abstract class Movement{
         this.type  = type;
     }
 
-    public Integer amount(){
-        return amount;
-    }
-
     public abstract Integer value();
 
     public Boolean isMovementType(MovementType type) {
