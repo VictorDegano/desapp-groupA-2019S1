@@ -18,7 +18,7 @@ public abstract class Good {
         throw new GoodTypeException("This type of good don't have owner");
     }
 
-    public void multiplyFinalQuantityBy(Integer quantityToMultiply){    }
+    public void multiplyFinalQuantityBy(Integer quantityToMultiply){    /*No e hace nada para el que no lo defina*/    }
 
     public Integer finalQuantity() { return this.quantityForPerson;   }
 

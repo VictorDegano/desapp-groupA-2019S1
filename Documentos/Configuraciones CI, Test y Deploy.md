@@ -1,6 +1,6 @@
 #**Configuracion del Proyecto**
 
-Que se configuro 
+Que se configuro
 1. Travis CI
 2. Codacy
 3. JaCoCo
@@ -9,7 +9,10 @@ Que se configuro
 
 ##Configuracion de Travis CI
 
-Para poder tener la integracion con Travis tenemos que crear el archivo **`.travis.yml`** en el directorio raiz del proyecto. Dentro de el se hara las configuraciones que cargara travis cuando hagamos un push a la rama master.
+Para poder tener la integracion con Travis tenemos que crear el archivo
+**`.travis.yml`** en el directorio raiz del proyecto. Dentro de el se
+hara las configuraciones que cargara travis cuando hagamos un push a la
+rama master.
 
 **¿Que se configuro en travis?**
 - [x] Notificaciones por mail
@@ -18,9 +21,13 @@ Para poder tener la integracion con Travis tenemos que crear el archivo **`.trav
 
 
 ######++Notificaciones por mail:++
-Con esta configuracion podremos indicar cuando, quienes y por que medio se notificara el estado de travis ante una build. Por defecto travis envia un mail al dueño de la cuenta tras terminar la build.
+Con esta configuracion podremos indicar cuando, quienes y por que medio
+se notificara el estado de travis ante una build. Por defecto travis
+envia un mail al dueño de la cuenta tras terminar la build.
 
-Nosotros configuramos las notificaciones para que solo envie un mail cuando una build falla, y este se enviara a los colaboradores del proyecto. 
+Nosotros configuramos las notificaciones para que solo envie un mail
+cuando una build falla, y este se enviara a los colaboradores del
+proyecto.  
 
 Fragmento de configuracion de las notificaciones:
 ```
@@ -43,7 +50,7 @@ Por ultimo para configurar cuando queremos que se nos notifique, esto se hace co
 El testeo y el deploy se puede hacer todo junto, pero nosotros decidimos separarlo en partes, esto se hace mediante la palabra `jobs`([Mas informacion sobre notificaciones](https://docs.travis-ci.com/user/job-lifecycle/)). Con esta palabra le indicamos a travis que se va a realizar diferentes trabajos (La redundancia es gratis).
 Los trabajos en travis se pueden separar en tres partes: la etapa de instalacion, la etapa de Build y la estapa de deploy (Esta ultima es opcional).
 
-El jobs espera recibir los trabajos a ejecutar, los cuales se agregan mediante la palabra `include` que recibe un bloque con `stage` que son los diferentes trabajos (separados por `-` e identados). 
+El jobs espera recibir los trabajos a ejecutar, los cuales se agregan mediante la palabra `include` que recibe un bloque con `stage` que son los diferentes trabajos (separados por `-` e identados).
 
 Fragmento de codigo de configuracion de los trabajos:
 ```
@@ -58,28 +65,31 @@ jobs:
           - $HOME/.m2
       before_install:
         - "sudo apt-get install jq"
-        - "wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)"
+        - "wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl
+https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)"
 
       before_script:
         - "cd desapp-groupA-2019S1-backend"
-        - "mvn clean install -Dmaven.compiler.target=1.8 -Dmaven.compiler.source=1.8 -Dmaven.javadoc.skip=true -B -V"
-      script:
+        - "mvn clean install -Dmaven.compiler.target=1.8
+-Dmaven.compiler.source=1.8 -Dmaven.javadoc.skip=true -B -V"      
+script:
         - "mvn test -B"
 
       # Para enviar el reporte de jacoco a codacy
       after_success:
-        - "java -jar ~/codacy-coverage-reporter-assembly-latest.jar report -l Java -r target/jacoco-report/jacoco.xml"
+        - "java -jar ~/codacy-coverage-reporter-assembly-latest.jar
+report -l Java -r target/jacoco-report/jacoco.xml"
 
     -
       stage: "Deploy Back-end"
-      # require the branch name to be master (note for PRs this is the base branch name)
-      if: branch = master
+      # require the branch name to be master (note for PRs this is the
+base branch name)       if: branch = master
       language: java
       jdk: oraclejdk11
       cache:
         directories:
           - $HOME/.m2
-      script: 
+      script:
         - "cd desapp-groupA-2019S1-backend"
         - "mvn clean install -DskipTests=true"
       deploy:
@@ -92,8 +102,8 @@ jobs:
 
     -
       stage: "Deploy Front-end"
-      # require the branch name to be master (note for PRs this is the base branch name)
-      if: branch = master
+      # require the branch name to be master (note for PRs this is the
+base branch name)       if: branch = master
       language: node_js
       node_js: "10"
       cache: npm
@@ -118,7 +128,7 @@ jobs:
     - Stage 1
     - Stage 2
     - Stage ...
-``` 
+```
 
 En cada stage se puede configurar cosas como el lenguaje, instalar paquetes, cache de directorios, ejecucion de script, etc.
 
@@ -140,7 +150,7 @@ Ademas de eso se configuro:
 - Se especifico que solo ejecute el trabajo de deploy si es en la rama master. Esto se hace con `if: branch =`
 - En `script` se movio a la carpeta del backend y se realizo un clean instal de las dependencias de maven salteandose los test.
 - Con la palabra `deploy`, definimos como vamos a deployar la aplicacion: 	
-	- Especificamos a heroku como proveedor mediante `provider` 
+	- Especificamos a heroku como proveedor mediante `provider`
 	- Indicamos a travis que no limpie archivos adicionales (Por defecto lo hace), mediante `skip_cleanup`
 	- Para poder hacer el deploy en heroku, necesitamos una API Key (En la seccion de heroku se vera como obtenerla) el cual configuramos con el comando `api_key`. Y en este caso la API key esta guardada en la variable $HEROKU_API_KEY que se encuentra en travis (Mas adelante se vera como definir esta variable)
 	- Definimos que aplicacion de heroku es donde vamos a deployar con el comando `app`
@@ -179,8 +189,8 @@ Usaremos JaCoCo para enviar los reportes de cobertura a codacy y, tambien, para 
 Para poder utilizarlo necesitamos agregar el siguiente dependencia en el pom.xml:
 
 ```
-<!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
-<dependency>
+<!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin
+--> <dependency>
     <groupId>org.jacoco</groupId>
     <artifactId>jacoco-maven-plugin</artifactId>
     <version>0.8.3</version>
@@ -189,8 +199,8 @@ Para poder utilizarlo necesitamos agregar el siguiente dependencia en el pom.xml
 
 Podemos agregar algunas rutas de configuracion como el directorio de salida y los directorio de los reportes:
 ```
-<!-- Jacoco injects these variables in runtime from the configured plugin -->
-<jacoco.version>0.7.6.201602180812</jacoco.version>
+<!-- Jacoco injects these variables in runtime from the configured
+plugin --> <jacoco.version>0.7.6.201602180812</jacoco.version>
 <jacoco.outputDir>${project.build.directory}</jacoco.outputDir>
 
 <jacoco.utreportpath>${project.build.directory}/jacoco</jacoco.utreportpath>
