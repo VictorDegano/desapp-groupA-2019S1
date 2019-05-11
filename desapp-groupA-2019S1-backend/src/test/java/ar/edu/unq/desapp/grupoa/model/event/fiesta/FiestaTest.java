@@ -3,21 +3,18 @@ package ar.edu.unq.desapp.grupoa.model.event.fiesta;
 import ar.edu.unq.desapp.grupoa.exception.event.CloseEventException;
 import ar.edu.unq.desapp.grupoa.exception.event.ConfirmAsistanceException;
 import ar.edu.unq.desapp.grupoa.exception.event.ConfirmationLimitException;
-
 import ar.edu.unq.desapp.grupoa.exception.event.InvalidTemplateException;
 import ar.edu.unq.desapp.grupoa.model.event.EventType;
 import ar.edu.unq.desapp.grupoa.model.event.Template;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
-
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.utils.builder.*;
 import org.junit.Test;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.Assert.*;
 
 public class FiestaTest {
@@ -49,13 +46,13 @@ public class FiestaTest {
         //Setup(Given)
         Guest firstGuest = GuestBuilder.buildAGuest().build();
 
-        Good beer = GoodBuilder.buildAGood()
-                               .withQuantityForPerson(2)
-                               .build();
+        Good beer = FiestaGoodBuilder.buildAGood()
+                                     .withQuantityForPerson(2)
+                                     .build();
 
-        Good doritoPack  = GoodBuilder.buildAGood()
-                                      .withQuantityForPerson(1)
-                                      .build();
+        Good doritoPack  = FiestaGoodBuilder.buildAGood()
+                                            .withQuantityForPerson(1)
+                                            .build();
 
         Fiesta fiestaSUT = FiestaBuilder.buildAFiesta()
                                         .addGood(beer)
@@ -71,10 +68,10 @@ public class FiestaTest {
 
         assertEquals("No se calculo la cantidad final del Good al confirmar la asistencia",
                       Integer.valueOf(2),
-                      goodsAfterConfirm.get(0).getFinalQuantity());
+                      goodsAfterConfirm.get(0).finalQuantity());
         assertEquals("No se calculo la cantidad final del Good al confirmar la asistencia",
                       Integer.valueOf(1),
-                      goodsAfterConfirm.get(1).getFinalQuantity());
+                      goodsAfterConfirm.get(1).finalQuantity());
     }
 
     @Test
@@ -89,10 +86,10 @@ public class FiestaTest {
                                        .withUser(userToAssist)
                                        .build();
 
-        Good doritoPack  = GoodBuilder.buildAGood()
-                                      .withQuantityForPerson(1)
-                                      .withFinalQuantity(1)
-                                      .build();
+        Good doritoPack  = FiestaGoodBuilder.buildAGood()
+                                            .withQuantityForPerson(1)
+                                            .withFinalQuantity(1)
+                                            .build();
 
         Fiesta fiestaSUT = FiestaBuilder.buildAFiesta()
                                         .withName("Pepelloza")
@@ -111,30 +108,30 @@ public class FiestaTest {
 
         //Test(Then)
         assertEquals("No Hubo Excepcion! un invitado que no esta en la fiesta pudo confirmar asistencia",
-                     "Error al confirmar la invitacion. La Fiesta: Pepelloza no tiene como invitado a Ivan Dominikow",
+                     "Error confirming the invitation. The Event: Pepelloza has not as guest to Ivan Dominikow",
                      message);
         assertEquals("Ocurrio la Excepcion y se cambio la cantidad de confirmaciones! ¡Eso no tiene que ocurrir!",
                      Integer.valueOf(0),
                      fiestaSUT.getConfirmations());
         assertEquals("Ocurrio la Excepcion y se cambio la cantidad final de los Goods! ¡No tiene que pasar!",
                      Integer.valueOf(1),
-                     fiestaSUT.getGoodsForGuest().get(0).getFinalQuantity());
+                     fiestaSUT.getGoodsForGuest().get(0).finalQuantity());
     }
 
     @Test
     public void ifTheFiestaHave2ConfirmationsAndTwoAGoodsWithPriceThirtyEachOne_WhenSeeTotalCostTheCost_IsSixty(){
         //Setup(given)
-        Good beerPack  = GoodBuilder.buildAGood()
-                                    .withPricesPerUnit(20)
-                                    .withQuantityForPerson(1)
-                                    .withFinalQuantity(2)
-                                    .build();
+        Good beerPack  = FiestaGoodBuilder.buildAGood()
+                                          .withPricesPerUnit(20)
+                                          .withQuantityForPerson(1)
+                                          .withFinalQuantity(2)
+                                         .build();
 
-        Good doritoPack  = GoodBuilder.buildAGood()
-                                      .withPricesPerUnit(20)
-                                      .withQuantityForPerson(2)
-                                      .withFinalQuantity(4)
-                                      .build();
+        Good doritoPack  = FiestaGoodBuilder.buildAGood()
+                                            .withPricesPerUnit(20)
+                                            .withQuantityForPerson(2)
+                                            .withFinalQuantity(4)
+                                            .build();
 
         Fiesta fiestaSUT = FiestaBuilder.buildAFiesta()
                                         .addGood(doritoPack)
@@ -247,9 +244,9 @@ public class FiestaTest {
 
         LocalDateTime limitTime = LocalDateTime.now();
 
-        Good asado = GoodBuilder.buildAGood().withName("Asado").build();
+        Good asado = FiestaGoodBuilder.buildAGood().withName("Asado").build();
 
-        Good laDelDiego = GoodBuilder.buildAGood().withName("La del Diego").build();
+        Good laDelDiego = FiestaGoodBuilder.buildAGood().withName("La del Diego").build();
 
         Template fiestaLocaTemplate = TemplateBuilder.buildATemplate()
                                                      .withEventType(EventType.FIESTA)

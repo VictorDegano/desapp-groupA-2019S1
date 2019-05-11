@@ -24,7 +24,7 @@ public abstract class Baquita extends Event {
         return name;
     }
 
-    public Boolean eventIsClosed(){
+    public boolean eventIsClosed(){
         return state.equals(BaquitaState.CLOSE);
     }
 
@@ -42,7 +42,7 @@ public abstract class Baquita extends Event {
 
     }
 
-    public void addGood(Good goodToAdd){} //Se podra agregar mas goods una vez creada?¿
+    public void addGood(Good goodToAdd){}
 
     public User getOrganizer() {
         return organizer;
@@ -56,8 +56,4 @@ public abstract class Baquita extends Event {
         return new ArrayList<>(goodsForGuest);
     }
 
-    @Override
-    protected Guest inviteUser(User userToInvite) {
-        return null;
-    }
 }

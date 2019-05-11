@@ -1,7 +1,11 @@
 package ar.edu.unq.desapp.grupoa.model.event;
 
+import ar.edu.unq.desapp.grupoa.exception.event.InvitationException;
+import ar.edu.unq.desapp.grupoa.exception.event.InvitationLimitException;
+import ar.edu.unq.desapp.grupoa.model.event.createstrategy.CreateEventStrategySelector;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -17,22 +21,65 @@ abstract public class Event {
     @Transient
     protected List<Guest> guests;
     @Transient
-    protected List<Good> goodsForGuest; //Este seria un generico, cada evento implementaria su concreto de ser necesario
+    protected List<Good> goodsForGuest;
 
-    /**Valdria la pena tener este metodo en el evento y darle la logica para que reciba
-     * el tipo de evento a crear, los datos y esta lo cree?*/
-    //Static createWithATemplate(String name, User organizer, List<Guest> guests, LocalDateTime limitTime, Template template)
 
-    protected abstract Boolean eventIsClosed();
+    public static Event createWithATemplate(String name, User organizer, List<Guest> guests, LocalDateTime limitTime, Template template, EventType aEventType){
+        return CreateEventStrategySelector.selectStrategyFor(aEventType).createEvent(name, organizer, guests, limitTime, template);
+    }
 
-    protected abstract void close();
 
-    protected abstract Integer totalCost();
+    public abstract boolean eventIsClosed();
 
-    protected abstract Guest inviteUser(User userToInvite);
+    public abstract void close();
 
-    protected abstract void confirmAsistanceOf(User guestToAssist); //Habria que definir si se recibe el User o el Guest.
+    public abstract Integer totalCost();
 
-    protected abstract void addGood(Good goodToAdd); //Se podra agregar mas goods una vez creada?¿
+    public abstract void confirmAsistancesOf(Guest guestToAssist);
 
+    public Guest inviteUser(User userToInvite){
+        if(this.canInviteUser()){
+            return makeInvitation(userToInvite);
+        } else {
+            throw new InvitationLimitException(userToInvite);
+        }
+    }
+
+    private Guest makeInvitation(User userToInvite) {
+        if(alreadyHaveAsAGuest(userToInvite)) {
+            throw new InvitationException(this, userToInvite);
+        }
+        Guest newGuest = new Guest(userToInvite);
+        this.getGuest().add(newGuest);
+        return newGuest;
+    }
+
+    private boolean alreadyHaveAsAGuest(User userToInvite) {
+        return this.getGuest()
+                   .stream()
+                   .anyMatch(guest1 -> guest1.isTheUser(userToInvite));
+    }
+
+    protected boolean canInviteUser(){
+        return !this.eventIsClosed();
+    }
+
+// TODO: 2/5/2019  vale la pena que podamos agregar mas goods una vez creado el evento?
+
+//    public abstract void addGood(Good goodToAdd); //Se podra agregar mas goods una vez creada?¿
+
+/** [}-{]---------------------------------------------[}-{]
+    [}-{]----------[GETTER & SETTER METHODS]----------[}-{]
+    [}-{]---------------------------------------------[}-{]**/
+    public User getOrganizer() {    return this.organizer;   }
+    public void setOrganizer(User organizer) {  this.organizer = organizer; }
+
+    public String getName() {   return this.name;    }
+    public void setName(String name) {  this.name = name;   }
+
+    public List<Guest> getGuest() { return this.guests;   }
+    public void setGuest(List<Guest> guest) {   this.guests = guest; }
+
+    public List<Good> getGoodsForGuest() {  return this.goodsForGuest;   }
+    public void setGoodsForGuest(List<Good> goodsForGuest) {    this.goodsForGuest = goodsForGuest; }
 }

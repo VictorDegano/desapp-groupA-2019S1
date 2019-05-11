@@ -4,11 +4,8 @@ import ar.edu.unq.desapp.grupoa.exception.account.LoanOnCourseException;
 import ar.edu.unq.desapp.grupoa.exception.account.NoLoanOnCourseException;
 import ar.edu.unq.desapp.grupoa.exception.account.NotEnoughCashToPerformOperation;
 import ar.edu.unq.desapp.grupoa.exception.account.UserDefaultException;
-import ar.edu.unq.desapp.grupoa.model.account.Account;
-import ar.edu.unq.desapp.grupoa.model.account.Credit;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import org.junit.Test;
-
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Loan.accountIsInDebt;
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Loan.getCredit;
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Loan.payQuota;

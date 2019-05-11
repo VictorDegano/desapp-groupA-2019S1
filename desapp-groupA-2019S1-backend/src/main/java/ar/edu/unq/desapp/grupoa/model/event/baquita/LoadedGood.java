@@ -5,17 +5,19 @@ import ar.edu.unq.desapp.grupoa.model.event.Guest;
 
 public class LoadedGood {
 
-    Guest   guest;
-    Good    good;
-    Integer amount;
+    private Guest guest;
+    private Good  good ;
 
-    public LoadedGood(Guest guest, Good good, Integer amount) {
+    public LoadedGood(Guest guest,Good good) {
         this.guest =guest;
-        this.good  =good;
-        this.amount=amount;
+        this.good = good;
     }
 
     public Integer getAmount(){
-        return amount;
+        return  good.totalCost();
+    }
+
+    public Object getGood() {
+        return good;
     }
 }

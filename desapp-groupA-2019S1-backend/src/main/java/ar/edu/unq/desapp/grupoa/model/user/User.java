@@ -129,4 +129,9 @@ public class User {
     public void updateAccount(Account account) {
         this.account = account;
     }
+
+    public String fullName(){
+        return this.getFirstName() + ' ' + this.getLastName();
+    }
+
 }

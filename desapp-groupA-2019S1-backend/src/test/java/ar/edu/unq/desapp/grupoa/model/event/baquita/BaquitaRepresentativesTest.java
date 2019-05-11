@@ -22,7 +22,6 @@ import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaBuilder.withConfirme
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaBuilder.withConfirmedRepresentative;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaBuilder.withLoadedGoodFrom;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaBuilder.withRepresentative;
-import static ar.edu.unq.desapp.grupoa.utils.builder.GoodBuilder.buildAGood;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomNumber;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.withAccountBalance;
@@ -86,46 +85,47 @@ public class BaquitaRepresentativesTest {
     @Test
     public void aRepresentativeLoadsAGoodOfTheEventFor100Pesos() {
         Guest guest = new Guest(randomUser());
-        Good good = buildAGood().build();
+        Good good = newGoodWithPrice(100);
 
         BaquitaRepresentatives baquita = newRandomBaquitaRepresentatives();
         baquita.addRepresentative(guest);
         confirmInvitation(guest, baquita);
         baquita.addGood(good);
 
-        loadGood(baquita, good, guest, 100);
+        loadGood(baquita, good, guest);
         assertTrue(baquita.goodIsloaded(good));
     }
+
 
     @Test(expected = ConfirmAsistanceException.class)
     public void aRepresentativeCantLoadAGoodIfHeHasntConfirmed() {
         Guest guest = new Guest(randomUser());
-        Good good = buildAGood().build();
+        Good good = newGoodWithPrice(100);
 
         BaquitaRepresentatives baquita = newRandomBaquitaRepresentatives();
         baquita.addGood(good);
         baquita.addRepresentative(guest);
 
-        loadGood(baquita, good, guest, 100);
+        loadGood(baquita, good, guest);
     }
 
 
     @Test(expected = UserNotARepresentative.class)
     public void cantLoadAGoodIfRepresentativeIsntInvited() {
         Guest guest = new Guest(randomUser());
-        Good good = buildAGood().build();
+        Good good = newGoodWithPrice(100);
 
         BaquitaRepresentatives baquita = newRandomBaquitaRepresentatives();
         baquita.addGood(good);
 
-        loadGood(baquita, good, guest, 100);
+        loadGood(baquita, good, guest);
     }
 
     @Test(expected = CloseEventException.class)
     public void aRepresentativeCantLoadAGoodIfTheBaquitaIsClose() {
         Guest guest = new Guest(randomUser());
         guest.getUser().updateAccount(newAccountForUser(guest.getUser(), withBalance(100)));
-        Good good = buildAGood().build();
+        Good good = newGoodWithPrice(100);
 
         BaquitaRepresentatives baquita = newRandomBaquitaRepresentatives();
         baquita.addRepresentative(guest);
@@ -133,35 +133,35 @@ public class BaquitaRepresentativesTest {
         baquita.addGood(good);
         baquita.close();
 
-        loadGood(baquita, good, guest, 100);
+        loadGood(baquita, good, guest);
     }
 
 
     @Test(expected = UserNotARepresentative.class)
     public void aNormalGuestCantLoadAGood() {
         Guest guest = new Guest(randomUser());
-        Good good = buildAGood().build();
+        Good good = newGoodWithPrice(100);
 
         BaquitaRepresentatives baquita = newRandomBaquitaRepresentatives();
         baquita.addGood(good);
         baquita.addGuest(guest);
         confirmInvitation(guest, baquita);
 
-        loadGood(baquita, good, guest, 100);
+        loadGood(baquita, good, guest);
     }
 
     @Test(expected = GoodAlreadyLoaded.class)
     public void aRepresentativeCantLoadAGoodIfItWasAlreadyLoaded() {
         Guest guest = new Guest(randomUser());
-        Good good = buildAGood().build();
+        Good good = newGoodWithPrice(randomNumber());
 
         BaquitaRepresentatives baquita = newRandomBaquitaRepresentatives();
         baquita.addRepresentative(guest);
         confirmInvitation(guest, baquita);
         baquita.addGood(good);
 
-        loadGood(baquita, good, guest, randomNumber());
-        loadGood(baquita, good, guest, randomNumber());
+        loadGood(baquita, good, guest);
+        loadGood(baquita, good, guest);
     }
 
     @Test
@@ -216,7 +216,7 @@ public class BaquitaRepresentativesTest {
                 withLoadedGoodFrom(representative1, 70), withLoadedGoodFrom(representative1, 30)
         );
 
-        Integer priceToPayEach = baquita.totalCost() / 2;
+        Integer priceToPayEach      = baquita.totalCost() / 2;
         Integer expectedUserBalance = 100 - priceToPayEach;
 
         baquita.close();
@@ -226,6 +226,12 @@ public class BaquitaRepresentativesTest {
         assertEquals(balance(representative2.getUser()), integer(100));
     }
 
+    private Good newGoodWithPrice(Integer price) {
+        Good good = new Good();
+        good.setPricePerUnit(price);
+        good.setQuantityForPerson(1);
+        return good;
+    }
 
 
 

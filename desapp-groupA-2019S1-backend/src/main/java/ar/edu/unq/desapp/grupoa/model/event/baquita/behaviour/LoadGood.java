@@ -13,20 +13,20 @@ public class LoadGood {
 
     private LoadGood(){}
 
-    public static LoadedGood loadGood(BaquitaRepresentatives baquita, Good good, Guest guest, Integer amount) {
+    public static LoadedGood loadGood(BaquitaRepresentatives baquita, Good good, Guest guest) {
         if (!baquita.isRepresentative(guest)) {
             throw new UserNotARepresentative();
         }
         if (baquita.eventIsClosed()) {
-            throw new CloseEventException();
+            throw new CloseEventException(baquita);
         }
         if (guest.isInvitationPending()) {
-            throw new ConfirmAsistanceException(baquita.getName(), guest.getUser().getFirstName());
+            throw new ConfirmAsistanceException(baquita,guest.getUser());
         }
         if (baquita.goodIsloaded(good)) {
             throw new GoodAlreadyLoaded();
         }
-        LoadedGood loadedGood = new LoadedGood(guest, good, amount);
+        LoadedGood loadedGood = new LoadedGood(guest, good);
         baquita.loadGood(loadedGood);
         return loadedGood;
     }

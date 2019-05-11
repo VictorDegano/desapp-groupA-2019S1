@@ -12,7 +12,6 @@ import java.util.function.Function;
 import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.ConfirmInvitation.confirmInvitation;
 import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.LoadGood.loadGood;
 import static ar.edu.unq.desapp.grupoa.utils.ComposeFunctions.compose;
-import static ar.edu.unq.desapp.grupoa.utils.builder.GoodBuilder.buildAGood;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomString;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;
 
@@ -59,9 +58,11 @@ public class BaquitaBuilder {
 
     public static Function<BaquitaRepresentatives, BaquitaRepresentatives> withLoadedGoodFrom(Guest representative, Integer amount) {
         return (baquita) -> {
-            Good good = buildAGood().build();
+            Good good = new Good();
+            good.setPricePerUnit(amount);
+            good.setQuantityForPerson(1);
             baquita.addGood(good);
-            loadGood(baquita,good,representative,amount);
+            loadGood(baquita,good,representative);
             return baquita;
         };
     }

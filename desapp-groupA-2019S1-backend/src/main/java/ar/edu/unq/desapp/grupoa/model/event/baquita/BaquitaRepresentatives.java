@@ -20,7 +20,7 @@ public class BaquitaRepresentatives extends Baquita {
     public BaquitaRepresentatives(String name, User organizer, List<Guest> guests, List<Good> goodsForGuest) {
         super(name, organizer, guests, goodsForGuest);
         this.representatives = new ArrayList<>();
-        this.loadedGoods     = new ArrayList<>();
+        this.loadedGoods = new ArrayList<>();
     }
 
     @Override
@@ -61,6 +61,11 @@ public class BaquitaRepresentatives extends Baquita {
         return loadedGoods.stream().mapToInt(LoadedGood::getAmount).sum();
     }
 
+    @Override
+    public void confirmAsistancesOf(Guest guestToAssist) {
+        guestToAssist.confirmAsistance();
+    }
+
     public void cancelPendingRepresentatives() {
         cancelGuests(this.representatives);
     }
@@ -88,7 +93,7 @@ public class BaquitaRepresentatives extends Baquita {
     }
 
     public Boolean goodIsloaded(Good good) {
-        return this.loadedGoods.stream().anyMatch(loadedGood -> loadedGood.good.equals(good));
+        return this.loadedGoods.stream().anyMatch(loadedGood -> loadedGood.getGood().equals(good));
     }
 
     public Boolean isInvited(Guest guest) {

@@ -1,12 +1,8 @@
 package ar.edu.unq.desapp.grupoa.model.event;
 
-import ar.edu.unq.desapp.grupoa.model.event.EventType;
-import ar.edu.unq.desapp.grupoa.model.event.Good;
-import ar.edu.unq.desapp.grupoa.model.event.Template;
-import ar.edu.unq.desapp.grupoa.utils.builder.GoodBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.FiestaGoodBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builder.TemplateBuilder;
 import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,16 +13,16 @@ public class TemplateTest {
     @Test
     public void whenCreateATemplateForFiesta_TheyCreateCorrectly(){
         //Setup(Given)
-        Good asado = GoodBuilder.buildAGood()
-                                .withName("Asado")
-                                .withQuantityForPerson(1)
-                                .withPricesPerUnit(120)
-                                .build();
-        Good carbon = GoodBuilder.buildAGood()
-                                 .withName("Bolsa De Carbon")
-                                 .withQuantityForPerson(1)
-                                 .withPricesPerUnit(60)
-                                 .build();
+        Good asado = FiestaGoodBuilder.buildAGood()
+                                      .withName("Asado")
+                                      .withQuantityForPerson(1)
+                                      .withPricesPerUnit(120)
+                                      .build();
+        Good carbon = FiestaGoodBuilder.buildAGood()
+                                       .withName("Bolsa De Carbon")
+                                       .withQuantityForPerson(1)
+                                       .withPricesPerUnit(60)
+                                       .build();
         List<Good> goodForTemplates = Arrays.asList(asado, carbon);
 
         //Exercise(When)

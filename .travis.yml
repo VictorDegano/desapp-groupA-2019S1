@@ -26,8 +26,8 @@ jobs:
         directories:
           - $HOME/.m2
       before_install:
-        - "sudo apt-get install jq"
-        - "wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)"
+        - sudo apt-get install jq
+        - wget -O ~/codacy-coverage-reporter-assembly-latest.jar "https://github.com/codacy/codacy-coverage-reporter/releases/download/4.0.5/codacy-coverage-reporter-4.0.5-assembly.jar"
 
       before_script:
         - "cd desapp-groupA-2019S1-backend"

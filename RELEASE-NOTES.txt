@@ -1,0 +1,17 @@
+==========    RELEASE NOTES    ==========
+
+---------------------------------------------------------------------
+TAG ENTREGA 1
+---------------------------------------------------------------------
+NEW FEATURES (lo que están entregando y está funcionando):
+- Configuration of tools for CI and CD (Heroku, Travis CI and Cofacy)
+- Business Model Structure
+- Frontend/Backend Connection
+- One end-to-end Service
+
+NOTES (ej: funcionalidad que falta, alguna consideración especial):
+- Integration of Baquita to master branch
+- Redesign and refactors of project
+
+KNOWN ISSUES (ej: funcionalidad que saben que están funcionando diferente, algún error conocido en la funcionalidad terminada, etc) :
+- Codacy resolve null when try to pass the Test Stage in Travis Build.

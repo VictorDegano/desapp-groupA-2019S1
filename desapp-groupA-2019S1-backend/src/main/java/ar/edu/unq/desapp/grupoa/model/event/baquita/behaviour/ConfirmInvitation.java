@@ -9,12 +9,11 @@ public class ConfirmInvitation {
 
     public static void confirmInvitation(Guest guest, BaquitaRepresentatives baquita) {
         if (!baquita.isInvited(guest) && !baquita.isRepresentative(guest)) {
-            throw new ConfirmAsistanceException(baquita.getName(), guest.getUser().getFirstName());
+            throw new ConfirmAsistanceException(baquita,guest.getUser());
         }
         if (baquita.eventIsClosed()) {
-            throw new CloseEventException();
+            throw new CloseEventException(baquita);
         }
-
         guest.confirmAsistance();
     }
 }
