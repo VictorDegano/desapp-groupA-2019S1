@@ -21,6 +21,12 @@ public class ConfirmAsistanceException extends RuntimeException {
         this.guestName = guest;
     }
 
+
+    //TODO: hay que definir si se deja esta sobrecarga del metodo o se elige uno de los dos
+    public ConfirmAsistanceException(String message){
+        super(message);
+    }
+
     @Override
     public String getMessage(){
         return String.format("Error al confirmar la invitacion. La Fiesta: %s no tiene como invitado a %s",

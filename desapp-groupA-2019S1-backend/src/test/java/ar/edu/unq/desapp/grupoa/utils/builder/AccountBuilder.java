@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa.utils.builder;
 
 import ar.edu.unq.desapp.grupoa.model.account.Account;
+import ar.edu.unq.desapp.grupoa.model.user.User;
 
 import java.util.function.Function;
 
@@ -21,8 +22,17 @@ public class AccountBuilder {
         return compose(functions).apply(newAccount(randomUser()));
     }
 
+    @SafeVarargs
+    public static Account newAccountForUser(User user, Function<Account, Account>... functions) {
+        return compose(functions).apply(newAccount(user));
+    }
+
     public static Function<Account, Account> withRandomBalance() {
         return (account) -> account.deposit(randomNumber());
+    }
+
+    public static Function<Account, Account> withBalance(Integer amount) {
+        return (account) -> account.deposit(amount);
     }
 
     public static Function<Account, Account> withDefaultedUser() {

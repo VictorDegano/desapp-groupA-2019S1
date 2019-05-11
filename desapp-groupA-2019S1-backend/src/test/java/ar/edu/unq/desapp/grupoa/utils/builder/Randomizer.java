@@ -1,20 +1,34 @@
 package ar.edu.unq.desapp.grupoa.utils.builder;
 
+import ar.edu.unq.desapp.grupoa.model.account.Account;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import org.apache.commons.lang.RandomStringUtils;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.function.Function;
+
+import static ar.edu.unq.desapp.grupoa.utils.ComposeFunctions.compose;
+import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.newAccountForUser;
+import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.withBalance;
 
 public class Randomizer {
 
     private Randomizer() {
     }
 
-    public static User randomUser() {
-        return new User(randomString(), randomString(), randomString(), randomString(), randomDate());
+    public static User randomUser(Function<User, User>... functions) {
+        return compose(functions).apply(new User(randomString(), randomString(), randomString(), randomString(), randomDate()));
     }
+
+    public static Function<User, User> withAccountBalance(Integer amount) {
+         return (user) -> {
+             user.updateAccount(newAccountForUser(user, withBalance(100)));
+             return user;
+         };
+    }
+
 
     public static User randomUserWithName(String name) {
         return new User(name, randomString(), randomString(), randomString(), randomDate());

@@ -8,9 +8,9 @@ import ar.edu.unq.desapp.grupoa.model.user.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Baquita extends Event {
+public abstract class Baquita extends Event {
 
-    private  BaquitaState state;
+    protected BaquitaState state;
 
     public Baquita(String name, User organizer, List<Guest> guests, List<Good> goodsForGuest){
         this.name = name;
@@ -28,9 +28,7 @@ public class Baquita extends Event {
         return state.equals(BaquitaState.CLOSE);
     }
 
-    public void close(){
-        this.state = BaquitaState.CLOSE;
-    }
+    public abstract void close();
 
     public Integer totalCost(){return null;}
 
@@ -41,6 +39,7 @@ public class Baquita extends Event {
 
 
     public void confirmAsistanceOf(User guestToAssist) {
+
     }
 
     public void addGood(Good goodToAdd){} //Se podra agregar mas goods una vez creada?¿
@@ -56,8 +55,6 @@ public class Baquita extends Event {
     public List<Good> getGoodsForGuest() {
         return new ArrayList<>(goodsForGuest);
     }
-
-
 
     @Override
     protected Guest inviteUser(User userToInvite) {
