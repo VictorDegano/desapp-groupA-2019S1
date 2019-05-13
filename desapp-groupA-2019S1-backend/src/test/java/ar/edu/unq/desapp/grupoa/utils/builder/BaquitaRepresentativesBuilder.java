@@ -10,7 +10,7 @@ import java.util.function.Function;
 
 
 import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.ConfirmInvitation.confirmInvitation;
-import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.LoadGood.loadRepresentativeGood;
+import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.LoadGood.loadGood;
 import static ar.edu.unq.desapp.grupoa.utils.ComposeFunctions.compose;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomString;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;
@@ -63,7 +63,7 @@ public class BaquitaRepresentativesBuilder {
             good.setPricePerUnit(amount);
             good.setQuantityForPerson(1);
             baquita.addGood(good);
-            loadRepresentativeGood(baquita,good,representative);
+            loadGood(baquita,good,representative);
             return baquita;
         };
     }

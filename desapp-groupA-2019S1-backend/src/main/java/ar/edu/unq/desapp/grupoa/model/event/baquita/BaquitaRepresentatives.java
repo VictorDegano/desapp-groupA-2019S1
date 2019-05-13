@@ -11,10 +11,12 @@ public class BaquitaRepresentatives extends Baquita {
 
 
     private List<Guest> representatives;
+    protected List<LoadedGood> loadedGoods;
 
     public BaquitaRepresentatives(String name, User organizer, List<Guest> guests, List<Good> goodsForGuest) {
         super(name, organizer, guests, goodsForGuest);
         this.representatives = new ArrayList<>();
+        this.loadedGoods = new ArrayList<>();
     }
 
     protected void distributePayment() {
@@ -55,4 +57,15 @@ public class BaquitaRepresentatives extends Baquita {
         return representatives.stream().anyMatch(representative -> representative.equals(guest));
     }
 
+    public Integer totalCost() {
+        return loadedGoods.stream().mapToInt(LoadedGood::getAmount).sum();
+    }
+
+    public void loadGood(LoadedGood loadedGood){
+        this.loadedGoods.add(loadedGood);
+    }
+
+    public Boolean goodIsloaded(Good good) {
+        return this.loadedGoods.stream().anyMatch(loadedGood -> loadedGood.getGood().equals(good));
+    }
 }

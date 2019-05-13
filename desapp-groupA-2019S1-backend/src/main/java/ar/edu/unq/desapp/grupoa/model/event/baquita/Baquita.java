@@ -15,10 +15,9 @@ import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.extract;
 public abstract class Baquita extends Event {
 
     protected BaquitaState state;
-    protected List<LoadedGood> loadedGoods;
 
     public Baquita(String name, User organizer, List<Guest> guests, List<Good> goodsForGuest){
-        this.loadedGoods = new ArrayList<>();
+
         this.name = name;
         this.organizer = organizer;
         this.guests = guests;
@@ -56,10 +55,6 @@ public abstract class Baquita extends Event {
         user.updateAccount(account);
     }
 
-    public Integer totalCost() {
-        return loadedGoods.stream().mapToInt(LoadedGood::getAmount).sum();
-    }
-
     @Override
     public void confirmAsistancesOf(Guest guestToAssist) {
         guestToAssist.confirmAsistance();
@@ -77,14 +72,6 @@ public abstract class Baquita extends Event {
         if (guest.isInvitationPending()) {
             guest.cancelInvitation();
         }
-    }
-
-    public void loadGood(LoadedGood loadedGood){
-        this.loadedGoods.add(loadedGood);
-    }
-
-    public Boolean goodIsloaded(Good good) {
-        return this.loadedGoods.stream().anyMatch(loadedGood -> loadedGood.getGood().equals(good));
     }
 
     public Boolean isInvited(Guest guest) {

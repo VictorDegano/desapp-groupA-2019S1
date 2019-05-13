@@ -11,7 +11,7 @@ import ar.edu.unq.desapp.grupoa.model.user.User;
 import org.junit.Test;
 
 import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.ConfirmInvitation.confirmInvitation;
-import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.LoadGood.loadRepresentativeGood;
+import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.LoadGood.loadGood;
 import static ar.edu.unq.desapp.grupoa.utils.Integer.integer;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.newBaquitaRepresentativesWithOwner;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.newRandomBaquitaRepresentatives;
@@ -88,7 +88,7 @@ public class BaquitaRepresentativesTest {
         confirmInvitation(guest, baquita);
         baquita.addGood(good);
 
-        loadRepresentativeGood(baquita, good, guest);
+        loadGood(baquita, good, guest);
         assertTrue(baquita.goodIsloaded(good));
     }
 
@@ -101,7 +101,7 @@ public class BaquitaRepresentativesTest {
         baquita.addGood(good);
         baquita.addRepresentative(guest);
 
-        loadRepresentativeGood(baquita, good, guest);
+        loadGood(baquita, good, guest);
     }
 
 
@@ -113,7 +113,7 @@ public class BaquitaRepresentativesTest {
         BaquitaRepresentatives baquita = newRandomBaquitaRepresentatives();
         baquita.addGood(good);
 
-        loadRepresentativeGood(baquita, good, guest);
+        loadGood(baquita, good, guest);
     }
 
     @Test(expected = CloseEventException.class)
@@ -127,7 +127,7 @@ public class BaquitaRepresentativesTest {
         baquita.addGood(good);
         baquita.close();
 
-        loadRepresentativeGood(baquita, good, guest);
+        loadGood(baquita, good, guest);
     }
 
 
@@ -141,7 +141,7 @@ public class BaquitaRepresentativesTest {
         baquita.addGuest(guest);
         confirmInvitation(guest, baquita);
 
-        loadRepresentativeGood(baquita, good, guest);
+        loadGood(baquita, good, guest);
     }
 
     @Test(expected = GoodAlreadyLoaded.class)
@@ -154,8 +154,8 @@ public class BaquitaRepresentativesTest {
         confirmInvitation(guest, baquita);
         baquita.addGood(good);
 
-        loadRepresentativeGood(baquita, good, guest);
-        loadRepresentativeGood(baquita, good, guest);
+        loadGood(baquita, good, guest);
+        loadGood(baquita, good, guest);
     }
 
     @Test
