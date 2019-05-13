@@ -24,7 +24,7 @@ public class Randomizer {
 
     public static Function<User, User> withAccountBalance(Integer amount) {
          return (user) -> {
-             user.updateAccount(newAccountForUser(user, withBalance(100)));
+             user.updateAccount(newAccountForUser(user, withBalance(amount)));
              return user;
          };
     }

@@ -10,18 +10,15 @@ import ar.edu.unq.desapp.grupoa.model.user.User;
 
 import org.junit.Test;
 
-
 import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.ConfirmInvitation.confirmInvitation;
-import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.LoadGood.loadGood;
+import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.LoadGood.loadRepresentativeGood;
 import static ar.edu.unq.desapp.grupoa.utils.Integer.integer;
-import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.newAccountForUser;
-import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.withBalance;
-import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaBuilder.newBaquitaRepresentativesWithOwner;
-import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaBuilder.newRandomBaquitaRepresentatives;
-import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaBuilder.withConfirmedGuest;
-import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaBuilder.withConfirmedRepresentative;
-import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaBuilder.withLoadedGoodFrom;
-import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaBuilder.withRepresentative;
+import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.newBaquitaRepresentativesWithOwner;
+import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.newRandomBaquitaRepresentatives;
+import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.withConfirmedGuest;
+import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.withConfirmedRepresentative;
+import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.withLoadedGoodFrom;
+import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.withRepresentative;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomNumber;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.withAccountBalance;
@@ -38,7 +35,6 @@ public class BaquitaRepresentativesTest {
 
         assertFalse(baquita.eventIsClosed());
     }
-
 
     @Test
     public void aBaquitaIsCreatedWithOneRepresentative() {
@@ -92,10 +88,9 @@ public class BaquitaRepresentativesTest {
         confirmInvitation(guest, baquita);
         baquita.addGood(good);
 
-        loadGood(baquita, good, guest);
+        loadRepresentativeGood(baquita, good, guest);
         assertTrue(baquita.goodIsloaded(good));
     }
-
 
     @Test(expected = ConfirmAsistanceException.class)
     public void aRepresentativeCantLoadAGoodIfHeHasntConfirmed() {
@@ -106,7 +101,7 @@ public class BaquitaRepresentativesTest {
         baquita.addGood(good);
         baquita.addRepresentative(guest);
 
-        loadGood(baquita, good, guest);
+        loadRepresentativeGood(baquita, good, guest);
     }
 
 
@@ -118,13 +113,12 @@ public class BaquitaRepresentativesTest {
         BaquitaRepresentatives baquita = newRandomBaquitaRepresentatives();
         baquita.addGood(good);
 
-        loadGood(baquita, good, guest);
+        loadRepresentativeGood(baquita, good, guest);
     }
 
     @Test(expected = CloseEventException.class)
     public void aRepresentativeCantLoadAGoodIfTheBaquitaIsClose() {
-        Guest guest = new Guest(randomUser());
-        guest.getUser().updateAccount(newAccountForUser(guest.getUser(), withBalance(100)));
+        Guest guest = new Guest(randomUser(withAccountBalance(100)));
         Good good = newGoodWithPrice(100);
 
         BaquitaRepresentatives baquita = newRandomBaquitaRepresentatives();
@@ -133,7 +127,7 @@ public class BaquitaRepresentativesTest {
         baquita.addGood(good);
         baquita.close();
 
-        loadGood(baquita, good, guest);
+        loadRepresentativeGood(baquita, good, guest);
     }
 
 
@@ -147,7 +141,7 @@ public class BaquitaRepresentativesTest {
         baquita.addGuest(guest);
         confirmInvitation(guest, baquita);
 
-        loadGood(baquita, good, guest);
+        loadRepresentativeGood(baquita, good, guest);
     }
 
     @Test(expected = GoodAlreadyLoaded.class)
@@ -160,8 +154,8 @@ public class BaquitaRepresentativesTest {
         confirmInvitation(guest, baquita);
         baquita.addGood(good);
 
-        loadGood(baquita, good, guest);
-        loadGood(baquita, good, guest);
+        loadRepresentativeGood(baquita, good, guest);
+        loadRepresentativeGood(baquita, good, guest);
     }
 
     @Test
@@ -232,10 +226,5 @@ public class BaquitaRepresentativesTest {
         good.setQuantityForPerson(1);
         return good;
     }
-
-
-
-
-
 
 }

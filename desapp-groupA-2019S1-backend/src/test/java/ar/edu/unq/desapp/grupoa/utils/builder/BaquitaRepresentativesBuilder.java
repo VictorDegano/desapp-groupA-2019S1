@@ -10,21 +10,22 @@ import java.util.function.Function;
 
 
 import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.ConfirmInvitation.confirmInvitation;
-import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.LoadGood.loadGood;
+import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.LoadGood.loadRepresentativeGood;
 import static ar.edu.unq.desapp.grupoa.utils.ComposeFunctions.compose;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomString;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;
 
 
-public class BaquitaBuilder {
+//TODO: Refactor entre BaquitacomunitaryBuilder y BaquitaRepresentativeBuilder
+public class BaquitaRepresentativesBuilder {
 
 
-    private BaquitaBuilder() {
+    private BaquitaRepresentativesBuilder() {
     }
 
     @SafeVarargs
     public static BaquitaRepresentatives newRandomBaquitaRepresentatives(Function<BaquitaRepresentatives, BaquitaRepresentatives>... functions) {
-        return compose(functions).apply(new BaquitaRepresentatives(randomString(), randomUser(), new ArrayList<>(), new ArrayList<>()));
+        return  compose(functions).apply(new BaquitaRepresentatives(randomString(), randomUser(), new ArrayList<>(), new ArrayList<>()));
     }
 
     @SafeVarargs
@@ -62,7 +63,7 @@ public class BaquitaBuilder {
             good.setPricePerUnit(amount);
             good.setQuantityForPerson(1);
             baquita.addGood(good);
-            loadGood(baquita,good,representative);
+            loadRepresentativeGood(baquita,good,representative);
             return baquita;
         };
     }
