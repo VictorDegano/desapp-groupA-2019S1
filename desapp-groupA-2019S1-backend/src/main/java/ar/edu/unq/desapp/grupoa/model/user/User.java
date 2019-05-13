@@ -122,7 +122,16 @@ public class User {
         this.account = this.account.extract(totalCost);
     }
 
+    public Account getAccount() {
+        return this.account;
+    }
+
+    public void updateAccount(Account account) {
+        this.account = account;
+    }
+
     public String fullName(){
         return this.getFirstName() + ' ' + this.getLastName();
     }
+
 }

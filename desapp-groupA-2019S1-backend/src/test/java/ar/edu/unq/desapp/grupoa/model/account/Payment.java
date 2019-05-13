@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.extract;
 import static ar.edu.unq.desapp.grupoa.utils.Integer.integer;
-import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.accountForRandomUser;
+import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.newAccountForRandomUser;
 import static org.junit.Assert.assertEquals;
 
 public class Payment {
@@ -14,7 +14,7 @@ public class Payment {
 
     @Test(expected = NotEnoughCashToPerformOperation.class)
     public void testCantTakeMoneyIfNoMoneyOnAccount() {
-        Account account = extract(accountForRandomUser(),200);
+        Account account = extract(newAccountForRandomUser(),200);
 
         assertEquals(account.balance(), integer(0));
     }

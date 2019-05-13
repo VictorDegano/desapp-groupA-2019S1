@@ -14,18 +14,20 @@ abstract public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String name;
+    protected Integer id;
+    protected String name;
     @Transient
-    private User organizer;
+    protected User organizer;
     @Transient
-    private List<Guest> guest;
+    protected List<Guest> guests;
     @Transient
-    private List<Good> goodsForGuest;
+    protected List<Good> goodsForGuest;
+
 
     public static Event createWithATemplate(String name, User organizer, List<Guest> guests, LocalDateTime limitTime, Template template, EventType aEventType){
         return CreateEventStrategySelector.selectStrategyFor(aEventType).createEvent(name, organizer, guests, limitTime, template);
     }
+
 
     public abstract boolean eventIsClosed();
 
@@ -75,8 +77,8 @@ abstract public class Event {
     public String getName() {   return this.name;    }
     public void setName(String name) {  this.name = name;   }
 
-    public List<Guest> getGuest() { return this.guest;   }
-    public void setGuest(List<Guest> guest) {   this.guest = guest; }
+    public List<Guest> getGuest() { return this.guests;   }
+    public void setGuest(List<Guest> guest) {   this.guests = guest; }
 
     public List<Good> getGoodsForGuest() {  return this.goodsForGuest;   }
     public void setGoodsForGuest(List<Good> goodsForGuest) {    this.goodsForGuest = goodsForGuest; }
