@@ -20,4 +20,8 @@ public class LoadedGood {
     public Object getGood() {
         return good;
     }
+
+    public Guest getGuest() {
+        return guest;
+    }
 }
