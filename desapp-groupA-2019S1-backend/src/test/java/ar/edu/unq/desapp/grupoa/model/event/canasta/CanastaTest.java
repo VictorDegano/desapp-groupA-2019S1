@@ -7,10 +7,7 @@ import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
 import ar.edu.unq.desapp.grupoa.model.event.Template;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
-import ar.edu.unq.desapp.grupoa.utils.builder.CanastaBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builder.TemplateBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builder.UserBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -414,5 +411,34 @@ public class CanastaTest {
 
         //Test(Then)
         assertEquals(InvitationState.ACCEPTED, guest.getConfirmAsistance());
+    }
+
+    @Test
+    public void whenACanastaHasTwoGoodsOf250PesosTheTotalCostOfCanastaIs500Pesos(){
+        //Setup(Given)
+        CanastaGood asado = CanastaGoodBuilder
+                            .buildAGood()
+                            .withPricesPerUnit(250)
+                            .withQuantityForPerson(1)
+                            .withName("Asado")
+                            .build();
+        CanastaGood fernet = CanastaGoodBuilder
+                            .buildAGood()
+                            .withPricesPerUnit(250)
+                            .withQuantityForPerson(1)
+                            .withName("Fernet").build();
+
+        Canasta newCanasta = CanastaBuilder.buildCanasta()
+                .withOrganizer(userThatCreateTheCanasta)
+                .withName("Canastita")
+                .addGood(asado)
+                .addGood(fernet)
+                .build();
+
+        //Test(Then)
+        assertEquals("the user account has the same money!!",
+                Integer.valueOf(500),
+                newCanasta.totalCost());
+
     }
 }
