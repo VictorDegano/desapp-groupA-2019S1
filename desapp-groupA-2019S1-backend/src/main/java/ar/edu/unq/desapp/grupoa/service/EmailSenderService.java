@@ -1,24 +1,25 @@
 package ar.edu.unq.desapp.grupoa.service;
 
+import ar.edu.unq.desapp.grupoa.service.email.Mail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class EmailSenderService {
 
     @Autowired
     private JavaMailSender javaMailSender;
 
-    public void sendMailTo() {
+    public void send(Mail mail){
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setSubject(mail.getSubject());
+        message.setText(mail.getContent());
+        message.setTo(mail.getTo());
+        message.setFrom(mail.getFrom());
 
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo("flame.el22@gmail.com", "DominikowIvan@gmail.com", "ivanjaratamargo@gmail.com", "minusmisaki@gmail.com");
-
-        msg.setSubject("Testing from Spring Boot");
-        msg.setText("Hello World! \n Spring Boot Email it's runnning!! yuhuuu!! doh!");
-
-        this.javaMailSender.send(msg);
+        javaMailSender.send(message);
     }
+
 }
