@@ -7,8 +7,6 @@ public class Mail {
     private String subject;
     private String content;
 
-    public Mail() { }
-
     public String getFrom() {
         return from;
     }
