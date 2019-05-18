@@ -29,9 +29,14 @@ public class Canasta extends Event {
     @Override
     public boolean eventIsClosed() {    return this.canastaState.isCloseCanasta();   }
 
-    // todo falta calcular el costo total
     @Override
-    public Integer totalCost() {    return null;    }
+    public Integer totalCost() {
+        return this.getGoodsForGuest()
+            .stream()
+            .mapToInt(Good::totalCost)
+            .sum();
+
+    }
 
     @Override
     public void confirmAsistancesOf(Guest guestToAssist) {
