@@ -383,7 +383,7 @@ public class CanastaTest {
     public void ifTryCreateACanastaWithATemplateAndTheTemplateNotIsForCanasta_GetAnException(){
         //Setup(Given)
         Template baquitaComunitariaVaciaTemplate = TemplateBuilder.buildATemplate()
-                                                       .withEventType(EventType.BAQUITA_COMUNITARIA)
+                                                       .withEventType(EventType.BAQUITA_COMUNITARY)
                                                        .build();
 
         //Exercise(Exercise)

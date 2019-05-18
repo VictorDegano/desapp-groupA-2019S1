@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa.model.event.baquita;
 
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
+import ar.edu.unq.desapp.grupoa.model.event.Template;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
 import java.util.ArrayList;
@@ -17,6 +18,10 @@ public class BaquitaRepresentatives extends Baquita {
         super(name, organizer, guests, goodsForGuest);
         this.representatives = new ArrayList<>();
         this.loadedGoods = new ArrayList<>();
+    }
+
+    public static BaquitaRepresentatives createWithATemplate(String name, User organizer, List<Guest> guests, Template template) {
+        return new BaquitaRepresentatives(name,organizer,guests,template.getGoodsForEvent());
     }
 
     protected void distributePayment() {
