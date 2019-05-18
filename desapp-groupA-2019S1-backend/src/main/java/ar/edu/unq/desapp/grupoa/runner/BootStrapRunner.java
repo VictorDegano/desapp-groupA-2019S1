@@ -17,7 +17,7 @@ import static org.apache.commons.collections.ListUtils.EMPTY_LIST;
 @Component
 public class BootStrapRunner implements ApplicationRunner {
 
-    Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private FiestaService fiestaService;
