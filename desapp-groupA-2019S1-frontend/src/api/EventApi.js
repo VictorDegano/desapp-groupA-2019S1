@@ -4,8 +4,7 @@ import axios from 'axios';
 class EventApi {
 
     constructor() {
-        if(window.location.href === 'http://localhost:3000/'
-           && window.location.host === "localhost:3000"
+        if(window.location.host === "localhost:3000"
            && window.location.hostname === "localhost"
            && window.location.origin === 'http://localhost:3000'
            && window.location.port === '3000'){
