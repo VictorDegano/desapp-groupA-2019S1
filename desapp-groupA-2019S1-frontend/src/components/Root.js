@@ -6,8 +6,10 @@ import Login from '../components/Login';
 import App from '../components/App';
 import Callback from '../Callback/Callback';
 import PropTypes from 'prop-types';
-import history from "../history";
+import history from '../history';
+import Auth from '../Auth/Auth';
 
+export const auth = new Auth();
 
 //El tag provider hace que todo lo que este dentro de este tag, este conectado al store de redux
 const Root = ({ store }) => (

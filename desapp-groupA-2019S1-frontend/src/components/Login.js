@@ -1,7 +1,5 @@
 import React from 'react'
-import Auth from '../Auth/Auth';
-
-const auth = new Auth();
+import {auth} from '../components/Root.js';
 
 const Login = () => (
   <div>
