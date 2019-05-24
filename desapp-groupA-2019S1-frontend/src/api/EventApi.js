@@ -1,7 +1,7 @@
 import fiestaMock from '../resources/Fiesta.js';
 import axios from 'axios';
 import {auth} from '../components/Root.js';
-import {API_CONFIG} from './Api-config.js';
+import {API_CONFIG} from './Configs/Api-config.js';
 
 class EventApi {
     
@@ -12,7 +12,7 @@ class EventApi {
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
                 'Content-Type': API_CONFIG.contentType,
-                'Access-Control-Allow-Methods' : API_CONFIG.allowMethods,
+                'Access-Control-Allow-Methods': API_CONFIG.allowMethods,
                 'Access-Control-Allow-Origin': API_CONFIG.allowOrigin
             }
         }

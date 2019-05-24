@@ -4,9 +4,7 @@ import history from '../history';
 
 export default class Auth {
     userProfile;
-    accessToken;
-    idToken;
-    expiresAt;
+
     auth0 = new auth0.WebAuth({
         domain: AUTH_CONFIG.domain,
         clientID: AUTH_CONFIG.clientID,
@@ -17,18 +15,20 @@ export default class Auth {
     });
 
     login() {
+        console.log('login()');
         this.auth0.authorize();
     }
 
     logout() {
-        // Remove tokens and expiry time
-        this.accessToken = null;
-        this.idToken = null;
-        this.expiresAt = 0;
+        console.log('logout()');
         // Remove the user
         this.userProfile = null;
+
         // Remove isLoggedIn flag from localStorage
         localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('id_token');
+        localStorage.removeItem('expires_at');
 
         this.auth0.logout({
             returnTo: window.location.origin
@@ -39,30 +39,33 @@ export default class Auth {
     }
 
     setSession(authResult) {
-        console.log(authResult);
+        console.log('setSession()');
         // Set isLoggedIn flag in localStorage
         localStorage.setItem('isLoggedIn', 'true');
 
         // Set the time that the Access Token will expire at
         let expiresAt = (authResult.expiresIn * 1000) + new Date().getTime();
-        this.accessToken = authResult.accessToken;
-        this.idToken = authResult.idToken;
-        this.expiresAt = expiresAt;
+        
+        localStorage.setItem('access_token', authResult.accessToken);
+        localStorage.setItem('id_token', authResult.idToken);
+        localStorage.setItem('expires_at', expiresAt);
     }
 
     renewSession() {
-    this.auth0.checkSession({}, (err, authResult) => {
-        if (authResult && authResult.accessToken && authResult.idToken) {
-            this.setSession(authResult);
-        } else if (err) {
-            this.logout();
-            console.log(err);
-            alert(`Could not get a new token (${err.error}: ${err.error_description}).`);
-        }
-    });
+        console.log('renewSession()');
+        this.auth0.checkSession({}, (err, authResult) => {
+            if (authResult && authResult.accessToken && authResult.idToken) {
+                this.setSession(authResult);
+            } else if (err) {
+                this.logout();
+                console.log(err); //TODO: valdria la pena que vaya al home?
+                alert(`Could not get a new token (${err.error}: ${err.error_description}).`);
+            }
+        });
     }
 
     isAuthenticated() {
+        console.log('isAuthenticated()');
         // Check whether the current time is past the
         // access token's expiry time
         let expiresAt = this.expiresAt;
@@ -83,15 +86,18 @@ export default class Auth {
     }
 
     getAccessToken() {
-        return this.accessToken;
+        console.log('getAccessToken()');
+        return localStorage.getItem('access_token');
     }
     
     getIdToken() {
-        return this.idToken;
+        console.log('getIdToken()');
+        return localStorage.getItem('id_token');
     }
 
     getProfile(cb) {
-        this.auth0.client.userInfo(this.accessToken, (err, profile) => {
+        console.log('getProfile()');
+        this.auth0.client.userInfo(localStorage.getItem('access_token'), (err, profile) => {
           if (profile) {
             this.userProfile = profile;
           }

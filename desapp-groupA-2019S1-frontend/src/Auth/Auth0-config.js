@@ -5,6 +5,7 @@ export const AUTH_CONFIG = {
 };
 
 function getCallbackURL(){
+    console.log('getCallbackURL()');
     if( window.location.host === "localhost:3000"
         && window.location.hostname === "localhost"
         && window.location.origin === 'http://localhost:3000'

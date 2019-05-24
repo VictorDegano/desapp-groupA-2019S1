@@ -2,10 +2,10 @@
 import { combineReducers } from 'redux';
 
 //App Reducers
-import eventList from '../reducers/eventListReducer';
+import EventReducer from '../reducers/EventReducer';
 
 const rootReducer = combineReducers({
-    eventList
+    EventReducer
 })
 
 export default rootReducer;

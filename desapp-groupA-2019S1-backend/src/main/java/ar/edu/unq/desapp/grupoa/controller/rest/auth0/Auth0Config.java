@@ -28,9 +28,6 @@ public class Auth0Config extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/").permitAll()
                 .antMatchers(HttpMethod.GET, "/fiesta/**", "/user").authenticated();
-//                .antMatchers(HttpMethod.GET, "/api/public").permitAll()
-//                .antMatchers(HttpMethod.GET, "/api/private").authenticated()
-//                .antMatchers(HttpMethod.GET, "/api/private-scoped").hasAuthority("read:messages");
     }
 
 }

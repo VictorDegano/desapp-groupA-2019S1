@@ -6,6 +6,8 @@ export const API_CONFIG = {
 };
 
 function getEndPoint(){
+    console.log('getEndPoint()');
+    
     if( window.location.host === "localhost:3000"
         && window.location.hostname === "localhost"
         && window.location.origin === 'http://localhost:3000'
