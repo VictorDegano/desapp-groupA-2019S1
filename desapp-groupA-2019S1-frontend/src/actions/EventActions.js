@@ -8,6 +8,6 @@ export function loadEvents(events) {
     return {
         type: ACTION_TYPE.SHOW_ALL_EVENTS,
         events: events
-    }
+    };
 
-};
+}

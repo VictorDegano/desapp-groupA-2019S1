@@ -10,7 +10,7 @@ class EventList extends Component {
     static propTypes ={
         loadEvents: PropTypes.func.isRequired,
         events: PropTypes.array
-    };
+    }
 
     //Ocurre antes de que el componente se monte(o complete de montarse)
     componentWillMount(){
@@ -20,16 +20,16 @@ class EventList extends Component {
         eventApi.fetchEvents()
                 .then((events) => {
                     this.props.loadEvents(events);});
-    };
+    }
 
     createListOfGoods(listOfGoods,name){
         // console.log('createListOfGoods()');
         if(listOfGoods !== null) {
             return  <ul key={"goodsOf"+name}>
-                        {listOfGoods.map(i => {return <li key={i.name+i.name.length}>{i.name}</li>;})}
+                        {listOfGoods.map((i) => {return <li key={i.name+i.name.length}>{i.name}</li>;})}
                     </ul>;
         }      
-    };
+    }
 
     render (){
         // console.log('render()');
@@ -51,14 +51,14 @@ class EventList extends Component {
                                 })}
             </ul>
         </div>;
-    };
+    }
 
     constructor(props){
         super(props);
         this.componentWillMount = this.componentWillMount.bind(this);
         this.createListOfGoods = this.createListOfGoods.bind(this);
         this.render = this.render.bind(this);
-    };
+    }
 }
 
 function mapStateToProps (state){
