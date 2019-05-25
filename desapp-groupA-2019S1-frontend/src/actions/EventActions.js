@@ -1,8 +1,8 @@
-import * as ACTION_TYPE from '../actions/Action_Types/Event_Types.js'
+import * as ACTION_TYPE from "../actions/Action_Types/Event_Types.js";
 
 //Todas las funciones de acciones que hacemos llevan un type que es la accion que realiza y luego la informacion
 export function loadEvents(events) {
-    console.log('loadEvents()');
+    // console.log('loadEvents()');
                 
     //Las acciones devuelve un objeto
     return {

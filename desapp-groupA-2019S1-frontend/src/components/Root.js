@@ -1,13 +1,13 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { Route } from 'react-router';
-import { Router } from 'react-router-dom';
-import Login from '../components/Login';
-import App from '../components/App';
-import Callback from '../Callback/Callback';
-import PropTypes from 'prop-types';
-import history from '../history';
-import Auth from '../Auth/Auth';
+import React from "react";
+import { Provider } from "react-redux";
+import { Route } from "react-router";
+import { Router } from "react-router-dom";
+import Login from "../components/Login";
+import App from "../components/App";
+import Callback from "../Callback/Callback";
+import PropTypes from "prop-types";
+import history from "../history";
+import Auth from "../Auth/Auth";
 
 export const auth = new Auth();
 
@@ -17,11 +17,11 @@ const Root = ({ store }) => (
     <Router history={history}>
         <div>
             <Route  exact 
-                    path='/' 
+                    path="/" 
                     component={Login}/>
-            <Route  path='/home'
+            <Route  path="/home"
                     component={App}/>
-            <Route  path='/callback'
+            <Route  path="/callback"
                     component={Callback}/>
         </div>
     </Router>

@@ -1,6 +1,6 @@
-import React from 'react'
-import EventList from '../containers/EventList';
-import {withRouter} from 'react-router-dom'
+import React from "react";
+import EventList from "../containers/EventList";
+import {withRouter} from "react-router-dom";
 
 
 const App = () => (

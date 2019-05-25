@@ -6,21 +6,20 @@ const initialState = {
 
 //Se recibe un state antiguo, un action y se devuelve el nuevo state
 export default function eventReducer(state= initialState, action){
-    console.log('eventReducer()');
+    // console.log('eventReducer()');
 
     //Dependiendo del tipo de accion que recibimos es lo que vamos a realizar
     switch(action.type){
-        case 'SHOW_ALL_EVENTS': {
-            console.log('case SHOW_ALL_EVENTS');
+        case "SHOW_ALL_EVENTS": {
+            // console.log('case SHOW_ALL_EVENTS');
             const { events: retrievedValue } = action;
             
             return Object.assign({}, state, { 
                 events: retrievedValue
-            })
+            });
         }
 
         default: 
-            return state
-        
+            return state;
     }
 }
