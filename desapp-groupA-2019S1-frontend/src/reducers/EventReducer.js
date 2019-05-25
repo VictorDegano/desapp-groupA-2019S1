@@ -2,7 +2,7 @@
 
 const initialState = {
     events: []
-}
+};
 
 //Se recibe un state antiguo, un action y se devuelve el nuevo state
 export default function eventReducer(state= initialState, action){
@@ -22,4 +22,4 @@ export default function eventReducer(state= initialState, action){
         default: 
             return state;
     }
-}
+};

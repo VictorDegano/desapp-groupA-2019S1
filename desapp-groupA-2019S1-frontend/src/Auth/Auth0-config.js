@@ -1,4 +1,4 @@
-import getURL from "../api/Configs/EndpointResolver.js"
+import getURL from "../api/Configs/EndpointResolver.js";
 
 export const AUTH_CONFIG = {
     domain: "victor-degano.auth0.com",

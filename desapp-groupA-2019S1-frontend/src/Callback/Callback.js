@@ -6,7 +6,7 @@ import {auth} from "../components/Root.js";
 function goToHomePageAtSevenSec() {
   // console.log('goToHomePageAtSevenSec()');
   
-  setTimeout(()=>history.push("/home"), 7000);
+  setTimeout(() => history.push("/home"), 7000);
 }
 
 function handleAuthentication() {

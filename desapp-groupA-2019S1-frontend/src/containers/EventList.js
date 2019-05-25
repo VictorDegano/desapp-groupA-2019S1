@@ -10,7 +10,7 @@ class EventList extends Component {
     static propTypes ={
         loadEvents: PropTypes.func.isRequired,
         events: PropTypes.array
-    }
+    };
 
     //Ocurre antes de que el componente se monte(o complete de montarse)
     componentWillMount(){
@@ -18,9 +18,18 @@ class EventList extends Component {
         var eventApi = new EventApi();
 
         eventApi.fetchEvents()
-                .then(events =>{
-                    this.props.loadEvents(events)});
-    }
+                .then((events) => {
+                    this.props.loadEvents(events);});
+    };
+
+    createListOfGoods(listOfGoods,name){
+        // console.log('createListOfGoods()');
+        if(listOfGoods !== null) {
+            return  <ul key={"goodsOf"+name}>
+                        {listOfGoods.map(i => {return <li key={i.name+i.name.length}>{i.name}</li>;})}
+                    </ul>;
+        }      
+    };
 
     render (){
         // console.log('render()');
@@ -31,27 +40,25 @@ class EventList extends Component {
             Eventos:
 
             <ul>
-                {eventsLoaded.map(i => {
+                {eventsLoaded.map((i) => {
                                     return <li key={i.name+i.name.length}>
                                             {i.name}
                                             <br/>
                                             Confirmations: {i.confirmations}
                                             <br/>
-                                            {createListOfGoods(i.goodsForGuest,i.name)}
-                                           </li>
+                                            {this.createListOfGoods(i.goodsForGuest,i.name)}
+                                           </li>;
                                 })}
             </ul>
-        </div>
-    }
-}
+        </div>;
+    };
 
-function createListOfGoods(listOfGoods,name){
-    // console.log('createListOfGoods()');
-    if(listOfGoods !== null) {
-        return  <ul key={"goodsOf"+name}>
-                    {listOfGoods.map(i => {return <li key={i.name+i.name.length}>{i.name}</li>})}
-                </ul>
-    }      
+    constructor(props){
+        super(props);
+        this.componentWillMount = this.componentWillMount.bind(this);
+        this.createListOfGoods = this.createListOfGoods.bind(this);
+        this.render = this.render.bind(this);
+    };
 }
 
 function mapStateToProps (state){
@@ -59,7 +66,7 @@ function mapStateToProps (state){
     //state: valor del state (La idea es que el estado se obtiene atravesando el reducer correspondiente, osea state.reducer.xState)
     return {
         events: state.EventReducer.events
-    }
+    };
 }
 
 //el mapStateToProps son los estados que se conectan a los props

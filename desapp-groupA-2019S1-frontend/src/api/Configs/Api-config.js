@@ -1,4 +1,4 @@
-import getURL from "../Configs/EndpointResolver.js"
+import getURL from "../Configs/EndpointResolver.js";
 
 export const API_CONFIG = {
     contentType : "application/json",

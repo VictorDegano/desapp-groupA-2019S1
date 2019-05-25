@@ -15,7 +15,7 @@ class EventApi {
                 "Access-Control-Allow-Methods": API_CONFIG.allowMethods,
                 "Access-Control-Allow-Origin": API_CONFIG.allowOrigin
             }
-        }
+        };
 
         return axios.get( API_CONFIG.endPoint + "fiesta/" + eventNumber, header);
     }
@@ -23,12 +23,12 @@ class EventApi {
     fetchEvents(){
         // console.log('fetchEvents()');
         return this.getEvent("1")
-                   .then( response =>{
+                   .then( (response) => {
                             let events = this.getAllEvents();
                             events.push(response.data);
                             return events;
                             })
-                    .catch(error => []);
+                    .catch((error) => []);
                     //TODO: habria que pensar un mejor handleo.
     }
 

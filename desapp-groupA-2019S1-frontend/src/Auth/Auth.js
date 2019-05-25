@@ -67,11 +67,11 @@ export default class Auth {
 
     renewSession() {
         // console.log('renewSession()');
-        this.auth0.checkSession({}, (err, authResult) =>this.resolveRenewSession(err, authResult) );
+        this.auth0.checkSession({}, (err, authResult) => this.resolveRenewSession(err, authResult) );
     }
 
     isAuthenticated() {
-        console.log('isAuthenticated()');
+        // console.log('isAuthenticated()');
         // Check whether the current time is past the
         // access token's expiry time
         let expiresAt = this.expiresAt;
@@ -90,7 +90,7 @@ export default class Auth {
 
     handleAuthentication() {
         // console.log('handleAuthentication()');
-        this.auth0.parseHash((err, authResult) =>this.resolveHandleAuthentication(err, authResult));
+        this.auth0.parseHash((err, authResult) => this.resolveHandleAuthentication(err, authResult));
     }
 
     getAccessToken() {
@@ -116,7 +116,7 @@ export default class Auth {
             .client
             .userInfo(
                 localStorage.getItem("access_token"), 
-                (err, profile) =>this.resolveGetProfile(cb,err,profile));
+                (err, profile) => this.resolveGetProfile(cb,err,profile));
     }
 
     //Esto es para evitar perder la referencia

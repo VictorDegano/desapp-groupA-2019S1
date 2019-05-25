@@ -5,6 +5,6 @@ import EventReducer from "../reducers/EventReducer";
 
 const rootReducer = combineReducers({
     EventReducer
-})
+});
 
 export default rootReducer;
