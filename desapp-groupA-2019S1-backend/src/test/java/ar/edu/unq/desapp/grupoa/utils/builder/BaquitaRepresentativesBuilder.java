@@ -5,6 +5,7 @@ import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaRepresentatives;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.function.Function;
 
@@ -25,12 +26,12 @@ public class BaquitaRepresentativesBuilder {
 
     @SafeVarargs
     public static BaquitaRepresentatives newRandomBaquitaRepresentatives(Function<BaquitaRepresentatives, BaquitaRepresentatives>... functions) {
-        return  compose(functions).apply(new BaquitaRepresentatives(randomString(), randomUser(), new ArrayList<>(), new ArrayList<>()));
+        return  compose(functions).apply(new BaquitaRepresentatives(randomString(), randomUser(), new ArrayList<>(), new ArrayList<>(), LocalDateTime.now()));
     }
 
     @SafeVarargs
     public static BaquitaRepresentatives newBaquitaRepresentativesWithOwner(User owner, Function<BaquitaRepresentatives, BaquitaRepresentatives>... functions) {
-        return compose(functions).apply(new BaquitaRepresentatives(randomString(), owner, new ArrayList<>(), new ArrayList<>()));
+        return compose(functions).apply(new BaquitaRepresentatives(randomString(), owner, new ArrayList<>(), new ArrayList<>(), LocalDateTime.now()));
     }
 
 

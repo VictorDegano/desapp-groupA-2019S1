@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoa.controller.rest;
 
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
-import ar.edu.unq.desapp.grupoa.service.FiestaService;
+import ar.edu.unq.desapp.grupoa.service.EventService;
 import ar.edu.unq.desapp.grupoa.utils.builder.FiestaBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,14 +18,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 // TODO: 7/5/2019 si esta es la implementacion que va a mantenerse hay que testear todos los casos
 @RunWith(SpringRunner.class)
-@WebMvcTest(FiestaController.class)
-public class FiestaControllerTest {
+@WebMvcTest(EventController.class)
+public class EventControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private FiestaService fiestaService;
+    private EventService eventService;
 
     @Test
     public void whenITryToGetAFiestaAndThisOne_TheServiceReturnsIt() throws Exception {
@@ -34,13 +34,13 @@ public class FiestaControllerTest {
                                      .withName("La Fiesta loca")
                                      .build();
 
-        given(fiestaService.getById(1)).willReturn(fiesta);
+        given(eventService.getById(1)).willReturn(fiesta);
         ResultMatcher responseExpected = content().json("{\"id\":null,\"name\":\"La Fiesta loca\",\"organizer\":null,\"guest\":[],\"goodsForGuest\":[],\"limitConfirmationDateTime\":null,\"confirmations\":null}");
 
         //Exercise(When)
 
         //Test(Then)
-        this.mockMvc.perform(get("/fiesta/1"))
+        this.mockMvc.perform(get("/event/1"))
                     .andExpect(status().isOk())
                     .andExpect(responseExpected);
     }

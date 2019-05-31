@@ -1,15 +1,11 @@
 package ar.edu.unq.desapp.grupoa.model.event.fiesta;
 
+import ar.edu.unq.desapp.grupoa.exception.event.CloseEventException;
+import ar.edu.unq.desapp.grupoa.exception.event.ConfirmationLimitException;
 import ar.edu.unq.desapp.grupoa.exception.event.InvalidTemplateException;
-import ar.edu.unq.desapp.grupoa.model.event.*;
-
-import ar.edu.unq.desapp.grupoa.model.event.fiesta.state.FiestaState;
-import ar.edu.unq.desapp.grupoa.model.event.fiesta.state.OpenFiesta;
 import ar.edu.unq.desapp.grupoa.model.event.*;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.exception.event.ConfirmAsistanceException;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,26 +13,28 @@ import java.util.List;
 @Entity
 public class Fiesta extends Event {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     private LocalDateTime limitConfirmationDateTime;
     private Integer confirmations;
-    @JsonIgnore
-    @Transient
-    private FiestaState state;
 
-    public static Fiesta createWithATemplate(String name, User organizer, List<Guest> guests, LocalDateTime limitTime, Template template) {
+    public static Fiesta createWithATemplate(String name, User organizer, List<Guest> guests, LocalDateTime limitTime, Template template, LocalDateTime creationDate) {
         if (!template.isForEvent(EventType.FIESTA)) {
             throw new InvalidTemplateException(EventType.FIESTA, template.getEventType());
         }
         TemplateRelations.useTemplate(organizer,template);
-        return new Fiesta(name, organizer, guests, limitTime, template.getGoodsForEvent());
+        return new Fiesta(name, organizer, guests, limitTime, template.getGoodsForEvent(), creationDate);
     }
 
     @Override
     public void confirmAsistancesOf(Guest guestToAssist) {
-        this.getState().confirmAssistanceOf(guestToAssist);
+        if(this.eventIsClosed()){
+            throw new CloseEventException(this);
+        }
+
+        if(this.canConfirmInvitation(LocalDateTime.now())){
+            this.completeConfirmationAsistance(guestToAssist);
+        } else {
+            throw new ConfirmationLimitException(this, this.getLimitConfirmationDateTime());
+        }
     }
 
     public void completeConfirmationAsistance(Guest guestToAssist){
@@ -79,12 +77,12 @@ public class Fiesta extends Event {
 
     @Override
     public boolean eventIsClosed() {
-        return this.getState().isClosed();
+        return this.status.equals(EventStatus.CLOSE);
     }
 
     @Override
     public void close() {
-        this.setState(this.getState().nextState());
+        this.setStatus(EventStatus.CLOSE);
         cancelAllPendingInvitations();
     }
 
@@ -105,14 +103,15 @@ public class Fiesta extends Event {
    [}-{]---------------------------------------------[}-{]**/
     public Fiesta() {}
 
-    public Fiesta(String name, User organizer, List<Guest> guest, LocalDateTime limitConfirmationDateTime, List<Good> goodsForGuest) {
+    public Fiesta(String name, User organizer, List<Guest> guest, LocalDateTime limitConfirmationDateTime, List<Good> goodsForGuest, LocalDateTime creationDate) {
         this.setOrganizer(organizer);
         this.setGuest(guest);
         this.setGoodsForGuest(goodsForGuest);
         this.setName(name);
         this.limitConfirmationDateTime = limitConfirmationDateTime;
         this.confirmations = 0;
-        this.state = new OpenFiesta(this);
+        this.setStatus(EventStatus.OPEN);
+        this.setCreationDate(creationDate);
     }
 
 /**[}-{]---------------------------------------------[}-{]
@@ -125,8 +124,5 @@ public class Fiesta extends Event {
 
     public Integer getConfirmations() { return this.confirmations;   }
     public void setConfirmations(Integer confirmations) {   this.confirmations = confirmations; }
-
-    public FiestaState getState() { return state;   }
-    public void setState(FiestaState state) {   this.state = state; }
 }
 

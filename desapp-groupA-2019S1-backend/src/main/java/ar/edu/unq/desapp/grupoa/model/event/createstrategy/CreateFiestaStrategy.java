@@ -17,7 +17,7 @@ public class CreateFiestaStrategy implements CreateEventStrategy {
     }
 
     @Override
-    public Event createEvent(String name, User organizer, List<Guest> guests, LocalDateTime limitTime, Template template) {
-        return Fiesta.createWithATemplate(name, organizer, guests, limitTime, template);
+    public Event createEvent(String name, User organizer, List<Guest> guests, LocalDateTime limitTime, Template template, LocalDateTime creationDate) {
+        return Fiesta.createWithATemplate(name, organizer, guests, limitTime, template, creationDate);
     }
 }

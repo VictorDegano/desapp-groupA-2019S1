@@ -1,9 +1,10 @@
 package ar.edu.unq.desapp.grupoa.runner;
 
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
+import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
-import ar.edu.unq.desapp.grupoa.service.FiestaService;
+import ar.edu.unq.desapp.grupoa.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -20,7 +21,7 @@ public class BootStrapRunner implements ApplicationRunner {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private FiestaService fiestaService;
+    private EventService eventService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -30,7 +31,8 @@ public class BootStrapRunner implements ApplicationRunner {
 
     private void createExampleData() {
         logger.info("Loading Sample Data");
-        this.fiestaService.createAll(Arrays.asList(pepeLocoFiesta(),ivanFiesta()));
+//        this.eventService.createAll(Arrays.asList(pepeLocoFiesta(),ivanFiesta(),canastaLoca()));
+        this.eventService.createAll(Arrays.asList(pepeLocoFiesta(),ivanFiesta()));
     }
 
     private Fiesta ivanFiesta() {
@@ -42,8 +44,9 @@ public class BootStrapRunner implements ApplicationRunner {
                         new Guest(createUserWithName("Victor")),
                         new Guest(createUserWithName("Pepe El Loco")),
                         new Guest(createUserWithName("Ivan"))),
-                LocalDateTime.now(),
-                EMPTY_LIST);
+                LocalDateTime.now().plusDays(15),
+                EMPTY_LIST,
+                LocalDateTime.now());
     }
 
     private Fiesta pepeLocoFiesta() {
@@ -54,8 +57,21 @@ public class BootStrapRunner implements ApplicationRunner {
                 Arrays.asList(
                         new Guest(createUserWithName("Ivan")),
                         new Guest(createUserWithName("Ivan"))),
-                LocalDateTime.now(),
-                EMPTY_LIST);
+                LocalDateTime.now().plusDays(5),
+                EMPTY_LIST,
+                LocalDateTime.now());
+    }
+
+    private Canasta canastaLoca() {
+        logger.info("Creating Canasta Loca");
+        return new Canasta(
+                "Canasta Loca",
+                createUserWithName("El loco"),
+                Arrays.asList(
+                        new Guest(createUserWithName("Ivan")),
+                        new Guest(createUserWithName("Jose"))),
+                EMPTY_LIST,
+                LocalDateTime.now());
     }
 
     private User createUserWithName(String name) {

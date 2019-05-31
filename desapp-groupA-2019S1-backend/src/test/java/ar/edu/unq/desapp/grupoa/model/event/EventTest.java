@@ -29,8 +29,10 @@ public class EventTest {
                                                  .withEventType(EventType.CANASTA)
                                                  .build();
 
+        LocalDateTime creationDate = LocalDateTime.now();
+
         //Exercise(When)
-        Event eventCreated = Event.createWithATemplate("The Event", aUser, Arrays.asList(firstGuest), LocalDateTime.now(), fiestaTemplate, EventType.CANASTA);
+        Event eventCreated = Event.createWithATemplate("The Event", aUser, Arrays.asList(firstGuest), LocalDateTime.now(), fiestaTemplate, EventType.CANASTA, creationDate);
 
         //Test(Then)
         assertEquals("Josue", eventCreated.getOrganizer().getFirstName());
@@ -41,6 +43,7 @@ public class EventTest {
         assertEquals(1, eventCreated.getGoodsForGuest().size());
         assertEquals(Integer.valueOf(1), eventCreated.getGoodsForGuest().get(0).getQuantityForPerson());
         assertEquals(beer, eventCreated.getGoodsForGuest().get(0));
+        assertEquals(creationDate, eventCreated.getCreationDate());
     }
 
     @Test(expected = InvitationLimitException.class)

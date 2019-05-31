@@ -6,18 +6,19 @@ import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.Template;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.deposit;
 
 public class BaquitaComunitary extends Baquita {
 
-    public BaquitaComunitary(String name, User organizer, List<Guest> guests, List<Good> goodsForGuest) {
-        super(name, organizer, guests, goodsForGuest);
+    public BaquitaComunitary(String name, User organizer, List<Guest> guests, List<Good> goodsForGuest, LocalDateTime creationDate) {
+        super(name, organizer, guests, goodsForGuest,creationDate);
     }
 
-    public static BaquitaComunitary createWithATemplate(String name, User organizer, List<Guest> guests, Template template) {
-       return new BaquitaComunitary(name,organizer,guests,template.getGoodsForEvent());
+    public static BaquitaComunitary createWithATemplate(String name, User organizer, List<Guest> guests, Template template, LocalDateTime creationDate) {
+       return new BaquitaComunitary(name,organizer,guests,template.getGoodsForEvent(),creationDate);
     }
 
     @Override

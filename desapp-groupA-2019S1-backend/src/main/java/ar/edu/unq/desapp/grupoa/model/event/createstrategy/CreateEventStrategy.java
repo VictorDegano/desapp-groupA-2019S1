@@ -12,5 +12,5 @@ public interface CreateEventStrategy {
 
     boolean hasToHandleCreateEvent(EventType aEventType);
 
-    Event createEvent(String name, User organizer, List<Guest> guests, LocalDateTime limitTime, Template template);
+    Event createEvent(String name, User organizer, List<Guest> guests, LocalDateTime limitTime, Template template, LocalDateTime creationDate);
 }

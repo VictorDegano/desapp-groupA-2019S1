@@ -17,7 +17,7 @@ public class CreateBaquitaComunitariaStrategy implements CreateEventStrategy{
     }
 
     @Override
-    public Event createEvent(String name, User organizer, List<Guest> guests, LocalDateTime limitTime, Template template) {
-        return BaquitaComunitary.createWithATemplate(name, organizer, guests, template);
+    public Event createEvent(String name, User organizer, List<Guest> guests, LocalDateTime limitTime, Template template, LocalDateTime creationDate) {
+        return BaquitaComunitary.createWithATemplate(name, organizer, guests, template, creationDate);
     }
 }

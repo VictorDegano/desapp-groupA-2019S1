@@ -5,6 +5,7 @@ import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaComunitary;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.function.Function;
 
@@ -23,12 +24,12 @@ public class BaquitaComunitaryBuilder {
 
     @SafeVarargs
     public static BaquitaComunitary newRandomBaquitaComunitary(Function<BaquitaComunitary, BaquitaComunitary>... functions) {
-        return  compose(functions).apply(new BaquitaComunitary(randomString(), randomUser(), new ArrayList<>(), new ArrayList<>()));
+        return  compose(functions).apply(new BaquitaComunitary(randomString(), randomUser(), new ArrayList<>(), new ArrayList<>(), LocalDateTime.now()));
     }
 
     @SafeVarargs
     public static BaquitaComunitary newRandomBaquitaComunitaryWithOwner(User owner, Function<BaquitaComunitary, BaquitaComunitary>... functions) {
-        return compose(functions).apply(new BaquitaComunitary(randomString(), owner, new ArrayList<>(), new ArrayList<>()));
+        return compose(functions).apply(new BaquitaComunitary(randomString(), owner, new ArrayList<>(), new ArrayList<>(),LocalDateTime.now()));
     }
 
     public static Function<BaquitaComunitary, BaquitaComunitary> withConfirmedGuest(Guest guest) {

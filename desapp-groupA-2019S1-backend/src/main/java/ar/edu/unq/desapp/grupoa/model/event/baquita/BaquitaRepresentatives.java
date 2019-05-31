@@ -5,6 +5,7 @@ import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.Template;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,14 +15,14 @@ public class BaquitaRepresentatives extends Baquita {
     private List<Guest> representatives;
     protected List<LoadedGood> loadedGoods;
 
-    public BaquitaRepresentatives(String name, User organizer, List<Guest> guests, List<Good> goodsForGuest) {
-        super(name, organizer, guests, goodsForGuest);
+    public BaquitaRepresentatives(String name, User organizer, List<Guest> guests, List<Good> goodsForGuest, LocalDateTime creationDate) {
+        super(name, organizer, guests, goodsForGuest, creationDate);
         this.representatives = new ArrayList<>();
         this.loadedGoods = new ArrayList<>();
     }
 
-    public static BaquitaRepresentatives createWithATemplate(String name, User organizer, List<Guest> guests, Template template) {
-        return new BaquitaRepresentatives(name,organizer,guests,template.getGoodsForEvent());
+    public static BaquitaRepresentatives createWithATemplate(String name, User organizer, List<Guest> guests, Template template, LocalDateTime creationDate) {
+        return new BaquitaRepresentatives(name,organizer,guests,template.getGoodsForEvent(), creationDate);
     }
 
     protected void distributePayment() {
