@@ -11,6 +11,7 @@ import ar.edu.unq.desapp.grupoa.utils.builder.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUserWithName;
@@ -97,11 +98,16 @@ public class CanastaTest {
                 .build();
 
         //Test(Then)
-        assertTrue("El estado de la Canasta es en preparacion cuando se inicializa",
-                newCanasta.getState().isInPreparationCanasta());
+//        assertTrue("El estado de la Canasta es en preparacion cuando se inicializa",
+//                newCanasta.getState().isInPreparationCanasta());
 
         assertFalse("El estado de la Canasta no es cerrado",
-                newCanasta.getState().isCloseCanasta());
+                newCanasta.eventIsClosed());
+//        assertTrue("El estado de la Canasta es en preparacion cuando se inicializa",
+//                newCanasta.getState().isInPreparationCanasta());
+//
+//        assertFalse("El estado de la Canasta no es cerrado",
+//                newCanasta.getState().isCloseCanasta());
 
     }
 
@@ -383,11 +389,11 @@ public class CanastaTest {
     public void ifTryCreateACanastaWithATemplateAndTheTemplateNotIsForCanasta_GetAnException(){
         //Setup(Given)
         Template baquitaComunitariaVaciaTemplate = TemplateBuilder.buildATemplate()
-                                                       .withEventType(EventType.BAQUITA_COMUNITARIA)
+                                                       .withEventType(EventType.BAQUITA_COMUNITARY)
                                                        .build();
 
         //Exercise(Exercise)
-        Fiesta.createWithATemplate("", null, new ArrayList<>(), null, baquitaComunitariaVaciaTemplate);
+        Fiesta.createWithATemplate("", null, new ArrayList<>(), null, baquitaComunitariaVaciaTemplate, LocalDateTime.now());
 
         //Test(Test)
     }

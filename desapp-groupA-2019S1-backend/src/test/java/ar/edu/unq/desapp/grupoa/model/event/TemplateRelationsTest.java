@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -41,7 +42,7 @@ public class TemplateRelationsTest {
                 .build();
 
         //Exercise(Exercise)
-        Fiesta.createWithATemplate("La Fiesta Loca", organizer, new ArrayList<>(), limitTime, fiestaLocaTemplate);
+        Fiesta.createWithATemplate("La Fiesta Loca", organizer, new ArrayList<>(), limitTime, fiestaLocaTemplate, LocalDateTime.now());
         assertEquals("The templates list should have 1 element",
                 1,
                 TemplateRelations.getAllTemplates().size());
@@ -66,7 +67,7 @@ public class TemplateRelationsTest {
                 .addGood(laDelDiego)
                 .build();
 
-        Fiesta.createWithATemplate("La Fiesta Loca", organizer, new ArrayList<>(), limitTime, fiestaLocaTemplate);
+        Fiesta.createWithATemplate("La Fiesta Loca", organizer, new ArrayList<>(), limitTime, fiestaLocaTemplate, LocalDateTime.now());
         //Exercise(Exercise)
 
         assertTrue("The templates list should have 1 element",
@@ -97,8 +98,8 @@ public class TemplateRelationsTest {
                 .addGood(asado)
                 .build();
 
-        Fiesta.createWithATemplate("La Fiesta Loca", organizer, new ArrayList<>(), limitTime, fiestaLocaTemplate1);
-        Fiesta.createWithATemplate("La Fiesta Loca", organizer, new ArrayList<>(), limitTime, fiestaLocaTemplate2);
+        Fiesta.createWithATemplate("La Fiesta Loca", organizer, new ArrayList<>(), limitTime, fiestaLocaTemplate1, LocalDateTime.now());
+        Fiesta.createWithATemplate("La Fiesta Loca", organizer, new ArrayList<>(), limitTime, fiestaLocaTemplate2, LocalDateTime.now());
         //Exercise(Exercise)
 
         assertEquals("The element should be the template 2",

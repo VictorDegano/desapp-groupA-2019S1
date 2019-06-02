@@ -2,37 +2,46 @@ package ar.edu.unq.desapp.grupoa.model.event.baquita;
 
 import ar.edu.unq.desapp.grupoa.model.account.Account;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
+import ar.edu.unq.desapp.grupoa.model.event.EventStatus;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.extract;
 
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@DiscriminatorColumn(name = "baquita_type")
 public abstract class Baquita extends Event {
 
-    protected BaquitaState state;
+    public Baquita(String name, User organizer, List<Guest> guests, List<Good> goodsForGuest, LocalDateTime creationDate){
+        this.setName(name);
+        this.setOrganizer(organizer);
+        this.setGuest(guests);
+        this.setGoodsForGuest(goodsForGuest);
+        this.setStatus(EventStatus.OPEN);
+        this.setCreationDate(creationDate);
+    }
 
-    public Baquita(String name, User organizer, List<Guest> guests, List<Good> goodsForGuest){
-
-        this.name = name;
-        this.organizer = organizer;
-        this.guests = guests;
-        this.goodsForGuest = goodsForGuest;
-        this.state = BaquitaState.OPEN;
+    public Baquita() {
     }
 
     @Override
     public boolean eventIsClosed() {
-        return this.state.equals(BaquitaState.CLOSE);
+        return this.status.equals(EventStatus.CLOSE);
     }
 
     @Override
     public void close() {
-        this.state = BaquitaState.CLOSE;
+        this.status = EventStatus.CLOSE;
         cancelPendingGuests();
         distributePayment();
     }

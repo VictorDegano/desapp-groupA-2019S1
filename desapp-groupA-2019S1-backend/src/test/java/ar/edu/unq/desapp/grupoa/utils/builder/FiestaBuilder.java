@@ -1,10 +1,9 @@
 package ar.edu.unq.desapp.grupoa.utils.builder;
 
+import ar.edu.unq.desapp.grupoa.model.event.EventStatus;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
-import ar.edu.unq.desapp.grupoa.model.event.fiesta.state.CloseFiesta;
-import ar.edu.unq.desapp.grupoa.model.event.fiesta.state.OpenFiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
 import java.time.LocalDateTime;
@@ -57,16 +56,22 @@ public class FiestaBuilder {
     }
 
     public FiestaBuilder withClosedState(){
-        this.fiesta.setState(new CloseFiesta(this.fiesta));
+        this.fiesta.setStatus(EventStatus.CLOSE);
         return this;
     }
 
     public FiestaBuilder withOpenState(){
-        this.fiesta.setState(new OpenFiesta(this.fiesta));
+        this.fiesta.setStatus(EventStatus.OPEN);
+        return this;
+    }
+
+    public FiestaBuilder withCreationDate(LocalDateTime creationDate) {
+        this.fiesta.setCreationDate(creationDate);
         return this;
     }
 
     public Fiesta build(){
         return this.fiesta;
     }
+
 }
