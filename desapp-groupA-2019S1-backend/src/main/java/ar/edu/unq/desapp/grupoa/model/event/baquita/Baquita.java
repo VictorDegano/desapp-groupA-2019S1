@@ -7,13 +7,19 @@ import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.extract;
 
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@DiscriminatorColumn(name = "baquita_type")
 public abstract class Baquita extends Event {
 
     public Baquita(String name, User organizer, List<Guest> guests, List<Good> goodsForGuest, LocalDateTime creationDate){
@@ -23,6 +29,9 @@ public abstract class Baquita extends Event {
         this.goodsForGuest = goodsForGuest;
         this.status = EventStatus.OPEN;
         this.setCreationDate(creationDate);
+    }
+
+    public Baquita() {
     }
 
     @Override

@@ -1,20 +1,28 @@
 package ar.edu.unq.desapp.grupoa.model.event.baquita;
 
 import ar.edu.unq.desapp.grupoa.model.account.Account;
+import ar.edu.unq.desapp.grupoa.model.event.EventType;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.Template;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.deposit;
 
+@Entity
+@DiscriminatorValue("Comunitary")
 public class BaquitaComunitary extends Baquita {
 
     public BaquitaComunitary(String name, User organizer, List<Guest> guests, List<Good> goodsForGuest, LocalDateTime creationDate) {
         super(name, organizer, guests, goodsForGuest,creationDate);
+    }
+
+    public BaquitaComunitary() {
     }
 
     public static BaquitaComunitary createWithATemplate(String name, User organizer, List<Guest> guests, Template template, LocalDateTime creationDate) {
@@ -40,5 +48,10 @@ public class BaquitaComunitary extends Baquita {
     @Override
     public Integer totalCost() {
         return goodsForGuest.stream().mapToInt(Good::totalCost).sum();
+    }
+
+    @Override
+    public EventType getType() {
+        return EventType.BAQUITA_COMUNITARY;
     }
 }

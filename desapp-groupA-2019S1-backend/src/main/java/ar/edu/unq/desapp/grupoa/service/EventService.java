@@ -45,6 +45,7 @@ public class EventService {
         return eventDao.getEventsInProgressForUser(userId);
     }
 
+    // TODO: 1/6/2019 Falta hacer los test
     public List<Event> getLastEventsForUser(Integer userId){
         return eventDao.getLastEventsForUser(userId);
     }

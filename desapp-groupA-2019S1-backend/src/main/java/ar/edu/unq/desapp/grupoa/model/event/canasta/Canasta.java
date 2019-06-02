@@ -37,6 +37,11 @@ public class Canasta extends Event {
         this.confirmUser(guestToAssist.getUser());
     }
 
+    @Override
+    public EventType getType() {
+        return EventType.CANASTA;
+    }
+
     public void confirmUser(User userToConfirmAssistance) {
         if(this.eventIsClosed()){
             throw new ConfirmAsistanceException(this,userToConfirmAssistance);

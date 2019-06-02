@@ -1,5 +1,7 @@
 package ar.edu.unq.desapp.grupoa.controller.rest;
 
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.DTOConverter;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.EventHomeDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.service.EventService;
@@ -9,13 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
+@Transactional
 @Controller
 public class EventController {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
@@ -36,11 +41,26 @@ public class EventController {
     }
 
     @GetMapping(value="/event/in_progress/{userId}")
-    public ResponseEntity<List<Event>> eventsInProgress(@PathVariable Integer userId){
+    public ResponseEntity<ArrayList<EventHomeDTO>> eventsInProgress(@PathVariable Integer userId){
         LOGGER.info("Got request GET for Event In Progress for user {}", userId);
+
         List<Event> eventsInProgress = eventService.getEventsInProgressForUser(userId);
-        LOGGER.info("Responding with Event Lists {}", userId);
-        return new ResponseEntity<>( eventsInProgress, HttpStatus.OK) ;
+        ArrayList<EventHomeDTO> eventsDTOList = DTOConverter.createEventHomeDTOList(eventsInProgress);
+
+    LOGGER.info("Responding with Event Lists {}", eventsDTOList);
+        return new ResponseEntity<>( eventsDTOList, HttpStatus.OK) ;
+    }
+
+    // TODO: 1/6/2019 Falta hacer los test
+    @GetMapping(value="/event/last_events/{userId}")
+    public ResponseEntity<List<EventHomeDTO>> lastEvents(@PathVariable Integer userId){
+        LOGGER.info("Got request GET for Last Event of user {}", userId);
+
+        List<Event> lastEvents = eventService.getLastEventsForUser(userId);
+        List<EventHomeDTO> eventsDTOList = DTOConverter.createEventHomeDTOList(lastEvents);
+
+        LOGGER.info("Responding with Event Lists {}", eventsDTOList);
+        return new ResponseEntity<>( eventsDTOList, HttpStatus.OK) ;
     }
 
     //PlaceHolder so Heroku Runs

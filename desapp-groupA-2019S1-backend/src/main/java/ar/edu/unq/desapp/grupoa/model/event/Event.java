@@ -95,4 +95,6 @@ abstract public class Event {
 
     public LocalDateTime getCreationDate() {    return creationDate;    }
     public void setCreationDate(LocalDateTime creationDate) {   this.creationDate = creationDate;   }
+
+    public abstract EventType getType();
 }

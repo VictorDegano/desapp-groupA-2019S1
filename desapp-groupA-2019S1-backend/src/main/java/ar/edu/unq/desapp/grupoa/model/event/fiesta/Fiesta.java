@@ -123,6 +123,12 @@ public class Fiesta extends Event {
     public Integer getId() {    return this.id;  }
 
     public Integer getConfirmations() { return this.confirmations;   }
+
+    @Override
+    public EventType getType() {
+        return EventType.FIESTA;
+    }
+
     public void setConfirmations(Integer confirmations) {   this.confirmations = confirmations; }
 }
 
