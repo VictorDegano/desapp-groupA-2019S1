@@ -229,6 +229,7 @@ public class BootStrapRunner implements ApplicationRunner {
                 EMPTY_LIST,
                 LocalDateTime.now().minusDays(2));
         aBaquita.close();
+        pepeEvents.add(aBaquita);
         return pepeEvents;
     }
 

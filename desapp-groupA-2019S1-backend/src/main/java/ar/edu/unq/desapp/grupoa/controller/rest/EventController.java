@@ -3,7 +3,6 @@ package ar.edu.unq.desapp.grupoa.controller.rest;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.DTOConverter;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.EventHomeDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
-import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +46,7 @@ public class EventController {
         List<Event> eventsInProgress = eventService.getEventsInProgressForUser(userId);
         ArrayList<EventHomeDTO> eventsDTOList = DTOConverter.createEventHomeDTOList(eventsInProgress);
 
-    LOGGER.info("Responding with Event Lists {}", eventsDTOList);
+        LOGGER.info("Responding with Event Lists {}", eventsDTOList);
         return new ResponseEntity<>( eventsDTOList, HttpStatus.OK) ;
     }
 

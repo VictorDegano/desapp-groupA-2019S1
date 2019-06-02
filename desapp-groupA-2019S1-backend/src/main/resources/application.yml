@@ -17,6 +17,7 @@ spring:
   profiles:
     active: Prod, Test
 
+# Mail Configuration
 spring.mail.host: smtp.gmail.com
 spring.mail.port: 587
 spring.mail.username: tadlosrebu@gmail.com

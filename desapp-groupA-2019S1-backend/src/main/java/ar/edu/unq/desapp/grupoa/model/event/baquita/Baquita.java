@@ -23,11 +23,11 @@ import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.extract;
 public abstract class Baquita extends Event {
 
     public Baquita(String name, User organizer, List<Guest> guests, List<Good> goodsForGuest, LocalDateTime creationDate){
-        this.name = name;
-        this.organizer = organizer;
-        this.guests = guests;
-        this.goodsForGuest = goodsForGuest;
-        this.status = EventStatus.OPEN;
+        this.setName(name);
+        this.setOrganizer(organizer);
+        this.setGuest(guests);
+        this.setGoodsForGuest(goodsForGuest);
+        this.setStatus(EventStatus.OPEN);
         this.setCreationDate(creationDate);
     }
 
