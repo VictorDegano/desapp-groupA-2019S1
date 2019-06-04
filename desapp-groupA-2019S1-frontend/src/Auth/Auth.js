@@ -11,7 +11,7 @@ export default class Auth {
         redirectUri: AUTH_CONFIG.redirectUri,
         audience: "https://eventeando.auth.com/api",
         responseType: "token id_token",
-        scope: "openid profile"
+        scope: "openid profile email"
     });
 
     login() {
@@ -29,6 +29,9 @@ export default class Auth {
         localStorage.removeItem("access_token");
         localStorage.removeItem("id_token");
         localStorage.removeItem("expires_at");
+        localStorage.removeItem("email");
+        localStorage.removeItem("first_name");
+        localStorage.removeItem("last_name");
 
         this.auth0.logout({
             returnTo: window.location.origin
@@ -49,6 +52,9 @@ export default class Auth {
         localStorage.setItem("access_token", authResult.accessToken);
         localStorage.setItem("id_token", authResult.idToken);
         localStorage.setItem("expires_at", expiresAt);
+        localStorage.setItem("email", authResult.email);
+        localStorage.setItem("first_name", authResult.given_name);
+        localStorage.setItem("last_name", authResult.family_name);
     }
 
     validSession(authResult){
