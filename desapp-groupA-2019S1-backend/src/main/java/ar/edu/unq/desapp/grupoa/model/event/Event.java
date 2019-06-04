@@ -5,6 +5,8 @@ import ar.edu.unq.desapp.grupoa.exception.event.InvitationLimitException;
 import ar.edu.unq.desapp.grupoa.model.event.createstrategy.CreateEventStrategySelector;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,8 +18,10 @@ abstract public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
+    @NotBlank(message = "Name is mandatory")
     protected String name;
     @ManyToOne(cascade = CascadeType.ALL)
+    @NotNull(message = "Name is mandatory")
     protected User organizer;
     @Transient
     protected List<Guest> guests;
