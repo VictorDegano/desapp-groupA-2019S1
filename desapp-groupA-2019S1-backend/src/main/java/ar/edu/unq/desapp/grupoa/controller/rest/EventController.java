@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoa.controller.rest;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.DTOConverter;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.EventHomeDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +60,16 @@ public class EventController {
 
         LOGGER.info("Responding with Event Lists {}", eventsDTOList);
         return new ResponseEntity<>( eventsDTOList, HttpStatus.OK) ;
+    }
+
+    // TODO: 3/6/2019 Falta hacer los test
+    @PostMapping("/event/create_fiesta/")
+    public ResponseEntity<String> createFiesta(@Valid @RequestBody Fiesta fiesta){
+        LOGGER.info("Got request POST to create a Fiesta Event with data {}", fiesta);
+        Integer eventId = eventService.create(fiesta);
+        LOGGER.info("Responding with Fiesta Event with id {}", eventId);
+        LOGGER.info("Event Fiesta created {}", eventService.getById(eventId));
+        return new ResponseEntity<>(eventId.toString(), HttpStatus.CREATED);
     }
 
     //PlaceHolder so Heroku Runs
