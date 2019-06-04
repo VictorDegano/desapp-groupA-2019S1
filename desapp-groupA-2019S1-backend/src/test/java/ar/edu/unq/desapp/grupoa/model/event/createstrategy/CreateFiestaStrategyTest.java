@@ -6,6 +6,8 @@ import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.utils.builder.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import static org.junit.Assert.*;
@@ -66,13 +68,16 @@ public class CreateFiestaStrategyTest {
                                                  .withEventType(EventType.FIESTA)
                                                  .build();
 
+        LocalDateTime creationDate = LocalDateTime.now();
+
         //Exercise(When)
-        Event aNewEvent = createFiestaStrategySUT.createEvent("Fiesta Rework", aUser, Arrays.asList(firstGuest), LocalDateTime.now(), fiestaTemplate);
+        Event aNewEvent = createFiestaStrategySUT.createEvent("Fiesta Rework", aUser, Arrays.asList(firstGuest), LocalDateTime.now(), fiestaTemplate,creationDate);
 
         //Test(Then)
         assertEquals("Ivan", aNewEvent.getOrganizer().getFirstName());
         assertEquals("Fiesta Rework", aNewEvent.getName());
         assertEquals(1, aNewEvent.getGuest().size());
         assertEquals(2, aNewEvent.getGoodsForGuest().size());
+        assertEquals(creationDate, aNewEvent.getCreationDate());
     }
 }

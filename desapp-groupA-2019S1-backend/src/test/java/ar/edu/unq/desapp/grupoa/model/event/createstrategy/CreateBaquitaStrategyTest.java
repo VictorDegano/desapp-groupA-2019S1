@@ -66,14 +66,17 @@ public class CreateBaquitaStrategyTest {
                 .withEventType(EventType.BAQUITA_COMUNITARY)
                 .build();
 
+        LocalDateTime creationDate = LocalDateTime.now();
+
         //Exercise(When)
-        Event aNewEvent = createBaquitaComunitariaStrategy.createEvent("Pepin fiesta", aUser, Arrays.asList(firstGuest), LocalDateTime.now(), baquitaComunitariaTemplate);
+        Event aNewEvent = createBaquitaComunitariaStrategy.createEvent("Pepin fiesta", aUser, Arrays.asList(firstGuest), LocalDateTime.now(), baquitaComunitariaTemplate,creationDate);
 
         //Test(Then)
         assertEquals("Ivan", aNewEvent.getOrganizer().getFirstName());
         assertEquals("Pepin fiesta", aNewEvent.getName());
         assertEquals(1, aNewEvent.getGuest().size());
         assertEquals(2, aNewEvent.getGoodsForGuest().size());
+        assertEquals(creationDate, aNewEvent.getCreationDate());
     }
 
     @Test
@@ -99,14 +102,17 @@ public class CreateBaquitaStrategyTest {
                 .withEventType(EventType.BAQUITA_REPRESENTATIVES)
                 .build();
 
+        LocalDateTime creationDate = LocalDateTime.now();
+
         //Exercise(When)
-        Event aNewEvent = createBaquitaComunitariaStrategy.createEvent("Pepin fiesta", aUser, Arrays.asList(firstGuest), LocalDateTime.now(), baquitaRepresentantesTemplate);
+        Event aNewEvent = createBaquitaComunitariaStrategy.createEvent("Pepin fiesta", aUser, Arrays.asList(firstGuest), LocalDateTime.now(), baquitaRepresentantesTemplate, creationDate);
 
         //Test(Then)
         assertEquals("Ivan", aNewEvent.getOrganizer().getFirstName());
         assertEquals("Pepin fiesta", aNewEvent.getName());
         assertEquals(1, aNewEvent.getGuest().size());
         assertEquals(2, aNewEvent.getGoodsForGuest().size());
+        assertEquals(creationDate, aNewEvent.getCreationDate());
     }
 
 }

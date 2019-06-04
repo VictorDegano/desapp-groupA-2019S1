@@ -242,6 +242,8 @@ public class FiestaTest {
         //Setup(Given)
         User organizer = UserBuilder.buildAUser().build();
 
+        LocalDateTime creationDate = LocalDateTime.now().minusDays(2);
+
         LocalDateTime limitTime = LocalDateTime.now();
 
         Good asado = FiestaGoodBuilder.buildAGood().withName("Asado").build();
@@ -255,7 +257,7 @@ public class FiestaTest {
                                                      .build();
 
         //Exercise(Exercise)
-        Fiesta fiestaSUT = Fiesta.createWithATemplate("La Fiesta Loca", organizer, new ArrayList<>(), limitTime, fiestaLocaTemplate);
+        Fiesta fiestaSUT = Fiesta.createWithATemplate("La Fiesta Loca", organizer, new ArrayList<>(), limitTime, fiestaLocaTemplate, creationDate);
 
         //Test(Test)
         assertEquals("No se cargo el nombre cuando se creo la fiesta con el template",
@@ -279,6 +281,7 @@ public class FiestaTest {
         assertEquals("No es 'La Del Diego'! No es la Good del template",
                      laDelDiego.getName(),
                      fiestaSUT.getGoodsForGuest().get(1).getName());
+        assertEquals(creationDate, fiestaSUT.getCreationDate());
     }
 
     @Test(expected = InvalidTemplateException.class)
@@ -289,7 +292,7 @@ public class FiestaTest {
                 .build();
 
         //Exercise(Exercise)
-        Fiesta.createWithATemplate("", null, new ArrayList<>(), null, canastaVaciaTemplate);
+        Fiesta.createWithATemplate("", null, new ArrayList<>(), null, canastaVaciaTemplate, LocalDateTime.now());
 
         //Test(Test)
     }

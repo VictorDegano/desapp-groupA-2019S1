@@ -5,29 +5,35 @@ import ar.edu.unq.desapp.grupoa.exception.event.InvitationLimitException;
 import ar.edu.unq.desapp.grupoa.model.event.createstrategy.CreateEventStrategySelector;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Inheritance(strategy = InheritanceType.JOINED)
+
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 abstract public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
+    @NotBlank(message = "Name is mandatory")
     protected String name;
-    @Transient
+    @ManyToOne(cascade = CascadeType.ALL)
+    @NotNull(message = "Organizer is mandatory")
     protected User organizer;
     @Transient
     protected List<Guest> guests;
     @Transient
     protected List<Good> goodsForGuest;
+    @Enumerated(EnumType.STRING)
+    protected EventStatus status;
+    protected LocalDateTime creationDate;
 
-
-    public static Event createWithATemplate(String name, User organizer, List<Guest> guests, LocalDateTime limitTime, Template template, EventType aEventType){
-        return CreateEventStrategySelector.selectStrategyFor(aEventType).createEvent(name, organizer, guests, limitTime, template);
+    public static Event createWithATemplate(String name, User organizer, List<Guest> guests, LocalDateTime limitTime, Template template, EventType aEventType,LocalDateTime creationDate){
+        return CreateEventStrategySelector.selectStrategyFor(aEventType).createEvent(name, organizer, guests, limitTime, template, creationDate);
     }
-
 
     public abstract boolean eventIsClosed();
 
@@ -82,4 +88,17 @@ abstract public class Event {
 
     public List<Good> getGoodsForGuest() {  return this.goodsForGuest;   }
     public void setGoodsForGuest(List<Good> goodsForGuest) {    this.goodsForGuest = goodsForGuest; }
+
+    public Integer getId() { return this.id; }
+
+    public void setStatus(EventStatus status) { this.status = status;   }
+
+    public LocalDateTime getLimitConfirmationDateTime(){   return null; }
+
+    public Integer getConfirmations(){ return 0; }
+
+    public LocalDateTime getCreationDate() {    return creationDate;    }
+    public void setCreationDate(LocalDateTime creationDate) {   this.creationDate = creationDate;   }
+
+    public abstract EventType getType();
 }
