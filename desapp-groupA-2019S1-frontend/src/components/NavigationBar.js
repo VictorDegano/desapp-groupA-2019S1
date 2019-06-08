@@ -4,17 +4,15 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import history from "../history";
 
 const useStyles = makeStyles(theme => ({
     grow: {
@@ -82,6 +80,10 @@ function NavigationBar() {
         setMobileMoreAnchorEl(event.currentTarget);
     }
 
+    function handleClickProfile(event){
+        history.push("/profile");
+    }
+
     const renderMenu = (
         <Menu
             anchorEl={anchorEl}
@@ -90,8 +92,8 @@ function NavigationBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={handleClickProfile}>Profile</MenuItem>
+            {/* <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
         </Menu>
     );
 

@@ -71,8 +71,8 @@ class UserProfile extends Component {
 
         userApi.fetchUser("1")
                 .then((user) => {
-                    console.log(user);
-                    console.log(moment(user.bornDay).format('DD-MM-YYYY'));
+                    // console.log(user);
+                    // console.log(moment(user.bornDay).format('DD-MM-YYYY'));
                     this.props.loadUser(user);
                     this.setState({
                         firstName: user.firstName,
@@ -83,28 +83,28 @@ class UserProfile extends Component {
     }
 
     handleFirstNameChange (event) {
-        console.log('handleFirstNameChange');
+        // console.log('handleFirstNameChange');
         this.setState({firstName: event.target.value});
     }
     
     handleLastNameChange (event) {
-        console.log('handleLastNameChange');
+        // console.log('handleLastNameChange');
         this.setState({lastName: event.target.value});        
     }
 
     handleBornDayChange (event) {
-        console.log('handleBornDayChange');
-        console.log(event.target.value);
+        // console.log('handleBornDayChange');
+        // console.log(event.target.value);
         this.setState({bornDay: event.target.value});
     }
  
     handleSubmit (event) {
         event.preventDefault();
-        console.log('handleSubmit');
+        // console.log('handleSubmit');
     }
 
     handleCancel (event){
-        console.log('handleCancel');
+        // console.log('handleCancel');
     }
 
     render () {
@@ -156,7 +156,7 @@ class UserProfile extends Component {
 }    
  
 function mapStateToProps (state){
-    console.log('mapStateToProps()'); 
+    // console.log('mapStateToProps()'); 
     return {
         user: state.UserReducer.user
     };
