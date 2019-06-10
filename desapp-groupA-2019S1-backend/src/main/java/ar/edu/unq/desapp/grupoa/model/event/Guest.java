@@ -3,9 +3,18 @@ package ar.edu.unq.desapp.grupoa.model.event;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.CanastaGood;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
+import javax.persistence.*;
+
+@Entity
 public class Guest {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Integer id;
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
     private User user;
+    @Enumerated(EnumType.STRING)
     private InvitationState confirmAsistance;
 
     public void confirmAsistance(){
