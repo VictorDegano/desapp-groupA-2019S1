@@ -21,7 +21,7 @@ abstract public class Event {
     @NotBlank(message = "Name is mandatory")
     protected String name;
     @ManyToOne(cascade = CascadeType.ALL)
-    @NotNull(message = "Name is mandatory")
+    @NotNull(message = "Organizer is mandatory")
     protected User organizer;
     @Transient
     protected List<Guest> guests;

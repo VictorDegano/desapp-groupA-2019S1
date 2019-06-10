@@ -8,6 +8,7 @@ import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.EventDAO;
 import ar.edu.unq.desapp.grupoa.utils.builder.CanastaBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builder.FiestaBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.Randomizer;
 import ar.edu.unq.desapp.grupoa.utils.builder.UserBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -71,6 +72,7 @@ public class EventServiceTest {
         LocalDateTime timeOfFiesta = LocalDateTime.of(2018,12,20,22,55,10);
 
         Fiesta fiesta = FiestaBuilder.buildAFiesta()
+                                     .withOrganizer(Randomizer.randomUserWithName("Jose"))
                                      .withLimitConfirmationDateTime(timeOfFiesta)
                                      .withName("La Fiesta loca")
                                      .withConfirmations(0)
@@ -94,12 +96,14 @@ public class EventServiceTest {
         LocalDateTime timeOfFiesta = LocalDateTime.of(2012,11,23,12,23,33);
 
         Fiesta fiesta1 = FiestaBuilder.buildAFiesta()
+                                      .withOrganizer(Randomizer.randomUserWithName("Jose"))
                                       .withLimitConfirmationDateTime(timeOfFiesta)
                                       .withName("La Fiesta loca")
                                       .withConfirmations(0)
                                       .build();
 
         Fiesta fiesta2 = FiestaBuilder.buildAFiesta()
+                                      .withOrganizer(Randomizer.randomUserWithName("Jose"))
                                       .withLimitConfirmationDateTime(timeOfFiesta)
                                       .withName("Pepellooza")
                                       .withConfirmations(1590)

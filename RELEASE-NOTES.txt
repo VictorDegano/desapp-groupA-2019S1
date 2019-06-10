@@ -15,3 +15,25 @@ NOTES (ej: funcionalidad que falta, alguna consideración especial):
 
 KNOWN ISSUES (ej: funcionalidad que saben que están funcionando diferente, algún error conocido en la funcionalidad terminada, etc) :
 - Codacy resolve null when try to pass the Test Stage in Travis Build.
+
+---------------------------------------------------------------------
+TAG ENTREGA 2
+---------------------------------------------------------------------
+NEW FEATURES (lo que están entregando y está funcionando):
+- Codacy resolve null Fix
+- Baquita Inegration To the project
+- H2 DB persistance
+- Auth0 y Auth0 Springboot Security
+- persistance of some classes of domain model 
+- Email sender service
+- Event In Progress (Front + Back)
+- Last Events (Front + Back)
+
+NOTES:
+- Redesign and refactors of project
+- I18n- US_ES
+- Some Events CRUD (Front + Back)
+- Some User CRUD (Front + Back)
+- Domain Model Partial persistance
+
+KNOWN ISSUES:
