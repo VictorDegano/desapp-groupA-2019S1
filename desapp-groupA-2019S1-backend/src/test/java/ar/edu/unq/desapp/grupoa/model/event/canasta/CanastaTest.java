@@ -7,13 +7,11 @@ import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
 import ar.edu.unq.desapp.grupoa.model.event.Template;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
-import ar.edu.unq.desapp.grupoa.utils.builder.CanastaBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builder.GuestBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builder.TemplateBuilder;
-import ar.edu.unq.desapp.grupoa.utils.builder.UserBuilder;
+import ar.edu.unq.desapp.grupoa.utils.builder.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUserWithName;
@@ -100,11 +98,16 @@ public class CanastaTest {
                 .build();
 
         //Test(Then)
-        assertTrue("El estado de la Canasta es en preparacion cuando se inicializa",
-                newCanasta.getState().isInPreparationCanasta());
+//        assertTrue("El estado de la Canasta es en preparacion cuando se inicializa",
+//                newCanasta.getState().isInPreparationCanasta());
 
         assertFalse("El estado de la Canasta no es cerrado",
-                newCanasta.getState().isCloseCanasta());
+                newCanasta.eventIsClosed());
+//        assertTrue("El estado de la Canasta es en preparacion cuando se inicializa",
+//                newCanasta.getState().isInPreparationCanasta());
+//
+//        assertFalse("El estado de la Canasta no es cerrado",
+//                newCanasta.getState().isCloseCanasta());
 
     }
 
@@ -386,11 +389,11 @@ public class CanastaTest {
     public void ifTryCreateACanastaWithATemplateAndTheTemplateNotIsForCanasta_GetAnException(){
         //Setup(Given)
         Template baquitaComunitariaVaciaTemplate = TemplateBuilder.buildATemplate()
-                                                       .withEventType(EventType.BAQUITA_COMUNITARIA)
+                                                       .withEventType(EventType.BAQUITA_COMUNITARY)
                                                        .build();
 
         //Exercise(Exercise)
-        Fiesta.createWithATemplate("", null, new ArrayList<>(), null, baquitaComunitariaVaciaTemplate);
+        Fiesta.createWithATemplate("", null, new ArrayList<>(), null, baquitaComunitariaVaciaTemplate, LocalDateTime.now());
 
         //Test(Test)
     }
@@ -414,5 +417,34 @@ public class CanastaTest {
 
         //Test(Then)
         assertEquals(InvitationState.ACCEPTED, guest.getConfirmAsistance());
+    }
+
+    @Test
+    public void whenACanastaHasTwoGoodsOf250PesosTheTotalCostOfCanastaIs500Pesos(){
+        //Setup(Given)
+        CanastaGood asado = CanastaGoodBuilder
+                            .buildAGood()
+                            .withPricesPerUnit(250)
+                            .withQuantityForPerson(1)
+                            .withName("Asado")
+                            .build();
+        CanastaGood fernet = CanastaGoodBuilder
+                            .buildAGood()
+                            .withPricesPerUnit(250)
+                            .withQuantityForPerson(1)
+                            .withName("Fernet").build();
+
+        Canasta newCanasta = CanastaBuilder.buildCanasta()
+                .withOrganizer(userThatCreateTheCanasta)
+                .withName("Canastita")
+                .addGood(asado)
+                .addGood(fernet)
+                .build();
+
+        //Test(Then)
+        assertEquals("the user account has the same money!!",
+                Integer.valueOf(500),
+                newCanasta.totalCost());
+
     }
 }

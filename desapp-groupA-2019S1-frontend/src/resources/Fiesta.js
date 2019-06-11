@@ -45,4 +45,4 @@ const fiestaMock = {
     ]
 };
 
-export default fiestaMock
+export default fiestaMock;

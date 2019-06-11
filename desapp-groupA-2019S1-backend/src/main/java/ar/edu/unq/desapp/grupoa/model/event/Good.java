@@ -3,7 +3,7 @@ package ar.edu.unq.desapp.grupoa.model.event;
 import ar.edu.unq.desapp.grupoa.exception.event.GoodTypeException;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
-public abstract class Good {
+public class Good {
 
     private Integer id;
     private String name;
@@ -18,7 +18,7 @@ public abstract class Good {
         throw new GoodTypeException("This type of good don't have owner");
     }
 
-    public void multiplyFinalQuantityBy(Integer quantityToMultiply){    }
+    public void multiplyFinalQuantityBy(Integer quantityToMultiply){    /*No e hace nada para el que no lo defina*/    }
 
     public Integer finalQuantity() { return this.quantityForPerson;   }
 
@@ -38,5 +38,8 @@ public abstract class Good {
         return this.pricePerUnit;
     }
 
-    public abstract Boolean hasOwner();
+    public Boolean hasOwner(){
+        return true;
+    }
+
 }

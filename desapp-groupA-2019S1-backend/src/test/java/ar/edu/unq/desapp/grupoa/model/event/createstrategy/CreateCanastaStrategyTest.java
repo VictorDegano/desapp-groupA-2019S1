@@ -67,14 +67,17 @@ public class CreateCanastaStrategyTest {
                                                   .withEventType(EventType.CANASTA)
                                                   .build();
 
+        LocalDateTime creationDate = LocalDateTime.now();
+
         //Exercise(When)
-        Event aNewEvent = createCanastaStrategySUT.createEvent("Canasteando", aUser, Arrays.asList(firstGuest), LocalDateTime.now(), canastaTemplate);
+        Event aNewEvent = createCanastaStrategySUT.createEvent("Canasteando", aUser, Arrays.asList(firstGuest), LocalDateTime.now(), canastaTemplate, creationDate);
 
         //Test(Then)
         assertEquals("Pepe", aNewEvent.getOrganizer().getFirstName());
         assertEquals("Canasteando", aNewEvent.getName());
         assertEquals(1, aNewEvent.getGuest().size());
         assertEquals(2, aNewEvent.getGoodsForGuest().size());
+        assertEquals(creationDate, aNewEvent.getCreationDate());
         for (Good eachGood : aNewEvent.getGoodsForGuest()) {
             assertEquals("", true,
                         (eachGood.getQuantityForPerson() == 33)

@@ -1,12 +1,12 @@
 package ar.edu.unq.desapp.grupoa.utils.builder;
 
+import ar.edu.unq.desapp.grupoa.model.event.EventStatus;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.CanastaGood;
-import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CanastaStateInPreparation;
-import ar.edu.unq.desapp.grupoa.model.event.canasta.state.CloseCanasta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class CanastaBuilder {
@@ -47,16 +47,22 @@ public class CanastaBuilder {
 
 
     public CanastaBuilder withClosedState(){
-        this.canasta.setState(new CloseCanasta(this.canasta));
+        this.canasta.setStatus(EventStatus.CLOSE);
         return this;
     }
 
     public CanastaBuilder withOpenState(){
-        this.canasta.setState(new CanastaStateInPreparation(this.canasta));
+        this.canasta.setStatus(EventStatus.OPEN);
+        return this;
+    }
+
+    public CanastaBuilder withCreationDate(LocalDateTime creationDate) {
+        this.canasta.setCreationDate(creationDate);
         return this;
     }
 
     public Canasta build(){
         return this.canasta;
     }
+
 }

@@ -28,6 +28,13 @@ public class Guest {
         this.setConfirmAsistance(InvitationState.CANCELLED);
     }
 
+    public Boolean isCanceled() {
+        return this.getConfirmAsistance().equals(InvitationState.CANCELLED);
+    }
+    public Boolean isconfirmed() {
+        return this.getConfirmAsistance().equals(InvitationState.ACCEPTED);
+    }
+
 /** [}-{]---------------------------------------------[}-{]
     [}-{]----------------[CONSTRUCTORS]---------------[}-{]
     [}-{]---------------------------------------------[}-{]**/
@@ -52,7 +59,9 @@ public class Guest {
         good.setUserThatOwnsTheGood(this.user);
     }
 
+
     public Boolean isInvitationAccepted() {
         return this.getConfirmAsistance() == InvitationState.ACCEPTED;
     }
+
 }

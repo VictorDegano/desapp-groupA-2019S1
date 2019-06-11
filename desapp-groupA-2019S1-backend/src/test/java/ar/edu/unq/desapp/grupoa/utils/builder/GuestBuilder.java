@@ -29,4 +29,6 @@ public class GuestBuilder {
         this.guest.setConfirmAsistance(invitation);
         return this;
     }
+
+
 }

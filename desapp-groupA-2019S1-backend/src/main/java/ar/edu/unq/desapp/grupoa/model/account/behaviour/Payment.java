@@ -8,7 +8,7 @@ public class Payment {
     private Payment(){ }
 
     public static Account extract(Account account, Integer amount){
-        if (account.balance()-amount <= 0)
+        if (account.balance()-amount < 0)
                 throw new NotEnoughCashToPerformOperation("Not enough cash to perform operation");
         return account.extract(amount);
     }

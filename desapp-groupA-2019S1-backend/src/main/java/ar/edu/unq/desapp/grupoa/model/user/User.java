@@ -19,78 +19,27 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
     @NotBlank(message = "Name is mandatory")
     private String firstName;
-
     @NotBlank(message = "LastName is mandatory")
     private String lastName;
-
     @NotBlank(message = "Mail is mandatory")
     private String email;
-
     @NotBlank(message = "Password is mandatory")
     private String password;
-
     @NotNull(message = "BornDay is mandatory")
-    @Column
+//    @Column
+    // FIXME: 28/5/2019 ¿esto tiene que ser obligatoriamente date time? por que no solo LocalDate, es la fecha de nacimiento
     private LocalDateTime bornDay;
-
-
     //TODO: Fijarse si se puede resolver desde una funcion
     @Transient
     @JsonIgnore
     private UserState state;
-
     //TODO: Provisorio, a confirmar
     @Transient
     @JsonIgnore
     private Account account;
 
-
-    public User(String firstName, String lastName, String email, String password, LocalDateTime bornDay) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.bornDay = bornDay;
-        this.state = UserState.NORMAL;
-        this.account = Account.newAccount(this);
-    }
-
-    public User(){}
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-
-    public String getLastName() {
-        return lastName;
-    }
-
-
-    public String getEmail() {
-        return email;
-    }
-
-
-    public String getPassword() {
-        return password;
-    }
-
-
-    public LocalDateTime getBornDay() {
-        return bornDay;
-    }
-
-    public Integer getId() {
-        return this.id;
-    }
-
-    public void setFirstName(String name) {
-        this.firstName= name;
-    }
 
     public void defaultUser() {
         this.state = UserState.DEFAULT;
@@ -108,8 +57,6 @@ public class User {
         return this.state.equals(UserState.NORMAL);
     }
 
-    public void setLastName(String lastName) {  this.lastName = lastName;   }
-
     public void deposit(Integer amount) {
         this.account = this.account.deposit(amount);
     }
@@ -122,7 +69,64 @@ public class User {
         this.account = this.account.extract(totalCost);
     }
 
+    public void updateAccount(Account account) {
+        this.account = account;
+    }
+
     public String fullName(){
         return this.getFirstName() + ' ' + this.getLastName();
     }
+
+/** [}-{]---------------------------------------------[}-{]
+    [}-{]---------------[CONSTRUCTORS]----------------[}-{]
+    [}-{]---------------------------------------------[}-{]**/
+    public User(String firstName, String lastName, String email, String password, LocalDateTime bornDay) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.bornDay = bornDay;
+        this.state = UserState.NORMAL;
+        this.account = Account.newAccount(this);
+    }
+
+    public User(){}
+
+/** [}-{]---------------------------------------------[}-{]
+    [}-{]----------[GETTER & SETTER METHODS]----------[}-{]
+    [}-{]---------------------------------------------[}-{]**/
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {    this.email = email; }
+
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {  this.password = password; }
+
+    public Integer getId() {
+        return this.id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+    public void setFirstName(String name) {
+        this.firstName= name;
+    }
+
+    public Account getAccount() {
+        return this.account;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+    public void setLastName(String lastName) {  this.lastName = lastName;   }
+
+    public LocalDateTime getBornDay() {
+        return bornDay;
+    }
+    public void setBornDay(LocalDateTime bornDay) { this.bornDay = bornDay; }
 }

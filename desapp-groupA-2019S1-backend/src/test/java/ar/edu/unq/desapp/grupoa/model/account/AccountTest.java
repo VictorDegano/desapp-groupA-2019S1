@@ -5,7 +5,7 @@ import org.junit.Test;
 
 
 import static ar.edu.unq.desapp.grupoa.utils.Integer.integer;
-import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.accountForRandomUser;
+import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.newAccountForRandomUser;
 import static ar.edu.unq.desapp.grupoa.utils.builder.AccountBuilder.withRandomBalance;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomNumber;
 import static org.junit.Assert.assertEquals;
@@ -23,7 +23,7 @@ public class AccountTest {
 
     @Test
     public void accountIsCreatedWithZeroBalanceAndZeroDebt() {
-        Account account = accountForRandomUser();
+        Account account = newAccountForRandomUser();
 
         assertEquals(integer(0), account.balance());
         assertEquals(integer(0), account.debt());
@@ -31,7 +31,7 @@ public class AccountTest {
 
     @Test
     public void depositCashToAccount() {
-        Account account = accountForRandomUser(withRandomBalance());
+        Account account = newAccountForRandomUser(withRandomBalance());
         Integer balanceBefore = account.balance();
 
         account.deposit(randomAmount);
@@ -41,7 +41,7 @@ public class AccountTest {
 
     @Test
     public void extractCashFromAccount() {
-        Account account = accountForRandomUser(withRandomBalance());
+        Account account = newAccountForRandomUser(withRandomBalance());
         Integer balanceBefore = account.balance();
 
         account.extract(randomAmount);
@@ -51,7 +51,7 @@ public class AccountTest {
 
     @Test
     public void addsDebtAndBalanceAndDebtGoesUpBySameAmount() {
-        Account account = accountForRandomUser(withRandomBalance());
+        Account account = newAccountForRandomUser(withRandomBalance());
         Integer balanceBefore = account.balance();
         Integer debtBefore = account.debt();
 
@@ -68,7 +68,7 @@ public class AccountTest {
 
     @Test
     public void takeDebtAndBalanceAndDebtGoesDownBySameAmount() {
-        Account account = accountForRandomUser(withRandomBalance());
+        Account account = newAccountForRandomUser(withRandomBalance());
         Integer balanceBefore = account.balance();
         Integer debtBefore = account.debt();
 

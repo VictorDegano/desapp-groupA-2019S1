@@ -1,29 +1,38 @@
 package ar.edu.unq.desapp.grupoa.utils.builder;
 
 import ar.edu.unq.desapp.grupoa.model.account.Account;
-import java.util.Arrays;
+import ar.edu.unq.desapp.grupoa.model.user.User;
+
 import java.util.function.Function;
 
 import static ar.edu.unq.desapp.grupoa.model.account.Account.newAccount;
+
+import static ar.edu.unq.desapp.grupoa.utils.ComposeFunctions.compose;
+
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Loan.takeLoan;
+
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomNumber;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;
 
 public class AccountBuilder {
 
-    //Composes all the functions given
+
     @SafeVarargs
-    private static <T> Function<T, T> combineF(Function<T, T>... funcs) {
-        return Arrays.stream(funcs).reduce(Function.identity(), Function::andThen);
+    public static Account newAccountForRandomUser(Function<Account, Account>... functions) {
+        return compose(functions).apply(newAccount(randomUser()));
     }
 
     @SafeVarargs
-    public static Account accountForRandomUser(Function<Account, Account>... functions) {
-        return combineF(functions).apply(newAccount(randomUser()));
+    public static Account newAccountForUser(User user, Function<Account, Account>... functions) {
+        return compose(functions).apply(newAccount(user));
     }
 
     public static Function<Account, Account> withRandomBalance() {
         return (account) -> account.deposit(randomNumber());
+    }
+
+    public static Function<Account, Account> withBalance(Integer amount) {
+        return (account) -> account.deposit(amount);
     }
 
     public static Function<Account, Account> withDefaultedUser() {
