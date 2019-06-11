@@ -8,6 +8,7 @@ import ar.edu.unq.desapp.grupoa.model.user.User;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.List;
 @DiscriminatorValue("Representatives")
 public class BaquitaRepresentatives extends Baquita {
 
-    @Transient
+    @OneToMany
     private List<Guest> representatives;
     @Transient
     protected List<LoadedGood> loadedGoods;

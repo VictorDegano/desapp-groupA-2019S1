@@ -39,4 +39,16 @@ public class DTOConverter {
 
         return eventDTO;
     }
+
+    public static UserDTO createUserDTO(User aUser){
+        UserDTO aDTOUser = new UserDTO(
+                                    aUser.getId(),
+                                    aUser.getFirstName(),
+                                    aUser.getLastName(),
+                                    aUser.getBornDay().toString(),
+                                    aUser.getEmail()
+                                );
+
+        return aDTOUser;
+    }
 }

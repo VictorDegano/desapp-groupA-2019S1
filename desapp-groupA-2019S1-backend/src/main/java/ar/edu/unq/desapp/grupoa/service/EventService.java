@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa.service;
 
+import ar.edu.unq.desapp.grupoa.exception.EventNotFoundException;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.persistence.EventDAO;
@@ -38,7 +39,7 @@ public class EventService {
     }
 
     public Event getById(Integer eventID) {
-        return this.eventDao.findById(eventID).get();
+        return this.eventDao.findById(eventID).orElseThrow(()->new EventNotFoundException(eventID));
     }
 
     public List<Event> getEventsInProgressForUser(Integer userId) {

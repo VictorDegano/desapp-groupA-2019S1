@@ -31,8 +31,6 @@ public class UserController {
         return new ResponseEntity<>(userId.toString(), HttpStatus.CREATED);
     }
 
-
-
     @GetMapping(value= "/{userId}")
     public ResponseEntity<User> findUser(@PathVariable Integer userId){
         User user = userService.getById(userId);
@@ -44,5 +42,6 @@ public class UserController {
         userService.update(user);
         return new ResponseEntity<>("User updated succesfuly",HttpStatus.OK );
     }
+
 
 }
