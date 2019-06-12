@@ -1,9 +1,9 @@
 import React from "react";
-import {auth} from "../components/Root.js";
+import { auth } from "./Root";
 
 const Login = () => (
   <div>
-    <button onClick={ () => auth.login() }>Log In</button>
+    <button onClick={() => auth.login()}>Log In</button>
   </div>
 );
 
