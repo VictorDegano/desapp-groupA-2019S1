@@ -28,7 +28,6 @@ public class User {
     @NotBlank(message = "Password is mandatory")
     private String password;
     @NotNull(message = "BornDay is mandatory")
-//    @Column
     // FIXME: 28/5/2019 ¿esto tiene que ser obligatoriamente date time? por que no solo LocalDate, es la fecha de nacimiento
     private LocalDateTime bornDay;
     //TODO: Fijarse si se puede resolver desde una funcion

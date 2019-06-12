@@ -23,7 +23,7 @@ abstract public class Event {
     @ManyToOne(cascade = CascadeType.ALL)
     @NotNull(message = "Organizer is mandatory")
     protected User organizer;
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL)
     protected List<Guest> guests;
     @Transient
     protected List<Good> goodsForGuest;
