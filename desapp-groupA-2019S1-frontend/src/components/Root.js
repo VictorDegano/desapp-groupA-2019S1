@@ -17,23 +17,18 @@ export const auth = new Auth();
 const Root = ({ store }) => (
   <Provider store={store}>
     <Router history={history}>
-        <div>
-            <Route  exact 
-                    path="/" 
-                    component={Login}/>
-            <Route  path="/home"
-                    component={App}/>
-            <Route  path="/callback"
-                    component={Callback}/>
-            <Route  path="/profile"
-                    component={UserProfile}/> 
-        </div>
+      <div>
+        <Route exact path="/" component={Login} />
+        <Route path="/home" component={App} />
+        <Route path="/callback" component={Callback} />
+        <Route path="/profile" component={UserProfile} />
+      </div>
     </Router>
   </Provider>
 );
 
 Root.propTypes = {
-  store: PropTypes.object.isRequired,
+  store: PropTypes.object.isRequired
 };
 
 export default Root;
