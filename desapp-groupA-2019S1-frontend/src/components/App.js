@@ -1,8 +1,8 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import NavigationBar from "./NavigationBar";
 import EventsComponent from "./EventsComponent";
 import EventApi from "../api/EventApi";
+import NavigationBar from "./NavigationBar";
 
 class App extends React.Component {
   constructor(props) {
@@ -36,14 +36,13 @@ class App extends React.Component {
       <div>
         <NavigationBar />
         <EventsComponent
-          title={"Mis eventos en curso:"}
+          title="Mis eventos en curso:"
           arrayDeEventos={this.state.eventosEnCurso}
         />
         <EventsComponent
-          title={"Mis ultimos eventos:"}
+          title="Mis ultimos eventos:"
           arrayDeEventos={this.state.misUltimosEventos}
         />
-        {/*<EventsComponent title={"Los eventos mas populares:" } arrayDeEventos={getEventos()}/>*/}
       </div>
     );
   }
