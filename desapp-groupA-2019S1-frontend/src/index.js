@@ -3,12 +3,9 @@ import { render } from "react-dom";
 import { createStore } from "redux";
 import Root from "./components/Root";
 //Reducers
-import rootReducer from "../src/reducers/RootReducer";
+import rootReducer from "./reducers/RootReducer";
 
 //Store
 const store = createStore(rootReducer);
 
-render(
-  <Root store={store} />,
-  document.getElementById("root")
-);
+render(<Root store={store} />, document.getElementById("root"));
