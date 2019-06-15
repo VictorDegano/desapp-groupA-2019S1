@@ -20,7 +20,7 @@ const Root = ({ store }) => (
   <Suspense fallback={<Loader />}>
     <Provider store={store}>
       <Router history={history}>
-        <div>
+        {/* <div> */}
           <Route exact path="/" 
                  component={Login} />
           <Route path="/home" 
@@ -29,7 +29,7 @@ const Root = ({ store }) => (
                  component={Callback} />
           <Route path="/profile" 
                  component={UserProfile} />
-        </div>
+        {/* </div> */}
       </Router>
     </Provider>
   </Suspense>

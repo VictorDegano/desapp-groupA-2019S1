@@ -1,8 +1,11 @@
 {
   "englishLanguage": "English",
+  "language": "Language",
   "loginPage": {
     "button": "Enter",
     "description": "The event portal designed for you and your friends.",
+    "panelBody": "In order to access the portal you must login. Please use the following methods:",
+    "panelHeader": "Welcome to Eventeando!",
     "slogan": "Eventeando, where the get together with your friends is just beginning...",
     "title": "Eveteando"
   },
