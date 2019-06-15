@@ -1,0 +1,13 @@
+{
+  "englishLanguage": "Ingles",
+  "language": "Idioma",
+  "loginPage": {
+    "button": "Ingresar",
+    "description": "El portal de Eventos pensado para vos y tus amigos.",
+    "panelBody": "Para poder ingresar al portal debe loguearse. Por favor utilize los siguientes metodos:",
+    "panelHeader": "¡Bienvenidos a Eventeando!",
+    "slogan": "Eventeando, donde la juntada con tus amigos apenas comienza...",
+    "title": "Eventeando"
+  },
+  "spanishLanguage": "Español"
+}
