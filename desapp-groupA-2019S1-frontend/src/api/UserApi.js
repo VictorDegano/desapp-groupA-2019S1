@@ -27,6 +27,31 @@ class UserApi {
                             })
                     .catch((error) => []);
                     //TODO: habria que pensar un mejor handleo.
+    };
+
+    postUser(user){
+        const accessToken= auth.getAccessToken();
+
+        const header = {
+            headers: {
+                "Authorization": `Bearer ${accessToken}`,
+                "Content-Type": API_CONFIG.contentType,
+                "Access-Control-Allow-Methods": API_CONFIG.allowMethods,
+                "Access-Control-Allow-Origin": API_CONFIG.allowOrigin
+            }
+        };
+
+        return axios.post( API_CONFIG.endPoint + "/login", user, header);
+    };
+
+    loginUser(user){
+        console.log('loginUser()');
+        return this.postUser(user)
+                   .then( (response) => {
+                            return response.data;
+                            })
+                    .catch((error) => []);
+                    //TODO: habria que pensar un mejor handleo.
     }
 }
 

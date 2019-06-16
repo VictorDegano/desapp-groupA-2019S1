@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import history from "../history";
 import {auth} from "../components/Root.js";
+import "../css/CallbackPage.css";
 
 function goToHomePageAtSevenSec() {
   // console.log('goToHomePageAtSevenSec()');

@@ -1,8 +1,19 @@
 import auth0 from "auth0-js";
 import {AUTH_CONFIG} from "./Auth0-config";
 import history from "../history";
-
+import UserApi from '../api/UserApi.js';
+//Redux
+import { connect }from "react-redux";
+import PropTypes from "prop-types";
+//Actions
+import * as UserActions from "../actions/UserActions.js";
 export default class Auth {
+
+    static propTypes ={
+        loginUser: PropTypes.func.isRequired,
+        loggedUser: PropTypes.object
+    }
+
     userProfile;
 
     auth0 = new auth0.WebAuth({
@@ -11,7 +22,7 @@ export default class Auth {
         redirectUri: AUTH_CONFIG.redirectUri,
         audience: "https://eventeando.auth.com/api",
         responseType: "token id_token",
-        scope: "openid profile email"
+        scope: "profile email openid https://www.googleapis.com/auth/user.birthday.read"
     });
 
     login() {
@@ -64,11 +75,36 @@ export default class Auth {
     resolveRenewSession(error, authResult){
         if (this.validSession(authResult)) {
             this.setSession(authResult);
+            this.retrieveLoggedUser();
         } else if (error) {
             this.logout();
             // console.log(error); //TODO: valdria la pena que vaya al home?
             alert(`Could not get a new token (${error.error}: ${error.error_description}).`);
         }
+    }
+
+    retrieveLoggedUser(){
+        console.log('retrieveLoggedUser()');
+        const userApi = new UserApi();
+
+        const userToPost = {
+            accessToken: localStorage.getItem("id_token"),
+            expiresAt: localStorage.getItem("expires_at"),
+            email: localStorage.getItem("email"),
+            firstName: localStorage.getItem("first_name"),
+            familyName: localStorage.getItem("last_name"),
+        }
+
+        // userApi.loginUser()
+        //        .then((user) => {
+        //             console.log(user);
+        //             this.props.loadUser(user);
+        //             this.setState({
+        //                 firstName: user.firstName,
+        //                 lastName: user.lastName,
+        //                 bornDay: moment(user.bornDay).format('YYYY-MM-DD')
+        //             })
+        //         });
     }
 
     renewSession() {
@@ -80,13 +116,14 @@ export default class Auth {
         // console.log('isAuthenticated()');
         // Check whether the current time is past the
         // access token's expiry time
-        let expiresAt = this.expiresAt;
+        let expiresAt = localStorage.getItem("expires_at");
         return new Date().getTime() < expiresAt;
     }
 
     resolveHandleAuthentication(error, authResult){
         if(this.validSession(authResult)){
             this.setSession(authResult);
+
         } else if (error) {
             //TODO: Hay que contemplar que hacer en el caso que no se autentique, 
             //se podria informar con un modal y retornarlo a la pagina de inicion
@@ -139,5 +176,16 @@ export default class Auth {
         this.getIdToken = this.getIdToken.bind(this);
         this.renewSession = this.renewSession.bind(this);
         this.getProfile = this.getProfile.bind(this);
+        this.getProfile = this.retrieveLoggedUser.bind();
     }
 }
+
+function mapStateToProps (state){
+    // console.log('mapStateToProps()') 
+    //state: valor del state (La idea es que el estado se obtiene atravesando el reducer correspondiente, osea state.reducer.xState)
+    return {
+        user: state.UserReducer.user
+    };
+}
+
+connect(mapStateToProps, UserActions)(Auth);

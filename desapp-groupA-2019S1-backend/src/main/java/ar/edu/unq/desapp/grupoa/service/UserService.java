@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoa.service;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.DTOConverter;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
 import ar.edu.unq.desapp.grupoa.exception.user.UserNotFoundException;
+import ar.edu.unq.desapp.grupoa.model.Login;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,17 +32,21 @@ public class UserService {
     }
 
     // TODO: 10/6/2019 DO TEST, revisar que el parseo a fecha se haga correctamente
-    public UserDTO findOrCreate(String firstName, String familyName, String email, String bornDate) {
-        User findedUser = this.userDAO.findByFirstNameAndLastNameAndEmail(firstName, familyName, email);
+    public User findOrCreate(String firstName, String familyName, String email) {
+        User findedUser = this.userDAO.findByEmail(email);
 
         if(Objects.isNull(findedUser)){
-            User newUser = new User(firstName, familyName,email, firstName+familyName, LocalDateTime.parse(bornDate));
+            User newUser = new User(
+                                firstName,
+                                familyName,
+                                email,
+                                firstName+familyName,
+                                LocalDateTime.of(1900,1,1,0,0)
+                            );
             this.userDAO.save(newUser);
             findedUser = newUser;
         }
 
-        UserDTO loggedUser = DTOConverter.createUserDTO(findedUser);
-
-        return loggedUser;
+        return findedUser;
     }
 }

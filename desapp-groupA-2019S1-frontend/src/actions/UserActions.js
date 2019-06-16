@@ -11,3 +11,14 @@ export function loadUser(user) {
     };
 
 }
+
+export function loginUser(user) {
+    console.log('loginUser()');
+                
+    //Las acciones devuelve un objeto
+    return {
+        type: ACTION_TYPE.LOGIN_USER,
+        user: user
+    };
+
+}

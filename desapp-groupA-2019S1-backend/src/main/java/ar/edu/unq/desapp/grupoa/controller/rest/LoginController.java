@@ -1,7 +1,10 @@
 package ar.edu.unq.desapp.grupoa.controller.rest;
 
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.DTOConverter;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.LoginDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
+import ar.edu.unq.desapp.grupoa.model.user.User;
+import ar.edu.unq.desapp.grupoa.service.LoginService;
 import ar.edu.unq.desapp.grupoa.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +30,16 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private LoginService loginService;
+
     @PostMapping(value="/googleLogin/")
     public ResponseEntity<UserDTO> googleLogIn(@RequestBody LoginDTO userToLogIn){
         LOGGER.info("Got request for Google Log In of {}", userToLogIn);
-        UserDTO loggedUser = this.userService.findOrCreate(userToLogIn.firstName, userToLogIn.familyName, userToLogIn.email, userToLogIn.bornDate);
+        User findedUser = this.userService.findOrCreate(userToLogIn.firstName, userToLogIn.familyName, userToLogIn.email);
+
+        this.loginService.logIn(findedUser, userToLogIn.accessToken, userToLogIn.expireAt);
+        UserDTO loggedUser = DTOConverter.createUserDTO(findedUser);
         LOGGER.info("Response the request with the user {}", loggedUser);
         return new ResponseEntity<>(loggedUser, HttpStatus.OK);
     }

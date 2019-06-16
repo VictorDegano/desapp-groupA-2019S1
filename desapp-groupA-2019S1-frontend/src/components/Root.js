@@ -9,6 +9,7 @@ import UserProfile from "../containers/UserProfile";
 import Callback from "../Callback/Callback";
 import history from "../history";
 import Auth from "../Auth/Auth";
+import PrivateRoute from "./PrivateRoute"
 
 export const auth = new Auth();
 
@@ -20,16 +21,17 @@ const Root = ({ store }) => (
   <Suspense fallback={<Loader />}>
     <Provider store={store}>
       <Router history={history}>
-        {/* <div> */}
-          <Route exact path="/" 
+          <Route exact 
+                 path="/" 
                  component={Login} />
-          <Route path="/home" 
-                 component={App} />
           <Route path="/callback" 
                  component={Callback} />
-          <Route path="/profile" 
-                 component={UserProfile} />
-        {/* </div> */}
+
+          <PrivateRoute exact
+                        path="/home" 
+                        component={App} />
+          <PrivateRoute path="/profile" 
+                        component={UserProfile} />
       </Router>
     </Provider>
   </Suspense>
