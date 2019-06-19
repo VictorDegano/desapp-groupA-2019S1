@@ -9,6 +9,7 @@ import UserProfile from "../containers/UserProfile";
 import Callback from "../Callback/Callback";
 import history from "../history";
 import Auth from "../Auth/Auth";
+import CreateEvent from "./CreateEvent";
 
 export const auth = new Auth();
 
@@ -25,6 +26,7 @@ const Root = ({ store }) => (
         <Route path="/home" component={App} />
         <Route path="/callback" component={Callback} />
         <Route path="/profile" component={UserProfile} />
+        <Route path="/newEvent" component={CreateEvent} />
         {/* </div> */}
       </Router>
     </Provider>
