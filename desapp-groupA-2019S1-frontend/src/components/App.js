@@ -6,16 +6,13 @@ import EventApi from "../api/EventApi";
 import NavigationBar from "./NavigationBar";
 import SideBar from "./SideBar";
 import MainPanel from "./MainPanel";
-import EventsComponent from "./EventsComponent";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       title: "Eventos En Curso",
-      eventos: [],
-      eventosEnCurso: [],
-      misUltimosEventos: []
+      eventosEnCurso: []
     };
   }
 
