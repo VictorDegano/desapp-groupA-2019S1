@@ -1,6 +1,8 @@
 import React from "react";
 import { render } from "react-dom";
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
+import logger from "redux-logger";
+import thunk from "redux-thunk";
 import Root from "./components/Root";
 //Reducers
 import rootReducer from "./reducers/RootReducer";
@@ -13,6 +15,6 @@ import "./css/Index.css";
 import "./css/root.css";
 
 //Store
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, {}, applyMiddleware(logger, thunk));
 
 render(<Root store={store} />, document.getElementById("root"));
