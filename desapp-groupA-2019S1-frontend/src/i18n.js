@@ -1,6 +1,6 @@
 import i18n from "i18next";
 import Backend from "i18next-xhr-backend";
-import LanguageDetector from 'i18next-browser-languagedetector';
+import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
 
 i18n
@@ -12,9 +12,8 @@ i18n
   .use(Backend)
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
-    lng: "es_AR",
-    fallbackLng: "en_US", // is the default language that show if the language of the user it's not available.
-    keySeparator: '->', // is for specify if we use the key separator. If don't need keyseparator put false.
+    fallbackLng: "es_AR", // is the default language that show if the language of the user it's not available.
+    keySeparator: "->", // is for specify if we use the key separator. If don't need keyseparator put false.
     debug: false, // put true for see logs on chrome inspector.
     interpolation: {
       escapeValue: false // react already safes from xss

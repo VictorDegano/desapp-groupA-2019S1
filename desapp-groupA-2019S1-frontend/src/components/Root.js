@@ -9,7 +9,7 @@ import UserProfile from "../containers/UserProfile";
 import Callback from "../Callback/Callback";
 import history from "../history";
 import Auth from "../Auth/Auth";
-import PrivateRoute from "./PrivateRoute"
+import PrivateRoute from "./PrivateRoute";
 
 export const auth = new Auth();
 
@@ -19,21 +19,21 @@ const Loader = () => <div>loading...</div>;
 //TODO: el user profile hay que hacer que reciba al usuario una vez se lo traiga del backend
 const Root = ({ store }) => (
   <Suspense fallback={<Loader />}>
-    <Provider store={store}>
-      <Router history={history}>
-          <Route exact 
-                 path="/" 
-                 component={Login} />
-          <Route path="/callback" 
-                 component={Callback} />
+      <Provider store={store}>
+        <Router history={history}>
+            <Route exact 
+                   path="/" 
+                   component={Login} />
+            <Route path="/callback" 
+                   component={Callback}/>
 
-          <PrivateRoute exact
-                        path="/home" 
-                        component={App} />
-          <PrivateRoute path="/profile" 
-                        component={UserProfile} />
-      </Router>
-    </Provider>
+            <PrivateRoute exact
+                          path="/home" 
+                          component={App} />
+            <PrivateRoute path="/profile" 
+                          component={UserProfile} />
+        </Router>
+      </Provider>
   </Suspense>
 );
 

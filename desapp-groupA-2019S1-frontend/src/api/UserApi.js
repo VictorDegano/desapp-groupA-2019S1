@@ -41,7 +41,7 @@ class UserApi {
             }
         };
 
-        return axios.post( API_CONFIG.endPoint + "/login", user, header);
+        return axios.post( API_CONFIG.endPoint + "google/login/", user, header);
     };
 
     loginUser(user){

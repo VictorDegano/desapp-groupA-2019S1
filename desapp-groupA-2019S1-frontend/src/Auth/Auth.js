@@ -2,17 +2,12 @@ import auth0 from "auth0-js";
 import {AUTH_CONFIG} from "./Auth0-config";
 import history from "../history";
 import UserApi from '../api/UserApi.js';
-//Redux
-import { connect }from "react-redux";
-import PropTypes from "prop-types";
-//Actions
-import * as UserActions from "../actions/UserActions.js";
-export default class Auth {
+//Actions Type
+import * as User_Type from "../actions/Action_Types/User_Types.js";
+//Store
+import { store } from "../index.js";
 
-    static propTypes ={
-        loginUser: PropTypes.func.isRequired,
-        loggedUser: PropTypes.object
-    }
+export default class Auth {
 
     userProfile;
 
@@ -63,9 +58,10 @@ export default class Auth {
         localStorage.setItem("access_token", authResult.accessToken);
         localStorage.setItem("id_token", authResult.idToken);
         localStorage.setItem("expires_at", expiresAt);
-        localStorage.setItem("email", authResult.email);
-        localStorage.setItem("first_name", authResult.given_name);
-        localStorage.setItem("last_name", authResult.family_name);
+        localStorage.setItem("email", authResult.idTokenPayload.email);
+        localStorage.setItem("first_name", authResult.idTokenPayload.given_name);
+        localStorage.setItem("last_name", authResult.idTokenPayload.family_name);
+        localStorage.setItem("picture", authResult.idTokenPayload.picture);
     }
 
     validSession(authResult){
@@ -75,7 +71,7 @@ export default class Auth {
     resolveRenewSession(error, authResult){
         if (this.validSession(authResult)) {
             this.setSession(authResult);
-            this.retrieveLoggedUser();
+            
         } else if (error) {
             this.logout();
             // console.log(error); //TODO: valdria la pena que vaya al home?
@@ -89,22 +85,17 @@ export default class Auth {
 
         const userToPost = {
             accessToken: localStorage.getItem("id_token"),
-            expiresAt: localStorage.getItem("expires_at"),
+            expireAt: localStorage.getItem("expires_at"),
             email: localStorage.getItem("email"),
             firstName: localStorage.getItem("first_name"),
             familyName: localStorage.getItem("last_name"),
         }
 
-        // userApi.loginUser()
-        //        .then((user) => {
-        //             console.log(user);
-        //             this.props.loadUser(user);
-        //             this.setState({
-        //                 firstName: user.firstName,
-        //                 lastName: user.lastName,
-        //                 bornDay: moment(user.bornDay).format('YYYY-MM-DD')
-        //             })
-        //         });
+        userApi.loginUser(userToPost)
+               .then((user) => {
+                    console.log(user);
+                    store.dispatch({type:User_Type.LOGIN_USER, payload:user});    
+                });
     }
 
     renewSession() {
@@ -123,7 +114,7 @@ export default class Auth {
     resolveHandleAuthentication(error, authResult){
         if(this.validSession(authResult)){
             this.setSession(authResult);
-
+            this.retrieveLoggedUser();
         } else if (error) {
             //TODO: Hay que contemplar que hacer en el caso que no se autentique, 
             //se podria informar con un modal y retornarlo a la pagina de inicion
@@ -176,16 +167,6 @@ export default class Auth {
         this.getIdToken = this.getIdToken.bind(this);
         this.renewSession = this.renewSession.bind(this);
         this.getProfile = this.getProfile.bind(this);
-        this.getProfile = this.retrieveLoggedUser.bind();
+        this.retrieveLoggedUser = this.retrieveLoggedUser.bind(this);
     }
 }
-
-function mapStateToProps (state){
-    // console.log('mapStateToProps()') 
-    //state: valor del state (La idea es que el estado se obtiene atravesando el reducer correspondiente, osea state.reducer.xState)
-    return {
-        user: state.UserReducer.user
-    };
-}
-
-connect(mapStateToProps, UserActions)(Auth);

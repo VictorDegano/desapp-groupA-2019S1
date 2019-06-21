@@ -1,7 +1,8 @@
 import React from "react";
 import { render } from "react-dom";
-import { createStore } from "redux";
 import Root from "./components/Root";
+//Redux 
+import { createStore } from "redux";
 //Reducers
 import rootReducer from "../src/reducers/RootReducer";
  // import i18n (needs to be bundled ;)) 
@@ -13,7 +14,7 @@ import './css/Index.css';
 import './css/root.css';
 
 //Store
-const store = createStore(rootReducer);
+export const store = createStore(rootReducer);
 
 render(
   <Root store={store} />,

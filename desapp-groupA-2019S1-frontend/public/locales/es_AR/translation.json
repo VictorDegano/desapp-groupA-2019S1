@@ -1,4 +1,9 @@
 {
+  "callbackPage": {
+    "clickButton": "Click Aqui",
+    "description": "Vas a ser redirijido pronto a la pagina principal.\nSi no queres esperar hace",
+    "title": "¡Bienvenido!"
+  },
   "englishLanguage": "Ingles",
   "language": "Idioma",
   "loginPage": {

@@ -7,7 +7,6 @@ public class LoginDTO {
     public String firstName;
     public String familyName;
     public String email;
-//    public String bornDate; De momento no se recibe la fecha de naciemiento
 
     public LoginDTO(String firstName, String familyName, String email, String accessToken, String expires_at) {
         this.firstName = firstName;
@@ -15,6 +14,5 @@ public class LoginDTO {
         this.email = email;
         this.expireAt = expires_at;
         this.accessToken = accessToken;
-//        this.bornDate = bornDate;
     }
 }

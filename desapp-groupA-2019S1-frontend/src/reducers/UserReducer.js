@@ -24,10 +24,10 @@ export default function userReducer(state= initialState, action){
 
         case "LOGIN_USER": {
             console.log('case LOGIN_USER');
-            const { loggedUser: retrievedValue } = action;
+            // const { loggedUser: retrievedValue } = action;
             
             return Object.assign({}, state, { 
-                loggedUser: retrievedValue
+                loggedUser: action
             });
         }
 

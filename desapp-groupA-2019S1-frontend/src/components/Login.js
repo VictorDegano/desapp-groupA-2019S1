@@ -1,9 +1,4 @@
 import React from "react";
-import {auth} from "../components/Root.js";
-// i18next Hook
-import { withTranslation } from 'react-i18next';
-import i18next from "i18next";
-import logo from "../resources/Eventeando logo.png";
 // Bootstrap 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
@@ -11,12 +6,23 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown'
+import Dropdown from 'react-bootstrap/Dropdown';
+// i18next Hook
+import { withTranslation } from 'react-i18next';
+import i18next from "i18next";
+import { auth } from "../components/Root.js";
+import logo from "../resources/Eventeando logo.png";
+import background from "../resources/Background.png";
+
 //css
 import "../css/Login.css";
 
-const Login = ({t},props) => (
-  <Container className="containerLogin">
+function loadBackground() {
+  document.body.style = "background: url(" + background + ") no-repeat 40% fixed / cover;";
+}
+
+const Login = ({t}, props) => (
+  <Container className="containerLogin" onLoad={loadBackground()}>
     <Row className="align-items-center upperRowContainer">
       <Col md={{ offset: 11 }}> 
         <Dropdown >
