@@ -11,7 +11,16 @@ function createDataWithJson(jsonDeEvento) {
   };
 }
 function parseArrayToFunction(rowsArray) {
-  return rowsArray.flat(row => createDataWithJson(row));
+  //Esto saca los duplicados hasta que se arregle de la api
+  var includedIds = [];
+  var uniqueElements = [];
+  rowsArray.forEach(e => {
+    if (!includedIds.includes(e.id)) {
+      uniqueElements.push(e);
+      includedIds.push(e.id);
+    }
+  });
+  return uniqueElements.flat(row => createDataWithJson(row));
 }
 
 class EventTable extends React.Component {
