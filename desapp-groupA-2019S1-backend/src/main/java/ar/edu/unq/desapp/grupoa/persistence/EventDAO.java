@@ -15,17 +15,19 @@ public interface EventDAO extends JpaRepository<Event, Integer>, QueryByExampleE
     //Todo: Seria ideal poner un limit y un offset para bancar mostrar mas de X eventos.
     @Query("SELECT event " +
            "FROM Event event " +
-           "LEFT JOIN event.guests AS guest "+
-           "WHERE (event.organizer.id = :userId OR guest.user.id = :userId)" +
+           "INNER JOIN event.guests AS guest "+
+           "WHERE (event.organizer.id = :userId OR guest.user.id = :userId) " +
                  "AND event.status = 'OPEN' " +
+           "GROUP BY event " +
            "ORDER BY event.creationDate DESC")
     List<Event> getEventsInProgressForUser(@Param("userId") Integer userId);
 
-    @Query("SELECT event "+
-           "FROM Event event "+
-           "LEFT JOIN event.guests guest "+
-           "WHERE event.organizer.id = :userId "+
-                 "OR guest.user.id = :userId "+
+    @Query("SELECT event " +
+           "FROM Event event " +
+           "LEFT JOIN event.guests guest " +
+           "WHERE event.organizer.id = :userId " +
+                 "OR guest.user.id = :userId " +
+           "GROUP BY event " +
            "ORDER BY event.creationDate DESC")
     List<Event> getLastEventsForUser(@Param("userId")Integer userId);
 }
