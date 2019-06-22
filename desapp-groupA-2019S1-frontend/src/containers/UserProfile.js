@@ -177,5 +177,7 @@ function mapStateToProps (state){
 //el mapStateToProps son los estados que se conectan a los props
 //el mapDispatchToprops son las acciones, si se tiene sino se pasa null
 //connect(mapStateToprops, mapDispatchToProps)(ComponentClass)
-export default connect(mapStateToProps, UserActions)(withStyles(styles)(UserProfile));
-
+export default connect(
+  mapStateToProps,
+  UserActions
+)(withStyles(styles)(UserProfile));

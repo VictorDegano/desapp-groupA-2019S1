@@ -31,11 +31,11 @@ function handleCallbackLoad() {
 }
 
 const Callback = ({t}, props) => (
-  <Container className="h-100 d-flex justify-content-center align-items-center" 
+  <Container className="h-100 d-flex justify-content-center align-items-center"
              onLoad={ handleCallbackLoad() }>
-      <Col className="d-flex flex-column justify-content-center align-items-center"> 
-        <Image src={logo} 
-               rounded 
+      <Col className="d-flex flex-column justify-content-center align-items-center">
+        <Image src={logo}
+               rounded
                className="imageCallback" />
         <h1 className="textCallback text-center">
           {t("callbackPage->title")}

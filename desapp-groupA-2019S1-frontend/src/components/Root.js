@@ -10,6 +10,7 @@ import Callback from "../Callback/Callback";
 import history from "../history";
 import Auth from "../Auth/Auth";
 import PrivateRoute from "./PrivateRoute";
+import CreateEvent from "./CreateEvent";
 
 export const auth = new Auth();
 
@@ -32,6 +33,8 @@ const Root = ({ store }) => (
                           component={App} />
             <PrivateRoute path="/profile" 
                           component={UserProfile} />
+            <PrivateRoute path="/newEvent"
+                          component={CreateEvent} />
         </Router>
       </Provider>
   </Suspense>
