@@ -12,7 +12,9 @@ class App extends React.Component {
     super(props);
     this.state = {
       title: "Eventos En Curso",
-      eventosEnCurso: []
+      eventosEnCurso: [],
+      misUltimosEventos: [],
+      eventosQueSeMuestran: []
     };
   }
 
@@ -23,7 +25,8 @@ class App extends React.Component {
 
     eventApi.getEventosEnCurso(1).then(response => {
       this.setState({
-        eventosEnCurso: response.data
+        eventosEnCurso: response.data,
+        eventosQueSeMuestran: response.data
       });
     });
 
@@ -34,29 +37,35 @@ class App extends React.Component {
     });
   }
 
+  showMisUltimosEventos() {
+    this.setState({
+      eventosQueSeMuestran: this.state.misUltimosEventos,
+      title: "Mis Ultimos Eventos",
+    });
+  }
+  showEventosEnCurso() {
+    this.setState({
+      eventosQueSeMuestran: this.state.eventosEnCurso,
+      title: "Eventos En Curso",
+    });
+  }
+
   render() {
     return (
       <div>
         <NavigationBar />
         <Row>
-          <Col xs={3}>
-            <SideBar />
+          <Col xs={2}>
+            <SideBar showMisUltimosEventos={this.showMisUltimosEventos.bind(this)}
+                     showEventosEnCurso={this.showEventosEnCurso.bind(this)}/>
           </Col>
-          <Col xs={9}>
+          <Col xs={10}>
             <MainPanel
               title={this.state.title}
-              arrayDeEventos={this.state.eventosEnCurso}
+              arrayDeEventos={this.state.eventosQueSeMuestran}
             />
           </Col>
         </Row>
-        {/*<EventsComponent*/}
-        {/*  title="Mis eventos en curso:"*/}
-        {/*  arrayDeEventos={this.state.eventosEnCurso}*/}
-        {/*/>*/}
-        {/*<EventsComponent*/}
-        {/*  title="Mis ultimos eventos:"*/}
-        {/*  arrayDeEventos={this.state.misUltimosEventos}*/}
-        {/*/>*/}
       </div>
     );
   }
