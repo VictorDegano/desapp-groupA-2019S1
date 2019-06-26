@@ -10,7 +10,9 @@ import Dropdown from 'react-bootstrap/Dropdown';
 // i18next Hook
 import { withTranslation } from 'react-i18next';
 import i18next from "i18next";
+// Auth
 import { auth } from "../components/Root.js";
+// Resources
 import logo from "../resources/Eventeando logo.png";
 import background from "../resources/Background.png";
 

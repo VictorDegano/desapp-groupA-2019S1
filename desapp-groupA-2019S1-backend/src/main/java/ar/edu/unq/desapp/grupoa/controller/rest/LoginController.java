@@ -49,7 +49,7 @@ public class LoginController {
         return new ResponseEntity<>(loggedUser, HttpStatus.OK);
     }
 
-    @PostMapping(value="/google/Logout/")
+    @PostMapping(value="/google/logout/")
     public ResponseEntity<Boolean> googleLogOut(@RequestBody LoginOutDTO userToLogOut){
         LOGGER.info("Got request for Google Log Out of user with Id {}", userToLogOut.userId);
 

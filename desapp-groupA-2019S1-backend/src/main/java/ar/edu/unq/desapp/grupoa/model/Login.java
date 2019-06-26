@@ -34,7 +34,7 @@ public class Login {
     }
 
     public void logOut(){
-        if(Objects.nonNull(this.logOut)){
+        if(Objects.isNull(this.logOut)){
             this.logOut = LocalDateTime.now();
         }
     }
@@ -56,4 +56,6 @@ public class Login {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public void setExpireAt(LocalDateTime expireAt) {   this.expireAt = expireAt;   }
 }

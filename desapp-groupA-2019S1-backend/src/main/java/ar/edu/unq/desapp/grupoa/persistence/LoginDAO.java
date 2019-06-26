@@ -14,9 +14,5 @@ public interface LoginDAO extends JpaRepository<Login, Integer>, QueryByExampleE
 
     List<Login> getLoginByUserAndLogOutIsNullOrderByLogInDesc(User userToLogin);
 
-//    @Query("SELECT 1 " +
-//            "FROM Login login " +
-//            "WHERE login.accessToken = :accessToken " +
-//                   "AND login.user.id = :userId ")
     Login getLoginByUserIdAndAccessToken(Integer userId, String accessToken);
 }

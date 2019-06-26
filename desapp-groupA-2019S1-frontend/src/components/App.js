@@ -7,6 +7,7 @@ import NavigationBar from "./NavigationBar";
 import SideBar from "./SideBar";
 import MainPanel from "./MainPanel";
 import EventsComponent from "./EventsComponent";
+import ProfileEdition from "../containers/ProfileEdition";
 
 class App extends React.Component {
   constructor(props) {
@@ -41,6 +42,7 @@ class App extends React.Component {
     return (
       <div>
         <NavigationBar />
+        <ProfileEdition/>
         <Row>
           <Col xs={3}>
             <SideBar />

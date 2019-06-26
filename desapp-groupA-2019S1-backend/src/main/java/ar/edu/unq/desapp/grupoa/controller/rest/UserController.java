@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa.controller.rest;
 
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.service.UserService;
 import org.slf4j.Logger;
@@ -38,8 +39,8 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<String> updateUser(@Valid @RequestBody User user){
-        userService.update(user);
+    public ResponseEntity<String> updateUser(@Valid @RequestBody UserDTO user){
+        this.userService.update(user);
         return new ResponseEntity<>("User updated succesfuly",HttpStatus.OK );
     }
 

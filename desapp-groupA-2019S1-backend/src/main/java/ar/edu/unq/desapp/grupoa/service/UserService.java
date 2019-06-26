@@ -8,7 +8,10 @@ import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Service
@@ -27,8 +30,13 @@ public class UserService {
        return userDAO.findById(userId).orElseThrow(()->new UserNotFoundException(userId));
     }
 
-    public void update(User user) {
-        userDAO.save(user);
+    public void update(UserDTO user) {
+        User userToUpdate = this.userDAO.findById(user.id).orElseThrow(()->new UserNotFoundException(user.id));
+        userToUpdate.setFirstName(user.fistName);
+        userToUpdate.setLastName(user.lastName);
+        userToUpdate.setBornDay(LocalDateTime.parse("1998-06-22T03:00:00.000Z", DateTimeFormatter.ISO_DATE_TIME));
+
+        userDAO.save(userToUpdate);
     }
 
     // TODO: 10/6/2019 DO TEST, revisar que el parseo a fecha se haga correctamente

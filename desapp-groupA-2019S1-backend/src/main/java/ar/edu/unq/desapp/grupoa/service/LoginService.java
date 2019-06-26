@@ -25,8 +25,14 @@ public class LoginService {
     public void logIn(User userToLogin, String accessToken, String expireAt){
         List<Login> opensUserLogins = this.loginDAO.getLoginByUserAndLogOutIsNullOrderByLogInDesc(userToLogin);
 
-        if(! opensUserLogins.isEmpty()){
+        if(! opensUserLogins.isEmpty()) {
             this.checkLogin(opensUserLogins, accessToken);
+
+            if(! opensUserLogins.get(0).isValidToken(accessToken)) {
+                this.createLogin(userToLogin, accessToken, expireAt);
+            } else {
+                renewExpireAt(opensUserLogins.get(0), accessToken);
+            }
             this.loginDAO.saveAll(opensUserLogins);
         } else {
             this.createLogin(userToLogin, accessToken, expireAt);
@@ -57,6 +63,11 @@ public class LoginService {
             throw new LoginException("There Was An Error Trying To Log In, Try Again");
         }
 
+    }
+
+    private void renewExpireAt(Login alogin, String expireAt ){
+        Instant instant = Instant.ofEpochMilli(Long.valueOf(expireAt));
+        alogin.setExpireAt(LocalDateTime.ofInstant(instant, ZoneOffset.UTC));
     }
 
     // TODO: excepcion de no encontrar el login?¿

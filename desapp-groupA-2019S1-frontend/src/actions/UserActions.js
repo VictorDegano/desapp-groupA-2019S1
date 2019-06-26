@@ -22,3 +22,25 @@ export function loginUser(user) {
     };
 
 }
+
+export function logoutUser() {
+    console.log('loginOut()');
+                
+    //Las acciones devuelve un objeto
+    return {
+        type: ACTION_TYPE.LOGOUT_USER,
+        user: null
+    };
+
+}
+
+export function updateLoggedUser(user) {
+    // console.log('updateLoggedUser()');
+                
+    //Las acciones devuelve un objeto
+    return {
+        type: ACTION_TYPE.UPDATE_LOGGED_USER,
+        user: user
+    };
+
+}

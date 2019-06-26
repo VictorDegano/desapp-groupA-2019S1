@@ -26,31 +26,47 @@ export default class Auth {
     }
 
     logout() {
-        // console.log('logout()');
-        // Remove the user
-        this.userProfile = null;
+        // console.log("logout()");
+        const userToLogout = {
+            userId: store.getState().UserReducer.loggedUser.id,
+            accessToken: localStorage.getItem("id_token"),
+        };
 
-        // Remove isLoggedIn flag from localStorage
-        localStorage.removeItem("isLoggedIn");
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("id_token");
-        localStorage.removeItem("expires_at");
-        localStorage.removeItem("email");
-        localStorage.removeItem("first_name");
-        localStorage.removeItem("last_name");
+        const userApi = new UserApi();
+        userApi.logoutUser(userToLogout)
+                .then((response) => {
+                    store.dispatch({type:User_Type.LOGOUT_USER, payload:null});
+                    
+                    // Remove the user
+                    this.userProfile = null;
 
-        this.auth0.logout({
-            returnTo: window.location.origin
-        });
+                    // Remove isLoggedIn flag from localStorage
+                    localStorage.removeItem("isLoggedIn");
+                    localStorage.removeItem("access_token");
+                    localStorage.removeItem("id_token");
+                    localStorage.removeItem("expires_at");
+                    localStorage.removeItem("email");
+                    localStorage.removeItem("first_name");
+                    localStorage.removeItem("last_name");
+                    localStorage.removeItem("picture");
+
+                    this.auth0.logout({
+                        returnTo: window.location.origin
+                    });
+                })
+                .catch((error) => {
+                    alert("An error has occurred, please try again");
+                });
+        
 
         // navigate to the home route
-        history.replace("/home");
+        // history.replace("/home");
     }
 
     setSession(authResult) {
         // console.log('setSession()');
         // Set isLoggedIn flag in localStorage
-        localStorage.setItem("isLoggedIn", "true");
+        // localStorage.setItem("isLoggedIn", "true");
 
         // Set the time that the Access Token will expire at
         let expiresAt = (authResult.expiresIn * 1000) + new Date().getTime();
