@@ -75,7 +75,7 @@ public class EventController {
     // TODO: 27/6/2019 Falta hacer los test
     @GetMapping("/event/most_popular_events/")
     public ResponseEntity<List<EventHomeDTO>> mostPopularEvents(){
-        LOGGER.info("Got request GET for Last Event of user");
+        LOGGER.info("Got request GET for Most Popular Events");
 
         List<Event> mostPopularEvents = eventService.mostPopularEvents();
         List<EventHomeDTO> eventsDTOList = DTOConverter.createEventHomeDTOList(mostPopularEvents);
