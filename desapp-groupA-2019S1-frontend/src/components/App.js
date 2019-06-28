@@ -2,14 +2,20 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import EventApi from "../api/EventApi";
 import NavigationBar from "./NavigationBar";
 import SideBar from "./SideBar";
 import MainPanel from "./MainPanel";
-import EventsComponent from "./EventsComponent";
 import ProfileEdition from "../containers/ProfileEdition";
+import { updateLoggedUser } from "../actions/UserActions";
 
 class App extends React.Component {
+  static propTypes = {
+    loggedUser: PropTypes.object
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -25,14 +31,14 @@ class App extends React.Component {
     // console.log('componentWilMount()');
     var eventApi = new EventApi();
 
-    eventApi.getEventosEnCurso(1).then(response => {
+    eventApi.getEventosEnCurso(this.props.loggedUser.id).then(response => {
       this.setState({
         eventosEnCurso: response.data,
         eventosQueSeMuestran: response.data
       });
     });
 
-    eventApi.getMisUltimosEventos(1).then(response => {
+    eventApi.getMisUltimosEventos(this.props.loggedUser.id).then(response => {
       this.setState({
         misUltimosEventos: response.data
       });
@@ -42,13 +48,13 @@ class App extends React.Component {
   showMisUltimosEventos() {
     this.setState({
       eventosQueSeMuestran: this.state.misUltimosEventos,
-      title: "Mis Ultimos Eventos",
+      title: "Mis Ultimos Eventos"
     });
   }
   showEventosEnCurso() {
     this.setState({
       eventosQueSeMuestran: this.state.eventosEnCurso,
-      title: "Eventos En Curso",
+      title: "Eventos En Curso"
     });
   }
 
@@ -56,11 +62,13 @@ class App extends React.Component {
     return (
       <div>
         <NavigationBar />
-        <ProfileEdition/>
+        <ProfileEdition />
         <Row>
           <Col xs={2}>
-            <SideBar showMisUltimosEventos={this.showMisUltimosEventos.bind(this)}
-                     showEventosEnCurso={this.showEventosEnCurso.bind(this)}/>
+            <SideBar
+              showMisUltimosEventos={this.showMisUltimosEventos.bind(this)}
+              showEventosEnCurso={this.showEventosEnCurso.bind(this)}
+            />
           </Col>
           <Col xs={10}>
             <MainPanel
@@ -74,4 +82,22 @@ class App extends React.Component {
   }
 }
 
-export default withRouter(App);
+function mapStateToProps(state) {
+  // console.log('mapStateToProps()')
+  return {
+    loggedUser: state.UserReducer.loggedUser
+  };
+}
+
+const mapDispatchToProps = dispatch => ({
+  updateLoggedUser: user => dispatch(updateLoggedUser(user))
+});
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+    // ModalViewActions,
+    // UserActions
+  )(App)
+);
