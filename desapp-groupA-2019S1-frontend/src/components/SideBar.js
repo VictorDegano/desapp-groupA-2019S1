@@ -30,7 +30,11 @@ class SideBar extends React.PureComponent {
             </Card.Body>
           </Accordion.Collapse>
           <Accordion.Collapse eventKey="0">
-            <Card.Body>Populares</Card.Body>
+            <Card.Body>
+              <Button onClick={() => this.props.showEventosMasPopulares()}>
+                Populares
+              </Button>
+            </Card.Body>
           </Accordion.Collapse>
         </Card>
         <Card>
