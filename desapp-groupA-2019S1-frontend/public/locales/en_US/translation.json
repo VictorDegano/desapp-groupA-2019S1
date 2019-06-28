@@ -1,0 +1,38 @@
+{
+  "callbackPage": {
+    "clickButton": "Click Here",
+    "description": "Will be redirected soon.\nIf you don't want wait",
+    "title": "Welcome!"
+  },
+  "englishLanguage": "English",
+  "formatter": {
+    "date": "MM/dd/yyyy"
+  },
+  "language": "Language",
+  "loginPage": {
+    "button": "Enter",
+    "description": "The event portal designed for you and your friends.",
+    "panelBody": "In order to access the portal you must login. Please use the following methods:",
+    "panelHeader": "Welcome to Eventeando!",
+    "slogan": "Eventeando, where the get together with your friends is just beginning...",
+    "title": "Eveteando"
+  },
+  "profileEditionModal": {
+    "buttons": {
+      "close": "Close",
+      "save": "Save"
+    },
+    "form": {
+      "bornDate": "Born Date:",
+      "bornDatePlaceholder": "Enter your born date...",
+      "email": "Email:",
+      "emailPlaceholder": "Enter an email",
+      "firstName": "First Name:",
+      "firstNamePlaceholder": "Enter your name",
+      "lastName": "Last Name:",
+      "lastNamePlaceholder": "Enter your last name"
+    },
+    "title": "Profile Edition"
+  },
+  "spanishLanguage": "Spanish"
+}

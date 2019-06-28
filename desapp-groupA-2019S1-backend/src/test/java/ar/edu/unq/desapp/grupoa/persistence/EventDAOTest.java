@@ -28,6 +28,9 @@ public class EventDAOTest {
     @Autowired
     private EventDAO eventDAO;
 
+    @Autowired
+    private UserDAO userDAO;
+
     @Test
     public void whenAskForTheLastEventsOfAUserAndHaveTwoButOneAsOrganizerAndTheOtherAsGuestButAreOthersEventsOfOthersUsers_OnlyThatTwoEventsAreRetrievedInDescOrder(){
         //Setup

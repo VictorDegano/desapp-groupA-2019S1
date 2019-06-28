@@ -1,183 +1,64 @@
-import React from 'react';
-import {makeStyles, rgbToHex} from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import history from "../history";
+import React from "react";
+//Bootstrap
+import "bootstrap/dist/css/bootstrap.min.css";
+import Dropdown from "react-bootstrap/Dropdown";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import FormControl from "react-bootstrap/es/FormControl";
+import Image from "react-bootstrap/Image";
+// Auth
+import { auth } from "./Root";
+//Actions Type
+import * as ModalView_Type from "../actions/Action_Types/ModalView_Types";
+//Store
+import { store } from "../index";
 
-const useStyles = makeStyles(theme => ({
-    grow: {
-        flexGrow: 1,
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-    },
-    title: {
-        display: 'none',
-        [theme.breakpoints.up('sm')]: {
-            display: 'block',
-        },
-    },
-    inputRoot: {
-        color: 'inherit',
-    },
-    inputInput: {
-        padding: theme.spacing(1, 1, 1, 7),
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: 200,
-        },
-    },
-    sectionDesktop: {
-        display: 'none',
-        [theme.breakpoints.up('md')]: {
-            display: 'flex',
-        },
-    },
-    sectionMobile: {
-        display: 'flex',
-        [theme.breakpoints.up('md')]: {
-            display: 'none',
-        },
-    },
-    appBar: {
-        backgroundColor: rgbToHex('#FFA500'),
-    }
-}));
+function openModal() {
+  console.log("openModal()");
+  store.dispatch({ type: ModalView_Type.OPEN_PROFILE_EDITION });
+}
 
 function NavigationBar() {
-    const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  return (
+    <Navbar variant="dark">
+      <Navbar.Brand href="/home" alt="Home">
+        Eventeando
+      </Navbar.Brand>
+      <Nav className="mr-auto">
+        <Nav.Link href="/home">Home</Nav.Link>
+        <Nav.Link href="/newEvent">Crear Evento</Nav.Link>
+      </Nav>
+      <Form inline>
+        <FormControl
+          type="text"
+          placeholder="Buscar Evento"
+          className="mr-sm-2"
+        />
+        <Button variant="outline-light">Buscar</Button>
+      </Form>
 
-    const isMenuOpen = Boolean(anchorEl);
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+    <Dropdown>
+      <Dropdown.Toggle variant="link" id="dropdown-basic">
+      <Image bsPrefix="btn dropdown-toggle img-responsive"
+             alt="dropdown image"
+             data-toggle="dropdown"
+             width={50}
+             height={50}
+             src={localStorage.getItem("picture")}
+             roundedCircle/>
+      </Dropdown.Toggle>
 
-    function handleProfileMenuOpen(event) {
-        setAnchorEl(event.currentTarget);
-    }
+      <Dropdown.Menu> 
+        <Dropdown.Item as="button" onClick={()=>openModal()}>Edit Profile</Dropdown.Item>
+        <Dropdown.Item as="button" onClick={()=>auth.logout()}>Log Out</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
 
-    function handleMobileMenuClose() {
-        setMobileMoreAnchorEl(null);
-    }
 
-    function handleMenuClose() {
-        setAnchorEl(null);
-        handleMobileMenuClose();
-    }
-
-    function handleMobileMenuOpen(event) {
-        setMobileMoreAnchorEl(event.currentTarget);
-    }
-
-    function handleClickProfile(event){
-        history.push("/profile");
-    }
-
-    const renderMenu = (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            <MenuItem onClick={handleClickProfile}>Profile</MenuItem>
-            {/* <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
-        </Menu>
-    );
-
-    const renderMobileMenu = (
-        <Menu
-            anchorEl={mobileMoreAnchorEl}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            open={isMobileMenuOpen}
-            onClose={handleMobileMenuClose}
-        >
-            <MenuItem>
-                <IconButton color="inherit">
-                    <Badge badgeContent={4} color="secondary">
-                        <MailIcon />
-                    </Badge>
-                </IconButton>
-                <p>Messages</p>
-            </MenuItem>
-            <MenuItem>
-                <IconButton color="inherit">
-                    <Badge badgeContent={11} color="secondary">
-                        <NotificationsIcon />
-                    </Badge>
-                </IconButton>
-                <p>Notifications</p>
-            </MenuItem>
-            <MenuItem onClick={handleProfileMenuOpen}>
-                <IconButton color="inherit">
-                    <AccountCircle />
-                </IconButton>
-                <p>Profile</p>
-            </MenuItem>
-        </Menu>
-    );
-
-    return (
-        <div className={classes.grow}>
-            <AppBar position="static" className={classes.appBar}>
-                <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="Open drawer"
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography className={classes.title} variant="h6" noWrap>
-                        Eventeando
-                    </Typography>
-                    <div className={classes.grow} />
-                    <div className={classes.sectionDesktop}>
-                        <IconButton color="inherit">
-                            <Badge badgeContent={4} color="secondary">
-                                <MailIcon />
-                            </Badge>
-                        </IconButton>
-                        <IconButton color="inherit">
-                            <Badge badgeContent={17} color="secondary">
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton>
-                        <IconButton
-                            edge="end"
-                            aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
-                    </div>
-                    <div className={classes.sectionMobile}>
-                        <IconButton aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">
-                            <MoreIcon />
-                        </IconButton>
-                    </div>
-                </Toolbar>
-            </AppBar>
-            {renderMenu}
-            {renderMobileMenu}
-        </div>
-    );
+    </Navbar>
+  );
 }
 
 export default NavigationBar;

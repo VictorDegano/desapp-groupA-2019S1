@@ -9,6 +9,8 @@ public class UserDTO {
     public String bornDate;
     public String email;
 
+    public UserDTO() {}
+
     public UserDTO(Integer id, String fistName, String lastName, String bornDate, String email) {
         this.id = id;
         this.fistName = fistName;
