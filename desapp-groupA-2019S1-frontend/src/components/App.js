@@ -22,6 +22,7 @@ class App extends React.Component {
       title: "Eventos En Curso",
       eventosEnCurso: [],
       misUltimosEventos: [],
+      eventosMasPopulares: [],
       eventosQueSeMuestran: []
     };
   }
@@ -43,6 +44,12 @@ class App extends React.Component {
         misUltimosEventos: response.data
       });
     });
+
+    eventApi.getEventosMasPopulares().then(response => {
+      this.setState({
+        eventosMasPopulares: response.data
+      });
+    });
   }
 
   showMisUltimosEventos() {
@@ -57,6 +64,12 @@ class App extends React.Component {
       title: "Eventos En Curso"
     });
   }
+  showEventosMasPopulares() {
+    this.setState({
+      eventosQueSeMuestran: this.state.eventosMasPopulares,
+      title: "Eventos En Curso"
+    });
+  }
 
   render() {
     return (
@@ -68,6 +81,7 @@ class App extends React.Component {
             <SideBar
               showMisUltimosEventos={this.showMisUltimosEventos.bind(this)}
               showEventosEnCurso={this.showEventosEnCurso.bind(this)}
+              showEventosMasPopulares={this.showEventosMasPopulares.bind(this)}
             />
           </Col>
           <Col xs={10}>
