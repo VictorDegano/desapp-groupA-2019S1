@@ -39,24 +39,28 @@ function NavigationBar() {
         <Button variant="outline-light">Buscar</Button>
       </Form>
 
-    <Dropdown>
-      <Dropdown.Toggle variant="link" id="dropdown-basic">
-      <Image bsPrefix="btn dropdown-toggle img-responsive"
-             alt="dropdown image"
-             data-toggle="dropdown"
-             width={50}
-             height={50}
-             src={localStorage.getItem("picture")}
-             roundedCircle/>
-      </Dropdown.Toggle>
+      <Dropdown>
+        <Dropdown.Toggle variant="link" id="dropdown-basic">
+          <Image
+            bsPrefix="btn dropdown-toggle img-responsive"
+            alt="dropdown image"
+            data-toggle="dropdown"
+            width={50}
+            height={50}
+            src={localStorage.getItem("picture")}
+            roundedCircle
+          />
+        </Dropdown.Toggle>
 
-      <Dropdown.Menu> 
-        <Dropdown.Item as="button" onClick={()=>openModal()}>Edit Profile</Dropdown.Item>
-        <Dropdown.Item as="button" onClick={()=>auth.logout()}>Log Out</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-
-
+        <Dropdown.Menu>
+          <Dropdown.Item as="button" onClick={() => openModal()}>
+            Edit Profile
+          </Dropdown.Item>
+          <Dropdown.Item as="button" onClick={() => auth.logout()}>
+            Log Out
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
     </Navbar>
   );
 }

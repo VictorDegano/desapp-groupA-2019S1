@@ -21,20 +21,14 @@ const Loader = () => <div>loading...</div>;
 //El tag provider hace que todo lo que este dentro de este tag, este conectado al store de redux
 const Root = ({ store }) => (
   <Suspense fallback={<Loader />}>
-      <Provider store={store}>
-        <Router history={history}>
-            <Route exact 
-                   path="/" 
-                   component={Login} />
-            <Route path="/callback" 
-                   component={Callback}/>
-            <PrivateRoute exact
-                          path="/home" 
-                          component={App} />
-            <PrivateRoute path="/newEvent"
-                          component={CreateEvent} />
-        </Router>
-      </Provider>
+    <Provider store={store}>
+      <Router history={history}>
+        <Route exact path="/" component={Login} />
+        <Route path="/callback" component={Callback} />
+        <PrivateRoute exact path="/home" component={App} />
+        <PrivateRoute path="/newEvent" component={CreateEvent} />
+      </Router>
+    </Provider>
   </Suspense>
 );
 

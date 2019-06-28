@@ -40,7 +40,7 @@ class ProfileEdition extends Component {
     this.handleDismiss = this.handleDismiss.bind(this);
   }
 
-  componentWillMount(){
+  componentWillMount() {
     const loggedUser = this.props.loggedUser;
 
     this.setState({
@@ -90,12 +90,15 @@ class ProfileEdition extends Component {
 
       const userApi = new UserApi();
 
-      userApi.putUser(userToSave).then((response) => {
-        this.props.updateLoggedUser(userToStateUpdate);
-        this.handleClose();
-      }).catch((error) => {
-        alert("An error has occurred, please try again");
-      });
+      userApi
+        .putUser(userToSave)
+        .then(response => {
+          this.props.updateLoggedUser(userToStateUpdate);
+          this.handleClose();
+        })
+        .catch(error => {
+          alert("An error has occurred, please try again");
+        });
     } else {
       event.stopPropagation();
       this.setState({
@@ -105,40 +108,44 @@ class ProfileEdition extends Component {
     }
   }
 
-  checkValidation(event){
-    return event.target[1].value !== "" 
-           && event.target[2].value !== ""
-           && ( this.state.startDate !== null
-                && this.state.startDate <= new Date() 
-                && this.state.startDate >= new Date("01/01/1900"));
+  checkValidation(event) {
+    return (
+      event.target[1].value !== "" &&
+      event.target[2].value !== "" &&
+      (this.state.startDate !== null &&
+        this.state.startDate <= new Date() &&
+        this.state.startDate >= new Date("01/01/1900"))
+    );
   }
 
-  getError(event){
+  getError(event) {
     let error = "";
-    if(event.target[1].value === ""){
-      error += (error !== "") ? "\n" : "";
+    if (event.target[1].value === "") {
+      error += error !== "" ? "\n" : "";
       error += "El nombre no puede ser vacio";
     }
-    if(event.target[2].value === ""){
-      error += (error !== "") ? "\n" : "";
+    if (event.target[2].value === "") {
+      error += error !== "" ? "\n" : "";
       error += "El Apellido no puede ser vacio";
     }
-    if( this.state.startDate === null 
-        || this.state.startDate > new Date() 
-        | this.state.startDate < new Date("01/01/1900")){
-      error += (error !== "") ? "\n" : "";
+    if (
+      this.state.startDate === null ||
+      (this.state.startDate > new Date()) |
+        (this.state.startDate < new Date("01/01/1900"))
+    ) {
+      error += error !== "" ? "\n" : "";
       error += "La fecha tiene que ser menor a hoy y mayor a 01/01/1990";
     }
-    
+
     return error;
   }
 
-  handleDismiss(){
-    this.setState({ 
+  handleDismiss() {
+    this.setState({
       showAlert: false,
       messageAlert: ""
     });
-  };
+  }
 
   render() {
     const { t } = this.props;
@@ -148,83 +155,87 @@ class ProfileEdition extends Component {
 
     return (
       <>
-        <Modal show={show} 
-               onHide={this.handleClose}>
-          <Alert variant="danger" 
-                 show={this.state.showAlert} 
-                 onClose={this.handleDismiss} 
-                 dismissible>
+        <Modal show={show} onHide={this.handleClose}>
+          <Alert
+            variant="danger"
+            show={this.state.showAlert}
+            onClose={this.handleDismiss}
+            dismissible
+          >
             <Alert.Heading>¡Error!</Alert.Heading>
-            <p>
-              {this.state.messageAlert}
-            </p>
+            <p>{this.state.messageAlert}</p>
           </Alert>
-          <Form onSubmit={this.handleSave}
-                noValidate
-                validated={validated}>
+          <Form onSubmit={this.handleSave} noValidate validated={validated}>
             <Modal.Header closeButton>
-                <Modal.Title>
-                  {t("profileEditionModal->title")}
-                </Modal.Title>
+              <Modal.Title>{t("profileEditionModal->title")}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form.Group controlId="formBasicFirstName">
                 <Form.Label>
                   {t("profileEditionModal->form->firstName")}
                 </Form.Label>
-                <Form.Control required
-                              type="text"
-                              placeholder={t("profileEditionModal->form->firstNamePlaceholder")}
-                              defaultValue={loggedUser.fistName}/>
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder={t(
+                    "profileEditionModal->form->firstNamePlaceholder"
+                  )}
+                  defaultValue={loggedUser.fistName}
+                />
               </Form.Group>
               <Form.Group controlId="formBasicLastName">
                 <Form.Label>
                   {t("profileEditionModal->form->lastName")}
                 </Form.Label>
-                <Form.Control required
-                              type="text"
-                              placeholder={t("profileEditionModal->form->lastNamePlaceholder")}
-                              defaultValue={loggedUser.lastName}/>
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder={t(
+                    "profileEditionModal->form->lastNamePlaceholder"
+                  )}
+                  defaultValue={loggedUser.lastName}
+                />
               </Form.Group>
               <Form.Group controlId="formBasicBornDate">
                 <Form.Label>
                   {t("profileEditionModal->form->bornDate")}
                 </Form.Label>
                 <div className="containerDatePicker">
-                  <DatePicker required                              
-                              className="Form.Control"
-                              minDate={new Date("01/01/1900")}
-                              maxDate={new Date()}
-                              selected={this.state.startDate}
-                              onChange={this.handleBornDateChange}
-                              dateFormat={t("formatter->date")}
-                              placeholderText={t("profileEditionModal->form->bornDatePlaceholder")}
-                              showYearDropdown
-                              scrollableYearDropdown
-                              yearDropdownItemNumber={80}
-                              fixedHeight/>
+                  <DatePicker
+                    required
+                    className="Form.Control"
+                    minDate={new Date("01/01/1900")}
+                    maxDate={new Date()}
+                    selected={this.state.startDate}
+                    onChange={this.handleBornDateChange}
+                    dateFormat={t("formatter->date")}
+                    placeholderText={t(
+                      "profileEditionModal->form->bornDatePlaceholder"
+                    )}
+                    showYearDropdown
+                    scrollableYearDropdown
+                    yearDropdownItemNumber={80}
+                    fixedHeight
+                  />
                 </div>
               </Form.Group>
               <Form.Group controlId="formBasicEmail">
-                <Form.Label>
-                  {t("profileEditionModal->form->email")}
-                </Form.Label>
-                <Form.Control required
-                              type="email"
-                              placeholder={t("profileEditionModal->form->emailPlaceholder")}
-                              disabled
-                              defaultValue={loggedUser.email}
-                              />
+                <Form.Label>{t("profileEditionModal->form->email")}</Form.Label>
+                <Form.Control
+                  required
+                  type="email"
+                  placeholder={t("profileEditionModal->form->emailPlaceholder")}
+                  disabled
+                  defaultValue={loggedUser.email}
+                />
               </Form.Group>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" 
-                      onClick={this.handleClose}>
-                  {t("profileEditionModal->buttons->close")}
+              <Button variant="secondary" onClick={this.handleClose}>
+                {t("profileEditionModal->buttons->close")}
               </Button>
-              <Button variant="primary" 
-                      type="submit">
-                  {t("profileEditionModal->buttons->save")}
+              <Button variant="primary" type="submit">
+                {t("profileEditionModal->buttons->save")}
               </Button>
             </Modal.Footer>
           </Form>
@@ -242,8 +253,8 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  updateLoggedUser: (user) => dispatch(updateLoggedUser(user)),
+const mapDispatchToProps = dispatch => ({
+  updateLoggedUser: user => dispatch(updateLoggedUser(user)),
   closeProfileEdition: () => dispatch(closeProfileEdition())
 });
 
@@ -252,4 +263,4 @@ export default connect(
   mapDispatchToProps
   // ModalViewActions,
   // UserActions
-)(withTranslation ()(ProfileEdition));
+)(withTranslation()(ProfileEdition));

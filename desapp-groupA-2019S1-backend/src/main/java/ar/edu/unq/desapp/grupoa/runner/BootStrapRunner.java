@@ -49,7 +49,7 @@ public class BootStrapRunner implements ApplicationRunner {
                                                   LocalDateTime.of(1992,10,12,22,10));
         User ivanTamargo    = createUserWithName("Ivan",
                                         "Tamargo" ,
-                                           "ivanTamargo@acaradeperro.com",
+                                           "ivanjaratamargo@gmail.com",
                                         "it333",
                                                   LocalDateTime.of(1992,5,11,6,12));
         User victorDegano   = createUserWithName("Victor",

@@ -4,7 +4,7 @@ import EventTable from "./EventTable";
 function EventsComponent(props) {
   return (
     <div>
-      <h1>{props.title}</h1>
+      <h1 className="text-white">{props.title}</h1>
       <EventTable arrayDeEventos={props.arrayDeEventos} />
     </div>
   );

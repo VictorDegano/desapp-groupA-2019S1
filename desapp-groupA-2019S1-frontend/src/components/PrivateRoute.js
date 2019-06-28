@@ -1,6 +1,6 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import {auth} from "../components/Root.js";
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
+import { auth } from "../components/Root.js";
 
 /*For this wil be think in three central requirements. First of all, this is 
   builded with out redux, because the authentication status is not in the redux storage
@@ -20,15 +20,16 @@ import {auth} from "../components/Root.js";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   //TODO: Estaria bueno que te mande a una pagina que daiga que no estas logeado y te envie al login,
-  <Route {...rest}
-          component={
-            props =>
-              auth.isAuthenticated() === true ? 
-              ( <Component {...props} /> ) 
-              : ( <Redirect to="/" />  )
+  <Route
+    {...rest}
+    component={props =>
+      auth.isAuthenticated() === true ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/" />
+      )
     }
   />
 );
 
 export default PrivateRoute;
-
