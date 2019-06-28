@@ -50,4 +50,9 @@ public class EventService {
     public List<Event> getLastEventsForUser(Integer userId){
         return eventDao.getLastEventsForUser(userId);
     }
+
+    // TODO: 27/6/2019 Falta hacer los test
+    public List<Event> mostPopularEvents() {
+        return eventDao.getMostPopularEventsForUser();
+    }
 }

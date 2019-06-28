@@ -30,4 +30,11 @@ public interface EventDAO extends JpaRepository<Event, Integer>, QueryByExampleE
            "GROUP BY event " +
            "ORDER BY event.creationDate DESC")
     List<Event> getLastEventsForUser(@Param("userId")Integer userId);
+
+    @Query("SELECT event " +
+           "FROM Event event " +
+           "LEFT JOIN event.guests guest " +
+           "GROUP BY event " +
+           "ORDER BY COUNT(guest) DESC")
+    List<Event> getMostPopularEventsForUser();
 }
