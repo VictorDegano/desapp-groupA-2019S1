@@ -54,6 +54,24 @@ class EventApi {
     );
   }
 
+  getEventosMasPopulares() {
+    const accessToken = auth.getAccessToken();
+
+    const header = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": API_CONFIG.contentType,
+        "Access-Control-Allow-Methods": API_CONFIG.allowMethods,
+        "Access-Control-Allow-Origin": API_CONFIG.allowOrigin
+      }
+    };
+
+    return axios.get(
+      API_CONFIG.endPoint + "event/most_popular_events/",
+      header
+    );
+  }
+
   fetchEvents() {
     // console.log('fetchEvents()');
     return this.getEventosEnCurso(1)
