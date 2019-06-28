@@ -3,10 +3,12 @@ import { combineReducers } from "redux";
 //App Reducers
 import EventReducer from "./EventReducer";
 import UserReducer from "./UserReducer";
+import ModalViewReducer from "./ModalViewReducer";
 
 const rootReducer = combineReducers({
   EventReducer,
-  UserReducer
+  UserReducer,
+  ModalViewReducer
 });
 
 export default rootReducer;

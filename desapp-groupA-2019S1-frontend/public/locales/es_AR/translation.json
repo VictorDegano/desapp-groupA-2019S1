@@ -1,5 +1,13 @@
 {
+  "callbackPage": {
+    "clickButton": "Click Aqui",
+    "description": "Vas a ser redirijido pronto a la pagina principal.\nSi no queres esperar hace",
+    "title": "¡Bienvenido!"
+  },
   "englishLanguage": "Ingles",
+  "formatter": {
+    "date": "dd/MM/yyyy"
+  },
   "language": "Idioma",
   "loginPage": {
     "button": "Ingresar",
@@ -8,6 +16,23 @@
     "panelHeader": "¡Bienvenidos a Eventeando!",
     "slogan": "Eventeando, donde la juntada con tus amigos apenas comienza...",
     "title": "Eventeando"
+  },
+  "profileEditionModal": {
+    "buttons": {
+      "close": "Cerrar",
+      "save": "Guardar"
+    },
+    "form": {
+      "bornDate": "Fecha de Nacimiento:",
+      "bornDatePlaceholder": "Ingrese su fecha de nacimiento...",
+      "email": "Correo Electronico:",
+      "emailPlaceholder": "Ingrese un correo",
+      "firstName": "Nombre:",
+      "firstNamePlaceholder": "Ingrese su nombre",
+      "lastName": "Apellido:",
+      "lastNamePlaceholder": "Ingrese su apellido"
+    },
+    "title": "Edicion de Perfil"
   },
   "spanishLanguage": "Español"
 }

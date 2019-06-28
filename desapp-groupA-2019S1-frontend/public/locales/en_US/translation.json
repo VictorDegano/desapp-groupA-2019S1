@@ -1,5 +1,13 @@
 {
+  "callbackPage": {
+    "clickButton": "Click Here",
+    "description": "Will be redirected soon.\nIf you don't want wait",
+    "title": "Welcome!"
+  },
   "englishLanguage": "English",
+  "formatter": {
+    "date": "MM/dd/yyyy"
+  },
   "language": "Language",
   "loginPage": {
     "button": "Enter",
@@ -9,5 +17,22 @@
     "slogan": "Eventeando, where the get together with your friends is just beginning...",
     "title": "Eveteando"
   },
-  "spanishLanguage": "Ingles"
+  "profileEditionModal": {
+    "buttons": {
+      "close": "Close",
+      "save": "Save"
+    },
+    "form": {
+      "bornDate": "Born Date:",
+      "bornDatePlaceholder": "Enter your born date...",
+      "email": "Email:",
+      "emailPlaceholder": "Enter an email",
+      "firstName": "First Name:",
+      "firstNamePlaceholder": "Enter your name",
+      "lastName": "Last Name:",
+      "lastNamePlaceholder": "Enter your last name"
+    },
+    "title": "Profile Edition"
+  },
+  "spanishLanguage": "Spanish"
 }

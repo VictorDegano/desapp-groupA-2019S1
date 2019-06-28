@@ -8,6 +8,7 @@ import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaRepresentatives;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
+import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -29,6 +30,9 @@ public class BootStrapRunner implements ApplicationRunner {
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private UserDAO userDAO;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -58,14 +62,31 @@ public class BootStrapRunner implements ApplicationRunner {
                                          "pepelocura@gmail.com",
                                       "pepelocura",
                                                 LocalDateTime.of(1987,10,19,20,10));
-        List<Event> events = ivanDEvents(ivanDominikow, ivanTamargo, victorDegano, pepeLocura);
-        events.addAll(ivanTEvents(ivanTamargo, victorDegano, pepeLocura,ivanDominikow));
-        events.addAll(victorEvents(victorDegano, pepeLocura, ivanDominikow, ivanTamargo));
-        events.addAll(pepeEvents(pepeLocura, ivanDominikow, ivanTamargo, victorDegano));
+
+        User juanCaspa  = createUserWithName("Juan",
+                                            "Caspa" ,
+                                            "juanCaspa@asquerositos.com",
+                                            "elbasurita",
+                                            LocalDateTime.of(1990,12,31,18,13));
+        User joseTejo   = createUserWithName("Jose",
+                                            "Tejo" ,
+                                            "josetejo@des.com",
+                                            "tjdes",
+                                            LocalDateTime.of(1982,8,10,20,12));
+        User donBilletin   = createUserWithName("Don",
+                                                "Billetin" ,
+                                                "donbilletin@havisto.com",
+                                                "havistounbilletin",
+                                                LocalDateTime.of(1990,1,29,17,10));
+        this.userDAO.saveAll(Arrays.asList(juanCaspa,joseTejo,donBilletin));
+        List<Event> events = ivanDEvents(ivanDominikow, ivanTamargo, victorDegano, pepeLocura, juanCaspa, joseTejo, donBilletin);
+        events.addAll(ivanTEvents(ivanTamargo, victorDegano, pepeLocura,ivanDominikow, juanCaspa, joseTejo, donBilletin));
+        events.addAll(victorEvents(victorDegano, pepeLocura, ivanDominikow, ivanTamargo, juanCaspa, joseTejo, donBilletin));
+        events.addAll(pepeEvents(pepeLocura, ivanDominikow, ivanTamargo, victorDegano, juanCaspa, joseTejo, donBilletin));
         this.eventService.createAll(events);
     }
 
-    private List<Event> ivanDEvents(User organizerIvan, User ivan, User victor, User pepe) {
+    private List<Event> ivanDEvents(User organizerIvan, User ivan, User victor, User pepe, User juanCaspa, User joseTejo, User donBilletin) {
         logger.info("Creating Ivan Dominikow Events");
         List<Event> ivanEvents = new ArrayList<>();
         ivanEvents.add(new Fiesta(
@@ -74,7 +95,10 @@ public class BootStrapRunner implements ApplicationRunner {
                             Arrays.asList(
                                     new Guest(ivan),
                                     new Guest(victor),
-                                    new Guest(pepe)),
+                                    new Guest(pepe),
+                                    new Guest(juanCaspa),
+                                    new Guest(joseTejo),
+                                    new Guest(donBilletin)),
                             LocalDateTime.now().plusDays(15),
                             EMPTY_LIST,
                             LocalDateTime.now()));
@@ -115,7 +139,7 @@ public class BootStrapRunner implements ApplicationRunner {
         return ivanEvents;
     }
 
-    private List<Event> ivanTEvents(User organizerIvan, User victor, User pepe, User ivan) {
+    private List<Event> ivanTEvents(User organizerIvan, User victor, User pepe, User ivan, User juanCaspa, User joseTejo, User donBilletin) {
         logger.info("Creating Ivan Tamargo Events");
         List<Event> ivanEvents = new ArrayList<>();
 
@@ -125,7 +149,10 @@ public class BootStrapRunner implements ApplicationRunner {
                 Arrays.asList(
                         new Guest(ivan),
                         new Guest(pepe),
-                        new Guest(victor)),
+                        new Guest(victor),
+                        new Guest(juanCaspa),
+                        new Guest(joseTejo),
+                        new Guest(donBilletin)),
                 EMPTY_LIST,
                 LocalDateTime.now().minusDays(5));
         aCanasta.close();
@@ -147,7 +174,8 @@ public class BootStrapRunner implements ApplicationRunner {
                             Arrays.asList(
                                     new Guest(ivan),
                                     new Guest(pepe),
-                                    new Guest(victor)),
+                                    new Guest(victor),
+                                    new Guest(juanCaspa)),
                             EMPTY_LIST,
                             LocalDateTime.now().minusDays(1)));
 
@@ -166,7 +194,7 @@ public class BootStrapRunner implements ApplicationRunner {
         return ivanEvents;
     }
 
-    private List<Event> victorEvents(User organizerVictor, User pepe, User ivanD, User ivanT) {
+    private List<Event> victorEvents(User organizerVictor, User pepe, User ivanD, User ivanT, User juanCaspa, User joseTejo, User donBilletin) {
         logger.info("Creating Victor Degano Events");
         List<Event> victorEvents = new ArrayList<>();
 
@@ -176,7 +204,9 @@ public class BootStrapRunner implements ApplicationRunner {
                                 Arrays.asList(
                                         new Guest(ivanD),
                                         new Guest(pepe),
-                                        new Guest(ivanT)),
+                                        new Guest(ivanT),
+                                        new Guest(juanCaspa),
+                                        new Guest(donBilletin)),
                                 EMPTY_LIST,
                                 LocalDateTime.now().minusDays(5));
         aBaquita.close();
@@ -207,15 +237,14 @@ public class BootStrapRunner implements ApplicationRunner {
                 organizerVictor,
                 Arrays.asList(
                         new Guest(ivanD),
-                        new Guest(pepe),
-                        new Guest(ivanT)),
+                        new Guest(pepe)),
                 LocalDateTime.now().plusDays(10),
                 EMPTY_LIST,
                 LocalDateTime.now()));
         return victorEvents;
     }
 
-    private List<Event> pepeEvents(User organizerPepe, User ivanD, User ivanT, User victor) {
+    private List<Event> pepeEvents(User organizerPepe, User ivanD, User ivanT, User victor, User juanCaspa, User joseTejo, User donBilletin) {
         logger.info("Creating Pepe Locura Events");
         List<Event> pepeEvents = new ArrayList<>();
 
@@ -225,7 +254,9 @@ public class BootStrapRunner implements ApplicationRunner {
                 Arrays.asList(
                         new Guest(ivanD),
                         new Guest(victor),
-                        new Guest(ivanT)),
+                        new Guest(ivanT),
+                        new Guest(juanCaspa),
+                        new Guest(joseTejo)),
                 EMPTY_LIST,
                 LocalDateTime.now().minusDays(2));
         aBaquita.close();

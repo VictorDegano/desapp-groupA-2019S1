@@ -4,6 +4,8 @@ import { createStore, applyMiddleware } from "redux";
 import logger from "redux-logger";
 import thunk from "redux-thunk";
 import Root from "./components/Root";
+//Redux
+import { createStore } from "redux";
 //Reducers
 import rootReducer from "./reducers/RootReducer";
 // import i18n (needs to be bundled ;))
@@ -15,6 +17,6 @@ import "./css/Index.css";
 import "./css/root.css";
 
 //Store
-const store = createStore(rootReducer, {}, applyMiddleware(logger, thunk));
+export const store = createStore(rootReducer, {}, applyMiddleware(logger, thunk));
 
 render(<Root store={store} />, document.getElementById("root"));

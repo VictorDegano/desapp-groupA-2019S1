@@ -6,6 +6,7 @@ import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.EventDAO;
+import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 import ar.edu.unq.desapp.grupoa.utils.builder.CanastaBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builder.FiestaBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builder.Randomizer;
@@ -15,6 +16,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.w3c.dom.UserDataHandler;
+
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;

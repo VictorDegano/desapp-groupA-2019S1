@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa.controller.rest;
 
 import ar.edu.unq.desapp.grupoa.TestConfig;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
 import ar.edu.unq.desapp.grupoa.exception.user.UserNotFoundException;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.service.UserService;
@@ -75,8 +76,9 @@ public class UserControllerTest {
         User user = randomUserWithName("Jose");
         Integer userId= userService.create(user);
 
-        user.setFirstName("Pepe");
-        putUser(user);
+        UserDTO userToPut = new UserDTO(user.getId(),"Pepe","","","");
+
+        putUser(userToPut);
 
         User userRetrieved = this.userService.getById(userId);
 
@@ -113,7 +115,7 @@ public class UserControllerTest {
         return user(userJson);
     }
 
-    private void putUser( User user) {
+    private void putUser( UserDTO user) {
         rethrow(() ->
                 mockMvc.perform(put("/user")
                 .contentType(MediaType.APPLICATION_JSON).content(json(user)))

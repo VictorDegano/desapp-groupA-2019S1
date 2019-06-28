@@ -72,6 +72,18 @@ public class EventController {
         return new ResponseEntity<>(eventId.toString(), HttpStatus.CREATED);
     }
 
+    // TODO: 27/6/2019 Falta hacer los test
+    @GetMapping("/event/most_popular_events/")
+    public ResponseEntity<List<EventHomeDTO>> mostPopularEvents(){
+        LOGGER.info("Got request GET for Last Event of user");
+
+        List<Event> mostPopularEvents = eventService.mostPopularEvents();
+        List<EventHomeDTO> eventsDTOList = DTOConverter.createEventHomeDTOList(mostPopularEvents);
+
+        LOGGER.info("Responding with Event Lists {}", eventsDTOList);
+        return new ResponseEntity<>(eventsDTOList, HttpStatus.OK);
+    }
+
     //PlaceHolder so Heroku Runs
     @GetMapping(value= "/")
     public ResponseEntity<String> root(){
