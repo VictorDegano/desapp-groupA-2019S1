@@ -1,6 +1,6 @@
-.containerDatePicker, 
-.containerDatePicker .react-datepicker-wrapper, 
+.containerDatePicker,
+.containerDatePicker .react-datepicker-wrapper,
 .containerDatePicker .react-datepicker__input-container,
 .containerDatePicker .react-datepicker__input-container input {
-   width: 100%;
+  width: 100%;
 }
