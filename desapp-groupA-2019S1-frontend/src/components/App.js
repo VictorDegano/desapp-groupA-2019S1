@@ -10,6 +10,7 @@ import SideBar from "./SideBar";
 import MainPanel from "./MainPanel";
 import ProfileEdition from "../containers/ProfileEdition";
 import { updateLoggedUser } from "../actions/UserActions";
+import CreateEventModal from "../containers/CreateEventModal";
 
 class App extends React.Component {
   static propTypes = {
@@ -75,6 +76,7 @@ class App extends React.Component {
     return (
       <div>
         <NavigationBar />
+        <CreateEventModal />
         <ProfileEdition />
         <Row>
           <Col xs={2}>
