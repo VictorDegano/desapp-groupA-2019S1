@@ -20,6 +20,11 @@ function openModal() {
   store.dispatch({ type: ModalView_Type.OPEN_PROFILE_EDITION });
 }
 
+function openCreateEventModal() {
+  console.log("openCreateEventModal()");
+  store.dispatch({ type: ModalView_Type.OPEN_CREATE_EVENT_MODAL });
+}
+
 function NavigationBar() {
   return (
     <Navbar variant="dark">
@@ -28,7 +33,7 @@ function NavigationBar() {
       </Navbar.Brand>
       <Nav className="mr-auto">
         <Nav.Link href="/home">Home</Nav.Link>
-        <Nav.Link href="/newEvent">Crear Evento</Nav.Link>
+        <Button onClick={() => openCreateEventModal()}>Crear Evento</Button>
       </Nav>
       <Form inline>
         <FormControl
