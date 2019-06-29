@@ -34,5 +34,22 @@
     },
     "title": "Edicion de Perfil"
   },
+  "createEventModal": {
+    "buttons": {
+      "close": "Cerrar",
+      "save": "Guardar"
+    },
+    "form": {
+      "bornDate": "Fecha de Nacimiento:",
+      "bornDatePlaceholder": "Ingrese su fecha de nacimiento...",
+      "email": "Correo Electronico:",
+      "emailPlaceholder": "Ingrese un correo",
+      "firstName": "Nombre:",
+      "firstNamePlaceholder": "Ingrese su nombre",
+      "lastName": "Apellido:",
+      "lastNamePlaceholder": "Ingrese su apellido"
+    },
+    "title": "Crear Evento"
+  },
   "spanishLanguage": "Español"
 }

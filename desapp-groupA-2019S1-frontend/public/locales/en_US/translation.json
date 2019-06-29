@@ -34,5 +34,22 @@
     },
     "title": "Profile Edition"
   },
+  "createEventModal": {
+    "buttons": {
+      "close": "Close",
+      "save": "Save"
+    },
+    "form": {
+      "bornDate": "Born Date:",
+      "bornDatePlaceholder": "Enter your born date...",
+      "email": "Email:",
+      "emailPlaceholder": "Enter an email",
+      "firstName": "First Name:",
+      "firstNamePlaceholder": "Enter your name",
+      "lastName": "Last Name:",
+      "lastNamePlaceholder": "Enter your last name"
+    },
+    "title": "Create Event"
+  },
   "spanishLanguage": "Spanish"
 }
