@@ -30,6 +30,9 @@ class ProfileEdition extends Component {
     super(props, context);
     this.state = {
       startDate: new Date(),
+      firstName: "",
+      lastName: "",
+      email: "",
       showAlert: false,
       messageAlert: ""
     };
@@ -43,9 +46,26 @@ class ProfileEdition extends Component {
   componentWillMount() {
     const loggedUser = this.props.loggedUser;
 
-    this.setState({
-      startDate: new Date(loggedUser.bornDate)
-    });
+    if(this.props.loggedUser === null){
+      const userApi = new UserApi();
+      userApi.fetchUser(localStorage.getItem("id")).then(user =>{
+          this.props.updateLoggedUser(user);
+          this.setState({
+            startDate: new Date(user.bornDay),
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email
+          });
+        }
+      )
+    } else {
+      this.setState({
+        startDate: new Date(loggedUser.bornDate),
+        firstName: loggedUser.fistName,
+        lastName: loggedUser.lastName,
+        email: loggedUser.email
+      });
+    }
   }
 
   handleClose() {
@@ -180,7 +200,7 @@ class ProfileEdition extends Component {
                   placeholder={t(
                     "profileEditionModal->form->firstNamePlaceholder"
                   )}
-                  defaultValue={loggedUser.fistName}
+                  defaultValue={this.state.firstName}
                 />
               </Form.Group>
               <Form.Group controlId="formBasicLastName">
@@ -193,7 +213,7 @@ class ProfileEdition extends Component {
                   placeholder={t(
                     "profileEditionModal->form->lastNamePlaceholder"
                   )}
-                  defaultValue={loggedUser.lastName}
+                  defaultValue={this.state.lastName}
                 />
               </Form.Group>
               <Form.Group controlId="formBasicBornDate">
@@ -226,7 +246,7 @@ class ProfileEdition extends Component {
                   type="email"
                   placeholder={t("profileEditionModal->form->emailPlaceholder")}
                   disabled
-                  defaultValue={loggedUser.email}
+                  defaultValue={this.state.email}
                 />
               </Form.Group>
             </Modal.Body>

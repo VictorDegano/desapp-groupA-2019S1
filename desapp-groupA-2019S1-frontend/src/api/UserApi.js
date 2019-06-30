@@ -53,6 +53,16 @@ class UserApi {
     //TODO: habria que pensar un mejor handleo.
   }
 
+  // retrieveLoggedUser(user) {
+  //   // console.log('loginUser()');
+  //   return this.postUser(user, "google/login/")
+  //     .then(response => {
+  //       return response.data;
+  //     })
+  //     .catch(error => []);
+  //   //TODO: habria que pensar un mejor handleo.
+  // }
+
   logoutUser(userToLogout) {
     // console.log('logoutUser()');
     return this.postUser(userToLogout, "google/logout/")

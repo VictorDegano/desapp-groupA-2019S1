@@ -13,6 +13,7 @@ import { updateLoggedUser } from "../actions/UserActions";
 import { loadEventsInProgress, loadLastEvents, loadMostPopularEvents, showEventsInProgress } from "../actions/EventActions";
 // API
 import EventApi from "../api/EventApi";
+import UserApi from "../api/UserApi";
 // Eventeando
 import NavigationBar from "./NavigationBar";
 import SideBar from "./SideBar";
@@ -21,7 +22,6 @@ import ProfileEdition from "../containers/ProfileEdition";
 
 class App extends React.Component {
   static propTypes = {
-    loggedUser: PropTypes.object,
     showEventsInProgress:PropTypes.func.isRequired,
     loadEventsInProgress:PropTypes.func.isRequired,
     loadLastEvents:PropTypes.func.isRequired,
@@ -30,26 +30,30 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
+    this.loadEvents = this.loadEvents.bind(this);
   }
 
   //Ocurre antes de que el componente se monte(o complete de montarse)
   componentWillMount() {
     // console.log('componentWilMount()');
+    this.loadEvents(localStorage.getItem("id"));
+  }
+
+  loadEvents(userId){
     var eventApi = new EventApi();
 
-    eventApi.getEventosEnCurso(this.props.loggedUser.id).then(response => {
+    eventApi.getEventosEnCurso(userId).then(response => {
       this.props.loadEventsInProgress(response.data);
       this.props.showEventsInProgress();
     });
 
-    eventApi.getMisUltimosEventos(this.props.loggedUser.id).then(response => {
+    eventApi.getMisUltimosEventos(userId).then(response => {
       this.props.loadLastEvents(response.data);
     });
 
     eventApi.getEventosMasPopulares().then(response => {
       this.props.loadMostPopularEvents(response.data);
     });
-
   }
 
   render() {
@@ -74,7 +78,6 @@ class App extends React.Component {
 function mapStateToProps(state) {
   // console.log('mapStateToProps()')
   return {
-    loggedUser: state.UserReducer.loggedUser,
     eventTableTitle: state.EventReducer.eventTableTitle,
     events: state.EventReducer.events,
     eventsInProgress: state.EventReducer.eventsInProgress,
@@ -84,7 +87,6 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = dispatch => ({
-  updateLoggedUser: user => dispatch(updateLoggedUser(user)),
   showEventsInProgress: events => dispatch(showEventsInProgress(events)),
   loadEventsInProgress: events => dispatch(loadEventsInProgress(events)),
   loadLastEvents: events => dispatch(loadLastEvents(events)),

@@ -40,14 +40,14 @@ class SideBar extends React.PureComponent {
           </Accordion.Collapse>
           <Accordion.Collapse eventKey="0">
             <Card.Body>
-              <Button onClick={() => this.props.showMostPopularEvents()}>
+              <Button onClick={() => this.props.showLastEvents()}>
                 {t("sidebar->lastButton")}
               </Button>
             </Card.Body>
           </Accordion.Collapse>
           <Accordion.Collapse eventKey="0">
             <Card.Body>
-              <Button onClick={() => this.props.showLastEvents()}>
+              <Button onClick={() => this.props.showMostPopularEvents()}>
                 {t("sidebar->popularsButton")}
               </Button>
             </Card.Body>
