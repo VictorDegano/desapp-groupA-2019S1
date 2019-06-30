@@ -4,6 +4,8 @@ import ar.edu.unq.desapp.grupoa.exception.event.InvitationException;
 import ar.edu.unq.desapp.grupoa.exception.event.InvitationLimitException;
 import ar.edu.unq.desapp.grupoa.model.event.createstrategy.CreateEventStrategySelector;
 import ar.edu.unq.desapp.grupoa.model.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+
 abstract public class Event {
 
     @Id
@@ -29,6 +32,7 @@ abstract public class Event {
     protected List<Good> goodsForGuest;
     @Enumerated(EnumType.STRING)
     protected EventStatus status;
+
     protected LocalDateTime creationDate;
 
     public static Event createWithATemplate(String name, User organizer, List<Guest> guests, LocalDateTime limitTime, Template template, EventType aEventType,LocalDateTime creationDate){
@@ -99,6 +103,10 @@ abstract public class Event {
 
     public LocalDateTime getCreationDate() {    return creationDate;    }
     public void setCreationDate(LocalDateTime creationDate) {   this.creationDate = creationDate;   }
+
+    public Integer getQuantityOfGuests(){
+        return this.guests.size();
+    }
 
     public abstract EventType getType();
 }

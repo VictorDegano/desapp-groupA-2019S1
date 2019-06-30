@@ -1,9 +1,8 @@
 package ar.edu.unq.desapp.grupoa.controller.rest;
 
-import ar.edu.unq.desapp.grupoa.controller.rest.dto.DTOConverter;
-import ar.edu.unq.desapp.grupoa.controller.rest.dto.EventHomeDTO;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.GenericEventDTO;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.FiestaDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
-import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,12 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
 @Transactional
 @Controller
+@RequestMapping(value = "/event", method = {RequestMethod.GET, RequestMethod.POST})
 public class EventController {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
@@ -31,50 +30,46 @@ public class EventController {
         LOGGER.info("Starting Fiesta Controller");
     }
 
-    @GetMapping(value= "/event/{eventId}")
-    public ResponseEntity<Event> findEvent(@PathVariable Integer eventId){
+    @GetMapping(value = "/{eventId}")
+    public ResponseEntity<Event> findEvent(@PathVariable Integer eventId) {
         LOGGER.info("Got request GET for a Event with id {}", eventId);
         Event event = eventService.getById(eventId);
         LOGGER.info("Responding with Event with id {}", eventId);
-        return new ResponseEntity<>( event, HttpStatus.OK) ;
+        return new ResponseEntity<>(event, HttpStatus.OK);
     }
 
-    @GetMapping(value="/event/in_progress/{userId}")
-    public ResponseEntity<ArrayList<EventHomeDTO>> eventsInProgress(@PathVariable Integer userId){
+    @GetMapping(value = "/in_progress/{userId}")
+    public ResponseEntity<List<GenericEventDTO>> eventsInProgress(@PathVariable Integer userId) {
         LOGGER.info("Got request GET for Event In Progress for user {}", userId);
 
         List<Event> eventsInProgress = eventService.getEventsInProgressForUser(userId);
-        ArrayList<EventHomeDTO> eventsDTOList = DTOConverter.createEventHomeDTOList(eventsInProgress);
+        List<GenericEventDTO> eventsDTOList = GenericEventDTO.fromList(eventsInProgress);
 
         LOGGER.info("Responding with Event Lists {}", eventsDTOList);
-        return new ResponseEntity<>( eventsDTOList, HttpStatus.OK) ;
+        return new ResponseEntity<>(eventsDTOList, HttpStatus.OK);
     }
 
-    // TODO: 1/6/2019 Falta hacer los test
-    @GetMapping(value="/event/last_events/{userId}")
-    public ResponseEntity<List<EventHomeDTO>> lastEvents(@PathVariable Integer userId){
+
+    @GetMapping(value = "/last_events/{userId}")
+    public ResponseEntity<List<GenericEventDTO>> lastEvents(@PathVariable Integer userId) {
         LOGGER.info("Got request GET for Last Event of user {}", userId);
 
         List<Event> lastEvents = eventService.getLastEventsForUser(userId);
-        List<EventHomeDTO> eventsDTOList = DTOConverter.createEventHomeDTOList(lastEvents);
+        List<GenericEventDTO> eventsDTOList = GenericEventDTO.fromList(lastEvents);
 
         LOGGER.info("Responding with Event Lists {}", eventsDTOList);
-        return new ResponseEntity<>( eventsDTOList, HttpStatus.OK) ;
+        return new ResponseEntity<>(eventsDTOList, HttpStatus.OK);
     }
 
-    // TODO: 3/6/2019 Falta hacer los test
-    @PostMapping("/event/create_fiesta/")
-    public ResponseEntity<String> createFiesta(@Valid @RequestBody Fiesta fiesta){
-        LOGGER.info("Got request POST to create a Fiesta Event with data {}", fiesta);
-        Integer eventId = eventService.create(fiesta);
+    @PostMapping("/create_fiesta")
+    public ResponseEntity<String> createFiesta(@Valid @RequestBody FiestaDTO fiestaDTO) {
+        LOGGER.info("Got request POST to create a Fiesta Event with data {}", fiestaDTO);
+
+        Integer eventId = eventService.createFiesta(fiestaDTO);
         LOGGER.info("Responding with Fiesta Event with id {}", eventId);
         LOGGER.info("Event Fiesta created {}", eventService.getById(eventId));
         return new ResponseEntity<>(eventId.toString(), HttpStatus.CREATED);
     }
 
-    //PlaceHolder so Heroku Runs
-    @GetMapping(value= "/")
-    public ResponseEntity<String> root(){
-        return new ResponseEntity<>( "Hello World", HttpStatus.OK) ;
-    }
+
 }

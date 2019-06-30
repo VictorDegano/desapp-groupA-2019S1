@@ -25,10 +25,12 @@ public class EventService {
 
     public EventService() { }
 
-    public Integer create (Event aEventToCreate){
-        this.eventDao.save(aEventToCreate);
-        return aEventToCreate.getId();
-    }
+    public Integer createFiesta (){
+
+        return null;
+    };
+
+
 
     public List<Integer> createAll(List<Event> aListOfEvents){
         this.eventDao.saveAll(aListOfEvents);

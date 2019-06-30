@@ -1,6 +1,5 @@
 package ar.edu.unq.desapp.grupoa.service;
 
-import ar.edu.unq.desapp.grupoa.controller.rest.dto.DTOConverter;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
 import ar.edu.unq.desapp.grupoa.exception.user.UserNotFoundException;
 import ar.edu.unq.desapp.grupoa.model.user.User;
@@ -40,7 +39,7 @@ public class UserService {
             findedUser = newUser;
         }
 
-        UserDTO loggedUser = DTOConverter.createUserDTO(findedUser);
+        UserDTO loggedUser = UserDTO.from(findedUser);
 
         return loggedUser;
     }

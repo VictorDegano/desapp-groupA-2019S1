@@ -1,6 +1,8 @@
 package ar.edu.unq.desapp.grupoa.controller.rest.dto;
 
-// TODO: 10/6/2019 DO TESTS 
+import ar.edu.unq.desapp.grupoa.model.user.User;
+
+// TODO: 10/6/2019 DO TESTS
 public class UserDTO {
 
     public Integer id;
@@ -15,5 +17,9 @@ public class UserDTO {
         this.lastName = lastName;
         this.bornDate = bornDate;
         this.email = email;
+    }
+
+    public static UserDTO from(User user) {
+        return new UserDTO(user.getId(),user.getFirstName(),user.getLastName(),user.getBornDay().toString(),user.getEmail());
     }
 }
