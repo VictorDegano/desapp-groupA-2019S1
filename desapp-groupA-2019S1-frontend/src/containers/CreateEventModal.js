@@ -17,7 +17,8 @@ import { updateLoggedUser } from "../actions/UserActions";
 import { closeCreateEventModal } from "../actions/ModalViewActions";
 // API's
 import UserApi from "../api/UserApi";
-import {Redirect} from "react-router";
+import { Redirect } from "react-router";
+import EventApi from "../api/EventApi";
 
 class CreateEventModal extends Component {
   static propTypes = {
@@ -69,32 +70,29 @@ class CreateEventModal extends Component {
   handleSave(event) {
     // console.log("handleSave()");
     event.preventDefault();
+    const userApi = new UserApi();
 
     if (this.checkValidation(event)) {
       const loggedUser = this.props.loggedUser;
-
-      const userToSave = {
-        id: loggedUser.id,
-        fistName: event.target[1].value,
+      let userId = loggedUser.id;
+      let eventToCreate = {
+        organizer: loggedUser,
+        name: event.target[1].value,
         lastName: event.target[2].value,
         email: loggedUser.email,
-        bornDate: this.state.startDate.toISOString()
+        creationDate: this.state.startDate.toISOString(),
+        guests: [],
+        goods: [],
+        limitTime: new Date().toISOString()
+
       };
 
-      const userToStateUpdate = {
-        id: loggedUser.id,
-        fistName: event.target[1].value,
-        lastName: event.target[2].value,
-        email: loggedUser.email,
-        bornDate: this.state.startDate.toJSON()
-      };
-
-      const userApi = new UserApi();
-
-      userApi
-        .putUser(userToSave)
+      const eventApi = new EventApi();
+      console.log(eventToCreate);
+      eventApi
+        .createEvent(eventToCreate)
         .then(response => {
-          this.props.updateLoggedUser(userToStateUpdate);
+          console.log(response);
           this.handleClose();
         })
         .catch(error => {
