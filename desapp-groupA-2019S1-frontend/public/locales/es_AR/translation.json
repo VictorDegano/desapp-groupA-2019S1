@@ -5,10 +5,28 @@
     "title": "¡Bienvenido!"
   },
   "englishLanguage": "Ingles",
+  "eventType": {
+    "littleCowComunitary": "Baquita Comunitaria",
+    "littleCowRepresentatives": "Baquita Representantes",
+    "party": "Fiesta",
+    "toBasket": "Canasta"
+  },
   "formatter": {
     "date": "dd/MM/yyyy"
   },
+  "homePage": {
+    "eventTable": {
+      "eventTypeColumn": "Tipo de Evento",
+      "nameColumn": "Nombre",
+      "organizerColumn": "Organiza",
+      "quantityGuestColumn": "Cantidad de Invitados"
+    },
+    "inProgressEventsLabel": "Mis Eventos En Curso",
+    "lastEventsLabel": "Mis Ultimos Eventos",
+    "mostPopularEventsLabel": "Eventos Mas Populares"
+  },
   "language": "Idioma",
+  "loadingState": "Cargando...",
   "loginPage": {
     "button": "Ingresar",
     "description": "El portal de Eventos pensado para vos y tus amigos.",
@@ -16,6 +34,17 @@
     "panelHeader": "¡Bienvenidos a Eventeando!",
     "slogan": "Eventeando, donde la juntada con tus amigos apenas comienza...",
     "title": "Eventeando"
+  },
+  "navBar": {
+    "createEvent": "Crear Evento",
+    "eventeando": "Eventeando",
+    "home": "Inicio",
+    "searchButton": "Buscar",
+    "searchPlaceholder": "Buscar Evento..."
+  },
+  "profileDropdown": {
+    "editProfile": "Editar Perfil",
+    "logOut": "Salir"
   },
   "profileEditionModal": {
     "buttons": {
@@ -33,6 +62,13 @@
       "lastNamePlaceholder": "Ingrese su apellido"
     },
     "title": "Edicion de Perfil"
+  },
+  "sidebar": {
+    "createEventButton": "Crear Evento",
+    "inProgressButton": "En Curso",
+    "lastButton": "Ultimos",
+    "myEventsLabel": "Mis Eventos",
+    "popularsButton": "Mas Populares"
   },
   "spanishLanguage": "Español"
 }

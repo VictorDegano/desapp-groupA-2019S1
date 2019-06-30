@@ -9,10 +9,7 @@ class MainPanel extends React.PureComponent {
   render() {
     return (
       <div>
-        <EventsComponent
-          title={this.props.title}
-          arrayDeEventos={this.props.arrayDeEventos}
-        />
+        <EventsComponent/>
       </div>
     );
   }

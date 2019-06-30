@@ -261,6 +261,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-  // ModalViewActions,
-  // UserActions
 )(withTranslation()(ProfileEdition));

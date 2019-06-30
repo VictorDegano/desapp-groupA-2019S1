@@ -22,4 +22,4 @@ export const store = createStore(
   applyMiddleware(logger, thunk)
 );
 
-render(<Root store={store} />, document.getElementById("root"));
+render(<Root store={store}/>, document.getElementById("root"));

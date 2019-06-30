@@ -1,30 +1,35 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+// I18n Hook
+import { withTranslation } from "react-i18next";
+// Bootstrap
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+// Redux
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+//Actions
+import { updateLoggedUser } from "../actions/UserActions";
+import { loadEventsInProgress, loadLastEvents, loadMostPopularEvents, showEventsInProgress } from "../actions/EventActions";
+// API
 import EventApi from "../api/EventApi";
+// Eventeando
 import NavigationBar from "./NavigationBar";
 import SideBar from "./SideBar";
 import MainPanel from "./MainPanel";
 import ProfileEdition from "../containers/ProfileEdition";
-import { updateLoggedUser } from "../actions/UserActions";
 
 class App extends React.Component {
   static propTypes = {
-    loggedUser: PropTypes.object
+    loggedUser: PropTypes.object,
+    showEventsInProgress:PropTypes.func.isRequired,
+    loadEventsInProgress:PropTypes.func.isRequired,
+    loadLastEvents:PropTypes.func.isRequired,
+    loadMostPopularEvents:PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-    this.state = {
-      title: "Eventos En Curso",
-      eventosEnCurso: [],
-      misUltimosEventos: [],
-      eventosMasPopulares: [],
-      eventosQueSeMuestran: []
-    };
   }
 
   //Ocurre antes de que el componente se monte(o complete de montarse)
@@ -33,62 +38,32 @@ class App extends React.Component {
     var eventApi = new EventApi();
 
     eventApi.getEventosEnCurso(this.props.loggedUser.id).then(response => {
-      this.setState({
-        eventosEnCurso: response.data,
-        eventosQueSeMuestran: response.data
-      });
+      this.props.loadEventsInProgress(response.data);
+      this.props.showEventsInProgress();
     });
 
     eventApi.getMisUltimosEventos(this.props.loggedUser.id).then(response => {
-      this.setState({
-        misUltimosEventos: response.data
-      });
+      this.props.loadLastEvents(response.data);
     });
 
     eventApi.getEventosMasPopulares().then(response => {
-      this.setState({
-        eventosMasPopulares: response.data
-      });
+      this.props.loadMostPopularEvents(response.data);
     });
-  }
 
-  showMisUltimosEventos() {
-    this.setState({
-      eventosQueSeMuestran: this.state.misUltimosEventos,
-      title: "Mis Ultimos Eventos"
-    });
-  }
-  showEventosEnCurso() {
-    this.setState({
-      eventosQueSeMuestran: this.state.eventosEnCurso,
-      title: "Eventos En Curso"
-    });
-  }
-  showEventosMasPopulares() {
-    this.setState({
-      eventosQueSeMuestran: this.state.eventosMasPopulares,
-      title: "Eventos En Curso"
-    });
   }
 
   render() {
+    
     return (
       <div>
         <NavigationBar />
         <ProfileEdition />
         <Row>
           <Col xs={2}>
-            <SideBar
-              showMisUltimosEventos={this.showMisUltimosEventos.bind(this)}
-              showEventosEnCurso={this.showEventosEnCurso.bind(this)}
-              showEventosMasPopulares={this.showEventosMasPopulares.bind(this)}
-            />
+            <SideBar/>
           </Col>
           <Col xs={10}>
-            <MainPanel
-              title={this.state.title}
-              arrayDeEventos={this.state.eventosQueSeMuestran}
-            />
+            <MainPanel/>
           </Col>
         </Row>
       </div>
@@ -99,19 +74,26 @@ class App extends React.Component {
 function mapStateToProps(state) {
   // console.log('mapStateToProps()')
   return {
-    loggedUser: state.UserReducer.loggedUser
+    loggedUser: state.UserReducer.loggedUser,
+    eventTableTitle: state.EventReducer.eventTableTitle,
+    events: state.EventReducer.events,
+    eventsInProgress: state.EventReducer.eventsInProgress,
+    lastEvents: state.EventReducer.lastEvents,
+    mostPopularEvents: state.EventReducer.mostPopularEvents
   };
 }
 
 const mapDispatchToProps = dispatch => ({
-  updateLoggedUser: user => dispatch(updateLoggedUser(user))
+  updateLoggedUser: user => dispatch(updateLoggedUser(user)),
+  showEventsInProgress: events => dispatch(showEventsInProgress(events)),
+  loadEventsInProgress: events => dispatch(loadEventsInProgress(events)),
+  loadLastEvents: events => dispatch(loadLastEvents(events)),
+  loadMostPopularEvents: events => dispatch(loadMostPopularEvents(events))
 });
 
 export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-    // ModalViewActions,
-    // UserActions
-  )(App)
+  )(withTranslation()(App))
 );
