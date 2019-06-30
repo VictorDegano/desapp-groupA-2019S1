@@ -83,6 +83,25 @@ class EventApi {
       .catch(error => []);
     //TODO: habria que pensar un mejor handleo.
   }
+
+  createEvent(event) {
+    const accessToken = auth.getAccessToken();
+
+    const header = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": API_CONFIG.contentType,
+        "Access-Control-Allow-Methods": API_CONFIG.allowMethods,
+        "Access-Control-Allow-Origin": API_CONFIG.allowOrigin
+      }
+    };
+
+    return axios.post(
+      API_CONFIG.endPoint + "event/create_fiesta/",
+      event,
+      header
+    );
+  }
 }
 
 export default EventApi;
