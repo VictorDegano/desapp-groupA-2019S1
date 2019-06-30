@@ -1,37 +1,58 @@
 package ar.edu.unq.desapp.grupoa.controller.rest.dto;
 
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
+import ar.edu.unq.desapp.grupoa.model.user.User;
 
 public class GuestDTO {
 
-    private Integer id;
+    private Integer guestId;
+    private Integer userId;
+    private String mail;
+    private String firstName;
 
-    private String  mail;
+    private String lastName;
 
-    public GuestDTO(Integer id, String mail) {
-        this.id = id;
+    private InvitationState confirmAsistance;
+
+
+    public GuestDTO(Integer guestId, Integer userId, String mail, String firstName, String lastName, InvitationState confirmAsistance) {
+        this.guestId = guestId;
+        this.userId = userId;
         this.mail = mail;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.confirmAsistance = confirmAsistance;
     }
 
-    public static List<GuestDTO> fromList(List<Guest> guest) {
-        return guest
-                .stream()
-                .map(GuestDTO::from)
-                .collect(Collectors.toList());
-    }
+    public GuestDTO(){}
 
     public static GuestDTO from(Guest guest) {
-        return new GuestDTO(guest.getUser().getId(),guest.getUser().getEmail());
+        User user = guest.getUser();
+        return new GuestDTO(guest.getId(),user.getId(),user.getEmail(),user.getFirstName(),user.getLastName(),guest.getConfirmAsistance());
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getGuestId() {
+        return guestId;
+    }
+
+    public Integer getUserId() {
+        return userId;
     }
 
     public String getMail() {
         return mail;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public InvitationState getConfirmAsistance() {
+        return confirmAsistance;
     }
 }

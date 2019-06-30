@@ -16,7 +16,7 @@ public class FiestaGood extends Good {
     }
 
     @Override
-    public Integer finalQuantity() { return this.finalQuantity;   }
+    public Integer getFinalQuantity() { return this.finalQuantity;   }
 
     public Boolean hasOwner() {
         return false;

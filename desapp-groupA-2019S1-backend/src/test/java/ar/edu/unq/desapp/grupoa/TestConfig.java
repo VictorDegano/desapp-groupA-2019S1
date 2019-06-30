@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa;
 
 import ar.edu.unq.desapp.grupoa.controller.rest.EventController;
 import ar.edu.unq.desapp.grupoa.controller.rest.UserController;
+import ar.edu.unq.desapp.grupoa.persistence.EventDAO;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 import ar.edu.unq.desapp.grupoa.service.UserService;
@@ -29,6 +30,9 @@ public class TestConfig {
 
     @Autowired
     public UserDAO userDAO;
+
+    @Autowired
+    private EventDAO eventDAO;
 
     @Bean
     public UserService userService(){

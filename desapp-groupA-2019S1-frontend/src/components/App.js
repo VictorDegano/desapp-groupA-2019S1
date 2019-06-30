@@ -1,13 +1,20 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import NavigationBar from "./NavigationBar";
-import EventsComponent from "./EventsComponent";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import EventApi from "../api/EventApi";
+import NavigationBar from "./NavigationBar";
+import SideBar from "./SideBar";
+import MainPanel from "./MainPanel";
+import EventsComponent from "./EventsComponent";
+import ProfileEdition from "../containers/ProfileEdition";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      title: "Eventos En Curso",
+      eventos: [],
       eventosEnCurso: [],
       misUltimosEventos: []
     };
@@ -35,15 +42,26 @@ class App extends React.Component {
     return (
       <div>
         <NavigationBar />
-        <EventsComponent
-          title={"Mis eventos en curso:"}
-          arrayDeEventos={this.state.eventosEnCurso}
-        />
-        <EventsComponent
-          title={"Mis ultimos eventos:"}
-          arrayDeEventos={this.state.misUltimosEventos}
-        />
-        {/*<EventsComponent title={"Los eventos mas populares:" } arrayDeEventos={getEventos()}/>*/}
+        <ProfileEdition/>
+        <Row>
+          <Col xs={3}>
+            <SideBar />
+          </Col>
+          <Col xs={9}>
+            <MainPanel
+              title={this.state.title}
+              arrayDeEventos={this.state.eventosEnCurso}
+            />
+          </Col>
+        </Row>
+        {/*<EventsComponent*/}
+        {/*  title="Mis eventos en curso:"*/}
+        {/*  arrayDeEventos={this.state.eventosEnCurso}*/}
+        {/*/>*/}
+        {/*<EventsComponent*/}
+        {/*  title="Mis ultimos eventos:"*/}
+        {/*  arrayDeEventos={this.state.misUltimosEventos}*/}
+        {/*/>*/}
       </div>
     );
   }

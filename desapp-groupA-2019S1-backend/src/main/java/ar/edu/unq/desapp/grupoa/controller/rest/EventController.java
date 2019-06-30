@@ -1,8 +1,10 @@
 package ar.edu.unq.desapp.grupoa.controller.rest;
 
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.EventDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.GenericEventDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.FiestaDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,11 +33,14 @@ public class EventController {
     }
 
     @GetMapping(value = "/{eventId}")
-    public ResponseEntity<Event> findEvent(@PathVariable Integer eventId) {
+    public ResponseEntity<EventDTO> findEvent(@PathVariable Integer eventId) {
         LOGGER.info("Got request GET for a Event with id {}", eventId);
         Event event = eventService.getById(eventId);
+
+        EventDTO eventDTO = EventDTO.from(event);
+
         LOGGER.info("Responding with Event with id {}", eventId);
-        return new ResponseEntity<>(event, HttpStatus.OK);
+        return new ResponseEntity<>(eventDTO, HttpStatus.OK);
     }
 
     @GetMapping(value = "/in_progress/{userId}")
@@ -61,15 +66,28 @@ public class EventController {
         return new ResponseEntity<>(eventsDTOList, HttpStatus.OK);
     }
 
-    @PostMapping("/create_fiesta")
-    public ResponseEntity<String> createFiesta(@Valid @RequestBody FiestaDTO fiestaDTO) {
-        LOGGER.info("Got request POST to create a Fiesta Event with data {}", fiestaDTO);
+    @PostMapping()
+    public ResponseEntity<String> createEvent(@RequestBody EventDTO eventDTO) {
+        LOGGER.info("Got request POST to create a Fiesta Event with data {}", eventDTO);
 
-        Integer eventId = eventService.createFiesta(fiestaDTO);
+        Integer eventId = eventDTO.handleCreation(this.eventService);
+
         LOGGER.info("Responding with Fiesta Event with id {}", eventId);
         LOGGER.info("Event Fiesta created {}", eventService.getById(eventId));
         return new ResponseEntity<>(eventId.toString(), HttpStatus.CREATED);
     }
+//
 
+//    // TODO: 27/6/2019 Falta hacer los test
+//    @GetMapping("/event/most_popular_events/")
+//    public ResponseEntity<List<EventHomeDTO>> mostPopularEvents(){
+//        LOGGER.info("Got request GET for Last Event of user");
+//
+//        List<Event> mostPopularEvents = eventService.mostPopularEvents();
+//        List<EventHomeDTO> eventsDTOList = DTOConverter.createEventHomeDTOList(mostPopularEvents);
+//
+//        LOGGER.info("Responding with Event Lists {}", eventsDTOList);
+//        return new ResponseEntity<>(eventsDTOList, HttpStatus.OK);
+//    }
 
 }

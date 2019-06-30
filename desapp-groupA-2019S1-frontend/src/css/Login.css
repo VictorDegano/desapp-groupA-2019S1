@@ -1,0 +1,25 @@
+.containerLogin{
+    height: inherit;
+}
+
+.rowLogin{
+    height: 35rem;
+}
+
+.upperRowContainer {
+    height: 4rem;
+}
+
+.slogan {
+    -webkit-text-stroke-color: #00000060;
+    -webkit-text-stroke-width: 1.80px;
+    color: whitesmoke;
+    font-family: verdana
+}
+
+.description {
+    -webkit-text-stroke-color: #00000060;
+    -webkit-text-stroke-width: 0.50px;
+    color: grey;
+    font-family: verdana
+}

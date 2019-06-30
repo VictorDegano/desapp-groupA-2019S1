@@ -68,7 +68,7 @@ public class GoodTest {
         fiestaGood.multiplyFinalQuantityBy(3);
 
         //Test(When)
-        assertEquals(Integer.valueOf(9), fiestaGood.finalQuantity());
+        assertEquals(Integer.valueOf(9), fiestaGood.getFinalQuantity());
     }
 
     @Test
@@ -80,6 +80,6 @@ public class GoodTest {
         canastaGood.multiplyFinalQuantityBy(3);
 
         //Test(When)
-        assertEquals(Integer.valueOf(3), canastaGood.finalQuantity());
+        assertEquals(Integer.valueOf(3), canastaGood.getFinalQuantity());
     }
 }
