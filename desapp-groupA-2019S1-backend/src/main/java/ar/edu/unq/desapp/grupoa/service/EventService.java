@@ -5,6 +5,7 @@ import ar.edu.unq.desapp.grupoa.exception.user.UserNotFoundException;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
+import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaComunitary;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
@@ -59,6 +60,18 @@ public class EventService {
         return create(canasta);
     }
 
+    public Integer createBaquitaComunitary(String eventName, Integer organizerId, List<Integer> guestsId, List<Good> goods) {
+        BaquitaComunitary baquitaComunitary = new BaquitaComunitary(
+                eventName,
+                getOrganizer(organizerId),
+                getGuests(guestsId),
+                goods,
+                LocalDateTime.now()
+        );
+
+        return create(baquitaComunitary);
+    }
+
     public List<Integer> createAll(List<Event> aListOfEvents) {
         this.eventDAO.saveAll(aListOfEvents);
         List<Integer> idList = aListOfEvents.stream()
@@ -98,4 +111,6 @@ public class EventService {
         eventDAO.save(event);
         return event.getId();
     }
+
+
 }

@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa.controller.rest;
 
 import ar.edu.unq.desapp.grupoa.TestConfig;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.BaquitaComunitariaDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.CanastaDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.EventDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.FiestaDTO;
@@ -8,6 +9,7 @@ import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.InvitationState;
+import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaComunitary;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
@@ -43,6 +45,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaComunitaryBuilder.newRandomBaquitaComunitaryWithOwner;
+import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaComunitaryBuilder.withConfirmedGuest;
+import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaComunitaryBuilder.withGood;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;
 import static org.junit.Assert.assertNotNull;
 
@@ -80,13 +85,19 @@ public class EventControllerTest {
 
     @Test
     public void getFiesta() throws Exception {
-        testGet(this::buildFiestaCreated,new FiestaDTO());
+        testGet(this::buildFiestaCreated, new FiestaDTO());
     }
 
     @Test
     public void getCanasta() throws Exception {
-        testGet(this::buildCanasta,new CanastaDTO());
+        testGet(this::buildCanasta, new CanastaDTO());
     }
+
+    @Test
+    public void getBaquitaComunitaria() throws Exception {
+        testGet(this::buildBaquitacomunitaria, new BaquitaComunitariaDTO());
+    }
+
 
     @Test
     public void createsAFiesta() throws Exception {
@@ -98,6 +109,10 @@ public class EventControllerTest {
         testCreate(this::buildCanasta,new CanastaDTO());
     }
 
+    @Test
+    public void createsABaquitaComunitaria() throws Exception {
+        testCreate(this::buildBaquitacomunitaria,new BaquitaComunitariaDTO());
+    }
 
     //Precondition: The EventDTO has to be for the given event.
     public void testCreate(Supplier<Event> eventsupplier,EventDTO eventDTO) throws Exception {
@@ -131,27 +146,20 @@ public class EventControllerTest {
 
     private Canasta buildCanasta() {
         Guest firstGuest = getGuest();
-        User organizer = getUser();
-        List<Good> canastaGoods = getCanastaGoods(firstGuest);
 
-        return getCreatedCanasta(firstGuest, organizer, canastaGoods);
+        return getCreatedCanasta(firstGuest, getUser(), getCanastaGoods(firstGuest));
     }
 
+    private BaquitaComunitary buildBaquitacomunitaria() {
+        return getCreatedBaquitaComunitary(getGuest(),getUser());
+    }
 
     private Fiesta buildFiestaToCreate() {
-        Guest firstGuest = getGuest();
-        User organizer = getUser();
-        List<Good> fiestaGoods = getFiestaGoods();
-
-        return getFiestaToCreate(firstGuest, organizer, fiestaGoods);
+        return getFiestaToCreate(getGuest(), getUser(), getFiestaGoods());
     }
 
     private Fiesta buildFiestaCreated() {
-        Guest firstGuest = getGuest();
-        User organizer = getUser();
-        List<Good> fiestaGoods = getFiestaGoods();
-
-        return getCreatedFiesta(firstGuest, organizer, fiestaGoods);
+        return getCreatedFiesta(getGuest(), getUser(), getFiestaGoods());
     }
 
 
@@ -169,7 +177,13 @@ public class EventControllerTest {
     }
 
 
-
+    private Good getDefaultGood() {
+        Good good = new Good();
+        good.setPricePerUnit(50);
+        good.setQuantityForPerson(1);
+        good.setName("Beer");
+        return good;
+    }
 
     private List<Good> getFiestaGoods() {
         Good fiestaGood = FiestaGoodBuilder.buildAGood()
@@ -196,6 +210,13 @@ public class EventControllerTest {
         User user = randomUser();
         userDAO.save(user);
         return user;
+    }
+
+    private BaquitaComunitary getCreatedBaquitaComunitary(Guest firstGuest, User organizer) {
+        return newRandomBaquitaComunitaryWithOwner(organizer,
+                withConfirmedGuest(firstGuest),
+                withGood(getDefaultGood())
+        );
     }
 
     private Canasta getCreatedCanasta(Guest firstGuest, User organizer, List<Good> canastaGoods) {

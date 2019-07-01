@@ -1,5 +1,7 @@
 package ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO;
 
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.BaquitaComunitariaDTO;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.dtoHandler.BaquitaComunitaryDTOHandler;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.dtoHandler.CanastaDTOHandler;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.dtoHandler.EventDTOHandler;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.dtoHandler.FiestaDTOHandler;
@@ -24,7 +26,8 @@ import java.util.stream.Collectors;
         property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = FiestaDTO.class, name = "FIESTA"),
-        @JsonSubTypes.Type(value = CanastaDTO.class, name = "CANASTA")
+        @JsonSubTypes.Type(value = CanastaDTO.class, name = "CANASTA"),
+        @JsonSubTypes.Type(value = BaquitaComunitariaDTO.class, name = "BAQUITA_COMUNITARY")
 })
 public abstract class EventDTO {
 
@@ -41,6 +44,7 @@ public abstract class EventDTO {
     static final List<EventDTOHandler> eventDTOHandlers = new ArrayList<EventDTOHandler>() {{
         add(new FiestaDTOHandler());
         add(new CanastaDTOHandler());
+        add(new BaquitaComunitaryDTOHandler());
     }};
 
     public static EventDTO fromEvent(Event event) {
