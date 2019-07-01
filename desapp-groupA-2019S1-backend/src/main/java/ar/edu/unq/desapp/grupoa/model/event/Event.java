@@ -15,7 +15,6 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-
 abstract public class Event {
 
     @Id
@@ -28,7 +27,7 @@ abstract public class Event {
     protected User organizer;
     @OneToMany(cascade = CascadeType.ALL)
     protected List<Guest> guests;
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL)
     protected List<Good> goodsForGuest;
     @Enumerated(EnumType.STRING)
     protected EventStatus status;

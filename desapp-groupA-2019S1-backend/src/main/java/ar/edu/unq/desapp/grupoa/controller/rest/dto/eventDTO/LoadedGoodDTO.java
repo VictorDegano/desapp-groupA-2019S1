@@ -7,12 +7,14 @@ import java.util.stream.Collectors;
 
 public class LoadedGoodDTO {
 
+    private Integer loadedGoodId;
     private Integer guestId;
     private Integer goodId;
 
-    public LoadedGoodDTO(Integer guestId, Integer goodId) {
+    public LoadedGoodDTO(Integer guestId, Integer goodId,Integer loadedGoodId) {
         this.guestId = guestId;
         this.goodId = goodId;
+        this.loadedGoodId = loadedGoodId;
     }
 
     public static List<LoadedGoodDTO> fromList(List<LoadedGood> loadedGoods) {
@@ -20,6 +22,6 @@ public class LoadedGoodDTO {
     }
 
     private static LoadedGoodDTO from(LoadedGood loadedGood) {
-        return new LoadedGoodDTO(loadedGood.getGuest().getId(),loadedGood.getGood().getId());
+        return new LoadedGoodDTO(loadedGood.getGuest().getId(),loadedGood.getGood().getId(),loadedGood.getId());
     }
 }

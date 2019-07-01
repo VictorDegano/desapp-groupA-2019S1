@@ -5,18 +5,30 @@ import ar.edu.unq.desapp.grupoa.model.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.validation.constraints.NotBlank;
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Good {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String name;
-
     private Integer pricePerUnit;
-
     private Integer quantityForPerson;
+
+
     public Integer totalCost() {
         return this.pricePerUnit * this.quantityForPerson;
     }
-
     @JsonIgnore
     public User getUserThatOwnsTheGood(){
         throw new GoodTypeException("This type of good don't have owner");
@@ -24,6 +36,7 @@ public class Good {
 
     public void multiplyFinalQuantityBy(Integer quantityToMultiply){    /*No e hace nada para el que no lo defina*/    }
 
+    @JsonIgnore
     public Integer getFinalQuantity() { return this.quantityForPerson;   }
 
 /** [}-{]---------------------------------------------[}-{]

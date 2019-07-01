@@ -6,6 +6,7 @@ import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.Template;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -18,12 +19,10 @@ import java.util.List;
 @DiscriminatorValue("Representatives")
 public class BaquitaRepresentatives extends Baquita {
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Guest> representatives;
 
-
-
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL)
     protected List<LoadedGood> loadedGoods;
 
     public BaquitaRepresentatives(String name, User organizer, List<Guest> guests, List<Good> goodsForGuest, LocalDateTime creationDate) {
