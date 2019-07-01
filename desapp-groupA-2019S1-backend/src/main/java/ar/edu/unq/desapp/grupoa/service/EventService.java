@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa.service;
 
 import ar.edu.unq.desapp.grupoa.exception.EventNotFoundException;
+import ar.edu.unq.desapp.grupoa.exception.GuestNotFoundException;
 import ar.edu.unq.desapp.grupoa.exception.user.UserNotFoundException;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
@@ -11,6 +12,7 @@ import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.EventDAO;
+import ar.edu.unq.desapp.grupoa.persistence.GuestDAO;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,8 @@ public class EventService {
     private EventDAO eventDAO;
     @Autowired
     private UserDAO userDAO;
+    @Autowired
+    private GuestDAO guestDAO;
 
     public EventService(EventDAO aEventDAO) {
         this.eventDAO = aEventDAO;
@@ -125,5 +129,11 @@ public class EventService {
     }
 
 
+    public void confirmAsistance(Integer eventId, Integer guestId) {
+        Event event = eventDAO.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
+        Guest guest = guestDAO.findById(guestId).orElseThrow(() -> new GuestNotFoundException(guestId));
+        event.confirmAsistancesOf(guest);
 
+        eventDAO.save(event);
+    }
 }

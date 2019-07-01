@@ -15,6 +15,7 @@ import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.EventDAO;
+import ar.edu.unq.desapp.grupoa.persistence.GuestDAO;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 import ar.edu.unq.desapp.grupoa.utils.builder.CanastaBuilder;
 import ar.edu.unq.desapp.grupoa.utils.builder.CanastaGoodBuilder;
@@ -49,13 +50,17 @@ import java.util.function.Supplier;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaComunitaryBuilder.newRandomBaquitaComunitaryWithOwner;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaComunitaryBuilder.withConfirmedGuest;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaComunitaryBuilder.withGood;
+import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaComunitaryBuilder.withUnconfirmedGuest;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.newBaquitaRepresentativesWithOwner;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.withConfirmedGuestForBaquitaRepresentatives;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.withConfirmedRepresentative;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.withLoadedGoodFrom;
+import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.withUnconfirmedGuestForBaquitaRepresentatives;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -76,6 +81,9 @@ public class EventControllerTest {
 
     @Autowired
     private EventDAO eventDAO;
+
+    @Autowired
+    private GuestDAO guestDAO;
 
     @Autowired
     private UserDAO userDAO;
@@ -129,6 +137,59 @@ public class EventControllerTest {
         testCreate(this::buildBaquitaRepresentatives, new BaquitaRepresentativesDTO());
     }
 
+
+    @Test
+    public void confirmAsistenceToFiesta() throws Exception {
+        Guest guestToConfirm = getGuest();
+        Event event= getCreatedFiesta(guestToConfirm, getUser(), getFiestaGoods());
+        eventDAO.save(event);
+
+        testConfirmAsistance(guestToConfirm, event);
+    }
+
+    @Test
+    public void confirmAsistenceToCanasta() throws Exception {
+        Guest guestToConfirm = getGuest();
+        Event event= getCreatedCanasta(guestToConfirm, getUser(), getCanastaGoods(guestToConfirm));
+        eventDAO.save(event);
+
+        testConfirmAsistance(guestToConfirm, event);
+    }
+
+    @Test
+    public void confirmAsistenceToBaquitaComunitaria() throws Exception {
+        Guest guestToConfirm = getGuest();
+        Event event= getCreatedBaquitaComunitary(guestToConfirm, getUser());
+        eventDAO.save(event);
+
+        testConfirmAsistance(guestToConfirm, event);
+    }
+
+    @Test
+    public void confirmAsistenceToBaquitaRepresentatives() throws Exception {
+        Guest guestToConfirm = getGuest();
+        Event event= getCreatedBaquitaRepresentatives(getGuest(), guestToConfirm, getUser());
+        eventDAO.save(event);
+
+        testConfirmAsistance(guestToConfirm, event);
+    }
+
+
+    private void testConfirmAsistance(Guest guestToConfirm, Event event) throws Exception {
+        Integer confirmationsBeforeConfirm = event.getConfirmations();
+
+        String url = String.format("/event/confirmAsistance/%s/%s/",event.getId(),guestToConfirm.getId());
+        this.mockMvc.perform(get(url))
+                .andExpect(status().isOk());
+
+        Event eventUpdated = eventDAO.findById(event.getId()).get();
+        Guest guestUpdated = guestDAO.findById(guestToConfirm.getId()).get();
+
+        assertEquals(eventUpdated.getConfirmations(),new Integer(confirmationsBeforeConfirm+1) );
+        assertTrue(guestUpdated.isconfirmed());
+    }
+
+
     //Precondition: The EventDTO has to be for the given event.
     public void testCreate(Supplier<Event> eventsupplier,EventDTO eventDTO) throws Exception {
         //Setup(Given)
@@ -141,8 +202,8 @@ public class EventControllerTest {
 
         assertNotNull(eventRetrieved);
     }
-    //Precondition: The EventDTO has to be for the given event.
 
+    //Precondition: The EventDTO has to be for the given event.
     public void testGet(Supplier<Event> createEvent, EventDTO dto) throws Exception {
         //Setup(Given)
         Event event = createEvent.get();
@@ -172,14 +233,7 @@ public class EventControllerTest {
         return getCreatedBaquitaRepresentatives(getGuest(),getGuest(),getUser());
     }
 
-    private Event getCreatedBaquitaRepresentatives(Guest representative, Guest guest, User owner) {
-        return newBaquitaRepresentativesWithOwner(
-                owner,
-                withConfirmedRepresentative(representative),
-                withConfirmedGuestForBaquitaRepresentatives(guest),
-                withLoadedGoodFrom(representative, 70)
-               );
-    }
+
 
     private Fiesta buildFiestaToCreate() {
         return getFiestaToCreate(getGuest(), getUser(), getFiestaGoods());
@@ -239,9 +293,18 @@ public class EventControllerTest {
         return user;
     }
 
+    private Event getCreatedBaquitaRepresentatives(Guest representative, Guest guest, User owner) {
+        return newBaquitaRepresentativesWithOwner(
+                owner,
+                withConfirmedRepresentative(representative),
+                withUnconfirmedGuestForBaquitaRepresentatives(guest),
+                withLoadedGoodFrom(representative, 70)
+        );
+    }
+
     private BaquitaComunitary getCreatedBaquitaComunitary(Guest firstGuest, User organizer) {
         return newRandomBaquitaComunitaryWithOwner(organizer,
-                withConfirmedGuest(firstGuest),
+                withUnconfirmedGuest(firstGuest),
                 withGood(getDefaultGood())
         );
     }
@@ -259,7 +322,7 @@ public class EventControllerTest {
 
     private Fiesta getCreatedFiesta(Guest firstGuest, User organizer, List<Good> fiestaGoods) {
         return FiestaBuilder.buildAFiesta()
-                .withLimitConfirmationDateTime(LocalDateTime.now())
+                .withLimitConfirmationDateTime(LocalDateTime.now().plusDays(2))
                 .withCreationDate(LocalDateTime.now().minusDays(2))
                 .withConfirmations(1)
                 .addGuest(firstGuest)

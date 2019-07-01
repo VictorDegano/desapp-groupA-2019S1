@@ -30,7 +30,7 @@ public class EventController {
 
     @PostMapping()
     public ResponseEntity<String> createEvent(@RequestBody EventDTO eventDTO) {
-        LOGGER.info("Got request POST to create a Fiesta Event with data {}", eventDTO);
+        LOGGER.info("Got request POST to create a Event with data {}", eventDTO);
 
         Integer eventId = eventDTO.handleCreation(this.eventService);
 
@@ -38,6 +38,17 @@ public class EventController {
         LOGGER.info("Event Fiesta created {}", eventService.getById(eventId));
         return new ResponseEntity<>(eventId.toString(), HttpStatus.CREATED);
     }
+
+    @PutMapping(value = "/confirmAsistance/{eventId}/{guestId}")
+    public ResponseEntity<String> confirmAsistance(@PathVariable Integer eventId,@PathVariable Integer guestId) {
+        LOGGER.info("Got request PUT to confirm assistance Fiesta Event with data");
+
+        eventService.confirmAsistance(eventId, guestId);
+
+        LOGGER.info("Assistance of guest {} confirmed for event {}",eventId,guestId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     @GetMapping(value = "/{eventId}")
     public ResponseEntity<EventDTO> findEvent(@PathVariable Integer eventId) {

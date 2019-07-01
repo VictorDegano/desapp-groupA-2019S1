@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -98,7 +99,7 @@ abstract public class Event {
 
     public LocalDateTime getLimitConfirmationDateTime(){   return null; }
 
-    public Integer getConfirmations(){ return 0; }
+    public Integer getConfirmations(){ return guests.stream().filter(guest -> guest.isconfirmed()).collect(Collectors.toList()).size(); }
 
     public List<Guest> getRepresentatives() {
         return null;

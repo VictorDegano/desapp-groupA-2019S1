@@ -58,6 +58,13 @@ public class BaquitaRepresentativesBuilder {
         };
     }
 
+    public static Function<BaquitaRepresentatives, BaquitaRepresentatives> withUnconfirmedGuestForBaquitaRepresentatives(Guest representative) {
+        return (baquita) -> {
+            baquita.addGuest(representative);
+            return baquita;
+        };
+    }
+
     public static Function<BaquitaRepresentatives, BaquitaRepresentatives> withLoadedGoodFrom(Guest representative, Integer amount) {
         return (baquita) -> {
             Good good = new Good();
