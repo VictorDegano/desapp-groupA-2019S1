@@ -18,3 +18,17 @@ export function closeProfileEdition() {
     type: ACTION_TYPE.CLOSE_PROFILE_EDITION
   };
 }
+
+export function openEventView() {
+  //Las acciones devuelve un objeto
+  return {
+    type: ACTION_TYPE.OPEN_EVENT_VIEW
+  };
+}
+
+export function closeEventView() {
+  //Las acciones devuelve un objeto
+  return {
+    type: ACTION_TYPE.CLOSE_EVENT_VIEW
+  };
+}

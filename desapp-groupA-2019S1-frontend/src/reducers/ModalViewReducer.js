@@ -1,5 +1,6 @@
 const initialState = {
-  modalProfileState: null
+  modalProfileState: null,
+  modalEventView: null
 };
 
 //Se recibe un state antiguo, un action y se devuelve el nuevo state
@@ -18,6 +19,20 @@ export default function userReducer(state = initialState, action) {
       // console.log('case CLOSE_PROFILE_EDITION');
       return Object.assign({}, state, {
         modalProfileState: false
+      });
+    }
+
+    case "OPEN_EVENT_VIEW": {
+      // console.log('case OPEN_EVENT_VIEW');
+      return Object.assign({}, state, {
+        modalEventView: true
+      });
+    }
+
+    case "CLOSE_EVENT_VIEW": {
+      // console.log('case CLOSE_EVENT_VIEW');
+      return Object.assign({}, state, {
+        modalEventView: false
       });
     }
 
