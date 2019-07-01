@@ -5,6 +5,7 @@ import ar.edu.unq.desapp.grupoa.exception.user.UserNotFoundException;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
+import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.EventDAO;
@@ -33,15 +34,29 @@ public class EventService {
     public EventService() {
     }
 
-    public Integer createFiesta(String name, Integer organizerId, List<Integer> guestsId, LocalDateTime limitConfirmationDateTime, List<Good> goods) {
-        User organizer = userDAO.findById(organizerId).orElseThrow(() -> new UserNotFoundException(organizerId));
+    public Integer createFiesta(String name, Integer organizerId, List<Integer> guestsId,
+                                LocalDateTime limitConfirmationDateTime, List<Good> goods) {
 
-        List<Guest> guests = userDAO.findAllById(guestsId)
-                .stream().map(Guest::new).collect(Collectors.toList());
+        Fiesta fiesta = new Fiesta(
+                name,
+                getOrganizer(organizerId),
+                getGuests(guestsId),
+                limitConfirmationDateTime,
+                goods, LocalDateTime.now());
 
-        Fiesta fiesta = new Fiesta(name, organizer, guests, limitConfirmationDateTime, goods, LocalDateTime.now());
-        eventDAO.save(fiesta);
-        return fiesta.getId();
+        return create(fiesta);
+    }
+
+    public Integer createCanasta(String name, Integer organizerId, List<Integer> guestsId, List<Good> goods) {
+
+        Canasta canasta = new Canasta(
+                name,
+                getOrganizer(organizerId),
+                getGuests(guestsId),
+                goods,
+                LocalDateTime.now());
+
+        return create(canasta);
     }
 
     public List<Integer> createAll(List<Event> aListOfEvents) {
@@ -60,14 +75,22 @@ public class EventService {
         return eventDAO.getEventsInProgressForUser(userId);
     }
 
-    // TODO: 1/6/2019 Falta hacer los test
     public List<Event> getLastEventsForUser(Integer userId) {
         return eventDAO.getLastEventsForUser(userId);
     }
 
-    // TODO: 27/6/2019 Falta hacer los test
     public List<Event> mostPopularEvents() {
         return eventDAO.getMostPopularEventsForUser();
+    }
+
+
+    private List<Guest> getGuests(List<Integer> guestsId) {
+        return userDAO.findAllById(guestsId)
+                .stream().map(Guest::new).collect(Collectors.toList());
+    }
+
+    private User getOrganizer(Integer organizerId) {
+        return userDAO.findById(organizerId).orElseThrow(() -> new UserNotFoundException(organizerId));
     }
 
 

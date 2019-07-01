@@ -1,5 +1,10 @@
-package ar.edu.unq.desapp.grupoa.controller.rest.dto;
+package ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO;
 
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.dtoHandler.CanastaDTOHandler;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.dtoHandler.EventDTOHandler;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.dtoHandler.FiestaDTOHandler;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.GuestDTO;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.EventStatus;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
@@ -18,7 +23,8 @@ import java.util.stream.Collectors;
         include = JsonTypeInfo.As.PROPERTY,
         property = "type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = FiestaDTO.class, name = "FIESTA")
+        @JsonSubTypes.Type(value = FiestaDTO.class, name = "FIESTA"),
+        @JsonSubTypes.Type(value = CanastaDTO.class, name = "CANASTA")
 })
 public abstract class EventDTO {
 
@@ -30,17 +36,34 @@ public abstract class EventDTO {
     protected List<Good> goods;
     protected List<GuestDTO> guests;
     protected EventStatus status;
-
     protected LocalDateTime creationDate;
 
     static final List<EventDTOHandler> eventDTOHandlers = new ArrayList<EventDTOHandler>() {{
         add(new FiestaDTOHandler());
+        add(new CanastaDTOHandler());
     }};
 
-    public static EventDTO from(Event event) {
+    public static EventDTO fromEvent(Event event) {
        return eventDTOHandlers.stream().filter(dto -> dto.canHandle(event)).findFirst().get().from(event);
     }
 
+    public abstract EventDTO from(Event event);
+
+    public abstract Integer handleCreation(EventService eventService);
+
+    public static List<EventDTO> fromList(List<Event> eventsInProgress) {
+        return eventsInProgress.stream().map(EventDTO::fromEvent).collect(Collectors.toList());
+    }
+
+    /* Utilities */
+
+    protected static List<GuestDTO> getGuestsFrom(List<Guest> guest) {
+        return guest.stream().map(GuestDTO::from).collect(Collectors.toList());
+    }
+
+    protected List<Integer> guestsId(){
+        return guests.stream().map(GuestDTO::getUserId).collect(Collectors.toList());
+    };
 
     /* Getters */
     public Integer getId() {
@@ -72,10 +95,6 @@ public abstract class EventDTO {
         return guests;
     }
 
-    protected static List<GuestDTO> getGuestsFrom(List<Guest> guest) {
-        return guest.stream().map(GuestDTO::from).collect(Collectors.toList());
-    }
-
     public EventStatus getStatus() {
         return status;
     }
@@ -85,9 +104,6 @@ public abstract class EventDTO {
     }
 
 
-    public abstract Integer handleCreation(EventService eventService);
 
-    protected List<Integer> guestsId(){
-        return guests.stream().map(GuestDTO::getUserId).collect(Collectors.toList());
-    };
+
 }

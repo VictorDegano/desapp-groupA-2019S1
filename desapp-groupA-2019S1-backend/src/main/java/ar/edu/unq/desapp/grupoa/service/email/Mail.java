@@ -42,7 +42,7 @@ public class Mail {
     @Override
     public String toString() {
         return "Mail{" +
-                "from='" + from + '\'' +
+                "fromEvent='" + from + '\'' +
                 ", to='" + to + '\'' +
                 ", subject='" + subject + '\'' +
                 ", content='" + content + '\'' +

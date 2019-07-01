@@ -1,8 +1,10 @@
-package ar.edu.unq.desapp.grupoa.controller.rest.dto;
+package ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO;
 
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.GuestDTO;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
+import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.EventStatus;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
-import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 
 import java.time.LocalDateTime;
@@ -14,9 +16,9 @@ public class FiestaDTO extends EventDTO {
     private Integer confirmations;
 
     public FiestaDTO(Integer id, String name, UserDTO organizer,
-                      String type, Integer quantityOfGuest, List<Good> goods,
-                      List<GuestDTO> guests, LocalDateTime limitConfirmationDateTime,
-                      Integer confirmations, EventStatus status, LocalDateTime creationDate) {
+                     String type, Integer quantityOfGuest, List<Good> goods,
+                     List<GuestDTO> guests, LocalDateTime limitConfirmationDateTime,
+                     Integer confirmations, EventStatus status, LocalDateTime creationDate) {
         this.id = id;
         this.eventName = name;
         this.organizer = organizer;
@@ -32,7 +34,8 @@ public class FiestaDTO extends EventDTO {
 
     public FiestaDTO(){}
 
-    public static FiestaDTO from(Fiesta aFiesta) {
+    @Override
+    public FiestaDTO from(Event aFiesta) {
         return new FiestaDTO(
                 aFiesta.getId(),
                 aFiesta.getName(),
@@ -45,7 +48,18 @@ public class FiestaDTO extends EventDTO {
                 aFiesta.getConfirmations(),
                 aFiesta.getStatus(),
                 aFiesta.getCreationDate()
-                );
+        );
+    }
+
+    @Override
+    public Integer handleCreation(EventService eventService) {
+       return eventService.createFiesta(
+               this.eventName,
+               this.organizer.id,
+               this.guestsId(),
+               this.limitConfirmationDateTime,
+               this.goods
+       );
     }
 
 
@@ -57,9 +71,4 @@ public class FiestaDTO extends EventDTO {
         return confirmations;
     }
 
-
-    @Override
-    public Integer handleCreation(EventService eventService) {
-       return eventService.createFiesta(this.eventName,this.organizer.id,this.guestsId(),this.limitConfirmationDateTime,this.goods);
-    }
 }
