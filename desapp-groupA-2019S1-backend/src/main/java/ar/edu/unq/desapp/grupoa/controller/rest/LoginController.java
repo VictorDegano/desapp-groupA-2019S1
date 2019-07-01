@@ -1,6 +1,5 @@
 package ar.edu.unq.desapp.grupoa.controller.rest;
 
-import ar.edu.unq.desapp.grupoa.controller.rest.dto.DTOConverter;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.LoginDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.LoginOutDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
@@ -42,7 +41,8 @@ public class LoginController {
 
         this.loginService.logIn(findedUser, userToLogIn.accessToken, userToLogIn.expireAt);
 
-        UserDTO loggedUser = DTOConverter.createUserDTO(findedUser);
+
+        UserDTO loggedUser = UserDTO.from(findedUser);
 
         LOGGER.info("Response the request with the user {}", loggedUser);
 

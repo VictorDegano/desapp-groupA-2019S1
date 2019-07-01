@@ -19,7 +19,7 @@ public class Randomizer {
     }
 
     public static User randomUser(Function<User, User>... functions) {
-        return compose(functions).apply(new User(randomString(), randomString(), randomString(), randomString(), randomDate()));
+        return compose(functions).apply(new User("random", "random", "random@gmail.com", "random", randomDate()));
     }
 
     public static Function<User, User> withAccountBalance(Integer amount) {
@@ -31,7 +31,7 @@ public class Randomizer {
 
 
     public static User randomUserWithName(String name) {
-        return new User(name, randomString(), randomString(), randomString(), randomDate());
+        return new User(name, "random", "random@random.com", "random", randomDate());
     }
 
     public static Integer randomNumber(){

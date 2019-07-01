@@ -49,7 +49,7 @@ public class CanastaTest {
                 userThatCreateTheCanasta.getFirstName(),
                 newCanasta.getOrganizer().getFirstName());
 
-        assertEquals("Canasta name is WRONG!",
+        assertEquals("Canasta eventName is WRONG!",
                 "Canastita",
                 newCanasta.getName());
     }
