@@ -2,6 +2,15 @@ package ar.edu.unq.desapp.grupoa.service.email;
 
 public class Mail {
 
+    public Mail(String from, String to, String subject, String content) {
+        this.from = from;
+        this.to = to;
+        this.subject = subject;
+        this.content = content;
+    }
+
+    public Mail() {
+    }
     private String from;
     private String to;
     private String subject;

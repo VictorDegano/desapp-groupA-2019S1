@@ -32,6 +32,8 @@ public class EventService {
     private UserDAO userDAO;
     @Autowired
     private GuestDAO guestDAO;
+    @Autowired
+    private EmailSenderService emailSenderService;
 
     public EventService(EventDAO aEventDAO) {
         this.eventDAO = aEventDAO;
@@ -49,6 +51,7 @@ public class EventService {
                 limitConfirmationDateTime,
                 goods, LocalDateTime.now());
 
+        sendInvitationToGuests(fiesta);
         return create(fiesta);
     }
 
@@ -61,8 +64,10 @@ public class EventService {
                 goods,
                 LocalDateTime.now());
 
+        sendInvitationToGuests(canasta);
         return create(canasta);
     }
+
 
     public Integer createBaquitaComunitary(String eventName, Integer organizerId, List<Integer> guestsId, List<Good> goods) {
         BaquitaComunitary baquitaComunitary = new BaquitaComunitary(
@@ -73,6 +78,7 @@ public class EventService {
                 LocalDateTime.now()
         );
 
+        sendInvitationToGuests(baquitaComunitary);
         return create(baquitaComunitary);
     }
 
@@ -85,6 +91,7 @@ public class EventService {
                 LocalDateTime.now()
         );
 
+        sendInvitationToGuests(baquitaRepresentatives);
         return create(baquitaRepresentatives);
     }
 
@@ -146,5 +153,14 @@ public class EventService {
         Event event = getById(eventId);
         event.close();
         eventDAO.save(event);
+    }
+
+
+    private void sendInvitationToGuests(Event event) {
+        String organizerEmail = event.getOrganizer().getEmail();
+        event.getGuest().stream().forEach(guest -> {
+            User guestUser = guest.getUser();
+            emailSenderService.sendInvitation(organizerEmail,guestUser.getEmail(),guestUser.getFirstName(),event.getName());
+        });
     }
 }
