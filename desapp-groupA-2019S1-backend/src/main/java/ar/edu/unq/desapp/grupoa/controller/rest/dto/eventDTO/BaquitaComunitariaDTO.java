@@ -1,6 +1,7 @@
-package ar.edu.unq.desapp.grupoa.controller.rest.dto;
+package ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO;
 
-import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.EventDTO;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.GuestDTO;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.EventStatus;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
@@ -12,8 +13,8 @@ import java.util.List;
 public class BaquitaComunitariaDTO extends EventDTO {
 
     public BaquitaComunitariaDTO(Integer id, String name, UserDTO organizer,
-                      String type, Integer quantityOfGuest, List<Good> goods,
-                      List<GuestDTO> guests, EventStatus status, LocalDateTime creationDate) {
+                                 String type, Integer quantityOfGuest, List<Good> goods,
+                                 List<GuestDTO> guests, EventStatus status, LocalDateTime creationDate) {
         this.id = id;
         this.eventName = name;
         this.organizer = organizer;

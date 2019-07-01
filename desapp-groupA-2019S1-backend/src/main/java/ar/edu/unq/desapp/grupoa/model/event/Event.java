@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa.model.event;
 
 import ar.edu.unq.desapp.grupoa.exception.event.InvitationException;
 import ar.edu.unq.desapp.grupoa.exception.event.InvitationLimitException;
+import ar.edu.unq.desapp.grupoa.model.event.baquita.LoadedGood;
 import ar.edu.unq.desapp.grupoa.model.event.createstrategy.CreateEventStrategySelector;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
@@ -99,6 +100,14 @@ abstract public class Event {
     public LocalDateTime getLimitConfirmationDateTime(){   return null; }
 
     public Integer getConfirmations(){ return 0; }
+
+    public List<Guest> getRepresentatives() {
+        return null;
+    }
+
+    public List<LoadedGood> getLoadedGoods() {
+        return null;
+    }
 
     public LocalDateTime getCreationDate() {    return creationDate;    }
 

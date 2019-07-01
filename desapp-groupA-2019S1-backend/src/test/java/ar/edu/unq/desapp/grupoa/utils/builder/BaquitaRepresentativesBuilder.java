@@ -50,7 +50,7 @@ public class BaquitaRepresentativesBuilder {
         };
     }
 
-    public static Function<BaquitaRepresentatives, BaquitaRepresentatives> withConfirmedGuest(Guest representative) {
+    public static Function<BaquitaRepresentatives, BaquitaRepresentatives> withConfirmedGuestForBaquitaRepresentatives(Guest representative) {
         return (baquita) -> {
             baquita.addGuest(representative);
             confirmInvitation(representative,baquita);
@@ -63,6 +63,7 @@ public class BaquitaRepresentativesBuilder {
             Good good = new Good();
             good.setPricePerUnit(amount);
             good.setQuantityForPerson(1);
+            good.setName("Beer");
             baquita.addGood(good);
             loadGood(baquita,good,representative);
             return baquita;

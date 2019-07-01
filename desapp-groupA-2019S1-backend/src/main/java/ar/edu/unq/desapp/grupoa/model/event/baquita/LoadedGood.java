@@ -17,7 +17,7 @@ public class LoadedGood {
         return  good.totalCost();
     }
 
-    public Object getGood() {
+    public Good getGood() {
         return good;
     }
 

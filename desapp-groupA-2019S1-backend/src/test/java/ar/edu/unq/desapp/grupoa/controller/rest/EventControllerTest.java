@@ -1,7 +1,8 @@
 package ar.edu.unq.desapp.grupoa.controller.rest;
 
 import ar.edu.unq.desapp.grupoa.TestConfig;
-import ar.edu.unq.desapp.grupoa.controller.rest.dto.BaquitaComunitariaDTO;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.BaquitaComunitariaDTO;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.BaquitaRepresentativesDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.CanastaDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.EventDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.FiestaDTO;
@@ -48,6 +49,10 @@ import java.util.function.Supplier;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaComunitaryBuilder.newRandomBaquitaComunitaryWithOwner;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaComunitaryBuilder.withConfirmedGuest;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaComunitaryBuilder.withGood;
+import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.newBaquitaRepresentativesWithOwner;
+import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.withConfirmedGuestForBaquitaRepresentatives;
+import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.withConfirmedRepresentative;
+import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.withLoadedGoodFrom;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;
 import static org.junit.Assert.assertNotNull;
 
@@ -98,6 +103,10 @@ public class EventControllerTest {
         testGet(this::buildBaquitacomunitaria, new BaquitaComunitariaDTO());
     }
 
+    @Test
+    public void getBaquitaRepresentatives() throws Exception {
+        testGet(this::buildBaquitaRepresentatives, new BaquitaRepresentativesDTO());
+    }
 
     @Test
     public void createsAFiesta() throws Exception {
@@ -114,6 +123,12 @@ public class EventControllerTest {
         testCreate(this::buildBaquitacomunitaria,new BaquitaComunitariaDTO());
     }
 
+
+    @Test
+    public void createsBaquitaRepresentatives() throws Exception {
+        testCreate(this::buildBaquitaRepresentatives, new BaquitaRepresentativesDTO());
+    }
+
     //Precondition: The EventDTO has to be for the given event.
     public void testCreate(Supplier<Event> eventsupplier,EventDTO eventDTO) throws Exception {
         //Setup(Given)
@@ -126,8 +141,8 @@ public class EventControllerTest {
 
         assertNotNull(eventRetrieved);
     }
-
     //Precondition: The EventDTO has to be for the given event.
+
     public void testGet(Supplier<Event> createEvent, EventDTO dto) throws Exception {
         //Setup(Given)
         Event event = createEvent.get();
@@ -143,7 +158,6 @@ public class EventControllerTest {
                 .andExpect(responseExpected);
     }
 
-
     private Canasta buildCanasta() {
         Guest firstGuest = getGuest();
 
@@ -152,6 +166,19 @@ public class EventControllerTest {
 
     private BaquitaComunitary buildBaquitacomunitaria() {
         return getCreatedBaquitaComunitary(getGuest(),getUser());
+    }
+
+    private Event buildBaquitaRepresentatives() {
+        return getCreatedBaquitaRepresentatives(getGuest(),getGuest(),getUser());
+    }
+
+    private Event getCreatedBaquitaRepresentatives(Guest representative, Guest guest, User owner) {
+        return newBaquitaRepresentativesWithOwner(
+                owner,
+                withConfirmedRepresentative(representative),
+                withConfirmedGuestForBaquitaRepresentatives(guest),
+                withLoadedGoodFrom(representative, 70)
+               );
     }
 
     private Fiesta buildFiestaToCreate() {
@@ -274,6 +301,8 @@ public class EventControllerTest {
     private String json(EventDTO object) throws JsonProcessingException {
         return  objectMapper.writeValueAsString(object);
     }
+
+
 
 
 }

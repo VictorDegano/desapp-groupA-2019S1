@@ -6,6 +6,7 @@ import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaComunitary;
+import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaRepresentatives;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
@@ -37,7 +38,6 @@ public class EventService {
 
     public Integer createFiesta(String name, Integer organizerId, List<Integer> guestsId,
                                 LocalDateTime limitConfirmationDateTime, List<Good> goods) {
-
         Fiesta fiesta = new Fiesta(
                 name,
                 getOrganizer(organizerId),
@@ -70,6 +70,18 @@ public class EventService {
         );
 
         return create(baquitaComunitary);
+    }
+
+    public Integer createBaquitaRepresentatives(String eventName, Integer organizerId, List<Integer> guestsId, List<Good> goods) {
+        BaquitaRepresentatives baquitaRepresentatives = new BaquitaRepresentatives(
+                eventName,
+                getOrganizer(organizerId),
+                getGuests(guestsId),
+                goods,
+                LocalDateTime.now()
+        );
+
+        return create(baquitaRepresentatives);
     }
 
     public List<Integer> createAll(List<Event> aListOfEvents) {
@@ -111,6 +123,7 @@ public class EventService {
         eventDAO.save(event);
         return event.getId();
     }
+
 
 
 }

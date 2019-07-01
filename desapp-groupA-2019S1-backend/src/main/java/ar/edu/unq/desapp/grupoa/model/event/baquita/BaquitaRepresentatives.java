@@ -20,6 +20,9 @@ public class BaquitaRepresentatives extends Baquita {
 
     @OneToMany
     private List<Guest> representatives;
+
+
+
     @Transient
     protected List<LoadedGood> loadedGoods;
 
@@ -89,5 +92,13 @@ public class BaquitaRepresentatives extends Baquita {
 
     public Boolean goodIsloaded(Good good) {
         return this.loadedGoods.stream().anyMatch(loadedGood -> loadedGood.getGood().equals(good));
+    }
+
+    public List<Guest> getRepresentatives() {
+        return representatives;
+    }
+
+    public List<LoadedGood> getLoadedGoods() {
+        return loadedGoods;
     }
 }

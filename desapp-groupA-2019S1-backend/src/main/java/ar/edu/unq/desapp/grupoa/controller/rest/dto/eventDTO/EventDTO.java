@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO;
 
-import ar.edu.unq.desapp.grupoa.controller.rest.dto.BaquitaComunitariaDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.dtoHandler.BaquitaComunitaryDTOHandler;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.dtoHandler.BaquitaRepresentativesDTOHandler;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.dtoHandler.CanastaDTOHandler;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.dtoHandler.EventDTOHandler;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.dtoHandler.FiestaDTOHandler;
@@ -27,7 +27,8 @@ import java.util.stream.Collectors;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = FiestaDTO.class, name = "FIESTA"),
         @JsonSubTypes.Type(value = CanastaDTO.class, name = "CANASTA"),
-        @JsonSubTypes.Type(value = BaquitaComunitariaDTO.class, name = "BAQUITA_COMUNITARY")
+        @JsonSubTypes.Type(value = BaquitaComunitariaDTO.class, name = "BAQUITA_COMUNITARY"),
+        @JsonSubTypes.Type(value = BaquitaRepresentativesDTO.class, name = "BAQUITA_REPRESENTATIVES")
 })
 public abstract class EventDTO {
 
@@ -45,6 +46,7 @@ public abstract class EventDTO {
         add(new FiestaDTOHandler());
         add(new CanastaDTOHandler());
         add(new BaquitaComunitaryDTOHandler());
+        add(new BaquitaRepresentativesDTOHandler());
     }};
 
     public static EventDTO fromEvent(Event event) {
