@@ -62,6 +62,17 @@ public class EventController {
     }
 
 
+    @GetMapping(value = "/eventCost/{eventId}")
+    public ResponseEntity<Integer> getEventCost(@PathVariable Integer eventId) {
+        LOGGER.info("Got request GET for Event cost with id {}", eventId);
+        Integer cost = eventService.getEventCost(eventId);
+
+
+        LOGGER.info("Responding with cost for event with id {}", eventId);
+        return new ResponseEntity<>(cost, HttpStatus.OK);
+    }
+
+
     @GetMapping(value = "/in_progress/{userId}")
     public ResponseEntity<List<EventDTO>> eventsInProgress(@PathVariable Integer userId) {
         LOGGER.info("Got request GET for Event In Progress for user {}", userId);

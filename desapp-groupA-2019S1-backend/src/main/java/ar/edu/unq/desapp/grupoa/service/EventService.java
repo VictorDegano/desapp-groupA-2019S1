@@ -136,4 +136,9 @@ public class EventService {
 
         eventDAO.save(event);
     }
+
+    public Integer getEventCost(Integer eventId) {
+        Event event = eventDAO.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
+        return event.totalCost();
+    }
 }
