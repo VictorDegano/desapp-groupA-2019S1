@@ -130,7 +130,7 @@ public class EventService {
 
 
     public void confirmAsistance(Integer eventId, Integer guestId) {
-        Event event = eventDAO.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
+        Event event = getById(eventId);
         Guest guest = guestDAO.findById(guestId).orElseThrow(() -> new GuestNotFoundException(guestId));
         event.confirmAsistancesOf(guest);
 
@@ -138,7 +138,13 @@ public class EventService {
     }
 
     public Integer getEventCost(Integer eventId) {
-        Event event = eventDAO.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
+        Event event = getById(eventId);
         return event.totalCost();
+    }
+
+    public void closeEvent(Integer eventId) {
+        Event event = getById(eventId);
+        event.close();
+        eventDAO.save(event);
     }
 }

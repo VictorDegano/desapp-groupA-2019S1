@@ -49,6 +49,16 @@ public class EventController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping(value = "/closeEvent/{eventId}/")
+    public ResponseEntity<String> closeEvent(@PathVariable Integer eventId) {
+        LOGGER.info("Got request PUT to close event");
+
+        eventService.closeEvent(eventId);
+
+        LOGGER.info("Event with id {} closed",eventId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     @GetMapping(value = "/{eventId}")
     public ResponseEntity<EventDTO> findEvent(@PathVariable Integer eventId) {
