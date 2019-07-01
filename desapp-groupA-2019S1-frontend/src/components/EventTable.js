@@ -6,6 +6,8 @@ import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Button from "react-bootstrap/Button";
+// action
+import {openEventView} from "../actions/ModalViewActions";
 
 function createDataWithJson(jsonDeEvento) {
   return {
@@ -31,12 +33,14 @@ function parseArrayToFunction(rowsArray) {
 class EventTable extends React.Component {
 
   static propTypes = {
-    events: PropTypes.array,
+    openEventView: PropTypes.func.isRequired,
+    events: PropTypes.array
   };
 
   constructor(props, context) {
     super(props, context);
     this.getTraduction = this.getTraduction.bind(this);
+    this.openEventViewModal = this.openEventViewModal.bind(this);
   }
 
   getTraduction(eventType){
@@ -54,6 +58,10 @@ class EventTable extends React.Component {
     if(eventType === 'BAQUITA_REPRESENTATIVES'){
       return t("eventType->littleCowComunitary");
     }
+  }
+
+  openEventViewModal(eventid, eventtype){
+    this.props.openEventView(eventid ,eventtype);
   }
   
   render() {
@@ -73,7 +81,7 @@ class EventTable extends React.Component {
         <tbody>
           {parseArrayToFunction(events).map(row => (
             <tr key={row.name + row.organizer.firstName}>
-              <td><Button>Ver</Button></td>
+              <td><Button onClick={() => this.openEventViewModal(row.id, row.type)}>Ver</Button></td>
               <td>{row.name}</td>
               <td>{this.getTraduction(row.type)}</td>
               <td>{row.organizer.firstName}</td>
@@ -89,10 +97,17 @@ class EventTable extends React.Component {
 function mapStateToProps(state) {
   // console.log('mapStateToProps()')
   return {
-    events: state.EventReducer.events,
+    events: state.EventReducer.events
+  };
+}
+
+function mapDispatchToProps(dispatch){
+  return {
+    openEventView: (eventid,eventtype) => dispatch(openEventView(eventid,eventtype))
   };
 }
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(withTranslation()(EventTable));

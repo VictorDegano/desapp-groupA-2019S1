@@ -19,7 +19,6 @@ import { store } from "../index";
 import history from "../history";
 
 function openModal() {
-  console.log("openModal()");
   store.dispatch({ type: ModalView_Type.OPEN_PROFILE_EDITION });
 }
 

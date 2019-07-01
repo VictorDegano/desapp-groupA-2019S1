@@ -1,4 +1,4 @@
-import * as ACTION_TYPE from "../actions/Action_Types/ModalView_Types.js";
+import * as ACTION_TYPE from "./Action_Types/ModalView_Types";
 
 //Todas las funciones de acciones que hacemos llevan un type que es la accion que realiza y luego la informacion
 export function openProfileEdition() {
@@ -19,10 +19,12 @@ export function closeProfileEdition() {
   };
 }
 
-export function openEventView() {
+export function openEventView(eventid, eventtype) {
   //Las acciones devuelve un objeto
   return {
-    type: ACTION_TYPE.OPEN_EVENT_VIEW
+    type: ACTION_TYPE.OPEN_EVENT_VIEW,
+    eventId: eventid,
+    eventType: eventtype
   };
 }
 

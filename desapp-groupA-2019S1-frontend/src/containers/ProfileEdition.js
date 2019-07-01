@@ -43,7 +43,7 @@ class ProfileEdition extends Component {
     this.handleDismiss = this.handleDismiss.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const loggedUser = this.props.loggedUser;
 
     if(this.props.loggedUser === null){

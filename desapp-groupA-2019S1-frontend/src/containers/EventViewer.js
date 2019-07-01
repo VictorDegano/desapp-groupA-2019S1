@@ -16,8 +16,10 @@ import EventApi from "../api/EventApi";
 
 class EventViewer extends Component {
   static propTypes = {
-    closeModalEvent: PropTypes.func.isRequired,
+    closeEventView: PropTypes.func.isRequired,
     show: PropTypes.bool,
+    eventId: PropTypes.number,
+    eventType: PropTypes.string
   };
 
   constructor(props, context) {
@@ -28,12 +30,13 @@ class EventViewer extends Component {
     this.handleClose = this.handleClose.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    console.log(this.props);
   }
 
   handleClose() {
     // console.log("handleClose()");
-    this.props.closeProfileEdition();
+    this.props.closeEventView();
     this.setState({
       startDate: new Date(),
     });
@@ -42,7 +45,6 @@ class EventViewer extends Component {
   render() {
     const { t } = this.props;
     const show = this.props.show;
-    const { validated } = this.state;
 
     return (
       <>
@@ -92,7 +94,9 @@ class EventViewer extends Component {
 function mapStateToProps(state) {
   // console.log('mapStateToProps()')
   return {
-    show: state.ModalViewReducer.modalEventView
+    show: state.ModalViewReducer.modalEventView,
+    eventId: state.ModalViewReducer.eventId,
+    eventType: state.ModalViewReducer.eventType
   };
 }
 
