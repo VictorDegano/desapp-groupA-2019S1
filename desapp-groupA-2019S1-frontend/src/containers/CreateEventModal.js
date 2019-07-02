@@ -150,8 +150,30 @@ class CreateEventModal extends Component {
     event.preventDefault();
     const eventApi = new EventApi();
     console.log(event);
+    const eventExample = {
+      type: "FIESTA",
+      id: 1,
+      eventName: "pepeFiesta",
+      organizer: this.state.organizer,
+      quantityOfGuest: 1,
+      goods: [],
+      guests: [
+        {
+          guestId: 1,
+          userId: 1,
+          mail: "jose@gmail.com",
+          firstName: "jose",
+          lastName: "macana",
+          confirmAsistance: "PENDING"
+        }
+      ],
+      status: "OPEN",
+      creationDate: [2019, 6, 30, 13, 28, 58, 208000000],
+      limitConfirmationDateTime: [2019, 7, 4, 13, 28, 58, 208000000]
+    };
+
     eventApi
-      .createEvent(event)
+      .createEvent(eventExample)
       .then(response => console.log(response))
       .catch(e => console.log(e));
   }
