@@ -6,12 +6,17 @@ import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Button from "react-bootstrap/Button";
+// action
+import { openEventView } from "../actions/ModalViewActions";
+// API's
+import EventApi from "../api/EventApi";
 
 function createDataWithJson(jsonDeEvento) {
   return {
-    name: jsonDeEvento.name,
+    name: jsonDeEvento.eventName,
     eventType: jsonDeEvento.type,
-    organizer: jsonDeEvento.organizer,
+    organizer:
+      jsonDeEvento.organizer.fistName + " " + jsonDeEvento.organizer.lastName,
     guestsAmount: jsonDeEvento.guestsAmount
   };
 }
@@ -30,29 +35,50 @@ function parseArrayToFunction(rowsArray) {
 
 class EventTable extends React.Component {
   static propTypes = {
-    events: PropTypes.array
+    openEventView: PropTypes.func.isRequired,
+    events: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        eventName: PropTypes.string,
+        eventType: PropTypes.string,
+        organizer: PropTypes.shape({
+          fistName: PropTypes.string,
+          lastName: PropTypes.string
+        }),
+        guestsAmount: PropTypes.number
+      })
+    )
   };
 
   constructor(props, context) {
     super(props, context);
     this.getTraduction = this.getTraduction.bind(this);
+    this.openEventViewModal = this.openEventViewModal.bind(this);
   }
 
   getTraduction(eventType) {
     const { t } = this.props;
+    if (eventType !== undefined) {
+      if (eventType === "FIESTA") {
+        return t("eventType->party");
+      }
+      if (eventType === "CANASTA") {
+        return t("eventType->toBasket");
+      }
+      if (eventType === "BAQUITA_COMUNITARY") {
+        return t("eventType->littleCowRepresentatives");
+      }
+      if (eventType === "BAQUITA_REPRESENTATIVES") {
+        return t("eventType->littleCowComunitary");
+      }
+    }
+  }
 
-    if (eventType === "FIESTA") {
-      return t("eventType->party");
-    }
-    if (eventType === "CANASTA") {
-      return t("eventType->toBasket");
-    }
-    if (eventType === "BAQUITA_COMUNITARY") {
-      return t("eventType->littleCowRepresentatives");
-    }
-    if (eventType === "BAQUITA_REPRESENTATIVES") {
-      return t("eventType->littleCowComunitary");
-    }
+  openEventViewModal(eventid) {
+    const eventApi = new EventApi();
+    eventApi.getEvent(eventid).then(response => {
+      this.props.openEventView(response.data);
+    });
   }
 
   render() {
@@ -71,13 +97,19 @@ class EventTable extends React.Component {
         </thead>
         <tbody>
           {parseArrayToFunction(events).map(row => (
-            <tr key={row.name + row.organizer.firstName}>
+            <tr
+              key={
+                row.eventName + row.organizer.firstName + row.organizer.lastName
+              }
+            >
               <td>
-                <Button>Ver</Button>
+                <Button onClick={() => this.openEventViewModal(row.id)}>
+                  {t("homePage->viewButton")}
+                </Button>
               </td>
-              <td>{row.name}</td>
+              <td>{row.eventName}</td>
               <td>{this.getTraduction(row.type)}</td>
-              <td>{row.organizer.firstName}</td>
+              <td>{row.organizer.fistName + " " + row.organizer.lastName}</td>
               <td>{row.quantityOfGuest}</td>
             </tr>
           ))}
@@ -94,4 +126,13 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(withTranslation()(EventTable));
+function mapDispatchToProps(dispatch) {
+  return {
+    openEventView: eventid => dispatch(openEventView(eventid))
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withTranslation()(EventTable));

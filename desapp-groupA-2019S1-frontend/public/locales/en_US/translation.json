@@ -11,6 +11,21 @@
     "party": "Party",
     "toBasket": "Basket"
   },
+  "eventView": {
+    "button": {
+      "close": "Close"
+    },
+    "confirmationState": {
+      "accepted": "Accepted",
+      "cancelled": "Cancelled",
+      "pending": "Pending"
+    },
+    "creationDate": "Creation Date:",
+    "guest": "Guests:",
+    "guestQuantity": "Guest Quantities:",
+    "organizer": "Organizer:",
+    "status": "Status:"
+  },
   "formatter": {
     "date": "MM/dd/yyyy"
   },
@@ -23,7 +38,8 @@
     },
     "inProgressEventsLabel": "My Events in Progress",
     "lastEventsLabel": "My Last Events",
-    "mostPopularEventsLabel": "Most Popular Events"
+    "mostPopularEventsLabel": "Most Popular Events",
+    "viewButton": "View"
   },
   "language": "Language",
   "loadingState": "Loading...",

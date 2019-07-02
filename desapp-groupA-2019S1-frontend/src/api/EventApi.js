@@ -15,7 +15,7 @@ class EventApi {
       }
     };
 
-    return axios.get(API_CONFIG.endPoint + "fiesta/" + eventNumber, header);
+    return axios.get(API_CONFIG.endPoint + "event/" + eventNumber, header);
   }
 
   getEventosEnCurso(userId) {

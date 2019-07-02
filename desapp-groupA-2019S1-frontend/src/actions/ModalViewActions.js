@@ -37,10 +37,11 @@ export function closeCreateEventModal() {
   };
 }
 
-export function openEventView() {
+export function openEventView(event) {
   //Las acciones devuelve un objeto
   return {
-    type: ACTION_TYPE.OPEN_EVENT_VIEW
+    type: ACTION_TYPE.OPEN_EVENT_VIEW,
+    event: event
   };
 }
 
