@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa.model.event;
 
 import ar.edu.unq.desapp.grupoa.exception.event.InvitationException;
 import ar.edu.unq.desapp.grupoa.exception.event.InvitationLimitException;
+import ar.edu.unq.desapp.grupoa.model.event.baquita.LoadedGood;
 import ar.edu.unq.desapp.grupoa.model.event.createstrategy.CreateEventStrategySelector;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
@@ -10,11 +11,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-
 abstract public class Event {
 
     @Id
@@ -27,7 +28,7 @@ abstract public class Event {
     protected User organizer;
     @OneToMany(cascade = CascadeType.ALL)
     protected List<Guest> guests;
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL)
     protected List<Good> goodsForGuest;
     @Enumerated(EnumType.STRING)
     protected EventStatus status;
@@ -98,7 +99,15 @@ abstract public class Event {
 
     public LocalDateTime getLimitConfirmationDateTime(){   return null; }
 
-    public Integer getConfirmations(){ return 0; }
+    public Integer getConfirmations(){ return guests.stream().filter(guest -> guest.isconfirmed()).collect(Collectors.toList()).size(); }
+
+    public List<Guest> getRepresentatives() {
+        return null;
+    }
+
+    public List<LoadedGood> getLoadedGoods() {
+        return null;
+    }
 
     public LocalDateTime getCreationDate() {    return creationDate;    }
 

@@ -15,7 +15,7 @@ import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.LoadGood.lo
 import static ar.edu.unq.desapp.grupoa.utils.Integer.integer;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.newBaquitaRepresentativesWithOwner;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.newRandomBaquitaRepresentatives;
-import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.withConfirmedGuest;
+import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.withConfirmedGuestForBaquitaRepresentatives;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.withConfirmedRepresentative;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.withLoadedGoodFrom;
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.withRepresentative;
@@ -180,7 +180,7 @@ public class BaquitaRepresentativesTest {
         Guest representative1 = new Guest(randomUser(withAccountBalance(100)));
 
         BaquitaRepresentatives baquita = newBaquitaRepresentativesWithOwner(owner,
-                withConfirmedRepresentative(representative1), withConfirmedGuest(guest1),
+                withConfirmedRepresentative(representative1), withConfirmedGuestForBaquitaRepresentatives(guest1),
                 withLoadedGoodFrom(representative1, 70), withLoadedGoodFrom(representative1, 30)
         );
 

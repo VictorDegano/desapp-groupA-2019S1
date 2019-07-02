@@ -2,6 +2,15 @@ package ar.edu.unq.desapp.grupoa.service.email;
 
 public class Mail {
 
+    public Mail(String from, String to, String subject, String content) {
+        this.from = from;
+        this.to = to;
+        this.subject = subject;
+        this.content = content;
+    }
+
+    public Mail() {
+    }
     private String from;
     private String to;
     private String subject;
@@ -42,7 +51,7 @@ public class Mail {
     @Override
     public String toString() {
         return "Mail{" +
-                "from='" + from + '\'' +
+                "fromEvent='" + from + '\'' +
                 ", to='" + to + '\'' +
                 ", subject='" + subject + '\'' +
                 ", content='" + content + '\'' +

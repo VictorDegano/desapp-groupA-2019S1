@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,9 +32,7 @@ public class User {
     @NotNull(message = "BornDay is mandatory")
     // FIXME: 28/5/2019 ¿esto tiene que ser obligatoriamente date time? por que no solo LocalDate, es la fecha de nacimiento
     private LocalDateTime bornDay;
-    //TODO: Fijarse si se puede resolver desde una funcion
-    @Transient
-    @JsonIgnore
+    @Enumerated(EnumType.STRING)
     private UserState state;
     //TODO: Provisorio, a confirmar
     @Transient
