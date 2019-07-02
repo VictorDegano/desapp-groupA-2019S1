@@ -26,7 +26,7 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- Jacoco injects these variables in runtime from the configured plugin -->
+        <!-- Jacoco injects these variables in runtime fromEvent the configured plugin -->
         <jacoco.version>0.7.6.201602180812</jacoco.version>
         <jacoco.outputDir>${project.build.directory}</jacoco.outputDir>
 

@@ -11,12 +11,12 @@ public class Guest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
+
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
     @Enumerated(EnumType.STRING)
     private InvitationState confirmAsistance;
-
     public void confirmAsistance(){
         this.setConfirmAsistance(InvitationState.ACCEPTED);
     }
@@ -40,10 +40,10 @@ public class Guest {
     public Boolean isCanceled() {
         return this.getConfirmAsistance().equals(InvitationState.CANCELLED);
     }
+
     public Boolean isconfirmed() {
         return this.getConfirmAsistance().equals(InvitationState.ACCEPTED);
     }
-
 /** [}-{]---------------------------------------------[}-{]
     [}-{]----------------[CONSTRUCTORS]---------------[}-{]
     [}-{]---------------------------------------------[}-{]**/
@@ -59,6 +59,10 @@ public class Guest {
     [}-{]---------------------------------------------[}-{]**/
 
     public InvitationState getConfirmAsistance() {  return this.confirmAsistance;    }
+
+    public Integer getId() {
+        return id;
+    }
     public void setConfirmAsistance(InvitationState confirmAsistance) { this.confirmAsistance = confirmAsistance;   }
 
     public User getUser() { return user;    }

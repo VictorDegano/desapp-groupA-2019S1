@@ -1,6 +1,5 @@
 package ar.edu.unq.desapp.grupoa.service;
 
-import ar.edu.unq.desapp.grupoa.controller.rest.dto.DTOConverter;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
 import ar.edu.unq.desapp.grupoa.exception.user.UserNotFoundException;
 import ar.edu.unq.desapp.grupoa.model.Login;
