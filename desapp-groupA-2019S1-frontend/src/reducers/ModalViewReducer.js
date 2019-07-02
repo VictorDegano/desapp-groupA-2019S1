@@ -1,5 +1,5 @@
 const initialState = {
-  modalCreateEventState: null,
+  modalCreateEventState: false,
   modalProfileState: false,
   modalEventView: false,
   event: {
