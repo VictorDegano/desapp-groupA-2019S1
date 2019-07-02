@@ -69,10 +69,10 @@ class App extends React.Component {
         <CreateEventModal />
         <ProfileEdition />
         <Row>
-          <Col xs={2}>
+          <Col xs={4} lg={2}>
             <SideBar />
           </Col>
-          <Col xs={10}>
+          <Col xs={6} lg={10}>
             <MainPanel />
           </Col>
         </Row>
