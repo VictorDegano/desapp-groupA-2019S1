@@ -96,11 +96,7 @@ class EventApi {
       }
     };
 
-    return axios.post(
-      API_CONFIG.endPoint + "event/create_fiesta/",
-      event,
-      header
-    );
+    return axios.post(API_CONFIG.endPoint + "event/", event, header);
   }
 }
 
