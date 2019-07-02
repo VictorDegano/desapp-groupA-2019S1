@@ -1,59 +1,138 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: '100%',
-        marginTop: theme.spacing(3),
-        overflowX: 'auto',
-    },
-    table: {
-        minWidth: 650,
-    },
-}));
+import React from "react";
+import Table from "react-bootstrap/Table";
+// I18n Hook
+import { withTranslation } from "react-i18next";
+// Redux
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import Button from "react-bootstrap/Button";
+// action
+import { openEventView } from "../actions/ModalViewActions";
+// API's
+import EventApi from "../api/EventApi";
 
 function createDataWithJson(jsonDeEvento) {
-    return { name: jsonDeEvento.name,eventType: jsonDeEvento.type,organizer: jsonDeEvento.organizer, guestsAmount: jsonDeEvento.guestsAmount};
+  return {
+    name: jsonDeEvento.eventName,
+    eventType: jsonDeEvento.type,
+    organizer:
+      jsonDeEvento.organizer.fistName + " " + jsonDeEvento.organizer.lastName,
+    guestsAmount: jsonDeEvento.guestsAmount
+  };
 }
 function parseArrayToFunction(rowsArray) {
-    return rowsArray.flat(row=> createDataWithJson(row));
+  //Esto saca los duplicados hasta que se arregle de la api
+  var includedIds = [];
+  var uniqueElements = [];
+  rowsArray.forEach(e => {
+    if (!includedIds.includes(e.id)) {
+      uniqueElements.push(e);
+      includedIds.push(e.id);
+    }
+  });
+  return uniqueElements.flat(row => createDataWithJson(row));
 }
 
-function EventTable(props) {
-    const classes = useStyles();
+class EventTable extends React.Component {
+  static propTypes = {
+    openEventView: PropTypes.func.isRequired,
+    events: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        eventName: PropTypes.string,
+        eventType: PropTypes.string,
+        organizer: PropTypes.shape({
+          fistName: PropTypes.string,
+          lastName: PropTypes.string
+        }),
+        guestsAmount: PropTypes.number
+      })
+    )
+  };
 
+  constructor(props, context) {
+    super(props, context);
+    this.getTraduction = this.getTraduction.bind(this);
+    this.openEventViewModal = this.openEventViewModal.bind(this);
+  }
+
+  getTraduction(eventType) {
+    const { t } = this.props;
+    if (eventType !== undefined) {
+      if (eventType === "FIESTA") {
+        return t("eventType->party");
+      }
+      if (eventType === "CANASTA") {
+        return t("eventType->toBasket");
+      }
+      if (eventType === "BAQUITA_COMUNITARY") {
+        return t("eventType->littleCowRepresentatives");
+      }
+      if (eventType === "BAQUITA_REPRESENTATIVES") {
+        return t("eventType->littleCowComunitary");
+      }
+    }
+  }
+
+  openEventViewModal(eventid) {
+    const eventApi = new EventApi();
+    eventApi.getEvent(eventid).then(response => {
+      this.props.openEventView(response.data);
+    });
+  }
+
+  render() {
+    const { t } = this.props;
+    const events = this.props.events;
     return (
-        <Paper className={classes.root}>
-            <Table className={classes.table}>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Nombre</TableCell>
-                        <TableCell align="right">Tipo de evento</TableCell>
-                        <TableCell align="right">Organiza</TableCell>
-                        <TableCell align="right">Cantidad de invitados</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {parseArrayToFunction(props.arrayDeEventos).map(row => (
-                        <TableRow key={row.name}>
-                            <TableCell component="th" scope="row">
-                                {row.name}
-                            </TableCell>
-                            <TableCell align="right">{row.type}</TableCell>
-                            <TableCell align="right">{row.organizer.firstName}</TableCell>
-                            <TableCell align="right">{row.quantityOfGuest}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </Paper>
+      <Table striped bordered hover variant="dark">
+        <thead>
+          <tr>
+            <th />
+            <th>{t("homePage->eventTable->nameColumn")}</th>
+            <th>{t("homePage->eventTable->eventTypeColumn")}</th>
+            <th>{t("homePage->eventTable->organizerColumn")}</th>
+            <th>{t("homePage->eventTable->quantityGuestColumn")}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {parseArrayToFunction(events).map(row => (
+            <tr
+              key={
+                row.eventName + row.organizer.firstName + row.organizer.lastName
+              }
+            >
+              <td>
+                <Button onClick={() => this.openEventViewModal(row.id)}>
+                  {t("homePage->viewButton")}
+                </Button>
+              </td>
+              <td>{row.eventName}</td>
+              <td>{this.getTraduction(row.type)}</td>
+              <td>{row.organizer.fistName + " " + row.organizer.lastName}</td>
+              <td>{row.quantityOfGuest}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     );
+  }
 }
 
-export default EventTable;
+function mapStateToProps(state) {
+  // console.log('mapStateToProps()')
+  return {
+    events: state.EventReducer.events
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    openEventView: eventid => dispatch(openEventView(eventid))
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withTranslation()(EventTable));

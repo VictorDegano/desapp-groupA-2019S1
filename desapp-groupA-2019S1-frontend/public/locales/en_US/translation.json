@@ -1,0 +1,107 @@
+{
+  "callbackPage": {
+    "clickButton": "Click Here",
+    "description": "Will be redirected soon.\nIf you don't want wait",
+    "title": "Welcome!"
+  },
+  "englishLanguage": "English",
+  "eventType": {
+    "littleCowComunitary": "Little Cow Comunitary",
+    "littleCowRepresentatives": "Little Cow Representatives",
+    "party": "Party",
+    "toBasket": "Basket"
+  },
+  "eventView": {
+    "button": {
+      "close": "Close"
+    },
+    "confirmationState": {
+      "accepted": "Accepted",
+      "cancelled": "Cancelled",
+      "pending": "Pending"
+    },
+    "creationDate": "Creation Date:",
+    "guest": "Guests:",
+    "guestQuantity": "Guest Quantities:",
+    "organizer": "Organizer:",
+    "status": "Status:"
+  },
+  "formatter": {
+    "date": "MM/dd/yyyy"
+  },
+  "homePage": {
+    "eventTable": {
+      "eventTypeColumn": "Event Type",
+      "nameColumn": "Name",
+      "organizerColumn": "Organize",
+      "quantityGuestColumn": "Guest Quantity"
+    },
+    "inProgressEventsLabel": "My Events in Progress",
+    "lastEventsLabel": "My Last Events",
+    "mostPopularEventsLabel": "Most Popular Events",
+    "viewButton": "View"
+  },
+  "language": "Language",
+  "loadingState": "Loading...",
+  "loginPage": {
+    "button": "Enter",
+    "description": "The event portal designed for you and your friends.",
+    "panelBody": "In order to access the portal you must login. Please use the following methods:",
+    "panelHeader": "Welcome to Eventeando!",
+    "slogan": "Eventeando, where the get together with your friends is just beginning...",
+    "title": "Eveteando"
+  },
+  "navBar": {
+    "createEvent": "Create Event",
+    "eventeando": "Eventeando",
+    "home": "Home",
+    "searchButton": "Search",
+    "searchPlaceholder": "Search Event..."
+  },
+  "profileDropdown": {
+    "editProfile": "Edit Profile",
+    "logOut": "Logout"
+  },
+  "profileEditionModal": {
+    "buttons": {
+      "close": "Close",
+      "save": "Save"
+    },
+    "form": {
+      "bornDate": "Born Date:",
+      "bornDatePlaceholder": "Enter your born date...",
+      "email": "Email:",
+      "emailPlaceholder": "Enter an email",
+      "firstName": "First Name:",
+      "firstNamePlaceholder": "Enter your name",
+      "lastName": "Last Name:",
+      "lastNamePlaceholder": "Enter your last name"
+    },
+    "title": "Profile Edition"
+  },
+  "sidebar": {
+    "createEventButton": "Create Event",
+    "inProgressButton": "In Progress",
+    "lastButton": "Last",
+    "myEventsLabel": "My Events",
+    "popularsButton": "Most Populars"
+  },
+  "createEventModal": {
+    "buttons": {
+      "close": "Close",
+      "save": "Save"
+    },
+    "form": {
+      "bornDate": "Born Date:",
+      "bornDatePlaceholder": "Enter your born date...",
+      "email": "Email:",
+      "emailPlaceholder": "Enter an email",
+      "firstName": "First Name:",
+      "firstNamePlaceholder": "Enter your name",
+      "lastName": "Last Name:",
+      "lastNamePlaceholder": "Enter your last name"
+    },
+    "title": "Create Event"
+  },
+  "spanishLanguage": "Spanish"
+}

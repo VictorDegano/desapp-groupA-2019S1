@@ -3,7 +3,14 @@ package ar.edu.unq.desapp.grupoa.model.event.canasta;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class CanastaGood extends Good {
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private User userThatOwnsTheGood;
 
     public CanastaGood(String name, Integer price, Integer quantity) {

@@ -68,10 +68,10 @@ public class FiestaTest {
 
         assertEquals("No se calculo la cantidad final del Good al confirmar la asistencia",
                       Integer.valueOf(2),
-                      goodsAfterConfirm.get(0).finalQuantity());
+                      goodsAfterConfirm.get(0).getFinalQuantity());
         assertEquals("No se calculo la cantidad final del Good al confirmar la asistencia",
                       Integer.valueOf(1),
-                      goodsAfterConfirm.get(1).finalQuantity());
+                      goodsAfterConfirm.get(1).getFinalQuantity());
     }
 
     @Test
@@ -115,7 +115,7 @@ public class FiestaTest {
                      fiestaSUT.getConfirmations());
         assertEquals("Ocurrio la Excepcion y se cambio la cantidad final de los Goods! ¡No tiene que pasar!",
                      Integer.valueOf(1),
-                     fiestaSUT.getGoodsForGuest().get(0).finalQuantity());
+                     fiestaSUT.getGoodsForGuest().get(0).getFinalQuantity());
     }
 
     @Test

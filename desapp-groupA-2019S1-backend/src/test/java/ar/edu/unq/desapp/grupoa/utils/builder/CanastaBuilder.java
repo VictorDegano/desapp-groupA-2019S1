@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa.utils.builder;
 
 import ar.edu.unq.desapp.grupoa.model.event.EventStatus;
+import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.CanastaGood;
@@ -8,6 +9,7 @@ import ar.edu.unq.desapp.grupoa.model.user.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CanastaBuilder {
 
@@ -65,4 +67,8 @@ public class CanastaBuilder {
         return this.canasta;
     }
 
+    public CanastaBuilder withGoods(List<Good> canastaGoods) {
+        this.canasta.setGoodsForGuest(canastaGoods);
+        return this;
+    }
 }

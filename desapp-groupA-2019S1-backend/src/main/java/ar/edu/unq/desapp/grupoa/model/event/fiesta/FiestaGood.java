@@ -2,6 +2,9 @@ package ar.edu.unq.desapp.grupoa.model.event.fiesta;
 
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 
+import javax.persistence.Entity;
+
+@Entity
 public class FiestaGood extends Good {
 
     private Integer finalQuantity;
@@ -16,7 +19,7 @@ public class FiestaGood extends Good {
     }
 
     @Override
-    public Integer finalQuantity() { return this.finalQuantity;   }
+    public Integer getFinalQuantity() { return this.finalQuantity;   }
 
     public Boolean hasOwner() {
         return false;
