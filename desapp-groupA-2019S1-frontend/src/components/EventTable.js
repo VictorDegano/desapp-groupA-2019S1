@@ -1,6 +1,11 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
+// I18n Hook
+import { withTranslation } from "react-i18next";
+// Redux
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import Button from "react-bootstrap/Button";
 
 function createDataWithJson(jsonDeEvento) {
   return {
@@ -25,32 +30,53 @@ function parseArrayToFunction(rowsArray) {
 
 class EventTable extends React.Component {
   static propTypes = {
-    arrayDeEventos: PropTypes.array
-  };
-  static defaultProps = {
-    arrayDeEventos: []
+    events: PropTypes.array
   };
 
   constructor(props, context) {
     super(props, context);
+    this.getTraduction = this.getTraduction.bind(this);
+  }
+
+  getTraduction(eventType) {
+    const { t } = this.props;
+
+    if (eventType === "FIESTA") {
+      return t("eventType->party");
+    }
+    if (eventType === "CANASTA") {
+      return t("eventType->toBasket");
+    }
+    if (eventType === "BAQUITA_COMUNITARY") {
+      return t("eventType->littleCowRepresentatives");
+    }
+    if (eventType === "BAQUITA_REPRESENTATIVES") {
+      return t("eventType->littleCowComunitary");
+    }
   }
 
   render() {
+    const { t } = this.props;
+    const events = this.props.events;
     return (
       <Table striped bordered hover variant="dark">
         <thead>
           <tr>
-            <th>Nombre</th>
-            <th>Tipo de evento</th>
-            <th>Organiza</th>
-            <th>Cantidad de invitados</th>
+            <th />
+            <th>{t("homePage->eventTable->nameColumn")}</th>
+            <th>{t("homePage->eventTable->eventTypeColumn")}</th>
+            <th>{t("homePage->eventTable->organizerColumn")}</th>
+            <th>{t("homePage->eventTable->quantityGuestColumn")}</th>
           </tr>
         </thead>
         <tbody>
-          {parseArrayToFunction(this.props.arrayDeEventos).map(row => (
+          {parseArrayToFunction(events).map(row => (
             <tr key={row.name + row.organizer.firstName}>
+              <td>
+                <Button>Ver</Button>
+              </td>
               <td>{row.name}</td>
-              <td>{row.type}</td>
+              <td>{this.getTraduction(row.type)}</td>
               <td>{row.organizer.firstName}</td>
               <td>{row.quantityOfGuest}</td>
             </tr>
@@ -61,4 +87,11 @@ class EventTable extends React.Component {
   }
 }
 
-export default EventTable;
+function mapStateToProps(state) {
+  // console.log('mapStateToProps()')
+  return {
+    events: state.EventReducer.events
+  };
+}
+
+export default connect(mapStateToProps)(withTranslation()(EventTable));

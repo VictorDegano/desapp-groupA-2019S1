@@ -97,7 +97,6 @@ export default class Auth {
   }
 
   retrieveLoggedUser() {
-    console.log("retrieveLoggedUser()");
     const userApi = new UserApi();
 
     const userToPost = {
@@ -109,7 +108,7 @@ export default class Auth {
     };
 
     userApi.loginUser(userToPost).then(user => {
-      console.log(user);
+      localStorage.setItem("id", user.id);
       store.dispatch({ type: User_Type.LOGIN_USER, payload: user });
     });
   }

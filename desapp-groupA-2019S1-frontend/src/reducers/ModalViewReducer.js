@@ -1,5 +1,6 @@
 const initialState = {
   modalProfileState: null,
+  modalEventView: null,
   modalCreateEventState: null
 };
 
@@ -33,6 +34,20 @@ export default function userReducer(state = initialState, action) {
       // console.log('case CLOSE_PROFILE_EDITION');
       return Object.assign({}, state, {
         modalCreateEventState: false
+      });
+    }
+
+    case "OPEN_EVENT_VIEW": {
+      // console.log('case OPEN_EVENT_VIEW');
+      return Object.assign({}, state, {
+        modalEventView: true
+      });
+    }
+
+    case "CLOSE_EVENT_VIEW": {
+      // console.log('case CLOSE_EVENT_VIEW');
+      return Object.assign({}, state, {
+        modalEventView: false
       });
     }
 

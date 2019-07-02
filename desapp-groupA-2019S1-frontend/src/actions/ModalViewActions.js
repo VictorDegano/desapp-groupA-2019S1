@@ -36,3 +36,17 @@ export function closeCreateEventModal() {
     type: ACTION_TYPE.CLOSE_CREATE_EVENT_MODAL
   };
 }
+
+export function openEventView() {
+  //Las acciones devuelve un objeto
+  return {
+    type: ACTION_TYPE.OPEN_EVENT_VIEW
+  };
+}
+
+export function closeEventView() {
+  //Las acciones devuelve un objeto
+  return {
+    type: ACTION_TYPE.CLOSE_EVENT_VIEW
+  };
+}

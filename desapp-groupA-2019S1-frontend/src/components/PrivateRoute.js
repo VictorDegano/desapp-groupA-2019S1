@@ -19,7 +19,7 @@ import { auth } from "../components/Root.js";
 */
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
-  //TODO: Estaria bueno que te mande a una pagina que daiga que no estas logeado y te envie al login,
+  //TODO: Estaria bueno que te mande a una pagina que diga que no estas logeado y te envie al login,
   <Route
     {...rest}
     component={props =>

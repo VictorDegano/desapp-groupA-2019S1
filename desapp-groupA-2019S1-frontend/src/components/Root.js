@@ -16,7 +16,7 @@ import CreateEvent from "./CreateEvent";
 
 export const auth = new Auth();
 
-const Loader = () => <div>loading...</div>;
+const Loader = () => <div></div>;
 
 //El tag provider hace que todo lo que este dentro de este tag, este conectado al store de redux
 const Root = ({ store }) => (

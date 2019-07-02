@@ -84,7 +84,6 @@ class CreateEventModal extends Component {
         guests: [],
         goods: [],
         limitTime: new Date().toISOString()
-
       };
 
       const eventApi = new EventApi();
