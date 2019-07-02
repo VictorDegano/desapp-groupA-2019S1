@@ -10,228 +10,148 @@ import Form from "react-bootstrap/Form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
-import "../css/ProfileEdition.css";
-import Alert from "react-bootstrap/Alert";
+import ListGroup from "react-bootstrap/ListGroup";
+import Badge from "react-bootstrap/Badge";
 //Actions
-import { updateLoggedUser } from "../actions/UserActions";
 import { closeCreateEventModal } from "../actions/ModalViewActions";
-// API's
-import UserApi from "../api/UserApi";
-import { Redirect } from "react-router";
-import EventApi from "../api/EventApi";
+// css
+import "../css/ProfileEdition.css";
 
 class CreateEventModal extends Component {
   static propTypes = {
-    updateLoggedUser: PropTypes.func.isRequired,
     closeCreateEventModal: PropTypes.func.isRequired,
-    show: PropTypes.bool,
-    loggedUser: PropTypes.object
+    show: PropTypes.bool.isRequired,
+    event: PropTypes.shape({
+      eventName: PropTypes.string.isRequired,
+      creationDate: PropTypes.string.isRequired
+    }).isRequired
   };
 
   constructor(props, context) {
     super(props, context);
-    this.state = {
-      startDate: new Date(),
-      showAlert: false,
-      messageAlert: ""
-    };
     this.handleClose = this.handleClose.bind(this);
-    this.handleSave = this.handleSave.bind(this);
-    this.handleBornDateChange = this.handleBornDateChange.bind(this);
-    this.checkValidation = this.checkValidation.bind(this);
-    this.handleDismiss = this.handleDismiss.bind(this);
-  }
-
-  componentWillMount() {
-    const loggedUser = this.props.loggedUser;
-
-    this.setState({
-      startDate: new Date(loggedUser.bornDate)
-    });
-  }
-
-  handleBornDateChange(date) {
-    // this.selectedDate = date;
-    this.setState({
-      startDate: date
-    });
-  }
-
-  handleSave(event) {
-    // console.log("handleSave()");
-    event.preventDefault();
-    const userApi = new UserApi();
-
-    if (this.checkValidation(event)) {
-      const loggedUser = this.props.loggedUser;
-      let userId = loggedUser.id;
-      let eventToCreate = {
-        organizer: loggedUser,
-        name: event.target[1].value,
-        lastName: event.target[2].value,
-        email: loggedUser.email,
-        creationDate: this.state.startDate.toISOString(),
-        guests: [],
-        goods: [],
-        limitTime: new Date().toISOString()
-      };
-
-      const eventApi = new EventApi();
-      console.log(eventToCreate);
-      eventApi
-        .createEvent(eventToCreate)
-        .then(response => {
-          console.log(response);
-          this.handleClose();
-        })
-        .catch(error => {
-          alert("An error has occurred, please try again");
-        });
-    } else {
-      event.stopPropagation();
-      this.setState({
-        showAlert: true,
-        messageAlert: this.getError(event)
-      });
-    }
-  }
-
-  checkValidation(event) {
-    return (
-      event.target[1].value !== "" &&
-      event.target[2].value !== "" &&
-      (this.state.startDate !== null &&
-        this.state.startDate <= new Date() &&
-        this.state.startDate >= new Date("01/01/1900"))
+    this.getEventTime = this.getEventTime.bind(this);
+    this.getBadgeColour = this.getBadgeColour.bind(this);
+    this.getConfirmationStateTraslation = this.getConfirmationStateTraslation.bind(
+      this
     );
   }
 
-  getError(event) {
-    let error = "";
-    if (event.target[1].value === "") {
-      error += error !== "" ? "\n" : "";
-      error += "El nombre no puede ser vacio";
+  getEventTime() {
+    if (this.props.event.creationDate !== "") {
+      return new Date(this.props.event.creationDate);
     }
-    if (event.target[2].value === "") {
-      error += error !== "" ? "\n" : "";
-      error += "El Apellido no puede ser vacio";
-    }
-    if (
-      this.state.startDate === null ||
-      (this.state.startDate > new Date()) |
-        (this.state.startDate < new Date("01/01/1900"))
-    ) {
-      error += error !== "" ? "\n" : "";
-      error += "La fecha tiene que ser menor a hoy y mayor a 01/01/1990";
-    }
+    return this.props.event.creationDate;
+  }
 
-    return error;
+  getBadgeColour(confirmation) {
+    if (confirmation !== undefined) {
+      if (confirmation === "PENDING") {
+        return "warning";
+      }
+      if (confirmation === "ACCEPTED") {
+        return "success";
+      }
+      if (confirmation === "CANCELLED") {
+        return "danger";
+      }
+    } else {
+      return "dark";
+    }
+  }
+
+  getConfirmationStateTraslation(confirmation) {
+    const { t } = this.props;
+    if (confirmation !== undefined) {
+      if (confirmation === "PENDING") {
+        return t("eventView->confirmationState->pending");
+      }
+      if (confirmation === "ACCEPTED") {
+        return t("eventView->confirmationState->accepted");
+      }
+      if (confirmation === "CANCELLED") {
+        return t("eventView->confirmationState->cancelled");
+      }
+    } else {
+      return "";
+    }
   }
 
   handleClose() {
-    // console.log("handleClose()");
     this.props.closeCreateEventModal();
-    this.setState({
-      startDate: new Date(),
-      showAlert: false,
-      messageAlert: ""
-    });
-  }
-
-  handleDismiss() {
-    this.setState({
-      showAlert: false,
-      messageAlert: ""
-    });
   }
 
   render() {
     const { t } = this.props;
-    const loggedUser = this.props.loggedUser;
     const show = this.props.show;
-    const { validated } = this.state;
-
+    const event = this.props.event;
     return (
       <>
         <Modal show={show} onHide={this.handleClose}>
-          <Alert
-            variant="danger"
-            show={this.state.showAlert}
-            onClose={this.handleDismiss}
-            dismissible
-          >
-            <Alert.Heading>¡Error!</Alert.Heading>
-            <p>{this.state.messageAlert}</p>
-          </Alert>
-          <Form onSubmit={this.handleSave} noValidate validated={validated}>
-            <Modal.Header closeButton>
-              <Modal.Title>{t("createEventModal->title")}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form.Group controlId="formBasicFirstName">
-                <Form.Label>
-                  {t("createEventModal->form->firstName")}
-                </Form.Label>
-                <Form.Control
-                  required
-                  type="text"
-                  placeholder={t(
-                    "createEventModal->form->firstNamePlaceholder"
-                  )}
-                  defaultValue={loggedUser.fistName}
-                />
-              </Form.Group>
-              <Form.Group controlId="createEventForm.EventTypes">
-                <Form.Label>Tipo de Evento</Form.Label>
-                <Form.Control as="select">
-                  <option>Fiesta</option>
-                  <option>Canasta</option>
-                  <option>Baquita Comunitaria</option>
-                  <option>Baquita Representantes</option>
-                </Form.Control>
-              </Form.Group>
-
-              <Form.Group controlId="formBasicBornDate">
-                <Form.Label>{t("createEventModal->form->bornDate")}</Form.Label>
-                <div className="containerDatePicker">
-                  <DatePicker
-                    required
-                    className="Form.Control"
-                    minDate={new Date("01/01/1900")}
-                    maxDate={new Date()}
-                    selected={this.state.startDate}
-                    onChange={this.handleBornDateChange}
-                    dateFormat={t("formatter->date")}
-                    placeholderText={t(
-                      "createEventModal->form->bornDatePlaceholder"
-                    )}
-                    showYearDropdown
-                    scrollableYearDropdown
-                    yearDropdownItemNumber={80}
-                    fixedHeight
-                  />
-                </div>
-              </Form.Group>
-              <Form.Group controlId="createEventForm.Organizer">
-                <Form.Label>Organizador</Form.Label>
-                <Form.Control
-                  required
-                  type="text"
-                  // placeholder={t("createEventModal->form->emailPlaceholder")}
-                  disabled
-                  defaultValue={loggedUser.fistName + " " + loggedUser.lastName}
-                />
-              </Form.Group>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.handleClose}>
-                {t("createEventModal->buttons->close")}
-              </Button>
-              <Button variant="primary" type="submit">
-                {t("createEventModal->buttons->save")}
-              </Button>
-            </Modal.Footer>
-          </Form>
+          <Modal.Header closeButton>
+            <Modal.Title>{event.eventName}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Label>{t("eventView->status")}</Form.Label>
+            <Form.Control plaintext readOnly defaultValue={event.status} />
+            <Form.Label>{t("eventView->organizer")}</Form.Label>
+            <Form.Control
+              plaintext
+              readOnly
+              defaultValue={
+                event.organizer.fistName + " " + event.organizer.lastName
+              }
+            />
+            <Form.Label>{t("eventView->creationDate")}</Form.Label>
+            <div className="containerDatePicker">
+              <DatePicker
+                readOnly
+                disabled
+                className="Form.Control"
+                minDate={new Date("01/01/1900")}
+                maxDate={new Date()}
+                selected={this.getEventTime()}
+                dateFormat={t("formatter->date")}
+                showYearDropdown
+                scrollableYearDropdown
+                yearDropdownItemNumber={80}
+                fixedHeight
+              />
+            </div>
+            <Form.Label>{t("eventView->guestQuantity")}</Form.Label>
+            <Form.Control
+              plaintext
+              readOnly
+              defaultValue={event.quantityOfGuest}
+            />
+            <Form.Label>{t("eventView->guest")}</Form.Label>
+            <ListGroup as="ul" variant="flush">
+              {event.guests.map(guest => {
+                return (
+                  <ListGroup.Item
+                    key={guest.firstName + guest.email + guest.lastName}
+                    as="li"
+                  >
+                    <p>
+                      {guest.firstName + " " + guest.lastName}
+                      <Badge
+                        variant={this.getBadgeColour(guest.confirmAsistance)}
+                      >
+                        {this.getConfirmationStateTraslation(
+                          guest.confirmAsistance
+                        )}
+                      </Badge>
+                    </p>
+                  </ListGroup.Item>
+                );
+              })}
+            </ListGroup>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.handleClose}>
+              {t("eventView->button->close")}
+            </Button>
+          </Modal.Footer>
         </Modal>
       </>
     );
@@ -242,18 +162,15 @@ function mapStateToProps(state) {
   // console.log('mapStateToProps()')
   return {
     show: state.ModalViewReducer.modalCreateEventState,
-    loggedUser: state.UserReducer.loggedUser
+    event: state.ModalViewReducer.event
   };
 }
 
 const mapDispatchToProps = dispatch => ({
-  updateLoggedUser: user => dispatch(updateLoggedUser(user)),
   closeCreateEventModal: () => dispatch(closeCreateEventModal())
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-  // ModalViewActions,
-  // UserActions
 )(withTranslation()(CreateEventModal));
