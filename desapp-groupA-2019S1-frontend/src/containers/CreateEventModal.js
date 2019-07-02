@@ -50,16 +50,6 @@ class CreateEventModal extends Component {
     });
   }
 
-  handleClose() {
-    // console.log("handleClose()");
-    this.props.closeCreateEventModal();
-    this.setState({
-      startDate: new Date(),
-      showAlert: false,
-      messageAlert: ""
-    });
-  }
-
   handleBornDateChange(date) {
     // this.selectedDate = date;
     this.setState({
@@ -136,6 +126,16 @@ class CreateEventModal extends Component {
     }
 
     return error;
+  }
+
+  handleClose() {
+    // console.log("handleClose()");
+    this.props.closeCreateEventModal();
+    this.setState({
+      startDate: new Date(),
+      showAlert: false,
+      messageAlert: ""
+    });
   }
 
   handleDismiss() {
