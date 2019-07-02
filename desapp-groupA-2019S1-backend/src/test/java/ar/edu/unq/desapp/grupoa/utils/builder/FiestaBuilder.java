@@ -8,6 +8,7 @@ import ar.edu.unq.desapp.grupoa.model.user.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FiestaBuilder {
 
@@ -49,6 +50,12 @@ public class FiestaBuilder {
         this.fiesta.setLimitConfirmationDateTime(limitConfirmationDate);
         return this;
     }
+
+    public FiestaBuilder withGoods(List<Good> goods){
+        this.fiesta.setGoodsForGuest(goods);
+        return this;
+    }
+
 
     public FiestaBuilder withConfirmations(Integer quantityOfConfirmations){
         this.fiesta.setConfirmations(quantityOfConfirmations);

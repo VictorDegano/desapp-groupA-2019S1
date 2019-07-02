@@ -12,6 +12,15 @@ public class EmailSenderService {
     @Autowired
     private JavaMailSender javaMailSender;
 
+
+    public void sendInvitation(String mailOwner, String mailGuest, String nameGuest, String eventName){
+        String subject=String.format("Invitacion a Evento %s", eventName);
+        String content=String.format("Hola %s! Fuiste invitado al evento %s",nameGuest,eventName);
+
+
+        new Mail(mailOwner,mailGuest,subject,content);
+    }
+
     public void send(Mail mail){
         SimpleMailMessage message = new SimpleMailMessage();
         message.setSubject(mail.getSubject());

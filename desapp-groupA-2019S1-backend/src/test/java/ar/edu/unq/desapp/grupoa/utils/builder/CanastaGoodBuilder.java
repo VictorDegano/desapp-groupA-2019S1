@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa.utils.builder;
 
+import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.CanastaGood;
 
 public class CanastaGoodBuilder {
@@ -31,5 +32,10 @@ public class CanastaGoodBuilder {
 
     public CanastaGood build(){
         return this.aCanastaGood;
+    }
+
+    public CanastaGoodBuilder withUserThatOwnsTheGood(Guest firstGuest) {
+        this.aCanastaGood.setUserThatOwnsTheGood(firstGuest.getUser());
+        return this;
     }
 }

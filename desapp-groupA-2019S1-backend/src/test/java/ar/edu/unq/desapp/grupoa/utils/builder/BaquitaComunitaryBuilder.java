@@ -40,6 +40,13 @@ public class BaquitaComunitaryBuilder {
         };
     }
 
+    public static Function<BaquitaComunitary, BaquitaComunitary> withUnconfirmedGuest(Guest guest) {
+        return (baquita) -> {
+            baquita.addGuest(guest);
+            return baquita;
+        };
+    }
+
     public static Function<BaquitaComunitary, BaquitaComunitary> withGood(Good good) {
         return (baquita) -> {
             baquita.addGood(good);
