@@ -105,7 +105,7 @@ public class EventController {
         return new ResponseEntity<>(eventsDTOList, HttpStatus.OK);
     }
 
-    @GetMapping("/event/most_popular_events/")
+    @GetMapping("/most_popular_events/")
     public ResponseEntity<List<EventDTO>> mostPopularEvents(){
         LOGGER.info("Got request GET for Last Event of user");
 

@@ -132,7 +132,7 @@ class EventViewer extends Component {
             <ListGroup as="ul" variant="flush">
               {event.guests.map(guest => {
                 return (
-                  <ListGroup.Item as="li">
+                  <ListGroup.Item key={guest.firstName+guest.email+guest.lastName} as="li">
                     <p>{guest.firstName+" "+guest.lastName}
                       <Badge variant={this.getBadgeColour(guest.confirmAsistance)}>
                         {this.getConfirmationStateTraslation(guest.confirmAsistance)}
