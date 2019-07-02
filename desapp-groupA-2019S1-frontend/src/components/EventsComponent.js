@@ -1,13 +1,19 @@
 import React from "react";
+// Redux
+import { connect } from "react-redux";
 import EventTable from "./EventTable";
+// I18n Hook
+import { withTranslation } from "react-i18next";
 
-function EventsComponent(props) {
-  return (
-    <div>
-      <h1>{props.title}</h1>
-      <EventTable arrayDeEventos={props.arrayDeEventos} />
-    </div>
-  );
+const EventsComponent = props => (
+  <div>
+    <h1 className="text-white">{props.t(props.eventTableTitle)}</h1>
+    <EventTable />
+  </div>
+);
+
+function mapStateToProps(state) {
+  return { eventTableTitle: state.EventReducer.eventTableTitle };
 }
 
-export default EventsComponent;
+export default connect(mapStateToProps)(withTranslation()(EventsComponent));

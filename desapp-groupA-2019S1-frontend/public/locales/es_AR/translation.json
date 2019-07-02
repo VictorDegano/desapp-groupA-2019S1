@@ -5,10 +5,44 @@
     "title": "¡Bienvenido!"
   },
   "englishLanguage": "Ingles",
+  "eventType": {
+    "littleCowComunitary": "Baquita Comunitaria",
+    "littleCowRepresentatives": "Baquita Representantes",
+    "party": "Fiesta",
+    "toBasket": "Canasta"
+  },
+  "eventView": {
+    "button": {
+      "close": "Cerrar"
+    },
+    "confirmationState": {
+      "accepted": "Aceptada",
+      "cancelled": "Cancelada",
+      "pending": "Pendiente"
+    },
+    "creationDate": "Fecha de Creacion:",
+    "guest": "Invitados:",
+    "guestQuantity": "Cantidad de Invitados:",
+    "organizer": "Organizador:",
+    "status": "Estado:"
+  },
   "formatter": {
     "date": "dd/MM/yyyy"
   },
+  "homePage": {
+    "eventTable": {
+      "eventTypeColumn": "Tipo de Evento",
+      "nameColumn": "Nombre",
+      "organizerColumn": "Organiza",
+      "quantityGuestColumn": "Cantidad de Invitados"
+    },
+    "inProgressEventsLabel": "Mis Eventos En Curso",
+    "lastEventsLabel": "Mis Ultimos Eventos",
+    "mostPopularEventsLabel": "Eventos Mas Populares",
+    "viewButton": "Ver"
+  },
   "language": "Idioma",
+  "loadingState": "Cargando...",
   "loginPage": {
     "button": "Ingresar",
     "description": "El portal de Eventos pensado para vos y tus amigos.",
@@ -16,6 +50,17 @@
     "panelHeader": "¡Bienvenidos a Eventeando!",
     "slogan": "Eventeando, donde la juntada con tus amigos apenas comienza...",
     "title": "Eventeando"
+  },
+  "navBar": {
+    "createEvent": "Crear Evento",
+    "eventeando": "Eventeando",
+    "home": "Inicio",
+    "searchButton": "Buscar",
+    "searchPlaceholder": "Buscar Evento..."
+  },
+  "profileDropdown": {
+    "editProfile": "Editar Perfil",
+    "logOut": "Salir"
   },
   "profileEditionModal": {
     "buttons": {
@@ -33,6 +78,30 @@
       "lastNamePlaceholder": "Ingrese su apellido"
     },
     "title": "Edicion de Perfil"
+  },
+  "createEventModal": {
+    "buttons": {
+      "close": "Cerrar",
+      "save": "Guardar"
+    },
+    "form": {
+      "bornDate": "Fecha de Nacimiento:",
+      "bornDatePlaceholder": "Ingrese su fecha de nacimiento...",
+      "email": "Correo Electronico:",
+      "emailPlaceholder": "Ingrese un correo",
+      "firstName": "Nombre:",
+      "firstNamePlaceholder": "Ingrese su nombre",
+      "lastName": "Apellido:",
+      "lastNamePlaceholder": "Ingrese su apellido"
+    },
+    "title": "Crear Evento"
+  },
+  "sidebar": {
+    "createEventButton": "Crear Evento",
+    "inProgressButton": "En Curso",
+    "lastButton": "Ultimos",
+    "myEventsLabel": "Mis Eventos",
+    "popularsButton": "Mas Populares"
   },
   "spanishLanguage": "Español"
 }

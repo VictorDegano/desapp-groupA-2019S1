@@ -30,24 +30,21 @@ function handleCallbackLoad() {
   goToHomePageAtSevenSec();
 }
 
-const Callback = ({t}, props) => (
-  <Container className="h-100 d-flex justify-content-center align-items-center"
-             onLoad={ handleCallbackLoad() }>
-      <Col className="d-flex flex-column justify-content-center align-items-center">
-        <Image src={logo}
-               rounded
-               className="imageCallback" />
-        <h1 className="textCallback text-center">
-          {t("callbackPage->title")}
-        </h1>
-        <h3 className="textCallback text-center">
-          {t("callbackPage->description")+" "}
-          <Link className="textLink"
-                to="/home">{
-            t("callbackPage->clickButton")}
-          </Link>
-        </h3>
-      </Col>
+const Callback = ({ t }, props) => (
+  <Container
+    className="h-100 d-flex justify-content-center align-items-center"
+    onLoad={handleCallbackLoad()}
+  >
+    <Col className="d-flex flex-column justify-content-center align-items-center">
+      <Image src={logo} rounded className="imageCallback" />
+      <h1 className="textCallback text-center">{t("callbackPage->title")}</h1>
+      <h3 className="textCallback text-center">
+        {t("callbackPage->description") + " "}
+        <Link className="textLink" to="/home">
+          {t("callbackPage->clickButton")}
+        </Link>
+      </h3>
+    </Col>
   </Container>
 );
 

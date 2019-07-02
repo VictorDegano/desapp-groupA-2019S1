@@ -1,5 +1,6 @@
 import React from "react";
 import EventsComponent from "./EventsComponent";
+import EventViewer from "../containers/EventViewer";
 
 class MainPanel extends React.PureComponent {
   constructor(props) {
@@ -9,10 +10,8 @@ class MainPanel extends React.PureComponent {
   render() {
     return (
       <div>
-        <EventsComponent
-          title={this.props.title}
-          arrayDeEventos={this.props.arrayDeEventos}
-        />
+        <EventViewer />
+        <EventsComponent />
       </div>
     );
   }
