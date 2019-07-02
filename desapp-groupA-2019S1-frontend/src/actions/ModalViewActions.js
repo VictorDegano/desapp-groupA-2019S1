@@ -19,12 +19,11 @@ export function closeProfileEdition() {
   };
 }
 
-export function openEventView(eventid, eventtype) {
+export function openEventView(event) {
   //Las acciones devuelve un objeto
   return {
     type: ACTION_TYPE.OPEN_EVENT_VIEW,
-    eventId: eventid,
-    eventType: eventtype
+    event: event
   };
 }
 

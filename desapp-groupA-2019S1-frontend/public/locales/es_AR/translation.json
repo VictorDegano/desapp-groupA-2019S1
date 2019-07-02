@@ -11,6 +11,21 @@
     "party": "Fiesta",
     "toBasket": "Canasta"
   },
+  "eventView": {
+    "button": {
+      "close": "Cerrar"
+    },
+    "confirmationState": {
+      "accepted": "Aceptada",
+      "cancelled": "Cancelada",
+      "pending": "Pendiente"
+    },
+    "creationDate": "Fecha de Creacion:",
+    "guest": "Invitados:",
+    "guestQuantity": "Cantidad de Invitados:",
+    "organizer": "Organizador:",
+    "status": "Estado:"
+  },
   "formatter": {
     "date": "dd/MM/yyyy"
   },
@@ -23,7 +38,8 @@
     },
     "inProgressEventsLabel": "Mis Eventos En Curso",
     "lastEventsLabel": "Mis Ultimos Eventos",
-    "mostPopularEventsLabel": "Eventos Mas Populares"
+    "mostPopularEventsLabel": "Eventos Mas Populares",
+    "viewButton": "Ver"
   },
   "language": "Idioma",
   "loadingState": "Cargando...",

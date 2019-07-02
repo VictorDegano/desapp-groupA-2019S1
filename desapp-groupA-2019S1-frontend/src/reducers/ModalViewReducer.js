@@ -1,8 +1,32 @@
 const initialState = {
-  modalProfileState: null,
-  modalEventView: null,
-  eventId: 0,
-  eventType: ""
+  modalProfileState: false,
+  modalEventView: false,
+  event: {
+    eventName: "",
+    creationDate: "",
+    goods: [],
+    guests: [
+      {
+        confirmAsistance: "",
+        firstName: "",
+        guestId: 0,
+        lastName: "",
+        mail: "",
+        userId: 0
+      }
+    ],
+    id: 0,
+    organizer: {
+      id: 0,
+      fistName: "",
+      lastName: "",
+      bornDate: "",
+      email: ""
+    },
+    quantityOfGuest: 0,
+    status: "",
+    type: ""
+  }
 };
 
 //Se recibe un state antiguo, un action y se devuelve el nuevo state
@@ -28,8 +52,7 @@ export default function userReducer(state = initialState, action) {
       // console.log('case OPEN_EVENT_VIEW');
       return Object.assign({}, state, {
         modalEventView: true,
-        eventId: action.eventId,
-        eventType: action.eventType
+        event: action.event
       });
     }
 
@@ -37,8 +60,32 @@ export default function userReducer(state = initialState, action) {
       // console.log('case CLOSE_EVENT_VIEW');
       return Object.assign({}, state, {
         modalEventView: false,
-        eventId: 0,
-        eventType: ""
+        event: {
+          eventName: "",
+          creationDate: "",
+          goods: [],
+          guests: [
+            {
+              confirmAsistance: "",
+              firstName: "",
+              guestId: 0,
+              lastName: "",
+              mail: "",
+              userId: 0
+            }
+          ],
+          id: 0,
+          organizer: {
+            id: 0,
+            fistName: "",
+            lastName: "",
+            bornDate: "",
+            email: ""
+          },
+          quantityOfGuest: 0,
+          status: "",
+          type: ""
+        }
       });
     }
 
