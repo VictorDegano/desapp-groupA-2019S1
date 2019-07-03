@@ -3,10 +3,13 @@ package ar.edu.unq.desapp.grupoa.model.account;
 import ar.edu.unq.desapp.grupoa.model.account.movement.Movement;
 import ar.edu.unq.desapp.grupoa.model.account.movement.MovementType;
 import ar.edu.unq.desapp.grupoa.model.user.User;
-import com.google.inject.internal.util.ImmutableList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.ElementCollection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.ArrayList;
@@ -16,9 +19,15 @@ import java.util.stream.Collectors;
 @Entity
 public class Account {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @JsonIgnore
     @OneToOne
     private  User user;
-    @OneToMany
+
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Movement> movements;
 
     public static Account newAccount(User user) {
@@ -28,6 +37,10 @@ public class Account {
     private Account(User user, List<Movement> movements) {
         this.user = user;
         this.movements = movements;
+    }
+
+
+    private Account() {
     }
 
     public Account extract(Integer amount) {
@@ -80,6 +93,14 @@ public class Account {
         return movements.stream()
                 .filter(movement -> movement.isMovementType(MovementType.DEBT))
                 .collect(Collectors.toList());
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public List<Movement> getMovements() {
+        return movements;
     }
 
 }

@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoa.model.user;
 import ar.edu.unq.desapp.grupoa.model.account.Account;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -36,7 +37,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserState state;
     //TODO: Provisorio, a confirmar
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Account account;
 
 
