@@ -5,15 +5,21 @@ import ar.edu.unq.desapp.grupoa.model.account.movement.MovementType;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import com.google.inject.internal.util.ImmutableList;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@Entity
 public class Account {
 
-    private final User user;
-    private final ImmutableList<Movement> movements;
+    @OneToOne
+    private  User user;
+    @OneToMany
+    private List<Movement> movements;
 
     public static Account newAccount(User user) {
         return new Account(user, new ArrayList<>());
@@ -21,7 +27,7 @@ public class Account {
 
     private Account(User user, List<Movement> movements) {
         this.user = user;
-        this.movements = ImmutableList.copyOf(movements);
+        this.movements = movements;
     }
 
     public Account extract(Integer amount) {

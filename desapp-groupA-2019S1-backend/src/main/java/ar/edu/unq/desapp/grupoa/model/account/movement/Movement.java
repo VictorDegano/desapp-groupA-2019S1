@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 
 public abstract class Movement{
 
-    protected final Integer amount;
-    private final LocalDateTime date;
-    private final MovementType type;
+    protected  Integer amount;
+    private  LocalDateTime date;
+    private  MovementType type;
 
 
     public static Movement deposit(Integer amount){

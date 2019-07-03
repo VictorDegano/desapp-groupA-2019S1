@@ -25,7 +25,7 @@ public class EventController {
     private EventService eventService;
 
     public EventController() {
-        LOGGER.info("Starting Fiesta Controller");
+        LOGGER.info("Starting Event Controller");
     }
 
     @PostMapping()
