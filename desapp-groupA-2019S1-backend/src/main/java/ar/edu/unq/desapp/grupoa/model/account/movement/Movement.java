@@ -25,6 +25,8 @@ public abstract class Movement{
     @Enumerated(EnumType.STRING)
     private  MovementType type;
 
+    protected Movement() {
+    }
 
     public static Movement deposit(Integer amount){
         return new Inflow(amount,MovementType.CASH,LocalDateTime.now());

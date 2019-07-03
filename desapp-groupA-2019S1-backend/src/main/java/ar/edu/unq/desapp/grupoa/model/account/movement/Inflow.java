@@ -10,6 +10,9 @@ public class Inflow extends Movement {
         super(amount,type,date);
     }
 
+    private Inflow() {
+    }
+
     @Override
     public Integer value() {
         return this.amount;

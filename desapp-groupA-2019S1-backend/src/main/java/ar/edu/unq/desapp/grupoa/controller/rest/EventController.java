@@ -17,7 +17,7 @@ import java.util.List;
 @CrossOrigin
 @Transactional
 @Controller
-@RequestMapping(value = "/event", method = {RequestMethod.GET, RequestMethod.POST})
+@RequestMapping(value = "/event", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
 public class EventController {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
