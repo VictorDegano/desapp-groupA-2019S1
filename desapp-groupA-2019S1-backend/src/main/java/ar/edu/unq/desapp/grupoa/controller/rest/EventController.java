@@ -49,6 +49,16 @@ public class EventController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping(value = "/inviteUser/{eventId}/{userID}")
+    public ResponseEntity<String> inviteToEvent(@PathVariable Integer eventId,@PathVariable Integer userId) {
+        LOGGER.info("Got request PUT to confirm assistance Fiesta Event with data");
+
+        eventService.inviteUserToEvent(eventId, userId);
+
+        LOGGER.info("Assistance of guest {} confirmed for event {}",eventId,userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PutMapping(value = "/closeEvent/{eventId}/")
     public ResponseEntity<String> closeEvent(@PathVariable Integer eventId) {
         LOGGER.info("Got request PUT to close event");
