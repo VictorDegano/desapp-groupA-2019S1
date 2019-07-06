@@ -141,6 +141,12 @@ class CreateEventModal extends Component {
     }
   }
 
+  getOrganizerName() {
+    let firstName = localStorage.getItem("first_name");
+    let lastName = localStorage.getItem("last_name");
+    return firstName + " " + lastName;
+  }
+
   handleClose() {
     this.props.closeCreateEventModal();
   }
@@ -154,7 +160,7 @@ class CreateEventModal extends Component {
       type: "FIESTA",
       id: 1,
       eventName: "pepeFiesta",
-      organizer: this.state.organizer,
+      organizer: this.getOrganizerName(),
       quantityOfGuest: 1,
       goods: [],
       guests: [
@@ -223,7 +229,7 @@ class CreateEventModal extends Component {
                   <Form.Control
                     plaintext
                     readOnly
-                    defaultValue={this.state.organizer.fistName}
+                    defaultValue={this.getOrganizerName()}
                   />
                 </Col>
               </Row>
