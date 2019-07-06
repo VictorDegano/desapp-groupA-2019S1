@@ -12,10 +12,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 import ListGroup from "react-bootstrap/ListGroup";
 import Badge from "react-bootstrap/Badge";
+// Bootstrap
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 //Actions
 import { closeEventView } from "../actions/ModalViewActions";
 // css
 import "../css/ProfileEdition.css";
+import GoodItem from "../EventViewer/Components/GoodItem";
 
 class EventViewer extends Component {
   static propTypes = {
@@ -32,6 +36,8 @@ class EventViewer extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.getEventTime = this.getEventTime.bind(this);
     this.getBadgeColour = this.getBadgeColour.bind(this);
+    this.getOpenColour = this.getOpenColour.bind(this);
+    this.limitTimeRendering = this.limitTimeRendering.bind(this);
     this.getConfirmationStateTraslation = this.getConfirmationStateTraslation.bind(
       this
     );
@@ -77,14 +83,58 @@ class EventViewer extends Component {
     }
   }
 
+  getOpenColour(status){
+    if (status !== undefined) {
+      if (status === "OPEN") {
+        return "success";
+      }
+      if (status === "CLOSED") {
+        return "danger";
+      }
+    } else {
+      return "dark";
+    }
+  }
+
   handleClose() {
     this.props.closeEventView();
+  }
+
+  limitTimeRendering(){
+    const event = this.props.event;
+    const { t } = this.props;
+    
+    if(event.type === "FIESTA"){
+      return <>
+              <Form.Label>Fecha Limite:</Form.Label>
+              <div className="containerDatePicker">
+                <DatePicker
+                  readOnly
+                  disabled
+                  className="Form.Control"
+                  minDate={new Date("01/01/1900")}
+                  maxDate={new Date()}
+                  selected={this.getEventTime()}
+                  dateFormat={t("formatter->date")}
+                  showYearDropdown
+                  scrollableYearDropdown
+                  yearDropdownItemNumber={80}
+                  fixedHeight
+                />
+              </div>
+            </>;
+    } else {
+      return <></>;
+    }
   }
 
   render() {
     const { t } = this.props;
     const show = this.props.show;
     const event = this.props.event;
+
+    let limitConfirmation = this.limitTimeRendering();
+
     return (
       <>
         <Modal show={show} onHide={this.handleClose}>
@@ -92,70 +142,96 @@ class EventViewer extends Component {
             <Modal.Title>{event.eventName}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form.Label>{t("eventView->status")}</Form.Label>
-            <Form.Control plaintext readOnly defaultValue={event.status} />
-            <Form.Label>{t("eventView->organizer")}</Form.Label>
-            <Form.Control
-              plaintext
-              readOnly
-              defaultValue={
-                event.organizer.fistName + " " + event.organizer.lastName
-              }
-            />
-            <Form.Label>{t("eventView->creationDate")}</Form.Label>
-            <div className="containerDatePicker">
-              <DatePicker
-                readOnly
-                disabled
-                className="Form.Control"
-                minDate={new Date("01/01/1900")}
-                maxDate={new Date()}
-                selected={this.getEventTime()}
-                dateFormat={t("formatter->date")}
-                showYearDropdown
-                scrollableYearDropdown
-                yearDropdownItemNumber={80}
-                fixedHeight
-              />
-            </div>
-            <Form.Label>{t("eventView->guestQuantity")}</Form.Label>
-            <Form.Control
-              plaintext
-              readOnly
-              defaultValue={event.quantityOfGuest}
-            />
-            <Form.Label>{t("eventView->guest")}</Form.Label>
+            <Row>
+              <Col xs={3}>
+                <Form.Label>
+                  {t("eventView->status")}
+                  <Badge variant={ this.getOpenColour(event.status) }>
+                    {event.status}
+                  </Badge>
+                </Form.Label>
+                {limitConfirmation}
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Label>{t("eventView->organizer")}</Form.Label>
+                <Form.Control
+                  readOnly
+                  defaultValue={
+                    event.organizer.fistName + " " + event.organizer.lastName
+                  }/>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <Form.Label>{t("eventView->creationDate")}</Form.Label>
+                <div className="containerDatePicker">
+                  <DatePicker readOnly
+                              disabled
+                              className="Form.Control"
+                              minDate={new Date("01/01/1900")}
+                              maxDate={new Date()}
+                              selected={this.getEventTime()}
+                              dateFormat={t("formatter->date")}
+                              showYearDropdown
+                              scrollableYearDropdown
+                              yearDropdownItemNumber={80}
+                              fixedHeight/>
+                </div>
+              </Col>
+            </Row>
+
+            <Form.Label> 
+              {t("eventView->guestQuantity")}
+              <span>{event.quantityOfGuest}</span>
+            </Form.Label>
+
+            <Form.Label><h4>{t("eventView->guest")}</h4></Form.Label>
             <ListGroup as="ul" variant="flush">
               {event.guests.map(guest => {
                 return (
                   <ListGroup.Item
                     key={guest.firstName + guest.email + guest.lastName}
-                    as="li"
-                  >
-                    <p>
-                      {guest.firstName + " " + guest.lastName}
-                      <Badge
-                        variant={this.getBadgeColour(guest.confirmAsistance)}
-                      >
-                        {this.getConfirmationStateTraslation(
-                          guest.confirmAsistance
-                        )}
-                      </Badge>
-                    </p>
+                    as="li">
+
+                    {guest.firstName + " " + guest.lastName}
+                    <Badge variant={this.getBadgeColour(guest.confirmAsistance)}>
+                      {this.getConfirmationStateTraslation( guest.confirmAsistance )}
+                    </Badge>
+
                   </ListGroup.Item>
                 );
               })}
             </ListGroup>
+
+            <Form.Label><h4>{t("eventView->goods")}</h4></Form.Label>
+            {this.listOfGoodsItems(event.goods)}
           </Modal.Body>
+
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleClose}>
               {t("eventView->button->close")}
             </Button>
           </Modal.Footer>
+          
         </Modal>
       </>
     );
   }
+
+  listOfGoodsItems(goods){
+    return <ListGroup as="ul" variant="flush">
+              {goods.map(good => {
+                return <ListGroup.Item key={good.id + good.name + good.price}
+                                      as="li">
+                    <GoodItem good={good}/>
+                </ListGroup.Item>
+              })}
+            </ListGroup>
+  }
+
 }
 
 function mapStateToProps(state) {
