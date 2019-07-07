@@ -43,6 +43,12 @@ class CreateEventModal extends Component {
       this
     );
     this.handleSave = this.handleSave.bind(this);
+    this.change = this.change.bind(this);
+    this.handleChangeOnEventName = this.handleChangeOnEventName.bind(this);
+    this.handleConfirmationDayChange = this.handleConfirmationDayChange.bind(
+      this
+    );
+
     this.state = {
       eventName: "FiestaExample",
       creationDate: new Date(),
@@ -147,8 +153,19 @@ class CreateEventModal extends Component {
     return firstName + " " + lastName;
   }
 
+  change(event) {
+    this.setState({ type: event.target.value });
+  }
+
   handleClose() {
     this.props.closeCreateEventModal();
+  }
+
+  handleChangeOnEventName(event) {
+    this.setState({ eventName: event.target.value });
+  }
+  handleConfirmationDayChange(date) {
+    this.setState({ confirmationDay: date });
   }
 
   handleSave(event) {
@@ -157,10 +174,10 @@ class CreateEventModal extends Component {
     const eventApi = new EventApi();
     console.log(event);
     const eventExample = {
-      type: "FIESTA",
+      type: this.handleEventType(),
       id: 1,
-      eventName: "pepeFiesta",
-      organizer: this.getOrganizerName(),
+      eventName: this.state.eventName,
+      organizer: this.props.loggedUser,
       quantityOfGuest: 1,
       goods: [],
       guests: [
@@ -177,7 +194,8 @@ class CreateEventModal extends Component {
       creationDate: [2019, 6, 30, 13, 28, 58, 208000000],
       limitConfirmationDateTime: [2019, 7, 4, 13, 28, 58, 208000000]
     };
-
+    console.log("voy a crear evento con");
+    console.log(eventExample);
     eventApi
       .createEvent(eventExample)
       .then(response => console.log(response))
@@ -204,7 +222,11 @@ class CreateEventModal extends Component {
                   </Form.Label>
                 </Col>
                 <Col>
-                  <Form.Control plaintext defaultValue={this.state.eventName} />
+                  <Form.Control
+                    onChange={this.handleChangeOnEventName}
+                    plaintext
+                    defaultValue={this.state.eventName}
+                  />
                 </Col>
               </Row>
               <Row>
@@ -212,7 +234,11 @@ class CreateEventModal extends Component {
                   <Form.Label>Type</Form.Label>
                 </Col>
                 <Col>
-                  <Form.Control as="select">
+                  <Form.Control
+                    as="select"
+                    onChange={this.change}
+                    value={this.state.type}
+                  >
                     <option>Fiesta</option>
                     <option>Canasta</option>
                     <option>Baquita Comunitaria</option>
@@ -262,6 +288,7 @@ class CreateEventModal extends Component {
                   minDate={new Date()}
                   maxDate={new Date("12/12/2020")}
                   selected={this.state.confirmationDay}
+                  onChange={this.handleConfirmationDayChange}
                   dateFormat={t("formatter->date")}
                   showYearDropdown
                   scrollableYearDropdown
@@ -310,6 +337,16 @@ class CreateEventModal extends Component {
         </Modal>
       </>
     );
+  }
+
+  handleEventType() {
+    if (this.state.type === "Canasta") {
+      return "CANASTA";
+    }
+    if (this.state.type === "Fiesta") {
+      return "FIESTA";
+    }
+    return "BAD HANDLE TYPE";
   }
 }
 
