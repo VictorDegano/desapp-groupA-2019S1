@@ -191,8 +191,8 @@ class CreateEventModal extends Component {
         }
       ],
       status: "OPEN",
-      creationDate: [2019, 6, 30, 13, 28, 58, 208000000],
-      limitConfirmationDateTime: [2019, 7, 4, 13, 28, 58, 208000000]
+      creationDate: this.state.creationDate,
+      limitConfirmationDateTime: this.state.confirmationDay
     };
     console.log("voy a crear evento con");
     console.log(eventExample);
