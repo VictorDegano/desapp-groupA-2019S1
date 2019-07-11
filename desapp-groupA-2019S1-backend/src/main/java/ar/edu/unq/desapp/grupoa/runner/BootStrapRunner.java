@@ -1,10 +1,12 @@
 package ar.edu.unq.desapp.grupoa.runner;
 
 import ar.edu.unq.desapp.grupoa.model.event.Event;
+import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.baquita.Baquita;
 import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaComunitary;
 import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaRepresentatives;
+import ar.edu.unq.desapp.grupoa.model.event.baquita.LoadedGood;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.CanastaGood;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
@@ -371,20 +373,60 @@ public class BootStrapRunner implements ApplicationRunner {
         logger.info("Creating Pepe Locura Events");
         List<Event> pepeEvents = new ArrayList<>();
 
-        Baquita aBaquita = new BaquitaRepresentatives(
+//        Baquita aBaquita = new BaquitaRepresentatives(
+//                "Una vaca Respetable",
+//                organizerPepe,
+//                Arrays.asList(
+//                        new Guest(ivanD),
+//                        new Guest(victor),
+//                        new Guest(ivanT),
+//                        new Guest(juanCaspa),
+//                        new Guest(joseTejo)),
+//                EMPTY_LIST,
+//                LocalDateTime.now().minusDays(2));
+//        aBaquita.close();
+        pepeEvents.add(this.buildUnaVacaRespetable(organizerPepe, ivanD, ivanT, victor, juanCaspa, joseTejo, donBilletin));
+        return pepeEvents;
+    }
+
+    private Baquita buildUnaVacaRespetable(User organizerPepe, User ivanD, User ivanT, User victor, User juanCaspa, User joseTejo, User donBilletin){
+        Guest ivanDG = new Guest(ivanD);
+        Guest ivanTG = new Guest(ivanT);
+        Guest victorG = new Guest(victor);
+        Guest juanCaspaG = new Guest(juanCaspa);
+        Guest joseTejoG = new Guest(joseTejo);
+
+        Good cerveza = new Good();
+        cerveza.setName("Cerveza Heineken");
+        cerveza.setPricePerUnit(65);
+        cerveza.setQuantityForPerson(2);
+        Good pizza = new Good();
+        pizza.setName("Pizza 4 Quesos");
+        pizza.setPricePerUnit(130);
+        pizza.setQuantityForPerson(1);
+        Good papas = new Good();
+        papas.setName("Detodito");
+        papas.setPricePerUnit(55);
+        papas.setQuantityForPerson(2);
+
+        BaquitaRepresentatives aBaquita = new BaquitaRepresentatives(
                 "Una vaca Respetable",
                 organizerPepe,
-                Arrays.asList(
-                        new Guest(ivanD),
-                        new Guest(victor),
-                        new Guest(ivanT),
-                        new Guest(juanCaspa),
-                        new Guest(joseTejo)),
-                EMPTY_LIST,
+                Arrays.asList(ivanDG,ivanTG,victorG,juanCaspaG,joseTejoG),
+                Arrays.asList(cerveza, pizza, papas),
                 LocalDateTime.now().minusDays(2));
-        aBaquita.close();
-        pepeEvents.add(aBaquita);
-        return pepeEvents;
+
+        aBaquita.addRepresentative(victorG);
+        aBaquita.addRepresentative(ivanTG);
+
+        LoadedGood cervezaGood = new LoadedGood(victorG,cerveza);
+        LoadedGood pizzaGood = new LoadedGood(victorG,pizza);
+        LoadedGood papasGood = new LoadedGood(ivanTG,papas);
+        aBaquita.loadGood(cervezaGood);
+        aBaquita.loadGood(pizzaGood);
+        aBaquita.loadGood(papasGood);
+
+        return aBaquita;
     }
 
     private User createUserWithName(String name, String lastname,String email, String password, LocalDateTime bornDay) {

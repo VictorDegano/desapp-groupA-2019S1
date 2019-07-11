@@ -26,6 +26,8 @@ public class LoadedGood {
     @OneToOne(cascade = CascadeType.ALL)
     private Good  good ;
 
+    public LoadedGood(){}
+
     public LoadedGood(Guest guest,Good good) {
         this.guest =guest;
         this.good = good;
