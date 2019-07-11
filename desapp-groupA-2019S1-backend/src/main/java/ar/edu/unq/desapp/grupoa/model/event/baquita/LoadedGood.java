@@ -9,13 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
 public class LoadedGood {
-
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +23,7 @@ public class LoadedGood {
     @OneToOne(cascade = CascadeType.ALL)
     private Good  good ;
 
-    public LoadedGood(){}
+    private  LoadedGood(){}
 
     public LoadedGood(Guest guest,Good good) {
         this.guest =guest;

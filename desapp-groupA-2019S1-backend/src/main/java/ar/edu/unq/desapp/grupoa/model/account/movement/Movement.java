@@ -1,13 +1,32 @@
 package ar.edu.unq.desapp.grupoa.model.account.movement;
 
+
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import java.time.LocalDateTime;
 
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Movement{
 
-    protected final Integer amount;
-    private final LocalDateTime date;
-    private final MovementType type;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
+    protected  Integer amount;
+
+    private  LocalDateTime date;
+    @Enumerated(EnumType.STRING)
+    private  MovementType type;
+
+    protected Movement() {
+    }
 
     public static Movement deposit(Integer amount){
         return new Inflow(amount,MovementType.CASH,LocalDateTime.now());
@@ -37,5 +56,21 @@ public abstract class Movement{
         return this.type.equals(type);
     }
 
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public MovementType getType() {
+        return type;
+    }
 
 }
