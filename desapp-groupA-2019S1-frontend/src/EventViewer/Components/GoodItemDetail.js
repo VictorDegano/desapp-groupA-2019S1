@@ -7,6 +7,7 @@ import Row from "react-bootstrap/Row";
 function GoodItemDetail(props){
     const t= props.t;
     const good= props.good;
+    const eventType= props.eventType;
     return (
         <Popover>
             <Card>
@@ -18,15 +19,13 @@ function GoodItemDetail(props){
                     <Row>
                         <span>{t("eventView->quantityForPerson")} {good.quantityForPerson}</span>
                     </Row>
-                    <Row>
-                        <span>{t("eventView->finalQuantity")} {/*good.finalQuantity*/}</span> {/*TODO: una vez ivan habilite el campo descomentarlo*/ }
-                    </Row>
+                    {finalQuantity(eventType,good,t)}
                     <Row>
                         <span>
                             {t("eventView->pricePerUnit")} 
                             {t("formatter->currency")}
                             {good.pricePerUnit}
-                        </span> {/*TODO: esto y el costo total deberia verlo solo el organizador */}
+                        </span>
                     </Row>
                     {/*<Row>
                         <span>
@@ -40,6 +39,19 @@ function GoodItemDetail(props){
             </Card>
         </Popover>
     )
+}
+
+/*TODO: una vez ivan habilite el campo descomentarlo*/ 
+function finalQuantity(eventType,good,t){
+    if(eventType === "FIESTA"){
+        return <Row>
+                    <span>
+                        {t("eventView->finalQuantity")} {/*good.finalQuantity*/}
+                    </span>
+                </Row>
+    } else {
+        return <></>;
+    }
 }
 
 export default GoodItemDetail;

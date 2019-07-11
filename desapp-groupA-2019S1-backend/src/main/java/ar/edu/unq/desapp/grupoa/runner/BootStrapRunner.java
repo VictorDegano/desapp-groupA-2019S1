@@ -6,6 +6,7 @@ import ar.edu.unq.desapp.grupoa.model.event.baquita.Baquita;
 import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaComunitary;
 import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaRepresentatives;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
+import ar.edu.unq.desapp.grupoa.model.event.canasta.CanastaGood;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.FiestaGood;
 import ar.edu.unq.desapp.grupoa.model.user.User;
@@ -79,7 +80,7 @@ public class BootStrapRunner implements ApplicationRunner {
                                                 "donbilletin@havisto.com",
                                                 "havistounbilletin",
                                                 LocalDateTime.of(1990,1,29,17,10));
-        this.userDAO.saveAll(Arrays.asList(juanCaspa,joseTejo,donBilletin));
+        this.userDAO.saveAll(Arrays.asList(juanCaspa,donBilletin));
         List<Event> events = ivanDEvents(ivanDominikow, ivanTamargo, victorDegano, pepeLocura, juanCaspa, joseTejo, donBilletin);
         events.addAll(ivanTEvents(ivanTamargo, victorDegano, pepeLocura,ivanDominikow, juanCaspa, joseTejo, donBilletin));
         events.addAll(victorEvents(victorDegano, pepeLocura, ivanDominikow, ivanTamargo, juanCaspa, joseTejo, donBilletin));
@@ -92,26 +93,9 @@ public class BootStrapRunner implements ApplicationRunner {
         List<Event> ivanEvents = new ArrayList<>();
         ivanEvents.add(this.buildLaFiestaDeIvan(organizerIvan, ivan, victor, pepe, juanCaspa, joseTejo, donBilletin));
 
-        ivanEvents.add(new Fiesta(
-                "IvanFest",
-                organizerIvan,
-                Arrays.asList(
-                        new Guest(ivan),
-                        new Guest(victor),
-                        new Guest(pepe)),
-                LocalDateTime.now().plusDays(10),
-                EMPTY_LIST,
-                LocalDateTime.now().minusDays(1)));
+        ivanEvents.add(this.buildIvanFest(organizerIvan, ivan, victor, pepe, juanCaspa, joseTejo, donBilletin));
 
-        ivanEvents.add(new Canasta(
-                "Canasteando 2.0",
-                organizerIvan,
-                Arrays.asList(
-                        new Guest(ivan),
-                        new Guest(victor),
-                        new Guest(pepe)),
-                EMPTY_LIST,
-                LocalDateTime.now().minusDays(10)));
+        ivanEvents.add(this.buildCanasteandoDosPuntoCero(organizerIvan, ivan, victor, pepe, juanCaspa, joseTejo, donBilletin));
 
         Canasta aCanasta = new Canasta(
                 "Canasteando",
@@ -128,7 +112,77 @@ public class BootStrapRunner implements ApplicationRunner {
         return ivanEvents;
     }
 
+    private Canasta buildCanasteandoDosPuntoCero(User organizerIvan, User ivan, User victor, User pepe, User juanCaspa, User joseTejo, User donBilletin) {
+        CanastaGood chizitos = new CanastaGood();
+        chizitos.setName("Chizitos");
+        chizitos.setPricePerUnit(50);
+        chizitos.setQuantityForPerson(1);
+        chizitos.setUserThatOwnsTheGood(ivan);
+
+        CanastaGood palitos = new CanastaGood();
+        palitos.setName("Palitos de Queso");
+        palitos.setPricePerUnit(20);
+        palitos.setQuantityForPerson(3);
+
+        CanastaGood queso = new CanastaGood();
+        queso.setName("Queso");
+        queso.setPricePerUnit(70);
+        queso.setQuantityForPerson(1);
+        queso.setUserThatOwnsTheGood(pepe);
+
+        CanastaGood mani = new CanastaGood();
+        mani.setName("Mani");
+        mani.setPricePerUnit(25);
+        mani.setQuantityForPerson(2);
+        mani.setUserThatOwnsTheGood(joseTejo);
+
+        return new Canasta(
+                "Canasteando 2.0",
+                organizerIvan,
+                Arrays.asList(
+                        new Guest(ivan),
+                        new Guest(victor),
+                        new Guest(pepe),
+                        new Guest(juanCaspa),
+                        new Guest(joseTejo),
+                        new Guest(donBilletin)),
+                Arrays.asList(chizitos, palitos, queso, mani),
+                LocalDateTime.now().minusDays(10));
+    }
+
     private Fiesta buildLaFiestaDeIvan(User organizerIvan, User ivan, User victor, User pepe, User juanCaspa, User joseTejo, User donBilletin) {
+
+        FiestaGood pizza = new FiestaGood();
+        pizza.setFinalQuantity(0);
+        pizza.setName("Pizza Individual Extra Queso");
+        pizza.setPricePerUnit(100);
+        pizza.setQuantityForPerson(1);
+
+        FiestaGood cerveza = new FiestaGood();
+        cerveza.setFinalQuantity(0);
+        cerveza.setName("Cerveza Heineken");
+        cerveza.setPricePerUnit(80);
+        cerveza.setQuantityForPerson(1);
+
+        FiestaGood papas = new FiestaGood();
+        papas.setFinalQuantity(0);
+        papas.setName("Bolsa de papas fritas");
+        papas.setPricePerUnit(30);
+        papas.setQuantityForPerson(2);
+
+        return new Fiesta(
+                "IvanFest",
+                organizerIvan,
+                Arrays.asList(
+                        new Guest(ivan),
+                        new Guest(victor),
+                        new Guest(pepe)),
+                LocalDateTime.now().plusDays(10),
+                Arrays.asList(cerveza, pizza, papas),
+                LocalDateTime.now().minusDays(1));
+    }
+
+    private Fiesta buildIvanFest(User organizerIvan, User ivan, User victor, User pepe, User juanCaspa, User joseTejo, User donBilletin) {
         FiestaGood cerveza = new FiestaGood();
         cerveza.setFinalQuantity(0);
         cerveza.setName("Cerveza Heineken");
@@ -151,17 +205,17 @@ public class BootStrapRunner implements ApplicationRunner {
         papas.setQuantityForPerson(2);
 
         return new Fiesta("La fiesta de Ivan",
-                            organizerIvan,
-                            Arrays.asList(
-                                    new Guest(ivan),
-                                    new Guest(victor),
-                                    new Guest(pepe),
-                                    new Guest(juanCaspa),
-                                    new Guest(joseTejo),
-                                    new Guest(donBilletin)),
-                            LocalDateTime.now().plusDays(15),
-                            Arrays.asList(cerveza, pizza, pizzaDos, papas),
-                            LocalDateTime.now());
+                organizerIvan,
+                Arrays.asList(
+                        new Guest(ivan),
+                        new Guest(victor),
+                        new Guest(pepe),
+                        new Guest(juanCaspa),
+                        new Guest(joseTejo),
+                        new Guest(donBilletin)),
+                LocalDateTime.now().plusDays(15),
+                Arrays.asList(cerveza, pizza, pizzaDos, papas),
+                LocalDateTime.now());
     }
 
     private List<Event> ivanTEvents(User organizerIvan, User victor, User pepe, User ivan, User juanCaspa, User joseTejo, User donBilletin) {

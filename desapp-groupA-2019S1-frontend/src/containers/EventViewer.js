@@ -16,14 +16,25 @@ import Badge from "react-bootstrap/Badge";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //Actions
-import { closeEventView } from "../actions/ModalViewActions";
+import { closeEventView, updateEvent } from "../actions/ModalViewActions";
 // css
 import "../css/ProfileEdition.css";
 import GoodItem from "../EventViewer/Components/GoodItem";
 
+/* TODO: Cosas que faltan:
+  - aceptar/cancelar una invitacion (El boton/link solo apareceria si el usuario es el invitado)
+  - Vista para baquita comunitaria y representantes
+  - Hacercer cargo de un gasto para los representates
+  - Aportar plata para la baquita comunitaria (¿viaja los datos y lo que esta recaudado?)
+  - Costo total del evento (¿viaja o se calcula?)
+  - Cerrar evento (Solo estaria disponible si es el organizador)
+  - Al aplicar algun cambio sobre el evento, hacer que se actualicen las listas de eventos (Es mas barato hacer los 3 callouts que recorrer las listas)
+  ... creo que nada mas
+*/
 class EventViewer extends Component {
   static propTypes = {
     closeEventView: PropTypes.func.isRequired,
+    updateEvent: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired,
     event: PropTypes.shape({
       eventName: PropTypes.string.isRequired,
@@ -41,6 +52,7 @@ class EventViewer extends Component {
     this.getConfirmationStateTraslation = this.getConfirmationStateTraslation.bind(
       this
     );
+    this.addOwnGoodButton = this.addOwnGoodButton.bind(this);
   }
 
   getEventTime() {
@@ -51,48 +63,45 @@ class EventViewer extends Component {
   }
 
   getBadgeColour(confirmation) {
-    if (confirmation !== undefined) {
-      if (confirmation === "PENDING") {
-        return "warning";
-      }
-      if (confirmation === "ACCEPTED") {
-        return "success";
-      }
-      if (confirmation === "CANCELLED") {
-        return "danger";
-      }
-    } else {
+    if (confirmation === undefined) {
       return "dark";
+    }
+    if (confirmation === "PENDING") {
+      return "warning";
+    }
+    if (confirmation === "ACCEPTED") {
+      return "success";
+    }
+    if (confirmation === "CANCELLED") {
+      return "danger";
     }
   }
 
   getConfirmationStateTraslation(confirmation) {
     const { t } = this.props;
-    if (confirmation !== undefined) {
-      if (confirmation === "PENDING") {
-        return t("eventView->confirmationState->pending");
-      }
-      if (confirmation === "ACCEPTED") {
-        return t("eventView->confirmationState->accepted");
-      }
-      if (confirmation === "CANCELLED") {
-        return t("eventView->confirmationState->cancelled");
-      }
-    } else {
+    if (confirmation === undefined) {
       return "";
+    }
+    if (confirmation === "PENDING") {
+      return t("eventView->confirmationState->pending");
+    }
+    if (confirmation === "ACCEPTED") {
+      return t("eventView->confirmationState->accepted");
+    }
+    if (confirmation === "CANCELLED") {
+      return t("eventView->confirmationState->cancelled");
     }
   }
 
   getOpenColour(status){
-    if (status !== undefined) {
-      if (status === "OPEN") {
-        return "success";
-      }
-      if (status === "CLOSED") {
-        return "danger";
-      }
-    } else {
+    if (status === undefined) {
       return "dark";
+    }
+    if (status === "OPEN") {
+      return "success";
+    }
+    if (status === "CLOSED") {
+      return "danger";
     }
   }
 
@@ -182,12 +191,12 @@ class EventViewer extends Component {
                 </div>
               </Col>
             </Row>
-
-            <Form.Label> 
-              {t("eventView->guestQuantity")}
-              <span>{event.quantityOfGuest}</span>
-            </Form.Label>
-
+            <Row>
+              <Form.Label> 
+                {t("eventView->guestQuantity")}
+                <span>{event.quantityOfGuest}</span>
+              </Form.Label>
+            </Row>            
             <Form.Label><h4>{t("eventView->guest")}</h4></Form.Label>
             <ListGroup as="ul" variant="flush">
               {event.guests.map(guest => {
@@ -205,9 +214,8 @@ class EventViewer extends Component {
                 );
               })}
             </ListGroup>
-
-            <Form.Label><h4>{t("eventView->goods")}</h4></Form.Label>
-            {this.listOfGoodsItems(event.goods)}
+          <Form.Label><h4>{t("eventView->goods")}</h4></Form.Label>
+          {this.listOfGoodsItems(event)}
           </Modal.Body>
 
           <Modal.Footer>
@@ -221,29 +229,50 @@ class EventViewer extends Component {
     );
   }
 
-  listOfGoodsItems(goods){
+  listOfGoodsItems(event){
     return <ListGroup as="ul" variant="flush">
-              {goods.map(good => {
+              {event.goods.map(good => {
                 return <ListGroup.Item key={good.id + good.name + good.price}
                                       as="li">
-                    <GoodItem good={good}/>
+                    <GoodItem good={good} eventType={event.type}/>
+                    {this.addOwnGoodButton(event.type, good)}
                 </ListGroup.Item>
               })}
             </ListGroup>
   }
 
+  addOwnGoodButton(evenType, good){
+    if(evenType === "CANASTA"){
+      return <Button disabled={!good.available} 
+                     onClick={() =>this.ownGood(good)}
+                     size="sm"
+                     variant="outline-success">
+                Hacerce Cargo
+              </Button>;
+    } else {
+      return <></>;
+    }
+  }
+
+  ownGood(good){
+    this.props.updateEvent(good.id);
+    //actualizarlos los listados:
+    // Habria que ver si se puede hacer algun chequeo al cerrar el modal 
+    // o tener un boolean que indique si este evento hay que actualizarlo
+    // o disparar los servicios para que actualicen todo
+    alert("me hice cargo de una canasta"); // <-- este seria el callout e iria antes del dispatch
+  }
+
 }
 
-function mapStateToProps(state) {
-  // console.log('mapStateToProps()')
-  return {
+const mapStateToProps = state => ({
     show: state.ModalViewReducer.modalEventView,
     event: state.ModalViewReducer.event
-  };
-}
+});
 
 const mapDispatchToProps = dispatch => ({
-  closeEventView: () => dispatch(closeEventView())
+  closeEventView: () => dispatch(closeEventView()),
+  updateEvent: event => dispatch(updateEvent(event))
 });
 
 export default connect(
