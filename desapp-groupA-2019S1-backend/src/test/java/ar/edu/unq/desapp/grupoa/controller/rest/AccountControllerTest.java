@@ -1,11 +1,17 @@
 package ar.edu.unq.desapp.grupoa.controller.rest;
 
 import ar.edu.unq.desapp.grupoa.TestConfig;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.CreditDTO;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.EventDTO;
 import ar.edu.unq.desapp.grupoa.model.account.Account;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,19 +22,25 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 
 
+import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Loan.getCredit;
+import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Loan.takeLoan;
 import static ar.edu.unq.desapp.grupoa.utils.Integer.integer;
 
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;
 import static org.junit.Assert.assertEquals;
 
+import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 @WithMockUser(username = "user1", password = "pwd", roles = "USER")
-@ContextConfiguration(classes={TestConfig.class})
+@ContextConfiguration(classes = {TestConfig.class})
 @DataJpaTest
 @RunWith(SpringRunner.class)
 public class AccountControllerTest {
@@ -45,8 +57,11 @@ public class AccountControllerTest {
     private ObjectMapper objectMapper;
 
     @Before
-    public void setup(){
+    public void setup() {
         this.mockMvc = standaloneSetup(this.accountController).build();
+        objectMapper.registerModule(new Jdk8Module());
+        objectMapper.registerModule(new JodaModule());
+        objectMapper.registerModule(new JavaTimeModule());
     }
 
     @Test
@@ -58,7 +73,7 @@ public class AccountControllerTest {
 
         //Test(Then)
 
-        String url = String.format("/account/depositMoney/%s/%s",user.getId(),amountToDeposit);
+        String url = String.format("/account/depositMoney/%s/%s", user.getId(), amountToDeposit);
         this.mockMvc.perform(put(url))
                 .andExpect(status().isOk());
 
@@ -81,7 +96,7 @@ public class AccountControllerTest {
 
         //Test(Then)
 
-        String url = String.format("/account/extractMoney/%s/%s",user.getId(),amountToExtract);
+        String url = String.format("/account/extractMoney/%s/%s", user.getId(), amountToExtract);
         this.mockMvc.perform(put(url))
                 .andExpect(status().isOk());
 
@@ -93,7 +108,7 @@ public class AccountControllerTest {
 
 
     @Test
-    public void takeLoan() throws Exception {
+    public void loan() throws Exception {
         User user = getUser();
 
         Integer balanceBefore = user.getAccount().balance();
@@ -101,7 +116,7 @@ public class AccountControllerTest {
 
         //Test(Then)
 
-        String url = String.format("/account/takeLoan/%s",user.getId());
+        String url = String.format("/account/takeLoan/%s", user.getId());
         this.mockMvc.perform(put(url))
                 .andExpect(status().isOk());
 
@@ -112,10 +127,41 @@ public class AccountControllerTest {
     }
 
 
+    @Test
+    public void creditsOnCourse() throws Exception {
+        User user = getUser();
+        user.updateAccount(takeLoan(user.getAccount()));
+        userDAO.save(user);
+
+        CreditDTO creditDTO = CreditDTO.from(getCredit(user.getAccount()));
+        //Test(Then)
+        String dtoJson = json(creditDTO);
+
+        //Test(Then)
+
+        String url = String.format("/account/creditsOnCourse/%s", user.getId());
+        String json = mockMvc.perform(get(url))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        CreditDTO creditRetrieved = objectMapper.readValue(json, CreditDTO.class);
+
+        assertEquals(creditRetrieved.getHasDefaulted(),creditDTO.getHasDefaulted() );
+        assertEquals(creditRetrieved.getQuotasToPay(),creditDTO.getQuotasToPay());
+        assertEquals(creditRetrieved.getUser().id,creditDTO.getUser().id);
+    }
+
     private User getUser() {
         User user = randomUser();
         userDAO.save(user);
         return user;
+    }
+
+
+    private String json(Object object) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(object);
     }
 
 }

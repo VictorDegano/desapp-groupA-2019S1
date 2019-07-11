@@ -1,11 +1,13 @@
 package ar.edu.unq.desapp.grupoa.service;
 
 import ar.edu.unq.desapp.grupoa.exception.user.UserNotFoundException;
+import ar.edu.unq.desapp.grupoa.model.account.Credit;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Loan.getCredit;
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Loan.takeLoan;
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.deposit;
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.extract;
@@ -39,5 +41,10 @@ public class AccountService {
         User user = getUser(userId);
         user.updateAccount( takeLoan(user.getAccount()));
         userDAO.save(user);
+    }
+
+    public Credit getCreditsOnCourse(Integer userId) {
+        User user = getUser(userId);
+        return  getCredit(user.getAccount());
     }
 }

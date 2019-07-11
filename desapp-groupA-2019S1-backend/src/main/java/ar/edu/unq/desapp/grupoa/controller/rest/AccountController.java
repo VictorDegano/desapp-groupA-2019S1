@@ -1,6 +1,8 @@
 package ar.edu.unq.desapp.grupoa.controller.rest;
 
 
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.CreditDTO;
+import ar.edu.unq.desapp.grupoa.model.account.Credit;
 import ar.edu.unq.desapp.grupoa.service.AccountService;
 
 import org.slf4j.Logger;
@@ -28,9 +30,11 @@ public class AccountController {
     }
 
 
+
+
     @PutMapping("/depositMoney/{userId}/{amount}")
     public ResponseEntity<String> depositMoney(@PathVariable Integer userId,@PathVariable Integer amount ) {
-        LOGGER.info("Got request POST to deposit {} to user {}", amount, userId);
+        LOGGER.info("Got request PUT to deposit {} to user {}", amount, userId);
 
         accountService.depositMoney(userId,amount);
 
@@ -40,7 +44,7 @@ public class AccountController {
 
     @PutMapping("/extractMoney/{userId}/{amount}")
     public ResponseEntity<String> extractMoney(@PathVariable Integer userId,@PathVariable Integer amount ) {
-        LOGGER.info("Got request POST to extract {} to user {}", amount, userId);
+        LOGGER.info("Got request PUT to extract {} to user {}", amount, userId);
 
         accountService.extractMoney(userId,amount);
 
@@ -50,12 +54,24 @@ public class AccountController {
 
     @PutMapping("/takeLoan/{userId}")
     public ResponseEntity<String> takeLoan(@PathVariable Integer userId ) {
-        LOGGER.info("Got request POST to loan from {}", userId);
+        LOGGER.info("Got request PUT to loan from {}", userId);
 
         accountService.loan(userId);
 
         LOGGER.info("{} took a Loan", userId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @GetMapping("/creditsOnCourse/{userId}")
+    public ResponseEntity<CreditDTO> creditOnCourse(@PathVariable Integer userId ) {
+        LOGGER.info("Got request GET to get credits on course from {}", userId);
+
+        Credit credit = accountService.getCreditsOnCourse(userId);
+        CreditDTO creditDTO = CreditDTO.from(credit);
+
+        LOGGER.info("returning credits on course for {}", userId);
+        return new ResponseEntity<CreditDTO>(creditDTO,HttpStatus.OK);
     }
 
 //    @PutMapping(value = "/confirmAsistance/{eventId}/{guestId}")
