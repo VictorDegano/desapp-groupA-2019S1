@@ -48,6 +48,16 @@ public class AccountController {
         return new ResponseEntity<>(amount.toString(),HttpStatus.OK);
     }
 
+    @PutMapping("/takeLoan/{userId}")
+    public ResponseEntity<String> takeLoan(@PathVariable Integer userId ) {
+        LOGGER.info("Got request POST to loan from {}", userId);
+
+        accountService.loan(userId);
+
+        LOGGER.info("{} took a Loan", userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 //    @PutMapping(value = "/confirmAsistance/{eventId}/{guestId}")
 //    public ResponseEntity<String> confirmAsistance(@PathVariable Integer eventId,@PathVariable Integer guestId) {
 //        LOGGER.info("Got request PUT to confirm assistance Fiesta Event with data");

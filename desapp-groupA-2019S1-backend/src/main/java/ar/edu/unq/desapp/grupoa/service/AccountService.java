@@ -6,6 +6,7 @@ import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Loan.takeLoan;
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.deposit;
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.extract;
 
@@ -34,4 +35,9 @@ public class AccountService {
     }
 
 
+    public void loan(Integer userId) {
+        User user = getUser(userId);
+        user.updateAccount( takeLoan(user.getAccount()));
+        userDAO.save(user);
+    }
 }

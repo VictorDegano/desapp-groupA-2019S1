@@ -91,6 +91,27 @@ public class AccountControllerTest {
         assertEquals(integer(balanceBefore - amountToExtract), userAfterUpdate.getAccount().balance());
     }
 
+
+    @Test
+    public void takeLoan() throws Exception {
+        User user = getUser();
+
+        Integer balanceBefore = user.getAccount().balance();
+
+
+        //Test(Then)
+
+        String url = String.format("/account/takeLoan/%s",user.getId());
+        this.mockMvc.perform(put(url))
+                .andExpect(status().isOk());
+
+        User userAfterUpdate = userDAO.findById(user.getId()).get();
+
+
+        assertEquals(integer(balanceBefore + 1000), userAfterUpdate.getAccount().balance());
+    }
+
+
     private User getUser() {
         User user = randomUser();
         userDAO.save(user);
