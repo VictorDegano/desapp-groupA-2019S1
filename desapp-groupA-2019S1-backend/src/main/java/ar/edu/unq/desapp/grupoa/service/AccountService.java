@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.deposit;
+import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.extract;
 
 @Service
 public class AccountService {
@@ -21,7 +22,16 @@ public class AccountService {
         userDAO.save(user);
     }
 
+    public Integer extractMoney(Integer userId, Integer amount) {
+        User user = getUser(userId);
+        user.updateAccount( extract(user.getAccount(),amount));
+        userDAO.save(user);
+        return amount;
+    }
+
     private User getUser(Integer userId) {
         return userDAO.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
     }
+
+
 }

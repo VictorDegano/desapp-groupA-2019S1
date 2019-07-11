@@ -69,6 +69,28 @@ public class AccountControllerTest {
     }
 
 
+    @Test
+    public void extractMoney() throws Exception {
+        User user = getUser();
+        user.updateAccount(user.getAccount().deposit(100));
+        userDAO.save(user);
+
+        Integer balanceBefore = user.getAccount().balance();
+
+        Integer amountToExtract = 33;
+
+        //Test(Then)
+
+        String url = String.format("/account/extractMoney/%s/%s",user.getId(),amountToExtract);
+        this.mockMvc.perform(put(url))
+                .andExpect(status().isOk());
+
+        User userAfterUpdate = userDAO.findById(user.getId()).get();
+
+
+        assertEquals(integer(balanceBefore - amountToExtract), userAfterUpdate.getAccount().balance());
+    }
+
     private User getUser() {
         User user = randomUser();
         userDAO.save(user);

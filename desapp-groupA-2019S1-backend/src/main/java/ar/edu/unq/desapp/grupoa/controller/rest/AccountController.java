@@ -38,6 +38,16 @@ public class AccountController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping("/extractMoney/{userId}/{amount}")
+    public ResponseEntity<String> extractMoney(@PathVariable Integer userId,@PathVariable Integer amount ) {
+        LOGGER.info("Got request POST to extract {} to user {}", amount, userId);
+
+        accountService.extractMoney(userId,amount);
+
+        LOGGER.info("{} extracted from {}", amount, userId);
+        return new ResponseEntity<>(amount.toString(),HttpStatus.OK);
+    }
+
 //    @PutMapping(value = "/confirmAsistance/{eventId}/{guestId}")
 //    public ResponseEntity<String> confirmAsistance(@PathVariable Integer eventId,@PathVariable Integer guestId) {
 //        LOGGER.info("Got request PUT to confirm assistance Fiesta Event with data");
