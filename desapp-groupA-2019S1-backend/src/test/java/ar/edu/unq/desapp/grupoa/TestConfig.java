@@ -1,9 +1,11 @@
 package ar.edu.unq.desapp.grupoa;
 
+import ar.edu.unq.desapp.grupoa.controller.rest.AccountController;
 import ar.edu.unq.desapp.grupoa.controller.rest.EventController;
 import ar.edu.unq.desapp.grupoa.controller.rest.UserController;
 import ar.edu.unq.desapp.grupoa.persistence.EventDAO;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
+import ar.edu.unq.desapp.grupoa.service.AccountService;
 import ar.edu.unq.desapp.grupoa.service.EmailSenderService;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 import ar.edu.unq.desapp.grupoa.service.UserService;
@@ -38,11 +40,6 @@ public class TestConfig {
     private EventDAO eventDAO;
 
     @Bean
-    public UserService userService(){
-        return new UserService();
-    }
-
-    @Bean
     public UserController userController(){
         return new UserController();
     }
@@ -53,6 +50,16 @@ public class TestConfig {
     }
 
     @Bean
+    public AccountController accountController(){
+        return new AccountController();
+    }
+
+    @Bean
+    public AccountService accountService(){
+        return new AccountService();
+    }
+
+    @Bean
     public EventService eventService(){
         return new EventService();
     }
@@ -60,6 +67,11 @@ public class TestConfig {
     @Bean
     public EmailSenderService emailSenderService(){
         return mock(EmailSenderService.class);
+    }
+
+    @Bean
+    public UserService userService(){
+        return new UserService();
     }
 
     @Bean

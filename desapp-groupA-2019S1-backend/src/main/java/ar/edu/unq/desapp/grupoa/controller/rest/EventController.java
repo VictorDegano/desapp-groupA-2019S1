@@ -17,7 +17,7 @@ import java.util.List;
 @CrossOrigin
 @Transactional
 @Controller
-@RequestMapping(value = "/event", method = {RequestMethod.GET, RequestMethod.POST})
+@RequestMapping(value = "/event", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
 public class EventController {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
@@ -25,7 +25,7 @@ public class EventController {
     private EventService eventService;
 
     public EventController() {
-        LOGGER.info("Starting Fiesta Controller");
+        LOGGER.info("Starting Event Controller");
     }
 
     @PostMapping()
@@ -46,6 +46,16 @@ public class EventController {
         eventService.confirmAsistance(eventId, guestId);
 
         LOGGER.info("Assistance of guest {} confirmed for event {}",eventId,guestId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/inviteUser/{eventId}/{userID}")
+    public ResponseEntity<String> inviteToEvent(@PathVariable Integer eventId,@PathVariable Integer userId) {
+        LOGGER.info("Got request PUT to confirm assistance Fiesta Event with data");
+
+        eventService.inviteUserToEvent(eventId, userId);
+
+        LOGGER.info("Assistance of guest {} confirmed for event {}",eventId,userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

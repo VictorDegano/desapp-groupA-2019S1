@@ -46,7 +46,7 @@ public class EventService {
                                 LocalDateTime limitConfirmationDateTime, List<Good> goods) {
         Fiesta fiesta = new Fiesta(
                 name,
-                getOrganizer(organizerId),
+                getUser(organizerId),
                 getGuests(guestsId),
                 limitConfirmationDateTime,
                 goods, LocalDateTime.now());
@@ -59,7 +59,7 @@ public class EventService {
 
         Canasta canasta = new Canasta(
                 name,
-                getOrganizer(organizerId),
+                getUser(organizerId),
                 getGuests(guestsId),
                 goods,
                 LocalDateTime.now());
@@ -72,7 +72,7 @@ public class EventService {
     public Integer createBaquitaComunitary(String eventName, Integer organizerId, List<Integer> guestsId, List<Good> goods) {
         BaquitaComunitary baquitaComunitary = new BaquitaComunitary(
                 eventName,
-                getOrganizer(organizerId),
+                getUser(organizerId),
                 getGuests(guestsId),
                 goods,
                 LocalDateTime.now()
@@ -85,7 +85,7 @@ public class EventService {
     public Integer createBaquitaRepresentatives(String eventName, Integer organizerId, List<Integer> guestsId, List<Good> goods) {
         BaquitaRepresentatives baquitaRepresentatives = new BaquitaRepresentatives(
                 eventName,
-                getOrganizer(organizerId),
+                getUser(organizerId),
                 getGuests(guestsId),
                 goods,
                 LocalDateTime.now()
@@ -125,8 +125,8 @@ public class EventService {
                 .stream().map(Guest::new).collect(Collectors.toList());
     }
 
-    private User getOrganizer(Integer organizerId) {
-        return userDAO.findById(organizerId).orElseThrow(() -> new UserNotFoundException(organizerId));
+    private User getUser(Integer userId) {
+        return userDAO.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
     }
 
 
@@ -142,6 +142,14 @@ public class EventService {
         event.confirmAsistancesOf(guest);
 
         eventDAO.save(event);
+    }
+
+
+    public void inviteUserToEvent(Integer eventId, Integer userId) {
+        Event event = getById(eventId);
+        User user =  getUser(userId);
+        sendMailToUser(event.getName(),event.getOrganizer().getEmail(),user);
+        event.inviteUser(user);
     }
 
     public Integer getEventCost(Integer eventId) {
@@ -160,7 +168,12 @@ public class EventService {
         String organizerEmail = event.getOrganizer().getEmail();
         event.getGuest().stream().forEach(guest -> {
             User guestUser = guest.getUser();
-            emailSenderService.sendInvitation(organizerEmail,guestUser.getEmail(),guestUser.getFirstName(),event.getName());
+            sendMailToUser(event.getName(), organizerEmail, guestUser);
         });
     }
+
+    private void sendMailToUser(String eventName, String organizerEmail, User userToInvite) {
+        emailSenderService.sendInvitation(organizerEmail,userToInvite.getEmail(),userToInvite.getFirstName(),eventName);
+    }
+
 }
