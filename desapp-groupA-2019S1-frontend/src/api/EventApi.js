@@ -98,6 +98,32 @@ class EventApi {
 
     return axios.post(API_CONFIG.endPoint + "event/", event, header);
   }
+
+  ownGood(eventId, goodId, loggedUserId){
+    const accessToken = auth.getAccessToken();
+
+    const header = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": API_CONFIG.contentType,
+        "Access-Control-Allow-Methods": API_CONFIG.allowMethods,
+        "Access-Control-Allow-Origin": API_CONFIG.allowOrigin
+      }
+    };
+
+    const body = {
+      eventId: eventId,
+      goodId: goodId,
+      loggedUserId: loggedUserId
+    };
+
+    //TODO: habilitar axios cuando este definido el endpoint
+    //return axios.post(API_CONFIG.endPoint + "event/owngood", body, header)
+                  // .then(response => {return response.data;})
+                  // .catch(error => []);
+    return new Promise( function(resolve, reject) { resolve(true)});
+  }
+
 }
 
 export default EventApi;

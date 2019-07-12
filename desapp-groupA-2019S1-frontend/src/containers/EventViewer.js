@@ -17,9 +17,14 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //Actions
 import { closeEventView, updateEvent } from "../actions/ModalViewActions";
+import { loadEventsInProgress, loadLastEvents, loadMostPopularEvents } from "../actions/EventActions";
 // css
 import "../css/ProfileEdition.css";
 import GoodItem from "../EventViewer/Components/GoodItem";
+//API
+import EventApi from "../api/EventApi";
+//Store
+import { store } from "../index.js";
 
 /* TODO: Cosas que faltan:
   - aceptar/cancelar una invitacion (El boton/link solo apareceria si el usuario es el invitado)
@@ -33,6 +38,9 @@ import GoodItem from "../EventViewer/Components/GoodItem";
 */
 class EventViewer extends Component {
   static propTypes = {
+    loadEventsInProgress: PropTypes.func.isRequired,
+    loadLastEvents: PropTypes.func.isRequired,
+    loadMostPopularEvents: PropTypes.func.isRequired,
     closeEventView: PropTypes.func.isRequired,
     updateEvent: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired,
@@ -53,6 +61,7 @@ class EventViewer extends Component {
       this
     );
     this.addOwnGoodButton = this.addOwnGoodButton.bind(this);
+    this.refreshEvents = this.refreshEvents.bind(this);
   }
 
   getEventTime() {
@@ -255,14 +264,37 @@ class EventViewer extends Component {
   }
 
   ownGood(good){
-    this.props.updateEvent(good.id);
-    //actualizarlos los listados:
-    // Habria que ver si se puede hacer algun chequeo al cerrar el modal 
-    // o tener un boolean que indique si este evento hay que actualizarlo
-    // o disparar los servicios para que actualicen todo
-    alert("me hice cargo de una canasta"); // <-- este seria el callout e iria antes del dispatch
+    const eventApi = new EventApi();
+    const eventId = this.props.event.id;
+    const loggedUserId = store.getState().UserReducer.loggedUser.id;
+
+    eventApi.ownGood(eventId, good.id, loggedUserId).then(response => {
+      if(response){
+        this.props.updateEvent(good.id);
+        this.refreshEvents(loggedUserId);
+        alert("me hice cargo de una canasta");
+      } else {
+        alert("No se pudo hacerse cargo del articulo");
+      }
+      
+    });    
   }
 
+  refreshEvents(userId){
+    const eventApi = new EventApi();
+
+    eventApi.getEventosEnCurso(userId).then(response => {
+      this.props.loadEventsInProgress(response.data);
+    });
+
+    eventApi.getMisUltimosEventos(userId).then(response => {
+      this.props.loadLastEvents(response.data);
+    });
+
+    eventApi.getEventosMasPopulares().then(response => {
+      this.props.loadMostPopularEvents(response.data);
+    });
+  }
 }
 
 const mapStateToProps = state => ({
@@ -272,7 +304,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   closeEventView: () => dispatch(closeEventView()),
-  updateEvent: event => dispatch(updateEvent(event))
+  updateEvent: event => dispatch(updateEvent(event)),
+  loadEventsInProgress: events => dispatch(loadEventsInProgress(events)),
+  loadLastEvents: events => dispatch(loadLastEvents(events)),
+  loadMostPopularEvents: events => dispatch(loadMostPopularEvents(events))
 });
 
 export default connect(
