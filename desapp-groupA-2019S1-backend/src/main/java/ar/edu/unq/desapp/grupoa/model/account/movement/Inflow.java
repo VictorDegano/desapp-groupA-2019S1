@@ -6,11 +6,13 @@ import java.time.LocalDateTime;
 @Entity
 public class Inflow extends Movement {
 
+    public String type = "inflow";
+
     public Inflow(Integer amount, MovementType type, LocalDateTime date) {
         super(amount,type,date);
     }
 
-    private Inflow() {
+    public Inflow() {
     }
 
     @Override

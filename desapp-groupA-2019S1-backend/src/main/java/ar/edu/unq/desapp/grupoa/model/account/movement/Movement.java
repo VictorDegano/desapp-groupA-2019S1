@@ -1,5 +1,7 @@
 package ar.edu.unq.desapp.grupoa.model.account.movement;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,6 +15,15 @@ import java.time.LocalDateTime;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Inflow.class, name = "inflow"),
+        @JsonSubTypes.Type(value = Outflow.class, name = "outflow")
+})
 public abstract class Movement{
 
     @Id
