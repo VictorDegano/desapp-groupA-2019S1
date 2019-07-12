@@ -48,11 +48,25 @@ class CreateEventModal extends Component {
     this.handleConfirmationDayChange = this.handleConfirmationDayChange.bind(
       this
     );
+    this.handleGoodNameChange = this.handleGoodNameChange.bind(this);
+    this.handleGoodPricePerUnitChange = this.handleGoodPricePerUnitChange.bind(
+      this
+    );
+    this.handleGoodQuantityForPersonChange = this.handleGoodQuantityForPersonChange.bind(
+      this
+    );
+    this.handleChangeNewGoodName = this.handleChangeNewGoodName.bind(this);
 
     this.state = {
       eventName: "FiestaExample",
       creationDate: new Date(),
-      goods: [],
+      goods: [
+        {
+          name: "Fernet",
+          pricePerUnit: 40,
+          quantityForPerson: 1
+        }
+      ],
       guests: [
         {
           confirmAsistance: "",
@@ -68,7 +82,12 @@ class CreateEventModal extends Component {
       quantityOfGuest: 0,
       status: "OPEN",
       type: "Fiesta",
-      confirmationDay: new Date()
+      confirmationDay: new Date(),
+      newGood: {
+        name: "",
+        pricePerUnit: 0,
+        quantityForPerson: 0
+      }
     };
   }
 
@@ -167,6 +186,16 @@ class CreateEventModal extends Component {
   handleConfirmationDayChange(date) {
     this.setState({ confirmationDay: date });
   }
+  handleChangeNewGoodName(event) {
+    let newValue = event.target.value;
+    this.setState(prevState => ({
+      // object that we want to update
+      newGood: {
+        ...prevState.newGood, // keep all other key-value pairs
+        name: newValue // update the value of specific key
+      }
+    }));
+  }
 
   handleSave(event) {
     // console.log("handleSave()");
@@ -179,7 +208,7 @@ class CreateEventModal extends Component {
       eventName: this.state.eventName,
       organizer: this.props.loggedUser,
       quantityOfGuest: 1,
-      goods: [],
+      goods: this.state.goods,
       guests: [
         {
           guestId: 1,
@@ -324,6 +353,71 @@ class CreateEventModal extends Component {
                   );
                 })}
               </ListGroup>
+
+              <Form.Label>Goods:</Form.Label>
+
+              <Form>
+                <Row>
+                  <Col>
+                    <Form.Control
+                      value={this.state.newGood.name}
+                      onChange={this.handleChangeNewGoodName}
+                      type="text"
+                      placeholder="Name"
+                    />
+                  </Col>
+                  <Col>
+                    <Form.Control placeholder="Prize" />
+                  </Col>
+                  <Col>
+                    <Form.Control placeholder="Quantity" />
+                  </Col>
+                  <Col>
+                    <Button variant="success">+</Button>
+                  </Col>
+                </Row>
+              </Form>
+              <Form.Group>
+                {this.state.goods.map((good, index) => {
+                  return (
+                    <Row key={index}>
+                      <Col>
+                        <Form.Control
+                          key={index}
+                          data-key={index}
+                          value={good.name}
+                          onChange={this.handleGoodNameChange}
+                          required
+                          type="text"
+                        />
+                      </Col>
+                      <Col>
+                        <Form.Control
+                          key={index}
+                          data-key={index}
+                          value={good.pricePerUnit}
+                          onChange={this.handleGoodPricePerUnitChange}
+                          required
+                          type="text"
+                        />
+                      </Col>
+                      <Col>
+                        <Form.Control
+                          key={index}
+                          data-key={index}
+                          value={good.quantityForPerson}
+                          onChange={this.handleGoodQuantityForPersonChange}
+                          required
+                          type="text"
+                        />
+                      </Col>
+                      <Col>
+                        <Button variant="danger">x</Button>
+                      </Col>
+                    </Row>
+                  );
+                })}
+              </Form.Group>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="primary" type="submit">
@@ -347,6 +441,54 @@ class CreateEventModal extends Component {
       return "FIESTA";
     }
     return "BAD HANDLE TYPE";
+  }
+
+  handleGoodNameChange(event) {
+    // event.preventDefault();
+    // console.log("event:" + event);
+    const eventKey = event.target.attributes.getNamedItem("data-key").value;
+    const newName = event.target.value;
+    const list = this.state.goods.map((item, j) => {
+      if (j.toString() === eventKey) {
+        item.name = newName;
+        return item;
+      } else {
+        return item;
+      }
+    });
+    this.setState({ goods: list });
+  }
+
+  handleGoodQuantityForPersonChange(event) {
+    // event.preventDefault();
+    // console.log("event:" + event);
+    const eventKey = event.target.attributes.getNamedItem("data-key").value;
+    const newquantityForPerson = event.target.value;
+    const list = this.state.goods.map((item, j) => {
+      if (j.toString() === eventKey) {
+        item.quantityForPerson = newquantityForPerson;
+        return item;
+      } else {
+        return item;
+      }
+    });
+    this.setState({ goods: list });
+  }
+
+  handleGoodPricePerUnitChange(event) {
+    // event.preventDefault();
+    // console.log("event:" + event);
+    const eventKey = event.target.attributes.getNamedItem("data-key").value;
+    const newPricePerUnit = event.target.value;
+    const list = this.state.goods.map((item, j) => {
+      if (j.toString() === eventKey) {
+        item.pricePerUnit = newPricePerUnit;
+        return item;
+      } else {
+        return item;
+      }
+    });
+    this.setState({ goods: list });
   }
 }
 
