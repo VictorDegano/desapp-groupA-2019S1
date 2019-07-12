@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
-        property = "type")
+        property = "flowType")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Inflow.class, name = "inflow"),
         @JsonSubTypes.Type(value = Outflow.class, name = "outflow")

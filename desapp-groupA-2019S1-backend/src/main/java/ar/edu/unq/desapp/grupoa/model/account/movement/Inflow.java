@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 @Entity
 public class Inflow extends Movement {
 
-    public String type = "inflow";
+    public String flowType = "inflow";
 
     public Inflow(Integer amount, MovementType type, LocalDateTime date) {
         super(amount,type,date);

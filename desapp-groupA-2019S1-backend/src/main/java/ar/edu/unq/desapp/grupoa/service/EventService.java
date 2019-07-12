@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa.service;
 
 import ar.edu.unq.desapp.grupoa.exception.EventNotFoundException;
 import ar.edu.unq.desapp.grupoa.exception.GuestNotFoundException;
+import ar.edu.unq.desapp.grupoa.exception.event.GoodTypeException;
 import ar.edu.unq.desapp.grupoa.exception.user.UserNotFoundException;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
@@ -9,9 +10,11 @@ import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaComunitary;
 import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaRepresentatives;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
+import ar.edu.unq.desapp.grupoa.model.event.canasta.CanastaGood;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.EventDAO;
+import ar.edu.unq.desapp.grupoa.persistence.GoodDAO;
 import ar.edu.unq.desapp.grupoa.persistence.GuestDAO;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,8 @@ public class EventService {
     private UserDAO userDAO;
     @Autowired
     private GuestDAO guestDAO;
+    @Autowired
+    private GoodDAO goodDAO;
     @Autowired
     private EmailSenderService emailSenderService;
 
@@ -176,4 +181,12 @@ public class EventService {
         emailSenderService.sendInvitation(organizerEmail,userToInvite.getEmail(),userToInvite.getFirstName(),eventName);
     }
 
+    public void ownCanastaGood(Integer eventId, Integer userId, Integer goodId) {
+        Canasta canasta = (Canasta) eventDAO.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
+        CanastaGood good = (CanastaGood) goodDAO.findById(goodId).orElseThrow(()-> new GoodTypeException("Good not found"));
+        User user =  getUser(userId);
+
+        canasta.ownAGood(user,good);
+        eventDAO.save(canasta);
+    }
 }
