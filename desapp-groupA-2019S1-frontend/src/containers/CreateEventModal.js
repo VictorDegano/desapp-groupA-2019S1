@@ -56,6 +56,13 @@ class CreateEventModal extends Component {
       this
     );
     this.handleChangeNewGoodName = this.handleChangeNewGoodName.bind(this);
+    this.handleChangeNewGoodPricePerUnit = this.handleChangeNewGoodPricePerUnit.bind(
+      this
+    );
+    this.handleChangeNewGoodQuantityForPerson = this.handleChangeNewGoodQuantityForPerson.bind(
+      this
+    );
+    this.handleAddNewGood = this.handleAddNewGood.bind(this);
 
     this.state = {
       eventName: "FiestaExample",
@@ -195,6 +202,41 @@ class CreateEventModal extends Component {
         name: newValue // update the value of specific key
       }
     }));
+  }
+  handleChangeNewGoodPricePerUnit(event) {
+    let newValue = event.target.value;
+    this.setState(prevState => ({
+      // object that we want to update
+      newGood: {
+        ...prevState.newGood, // keep all other key-value pairs
+        pricePerUnit: parseInt(newValue) // update the value of specific key
+      }
+    }));
+  }
+
+  handleChangeNewGoodQuantityForPerson(event) {
+    let newValue = event.target.value;
+    this.setState(prevState => ({
+      // object that we want to update
+      newGood: {
+        ...prevState.newGood, // keep all other key-value pairs
+        quantityForPerson: parseInt(newValue) // update the value of specific key
+      }
+    }));
+  }
+
+  handleAddNewGood() {
+    let newGood = this.state.newGood;
+    this.state.goods.push(newGood);
+    console.log(newGood);
+    this.setState({
+      goods: this.state.goods,
+      newGood: {
+        name: "",
+        pricePerUnit: 0,
+        quantityForPerson: 0
+      }
+    });
   }
 
   handleSave(event) {
@@ -356,7 +398,7 @@ class CreateEventModal extends Component {
 
               <Form.Label>Goods:</Form.Label>
 
-              <Form>
+              <Form.Group>
                 <Row>
                   <Col>
                     <Form.Control
@@ -367,16 +409,28 @@ class CreateEventModal extends Component {
                     />
                   </Col>
                   <Col>
-                    <Form.Control placeholder="Prize" />
+                    <Form.Control
+                      value={this.state.newGood.pricePerUnit}
+                      onChange={this.handleChangeNewGoodPricePerUnit}
+                      type="number"
+                      placeholder="Price"
+                    />
                   </Col>
                   <Col>
-                    <Form.Control placeholder="Quantity" />
+                    <Form.Control
+                      value={this.state.newGood.quantityForPerson}
+                      onChange={this.handleChangeNewGoodQuantityForPerson}
+                      type="number"
+                      placeholder="Price"
+                    />
                   </Col>
                   <Col>
-                    <Button variant="success">+</Button>
+                    <Button variant="success" onClick={this.handleAddNewGood}>
+                      +
+                    </Button>
                   </Col>
                 </Row>
-              </Form>
+              </Form.Group>
               <Form.Group>
                 {this.state.goods.map((good, index) => {
                   return (
@@ -398,7 +452,7 @@ class CreateEventModal extends Component {
                           value={good.pricePerUnit}
                           onChange={this.handleGoodPricePerUnitChange}
                           required
-                          type="text"
+                          type="number"
                         />
                       </Col>
                       <Col>
@@ -408,7 +462,7 @@ class CreateEventModal extends Component {
                           value={good.quantityForPerson}
                           onChange={this.handleGoodQuantityForPersonChange}
                           required
-                          type="text"
+                          type="number"
                         />
                       </Col>
                       <Col>
