@@ -1,10 +1,10 @@
 package ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO;
 
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.GoodDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.GuestDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.EventStatus;
-import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 
 import java.time.LocalDateTime;
@@ -13,7 +13,7 @@ import java.util.List;
 public class BaquitaComunitariaDTO extends EventDTO {
 
     public BaquitaComunitariaDTO(Integer id, String name, UserDTO organizer,
-                                 String type, Integer quantityOfGuest, List<Good> goods,
+                                 String type, Integer quantityOfGuest, List<GoodDTO> goods,
                                  List<GuestDTO> guests, EventStatus status, LocalDateTime creationDate) {
         this.id = id;
         this.eventName = name;
@@ -37,7 +37,7 @@ public class BaquitaComunitariaDTO extends EventDTO {
                 UserDTO.from(aBaquita.getOrganizer()),
                 aBaquita.getType().toString(),
                 aBaquita.getQuantityOfGuests(),
-                aBaquita.getGoodsForGuest(),
+                getGoodsFrom(aBaquita.getGoodsForGuest()),
                 getGuestsFrom(aBaquita.getGuest()),
                 aBaquita.getStatus(),
                 aBaquita.getCreationDate()
@@ -50,6 +50,8 @@ public class BaquitaComunitariaDTO extends EventDTO {
                 this.eventName,
                 this.organizer.id,
                 this.guestMail(),
-                this.goods);
+                toGood(this.goods));
     }
+
+
 }

@@ -134,6 +134,7 @@ public class EventService {
          return emailList.stream().map(email -> new Guest(userDAO.findByEmail(email))).collect(Collectors.toList());
    }
 
+
     private User getUser(Integer userId) {
         return userDAO.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
     }
