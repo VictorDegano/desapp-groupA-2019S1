@@ -1,10 +1,10 @@
 package ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO;
 
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.GoodDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.GuestDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.EventStatus;
-import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 
 import java.time.LocalDateTime;
@@ -14,7 +14,7 @@ public class CanastaDTO extends EventDTO {
 
 
     public CanastaDTO(Integer id, String name, UserDTO organizer,
-                     String type, Integer quantityOfGuest, List<Good> goods,
+                     String type, Integer quantityOfGuest, List<GoodDTO> goods,
                      List<GuestDTO> guests, EventStatus status, LocalDateTime creationDate) {
         this.id = id;
         this.eventName = name;
@@ -37,7 +37,7 @@ public class CanastaDTO extends EventDTO {
                 UserDTO.from(aCanasta.getOrganizer()),
                 aCanasta.getType().toString(),
                 aCanasta.getQuantityOfGuests(),
-                aCanasta.getGoodsForGuest(),
+                getGoodsFromCanastaGood(aCanasta.getGoodsForGuest()),
                 getGuestsFrom(aCanasta.getGuest()),
                 aCanasta.getStatus(),
                 aCanasta.getCreationDate()
@@ -49,7 +49,7 @@ public class CanastaDTO extends EventDTO {
         return eventService.createCanasta(
                 this.eventName,
                 this.organizer.id,
-                this.guestsId(),
-                this.goods);
+                this.guestMail(),
+                toGood(this.goods));
     }
 }

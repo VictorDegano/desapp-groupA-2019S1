@@ -51,13 +51,13 @@ public class AccountController {
 
         accountService.extractMoney(userId,amount);
 
-        LOGGER.info("{} extracted from {}", amount, userId);
+        LOGGER.info("{} extracted fromFiestaGood {}", amount, userId);
         return new ResponseEntity<>(amount.toString(),HttpStatus.OK);
     }
 
     @PutMapping("/takeLoan/{userId}")
     public ResponseEntity<String> takeLoan(@PathVariable Integer userId ) {
-        LOGGER.info("Got request PUT to loan from {}", userId);
+        LOGGER.info("Got request PUT to loan fromFiestaGood {}", userId);
 
         accountService.loan(userId);
 
@@ -68,7 +68,7 @@ public class AccountController {
 
     @GetMapping("/creditsOnCourse/{userId}")
     public ResponseEntity<CreditDTO> creditOnCourse(@PathVariable Integer userId ) {
-        LOGGER.info("Got request GET to get credits on course from {}", userId);
+        LOGGER.info("Got request GET to get credits on course fromFiestaGood {}", userId);
 
         Credit credit = accountService.getCreditsOnCourse(userId);
         CreditDTO creditDTO = CreditDTO.from(credit);
@@ -83,7 +83,7 @@ public class AccountController {
 
         List<Movement> movements = accountService.getMovements(userId);
 
-        LOGGER.info("returning movements from {}", userId);
+        LOGGER.info("returning movements fromFiestaGood {}", userId);
         return new ResponseEntity<List<Movement>>(movements,HttpStatus.OK);
     }
 

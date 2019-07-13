@@ -10,9 +10,7 @@ public class GuestDTO {
     private Integer userId;
     private String mail;
     private String firstName;
-
     private String lastName;
-
     private InvitationState confirmAsistance;
 
 
