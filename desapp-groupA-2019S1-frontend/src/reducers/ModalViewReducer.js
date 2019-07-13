@@ -91,17 +91,27 @@ export default function userReducer(state = initialState, action) {
 
     case "UPDATE_EVENT": {
       // Para Modificar un objecto anidado hay que "replicar" la asignacion en cadacapa que se va metiendo
+      // return Object.assign({}, state, {
+      //   event: Object.assign({}, state.event, {
+      //     goods: state.event.goods.map(
+      //               (good) => {
+      //                 if (good.id === action.goodId){
+      //                   return Object.assign({}, good, { available: false });
+      //                 } else {
+      //                   return good;
+      //                 }
+      //               }
+      //     )})
+      // })
+      return Object.assign({}, state, {
+        event: action.event });
+    }
+
+    case "CLOSE_EVENT":{
       return Object.assign({}, state, {
         event: Object.assign({}, state.event, {
-          goods: state.event.goods.map(
-                    (good) => {
-                      if (good.id === action.goodId){
-                        return Object.assign({}, good, { available: false });
-                      } else {
-                        return good;
-                      }
-                    }
-          )})
+          status: "CLOSE"
+        })
       })
     }
 

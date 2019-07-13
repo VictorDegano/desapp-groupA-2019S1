@@ -16,15 +16,23 @@ import Badge from "react-bootstrap/Badge";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //Actions
-import { closeEventView, updateEvent } from "../actions/ModalViewActions";
-import { loadEventsInProgress, loadLastEvents, loadMostPopularEvents } from "../actions/EventActions";
+import {
+  updateEventToStateClose,
+  closeEventView,
+  updateEvent
+} from "../actions/ModalViewActions";
+import {
+  loadEventsInProgress,
+  loadLastEvents,
+  loadMostPopularEvents
+} from "../actions/EventActions";
 // css
 import "../css/ProfileEdition.css";
 import GoodItem from "../EventViewer/Components/GoodItem";
 //API
 import EventApi from "../api/EventApi";
 //Store
-import { store } from "../index.js";
+import { store } from "../index";
 
 /* TODO: Cosas que faltan:
   - aceptar/cancelar una invitacion (El boton/link solo apareceria si el usuario es el invitado)
@@ -33,7 +41,6 @@ import { store } from "../index.js";
   - Aportar plata para la baquita comunitaria (¿viaja los datos y lo que esta recaudado?)
   - Costo total del evento (¿viaja o se calcula?)
   - Cerrar evento (Solo estaria disponible si es el organizador)
-  - Al aplicar algun cambio sobre el evento, hacer que se actualicen las listas de eventos (Es mas barato hacer los 3 callouts que recorrer las listas)
   ... creo que nada mas
 */
 class EventViewer extends Component {
@@ -41,6 +48,7 @@ class EventViewer extends Component {
     loadEventsInProgress: PropTypes.func.isRequired,
     loadLastEvents: PropTypes.func.isRequired,
     loadMostPopularEvents: PropTypes.func.isRequired,
+    updateEventToStateClose: PropTypes.func.isRequired,
     closeEventView: PropTypes.func.isRequired,
     updateEvent: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired,
@@ -62,6 +70,8 @@ class EventViewer extends Component {
     );
     this.addOwnGoodButton = this.addOwnGoodButton.bind(this);
     this.refreshEvents = this.refreshEvents.bind(this);
+    this.handleCloseEvent = this.handleCloseEvent.bind(this);
+    this.handleAceptInvitation = this.handleAceptInvitation.bind(this);
   }
 
   getEventTime() {
@@ -102,14 +112,14 @@ class EventViewer extends Component {
     }
   }
 
-  getOpenColour(status){
+  getOpenColour(status) {
     if (status === undefined) {
       return "dark";
     }
     if (status === "OPEN") {
       return "success";
     }
-    if (status === "CLOSED") {
+    if (status === "CLOSE") {
       return "danger";
     }
   }
@@ -118,29 +128,182 @@ class EventViewer extends Component {
     this.props.closeEventView();
   }
 
-  limitTimeRendering(){
+  limitTimeRendering() {
     const event = this.props.event;
     const { t } = this.props;
-    
-    if(event.type === "FIESTA"){
-      return <>
-              <Form.Label>Fecha Limite:</Form.Label>
-              <div className="containerDatePicker">
-                <DatePicker
-                  readOnly
-                  disabled
-                  className="Form.Control"
-                  minDate={new Date("01/01/1900")}
-                  maxDate={new Date()}
-                  selected={this.getEventTime()}
-                  dateFormat={t("formatter->date")}
-                  showYearDropdown
-                  scrollableYearDropdown
-                  yearDropdownItemNumber={80}
-                  fixedHeight
-                />
-              </div>
-            </>;
+
+    if (event.type === "FIESTA") {
+      return (
+        <>
+          <Form.Label>Fecha Limite:</Form.Label>
+          <div className="containerDatePicker">
+            <DatePicker
+              readOnly
+              disabled
+              className="Form.Control"
+              minDate={new Date("01/01/1900")}
+              maxDate={new Date()}
+              selected={this.getEventTime()}
+              dateFormat={t("formatter->date")}
+              showYearDropdown
+              scrollableYearDropdown
+              yearDropdownItemNumber={80}
+              fixedHeight
+            />
+          </div>
+        </>
+      );
+    } else {
+      return <></>;
+    }
+  }
+
+  listOfGoodsItems(event) {
+    return (
+      <ListGroup as="ul" variant="flush">
+        {event.goods.map(good => {
+          return (
+            <ListGroup.Item key={good.id + good.name + good.price} as="li">
+              <GoodItem good={good} eventType={event.type} />
+              {this.addOwnGoodButton(event, good)}
+            </ListGroup.Item>
+          );
+        })}
+      </ListGroup>
+    );
+  }
+
+  addOwnGoodButton(event, good) {
+    const { t } = this.props;
+
+    if (event.status !== "CLOSE" && event.type === "CANASTA") {
+      return (
+        <Button
+          disabled={!good.available}
+          onClick={() => this.ownGood(good)}
+          size="sm"
+          variant="outline-success"
+        >
+          {t("eventView->ownGood")}
+        </Button>
+      );
+    } else {
+      return <></>;
+    }
+  }
+
+  ownGood(good) {
+    const eventApi = new EventApi();
+    const eventId = this.props.event.id;
+    const loggedUserId = store.getState().UserReducer.loggedUser.id;
+
+    eventApi
+      .ownGood(eventId, good.id, loggedUserId)
+      .then(response => {
+        if (response) {
+          // this.props.updateEvent(good.id);
+          this.refreshEvents(loggedUserId);
+          alert("me hice cargo de una canasta");
+        } else {
+          alert("No se pudo hacerse cargo del articulo");
+        }
+      })
+      .catch(error => {
+        alert(error);
+      });
+  }
+
+  refreshEvents(userId) {
+    const eventApi = new EventApi();
+    eventApi.getEvent(this.props.event.id).then(response => {
+      this.props.updateEvent(response.data);
+    });
+
+    eventApi.getEventosEnCurso(userId).then(response => {
+      this.props.loadEventsInProgress(response.data);
+    });
+
+    eventApi.getMisUltimosEventos(userId).then(response => {
+      this.props.loadLastEvents(response.data);
+    });
+
+    eventApi.getEventosMasPopulares().then(response => {
+      this.props.loadMostPopularEvents(response.data);
+    });
+  }
+
+  handleCloseEvent() {
+    const eventApi = new EventApi();
+    const eventId = this.props.event.id;
+    const loggedUserId = store.getState().UserReducer.loggedUser.id;
+
+    eventApi
+      .closeEvent(eventId)
+      .then(response => {
+        if (response) {
+          // this.props.updateEventToStateClose();
+          this.refreshEvents(loggedUserId);
+          alert("Se ha cerrado el evento");
+        } else {
+          alert("No se ha podido cerrar el evento");
+        }
+      });
+  }
+
+  handleAceptInvitation(eventId, guestId){
+    const eventApi = new EventApi();
+    const loggedUserId = store.getState().UserReducer.loggedUser.id;
+
+    eventApi
+      .aceptInvitation(eventId, guestId)
+      .then(response => {
+        if (response) {
+          // this.props.updateEventToStateClose();
+          this.refreshEvents(loggedUserId);
+          alert("Invitacion confirmada");
+        } else {
+          alert("No se ha podido confirmar la invitacion");
+        }
+      });
+  }
+
+  renderCloseEventButton() {
+    const { t } = this.props;
+    const eventStatus = this.props.event.status;
+    const organizerId = this.props.event.organizer.id;
+    const loggedUserId = store.getState().UserReducer.loggedUser.id;
+
+    if (organizerId === loggedUserId) {
+      return (
+        <Button
+          disabled={eventStatus === "CLOSE"}
+          variant="secondary"
+          onClick={this.handleCloseEvent}
+        >
+          {t("eventView->button->closeEvent")}
+        </Button>
+      );
+    }
+  }
+
+  renderAceptInvitationButton(event, guest) {
+    const { t } = this.props;
+    const loggedUserId = store.getState().UserReducer.loggedUser.id;
+
+    if (
+      event.status !== "CLOSE" &&
+      guest.userId === loggedUserId &&
+      guest.confirmAsistance === "PENDING"
+    ) {
+      return (
+        <Button
+          onClick={() => this.handleAceptInvitation(event.id, guest.guestId)}
+          size="sm"
+          variant="outline-success"
+        >
+          {t("eventView->acceptInvitation")}
+        </Button>
+      );
     } else {
       return <></>;
     }
@@ -164,7 +327,7 @@ class EventViewer extends Component {
               <Col xs={3}>
                 <Form.Label>
                   {t("eventView->status")}
-                  <Badge variant={ this.getOpenColour(event.status) }>
+                  <Badge variant={this.getOpenColour(event.status)}>
                     {event.status}
                   </Badge>
                 </Form.Label>
@@ -178,7 +341,8 @@ class EventViewer extends Component {
                   readOnly
                   defaultValue={
                     event.organizer.fistName + " " + event.organizer.lastName
-                  }/>
+                  }
+                />
               </Col>
             </Row>
 
@@ -186,123 +350,76 @@ class EventViewer extends Component {
               <Col>
                 <Form.Label>{t("eventView->creationDate")}</Form.Label>
                 <div className="containerDatePicker">
-                  <DatePicker readOnly
-                              disabled
-                              className="Form.Control"
-                              minDate={new Date("01/01/1900")}
-                              maxDate={new Date()}
-                              selected={this.getEventTime()}
-                              dateFormat={t("formatter->date")}
-                              showYearDropdown
-                              scrollableYearDropdown
-                              yearDropdownItemNumber={80}
-                              fixedHeight/>
+                  <DatePicker
+                    readOnly
+                    disabled
+                    className="Form.Control"
+                    minDate={new Date("01/01/1900")}
+                    maxDate={new Date()}
+                    selected={this.getEventTime()}
+                    dateFormat={t("formatter->date")}
+                    showYearDropdown
+                    scrollableYearDropdown
+                    yearDropdownItemNumber={80}
+                    fixedHeight
+                  />
                 </div>
               </Col>
             </Row>
             <Row>
-              <Form.Label> 
+              <Form.Label>
                 {t("eventView->guestQuantity")}
                 <span>{event.quantityOfGuest}</span>
               </Form.Label>
-            </Row>            
-            <Form.Label><h4>{t("eventView->guest")}</h4></Form.Label>
+            </Row>
+            <Form.Label>
+              <h4>{t("eventView->guest")}</h4>
+            </Form.Label>
             <ListGroup as="ul" variant="flush">
               {event.guests.map(guest => {
                 return (
                   <ListGroup.Item
                     key={guest.firstName + guest.email + guest.lastName}
-                    as="li">
-
+                    as="li"
+                  >
                     {guest.firstName + " " + guest.lastName}
-                    <Badge variant={this.getBadgeColour(guest.confirmAsistance)}>
-                      {this.getConfirmationStateTraslation( guest.confirmAsistance )}
+                    <Badge
+                      variant={this.getBadgeColour(guest.confirmAsistance)}
+                    >
+                      {this.getConfirmationStateTraslation(
+                        guest.confirmAsistance
+                      )}
                     </Badge>
-
+                    {this.renderAceptInvitationButton(event, guest)}
                   </ListGroup.Item>
                 );
               })}
             </ListGroup>
-          <Form.Label><h4>{t("eventView->goods")}</h4></Form.Label>
-          {this.listOfGoodsItems(event)}
+            <Form.Label>
+              <h4>{t("eventView->goods")}</h4>
+            </Form.Label>
+            {this.listOfGoodsItems(event)}
           </Modal.Body>
 
           <Modal.Footer>
+            {this.renderCloseEventButton()}
             <Button variant="secondary" onClick={this.handleClose}>
               {t("eventView->button->close")}
             </Button>
           </Modal.Footer>
-          
         </Modal>
       </>
     );
   }
-
-  listOfGoodsItems(event){
-    return <ListGroup as="ul" variant="flush">
-              {event.goods.map(good => {
-                return <ListGroup.Item key={good.id + good.name + good.price}
-                                      as="li">
-                    <GoodItem good={good} eventType={event.type}/>
-                    {this.addOwnGoodButton(event.type, good)}
-                </ListGroup.Item>
-              })}
-            </ListGroup>
-  }
-
-  addOwnGoodButton(evenType, good){
-    if(evenType === "CANASTA"){
-      return <Button disabled={!good.available} 
-                     onClick={() =>this.ownGood(good)}
-                     size="sm"
-                     variant="outline-success">
-                Hacerce Cargo
-              </Button>;
-    } else {
-      return <></>;
-    }
-  }
-
-  ownGood(good){
-    const eventApi = new EventApi();
-    const eventId = this.props.event.id;
-    const loggedUserId = store.getState().UserReducer.loggedUser.id;
-
-    eventApi.ownGood(eventId, good.id, loggedUserId).then(response => {
-      if(response){
-        this.props.updateEvent(good.id);
-        this.refreshEvents(loggedUserId);
-        alert("me hice cargo de una canasta");
-      } else {
-        alert("No se pudo hacerse cargo del articulo");
-      }
-      
-    }).catch( error => { alert(error);});    
-  }
-
-  refreshEvents(userId){
-    const eventApi = new EventApi();
-
-    eventApi.getEventosEnCurso(userId).then(response => {
-      this.props.loadEventsInProgress(response.data);
-    });
-
-    eventApi.getMisUltimosEventos(userId).then(response => {
-      this.props.loadLastEvents(response.data);
-    });
-
-    eventApi.getEventosMasPopulares().then(response => {
-      this.props.loadMostPopularEvents(response.data);
-    });
-  }
 }
 
 const mapStateToProps = state => ({
-    show: state.ModalViewReducer.modalEventView,
-    event: state.ModalViewReducer.event
+  show: state.ModalViewReducer.modalEventView,
+  event: state.ModalViewReducer.event
 });
 
 const mapDispatchToProps = dispatch => ({
+  updateEventToStateClose: () => dispatch(updateEventToStateClose()),
   closeEventView: () => dispatch(closeEventView()),
   updateEvent: event => dispatch(updateEvent(event)),
   loadEventsInProgress: events => dispatch(loadEventsInProgress(events)),

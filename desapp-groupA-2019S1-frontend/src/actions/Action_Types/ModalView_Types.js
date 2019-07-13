@@ -11,3 +11,5 @@ export const OPEN_EVENT_VIEW = "OPEN_EVENT_VIEW";
 export const CLOSE_EVENT_VIEW = "CLOSE_EVENT_VIEW";
 
 export const UPDATE_EVENT = "UPDATE_EVENT";
+
+export const CLOSE_EVENT = "CLOSE_EVENT";
