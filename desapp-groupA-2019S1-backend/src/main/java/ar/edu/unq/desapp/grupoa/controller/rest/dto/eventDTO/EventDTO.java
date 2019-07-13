@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO;
 
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.GoodDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.dtoHandler.BaquitaComunitaryDTOHandler;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.dtoHandler.BaquitaRepresentativesDTOHandler;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.dtoHandler.CanastaDTOHandler;
@@ -37,7 +38,7 @@ public abstract class EventDTO {
     protected UserDTO organizer;
     protected String type;
     protected Integer quantityOfGuest;
-    protected List<Good> goods;
+    protected List<GoodDTO> goods;
     protected List<GuestDTO> guests;
     protected EventStatus status;
     protected LocalDateTime creationDate;
@@ -67,8 +68,12 @@ public abstract class EventDTO {
         return guest.stream().map(GuestDTO::from).collect(Collectors.toList());
     }
 
-    protected List<Integer> guestsId(){
-        return guests.stream().map(GuestDTO::getUserId).collect(Collectors.toList());
+    protected List<Good> toGood(List<GoodDTO> goods) {
+        return goods.stream().map(goodDto -> goodDto.toGood()).collect(Collectors.toList());
+    }
+
+    protected List<String> guestMail(){
+        return guests.stream().map(GuestDTO::getMail).collect(Collectors.toList());
     };
 
     /* Getters */
@@ -88,10 +93,20 @@ public abstract class EventDTO {
         return quantityOfGuest;
     }
 
-    public List<Good> getGoods() {
+    public List<GoodDTO> getGoods() {
         return goods;
     }
 
+    protected List<GoodDTO> getGoodsFromFiestaGood(List<Good> goodsForGuest) {
+        return goodsForGuest.stream().map( it -> GoodDTO.fromFiestaGood(it)).collect(Collectors.toList());
+    }
+
+    protected List<GoodDTO> getGoodsFromCanastaGood(List<Good> goodsForGuest) {
+        return goodsForGuest.stream().map( it -> GoodDTO.fromCanastaGood(it)).collect(Collectors.toList());
+    }
+    protected List<GoodDTO> getGoodsFrom(List<Good> goodsForGuest) {
+        return goodsForGuest.stream().map( it -> GoodDTO.fromGood(it)).collect(Collectors.toList());
+    }
 
     public String getType() {
         return type;

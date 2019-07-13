@@ -28,6 +28,7 @@ public class User {
     @NotBlank(message = "LastName is mandatory")
     private String lastName;
     @NotBlank(message = "Mail is mandatory")
+    @Column(unique = true)
     private String email;
     @NotBlank(message = "Password is mandatory")
     private String password;
