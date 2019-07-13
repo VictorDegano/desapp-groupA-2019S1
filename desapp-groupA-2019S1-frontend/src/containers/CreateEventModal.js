@@ -62,6 +62,7 @@ class CreateEventModal extends Component {
       this
     );
     this.handleAddNewGood = this.handleAddNewGood.bind(this);
+    this.handleDeleteGood = this.handleDeleteGood.bind(this);
     this.EmailsInputRef = React.createRef();
 
     this.state = {
@@ -239,6 +240,16 @@ class CreateEventModal extends Component {
     });
   }
 
+  handleDeleteGood(event) {
+    const eventKey = event.target.attributes.getNamedItem("data-key").value;
+
+    this.state.goods.splice(eventKey);
+
+    this.setState({
+      goods: this.state.goods
+    });
+  }
+
   handleSave(event) {
     // console.log("handleSave()");
     event.preventDefault();
@@ -338,7 +349,7 @@ class CreateEventModal extends Component {
     const { validated } = this.state;
     return (
       <>
-        <Modal show={show} onHide={this.handleClose}>
+        <Modal size="lg" show={show} onHide={this.handleClose}>
           <Form onSubmit={this.handleSave} noValidate validated={validated}>
             <Modal.Header closeButton>
               <Modal.Title>Create Event</Modal.Title>
@@ -499,7 +510,14 @@ class CreateEventModal extends Component {
                         />
                       </Col>
                       <Col>
-                        <Button variant="danger">x</Button>
+                        <Button
+                          key={index}
+                          data-key={index}
+                          variant="danger"
+                          onClick={this.handleDeleteGood}
+                        >
+                          x
+                        </Button>
                       </Col>
                     </Row>
                   );
