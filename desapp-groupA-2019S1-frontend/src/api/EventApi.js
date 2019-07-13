@@ -111,17 +111,17 @@ class EventApi {
       }
     };
 
-    const body = {
-      eventId: eventId,
-      goodId: goodId,
-      loggedUserId: loggedUserId
-    };
+    // const body = {
+    //   eventId: eventId,
+    //   goodId: goodId,
+    //   loggedUserId: loggedUserId
+    // };
 
-    //TODO: habilitar axios cuando este definido el endpoint
-    //return axios.post(API_CONFIG.endPoint + "event/owngood", body, header)
-                  // .then(response => {return response.data;})
-                  // .catch(error => []);
-    return new Promise( function(resolve, reject) { resolve(true)});
+    // TODO: habilitar axios cuando este definido el endpoint
+    return axios.put(API_CONFIG.endPoint + `event/ownCanastaGood/${eventId}/${loggedUserId}/${goodId}`, header)
+                  .then(response => {return response.status ? true : false;})
+                  .catch(error => {return error;} );
+    // return new Promise( function(resolve, reject) { resolve(true)});
   }
 
 }

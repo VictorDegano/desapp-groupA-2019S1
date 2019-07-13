@@ -277,7 +277,7 @@ class EventViewer extends Component {
         alert("No se pudo hacerse cargo del articulo");
       }
       
-    });    
+    }).catch( error => { alert(error);});    
   }
 
   refreshEvents(userId){

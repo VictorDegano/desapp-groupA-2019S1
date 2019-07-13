@@ -138,12 +138,15 @@ public class BootStrapRunner implements ApplicationRunner {
         mani.setQuantityForPerson(2);
         mani.setUserThatOwnsTheGood(joseTejo);
 
+        Guest victorGuest = new Guest(victor);
+        victorGuest.confirmAsistance();
+
         return new Canasta(
                 "Canasteando 2.0",
                 organizerIvan,
                 Arrays.asList(
                         new Guest(ivan),
-                        new Guest(victor),
+                        victorGuest,
                         new Guest(pepe),
                         new Guest(juanCaspa),
                         new Guest(joseTejo),
@@ -373,18 +376,6 @@ public class BootStrapRunner implements ApplicationRunner {
         logger.info("Creating Pepe Locura Events");
         List<Event> pepeEvents = new ArrayList<>();
 
-//        Baquita aBaquita = new BaquitaRepresentatives(
-//                "Una vaca Respetable",
-//                organizerPepe,
-//                Arrays.asList(
-//                        new Guest(ivanD),
-//                        new Guest(victor),
-//                        new Guest(ivanT),
-//                        new Guest(juanCaspa),
-//                        new Guest(joseTejo)),
-//                EMPTY_LIST,
-//                LocalDateTime.now().minusDays(2));
-//        aBaquita.close();
         pepeEvents.add(this.buildUnaVacaRespetable(organizerPepe, ivanD, ivanT, victor, juanCaspa, joseTejo, donBilletin));
         return pepeEvents;
     }
@@ -393,6 +384,7 @@ public class BootStrapRunner implements ApplicationRunner {
         Guest ivanDG = new Guest(ivanD);
         Guest ivanTG = new Guest(ivanT);
         Guest victorG = new Guest(victor);
+        victorG.confirmAsistance();
         Guest juanCaspaG = new Guest(juanCaspa);
         Guest joseTejoG = new Guest(joseTejo);
 
