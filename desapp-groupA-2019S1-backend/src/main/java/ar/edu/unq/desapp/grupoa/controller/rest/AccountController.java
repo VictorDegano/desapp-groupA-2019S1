@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoa.controller.rest;
 
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.CreditDTO;
 import ar.edu.unq.desapp.grupoa.model.account.Credit;
+import ar.edu.unq.desapp.grupoa.model.account.movement.Movement;
 import ar.edu.unq.desapp.grupoa.service.AccountService;
 
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @Transactional
@@ -74,27 +77,14 @@ public class AccountController {
         return new ResponseEntity<CreditDTO>(creditDTO,HttpStatus.OK);
     }
 
-//    @PutMapping(value = "/confirmAsistance/{eventId}/{guestId}")
-//    public ResponseEntity<String> confirmAsistance(@PathVariable Integer eventId,@PathVariable Integer guestId) {
-//        LOGGER.info("Got request PUT to confirm assistance Fiesta Event with data");
-//
-//        eventService.confirmAsistance(eventId, guestId);
-//
-//        LOGGER.info("Assistance of guest {} confirmed for event {}",eventId,guestId);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+    @GetMapping("/movements/{userId}")
+    public ResponseEntity<List<Movement>> movements(@PathVariable Integer userId ) {
+        LOGGER.info("Got request GET to get user movements {}", userId);
 
-//    @GetMapping(value = "/{eventId}")
-//    public ResponseEntity<EventDTO> findEvent(@PathVariable Integer eventId) {
-//        LOGGER.info("Got request GET for a Event with id {}", eventId);
-//        Event event = eventService.getById(eventId);
-//
-//        EventDTO eventDTO = EventDTO.fromEvent(event);
-//
-//        LOGGER.info("Responding with Event with id {}", eventId);
-//        return new ResponseEntity<>(eventDTO, HttpStatus.OK);
-//    }
-//
+        List<Movement> movements = accountService.getMovements(userId);
 
+        LOGGER.info("returning movements from {}", userId);
+        return new ResponseEntity<List<Movement>>(movements,HttpStatus.OK);
+    }
 
 }
