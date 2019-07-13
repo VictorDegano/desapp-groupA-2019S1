@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO;
 
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.GoodDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.GuestDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
@@ -9,6 +10,7 @@ import ar.edu.unq.desapp.grupoa.service.EventService;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FiestaDTO extends EventDTO {
 
@@ -16,7 +18,7 @@ public class FiestaDTO extends EventDTO {
     private Integer confirmations;
 
     public FiestaDTO(Integer id, String name, UserDTO organizer,
-                     String type, Integer quantityOfGuest, List<Good> goods,
+                     String type, Integer quantityOfGuest, List<GoodDTO> goods,
                      List<GuestDTO> guests, LocalDateTime limitConfirmationDateTime,
                      Integer confirmations, EventStatus status, LocalDateTime creationDate) {
         this.id = id;
@@ -42,7 +44,7 @@ public class FiestaDTO extends EventDTO {
                 UserDTO.from(aFiesta.getOrganizer()),
                 aFiesta.getType().toString(),
                 aFiesta.getQuantityOfGuests(),
-                aFiesta.getGoodsForGuest(),
+                getGoodsFromFiestaGood(aFiesta.getGoodsForGuest()),
                 getGuestsFrom(aFiesta.getGuest()),
                 aFiesta.getLimitConfirmationDateTime(),
                 aFiesta.getConfirmations(),
@@ -51,6 +53,10 @@ public class FiestaDTO extends EventDTO {
         );
     }
 
+
+
+
+
     @Override
     public Integer handleCreation(EventService eventService) {
        return eventService.createFiesta(
@@ -58,8 +64,12 @@ public class FiestaDTO extends EventDTO {
                this.organizer.id,
                this.guestMail(),
                this.limitConfirmationDateTime,
-               this.goods
+               this.dtoTogoods(this.goods)
        );
+    }
+
+    private List<Good> dtoTogoods(List<GoodDTO> goods) {
+        return  goods.stream().map( dto -> dto.toFiestaGood() ).collect(Collectors.toList());
     }
 
 

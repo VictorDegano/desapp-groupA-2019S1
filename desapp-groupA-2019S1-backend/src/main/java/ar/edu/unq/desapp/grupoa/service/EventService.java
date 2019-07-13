@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoa.service;
 import ar.edu.unq.desapp.grupoa.exception.EventNotFoundException;
 import ar.edu.unq.desapp.grupoa.exception.GuestNotFoundException;
 import ar.edu.unq.desapp.grupoa.exception.event.GoodTypeException;
+import ar.edu.unq.desapp.grupoa.exception.user.MailNotFoundException;
 import ar.edu.unq.desapp.grupoa.exception.user.UserNotFoundException;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
@@ -133,6 +134,7 @@ public class EventService {
     private List<Guest> getGuests(List<String> emailList) {
          return emailList.stream().map(email -> new Guest(userDAO.findByEmail(email))).collect(Collectors.toList());
    }
+
 
     private User getUser(Integer userId) {
         return userDAO.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
