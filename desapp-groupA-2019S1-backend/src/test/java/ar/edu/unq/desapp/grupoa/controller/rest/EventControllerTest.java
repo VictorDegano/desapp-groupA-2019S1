@@ -58,12 +58,14 @@ import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuild
 import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuilder.withUnconfirmedGuestForBaquitaRepresentatives;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -174,6 +176,45 @@ public class EventControllerTest {
         testConfirmAsistance(guestToConfirm, event);
     }
 
+    @Test
+    public void testOwnAGoodForCanasta() throws Exception {
+        //Setup(Given)
+        User owner = getUser();
+        Guest firstGuest = getGuest();
+        Good canastaGood = CanastaGoodBuilder.buildAGood()
+                .withName("Beer")
+                .withPricesPerUnit(50)
+                .withQuantityForPerson(1)
+                .build();
+
+        List<Good> canastaGoods = new ArrayList<>();
+        canastaGoods.add(canastaGood);
+
+        Canasta canasta =  CanastaBuilder.buildCanasta()
+                .withName("pepeCanasta")
+                .withOrganizer(owner)
+                .addGuest(firstGuest)
+                .withOpenState()
+                .withCreationDate(LocalDateTime.now())
+                .withGoods(canastaGoods)
+                .build();
+
+        canasta.confirmUser(firstGuest.getUser());
+
+        eventDAO.save(canasta);
+
+        assertFalse(canasta.getGoodsForGuest().stream().anyMatch(good -> good.getUserThatOwnsTheGood() != null &&    good.getUserThatOwnsTheGood().getId().equals(firstGuest.getUser().getId())));
+
+
+        //Test(Then)
+        String url = String.format("/event/ownCanastaGood/%s/%s/%s", canasta.getId(),firstGuest.getUser().getId(),canastaGood.getId());
+        this.mockMvc.perform(put(url))
+                .andExpect(status().isOk());
+
+        Event eventRetrieved    = eventDAO.findById(canasta.getId()).get();
+        assertTrue(eventRetrieved.getGoodsForGuest().stream().anyMatch(good -> good.getUserThatOwnsTheGood().getId().equals(firstGuest.getUser().getId())));
+
+    }
 
     private void testConfirmAsistance(Guest guestToConfirm, Event event) throws Exception {
         Integer confirmationsBeforeConfirm = event.getConfirmations();
@@ -218,6 +259,8 @@ public class EventControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(responseExpected);
     }
+
+
 
     private Canasta buildCanasta() {
         Guest firstGuest = getGuest();
