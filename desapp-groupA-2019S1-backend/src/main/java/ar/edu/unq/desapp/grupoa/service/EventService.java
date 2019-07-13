@@ -3,7 +3,6 @@ package ar.edu.unq.desapp.grupoa.service;
 import ar.edu.unq.desapp.grupoa.exception.EventNotFoundException;
 import ar.edu.unq.desapp.grupoa.exception.GuestNotFoundException;
 import ar.edu.unq.desapp.grupoa.exception.event.GoodTypeException;
-import ar.edu.unq.desapp.grupoa.exception.user.MailNotFoundException;
 import ar.edu.unq.desapp.grupoa.exception.user.UserNotFoundException;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
