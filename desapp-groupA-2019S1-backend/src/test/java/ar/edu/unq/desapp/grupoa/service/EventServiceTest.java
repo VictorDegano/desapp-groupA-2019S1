@@ -21,6 +21,8 @@ import org.w3c.dom.UserDataHandler;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+
+import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomString;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -39,7 +41,7 @@ public class EventServiceTest {
         User aOrganizer1 = UserBuilder.buildAUser()
                 .withFirstName("Ivan")
                 .withLastName("Dominikow")
-                .withMail("ivancito@saraza.com")
+                .withMail(randomString()+"@saraza.com")
                 .withBornDay(LocalDateTime.of(2019,10,30,20,00))
                 .withPassword("laSaraza")
                 .build();
@@ -136,7 +138,7 @@ public class EventServiceTest {
         User aOrganizer1 = UserBuilder.buildAUser()
                                     .withFirstName("Ivan")
                                     .withLastName("Dominikow")
-                                    .withMail("ivancito@saraza.com")
+                                    .withMail(randomString()+"@saraza.com")
                                     .withBornDay(LocalDateTime.of(2019,10,30,20,00))
                                     .withPassword("laSaraza")
                                     .build();
@@ -144,7 +146,7 @@ public class EventServiceTest {
         User aOrganizer2 = UserBuilder.buildAUser()
                                     .withFirstName("Jose")
                                     .withLastName("lastoma")
-                                    .withMail("lastomajose@saraza.com")
+                                    .withMail(randomString()+"@saraza.com")
                                     .withBornDay(LocalDateTime.of(2010,1,11,20,00))
                                     .withPassword("teLaTomasteTodaChinwenwencha")
                                     .build();

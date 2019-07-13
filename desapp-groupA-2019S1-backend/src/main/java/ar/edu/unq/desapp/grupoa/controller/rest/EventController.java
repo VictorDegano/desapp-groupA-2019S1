@@ -17,7 +17,7 @@ import java.util.List;
 @CrossOrigin
 @Transactional
 @Controller
-@RequestMapping(value = "/event", method = {RequestMethod.GET, RequestMethod.POST})
+@RequestMapping(value = "/event", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
 public class EventController {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
@@ -25,7 +25,7 @@ public class EventController {
     private EventService eventService;
 
     public EventController() {
-        LOGGER.info("Starting Fiesta Controller");
+        LOGGER.info("Starting Event Controller");
     }
 
     @PostMapping()
@@ -82,6 +82,28 @@ public class EventController {
     }
 
 
+    @PutMapping(value = "/ownCanastaGood/{eventId}/{userId}/{goodId}")
+    public ResponseEntity<String> ownACanastaGood(@PathVariable Integer eventId,@PathVariable Integer userId,@PathVariable Integer goodId) {
+        LOGGER.info("Got request PUT for Event with id {}, for user {} to own the good {}", eventId,userId,goodId);
+
+        eventService.ownCanastaGood(eventId,userId,goodId);
+
+        LOGGER.info("Good {} is now owned by {}", goodId,userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/ownBaquitaGood/{eventId}/{userId}/{goodId}")
+    public ResponseEntity<String> ownBaquitaGood(@PathVariable Integer eventId,@PathVariable Integer userId,@PathVariable Integer goodId) {
+        LOGGER.info("Got request PUT for Event with id {}, for user {} to own the good {}", eventId,userId,goodId);
+
+        eventService.ownBaquitaGood(eventId,userId,goodId);
+
+        LOGGER.info("Good {} is now owned by {}", goodId,userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+
     @GetMapping(value = "/eventCost/{eventId}")
     public ResponseEntity<Integer> getEventCost(@PathVariable Integer eventId) {
         LOGGER.info("Got request GET for Event cost with id {}", eventId);
@@ -91,7 +113,6 @@ public class EventController {
         LOGGER.info("Responding with cost for event with id {}", eventId);
         return new ResponseEntity<>(cost, HttpStatus.OK);
     }
-
 
     @GetMapping(value = "/in_progress/{userId}")
     public ResponseEntity<List<EventDTO>> eventsInProgress(@PathVariable Integer userId) {

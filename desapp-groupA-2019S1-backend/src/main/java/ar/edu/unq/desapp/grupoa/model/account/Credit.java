@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 public class Credit {
 
     private final User user;
+
     private final Integer quotasToPay;
     private final Boolean hasDefaulted;
     private final LocalDateTime date;
@@ -19,5 +20,17 @@ public class Credit {
 
     public Integer getQuotasToPay() {
         return quotasToPay;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Boolean getHasDefaulted() {
+        return hasDefaulted;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
     }
 }

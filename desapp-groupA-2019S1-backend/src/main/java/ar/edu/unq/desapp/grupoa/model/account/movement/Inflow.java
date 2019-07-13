@@ -1,11 +1,18 @@
 package ar.edu.unq.desapp.grupoa.model.account.movement;
 
+import javax.persistence.Entity;
 import java.time.LocalDateTime;
 
-public final class Inflow extends Movement {
+@Entity
+public class Inflow extends Movement {
+
+    public String flowType = "inflow";
 
     public Inflow(Integer amount, MovementType type, LocalDateTime date) {
         super(amount,type,date);
+    }
+
+    public Inflow() {
     }
 
     @Override

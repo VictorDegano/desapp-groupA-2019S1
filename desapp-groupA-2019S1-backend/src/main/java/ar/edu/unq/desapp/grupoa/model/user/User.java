@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoa.model.user;
 import ar.edu.unq.desapp.grupoa.model.account.Account;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -26,6 +28,7 @@ public class User {
     @NotBlank(message = "LastName is mandatory")
     private String lastName;
     @NotBlank(message = "Mail is mandatory")
+    @Column(unique = true)
     private String email;
     @NotBlank(message = "Password is mandatory")
     private String password;
@@ -35,8 +38,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserState state;
     //TODO: Provisorio, a confirmar
-    @Transient
-    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
     private Account account;
 
 

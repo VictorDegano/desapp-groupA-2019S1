@@ -15,8 +15,6 @@ import javax.persistence.OneToOne;
 @Entity
 public class LoadedGood {
 
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
@@ -25,6 +23,8 @@ public class LoadedGood {
     private Guest guest;
     @OneToOne(cascade = CascadeType.ALL)
     private Good  good ;
+
+    private  LoadedGood(){}
 
     public LoadedGood(Guest guest,Good good) {
         this.guest =guest;

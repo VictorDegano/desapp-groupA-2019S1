@@ -49,7 +49,7 @@ public class BaquitaComunitariaDTO extends EventDTO {
         return eventService.createBaquitaComunitary(
                 this.eventName,
                 this.organizer.id,
-                this.guestsId(),
+                this.guestMail(),
                 this.goods);
     }
 }

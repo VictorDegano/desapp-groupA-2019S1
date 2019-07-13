@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa.service;
 
 import ar.edu.unq.desapp.grupoa.exception.EventNotFoundException;
 import ar.edu.unq.desapp.grupoa.exception.GuestNotFoundException;
+import ar.edu.unq.desapp.grupoa.exception.event.GoodTypeException;
 import ar.edu.unq.desapp.grupoa.exception.user.UserNotFoundException;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
@@ -9,9 +10,11 @@ import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaComunitary;
 import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaRepresentatives;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
+import ar.edu.unq.desapp.grupoa.model.event.canasta.CanastaGood;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.EventDAO;
+import ar.edu.unq.desapp.grupoa.persistence.GoodDAO;
 import ar.edu.unq.desapp.grupoa.persistence.GuestDAO;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.LoadGood.loadGood;
 
 @Service
 @Transactional
@@ -33,6 +38,8 @@ public class EventService {
     @Autowired
     private GuestDAO guestDAO;
     @Autowired
+    private GoodDAO goodDAO;
+    @Autowired
     private EmailSenderService emailSenderService;
 
     public EventService(EventDAO aEventDAO) {
@@ -42,12 +49,15 @@ public class EventService {
     public EventService() {
     }
 
-    public Integer createFiesta(String name, Integer organizerId, List<Integer> guestsId,
+    public Integer createFiesta(String name, Integer organizerId, List<String> guestsMails,
                                 LocalDateTime limitConfirmationDateTime, List<Good> goods) {
+
+
+
         Fiesta fiesta = new Fiesta(
                 name,
                 getUser(organizerId),
-                getGuests(guestsId),
+                getGuests(guestsMails),
                 limitConfirmationDateTime,
                 goods, LocalDateTime.now());
 
@@ -55,12 +65,12 @@ public class EventService {
         return create(fiesta);
     }
 
-    public Integer createCanasta(String name, Integer organizerId, List<Integer> guestsId, List<Good> goods) {
+    public Integer createCanasta(String name, Integer organizerId, List<String> guestMails, List<Good> goods) {
 
         Canasta canasta = new Canasta(
                 name,
                 getUser(organizerId),
-                getGuests(guestsId),
+                getGuests(guestMails),
                 goods,
                 LocalDateTime.now());
 
@@ -69,11 +79,11 @@ public class EventService {
     }
 
 
-    public Integer createBaquitaComunitary(String eventName, Integer organizerId, List<Integer> guestsId, List<Good> goods) {
+    public Integer createBaquitaComunitary(String eventName, Integer organizerId, List<String> guestMail, List<Good> goods) {
         BaquitaComunitary baquitaComunitary = new BaquitaComunitary(
                 eventName,
                 getUser(organizerId),
-                getGuests(guestsId),
+                getGuests(guestMail),
                 goods,
                 LocalDateTime.now()
         );
@@ -82,11 +92,11 @@ public class EventService {
         return create(baquitaComunitary);
     }
 
-    public Integer createBaquitaRepresentatives(String eventName, Integer organizerId, List<Integer> guestsId, List<Good> goods) {
+    public Integer createBaquitaRepresentatives(String eventName, Integer organizerId, List<String> guestMail, List<Good> goods) {
         BaquitaRepresentatives baquitaRepresentatives = new BaquitaRepresentatives(
                 eventName,
                 getUser(organizerId),
-                getGuests(guestsId),
+                getGuests(guestMail),
                 goods,
                 LocalDateTime.now()
         );
@@ -120,10 +130,9 @@ public class EventService {
     }
 
 
-    private List<Guest> getGuests(List<Integer> guestsId) {
-        return userDAO.findAllById(guestsId)
-                .stream().map(Guest::new).collect(Collectors.toList());
-    }
+    private List<Guest> getGuests(List<String> emailList) {
+         return emailList.stream().map(email -> new Guest(userDAO.findByEmail(email))).collect(Collectors.toList());
+   }
 
     private User getUser(Integer userId) {
         return userDAO.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
@@ -176,4 +185,20 @@ public class EventService {
         emailSenderService.sendInvitation(organizerEmail,userToInvite.getEmail(),userToInvite.getFirstName(),eventName);
     }
 
+    public void ownCanastaGood(Integer eventId, Integer userId, Integer goodId) {
+        Canasta canasta = (Canasta) eventDAO.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
+        CanastaGood good = (CanastaGood) goodDAO.findById(goodId).orElseThrow(()-> new GoodTypeException("Good not found"));
+        User user =  getUser(userId);
+
+        canasta.ownAGood(user,good);
+        eventDAO.save(canasta);
+    }
+
+    public void ownBaquitaGood(Integer eventId, Integer userId, Integer goodId) {
+        BaquitaRepresentatives baquita = (BaquitaRepresentatives) eventDAO.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
+        Good good =  goodDAO.findById(goodId).orElseThrow(()-> new GoodTypeException("Good not found"));
+        User representative =  getUser(userId);
+        loadGood(baquita,good,representative);
+        eventDAO.save(baquita);
+    }
 }

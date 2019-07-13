@@ -67,8 +67,8 @@ public abstract class EventDTO {
         return guest.stream().map(GuestDTO::from).collect(Collectors.toList());
     }
 
-    protected List<Integer> guestsId(){
-        return guests.stream().map(GuestDTO::getUserId).collect(Collectors.toList());
+    protected List<String> guestMail(){
+        return guests.stream().map(GuestDTO::getMail).collect(Collectors.toList());
     };
 
     /* Getters */
