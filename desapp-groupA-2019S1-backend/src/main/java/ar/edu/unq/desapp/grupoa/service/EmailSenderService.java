@@ -26,7 +26,7 @@ public class EmailSenderService {
         message.setSubject(mail.getSubject());
         message.setText(mail.getContent());
         message.setTo(mail.getTo());
-        message.setFrom(mail.getFrom());
+        message.setFrom("tadlosrebu@gmail.com");
 
         javaMailSender.send(message);
     }
