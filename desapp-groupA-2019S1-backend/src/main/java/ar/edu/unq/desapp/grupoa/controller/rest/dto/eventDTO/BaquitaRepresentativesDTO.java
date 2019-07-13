@@ -61,7 +61,7 @@ public class BaquitaRepresentativesDTO extends EventDTO {
        return eventService.createBaquitaRepresentatives(
                 this.eventName,
                 this.organizer.id,
-               this.guestsId(),
+               this.guestMail(),
                this.goods);
     }
 }

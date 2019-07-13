@@ -56,7 +56,7 @@ public class FiestaDTO extends EventDTO {
        return eventService.createFiesta(
                this.eventName,
                this.organizer.id,
-               this.guestsId(),
+               this.guestMail(),
                this.limitConfirmationDateTime,
                this.goods
        );

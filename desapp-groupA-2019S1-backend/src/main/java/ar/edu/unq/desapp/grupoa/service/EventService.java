@@ -49,12 +49,15 @@ public class EventService {
     public EventService() {
     }
 
-    public Integer createFiesta(String name, Integer organizerId, List<Integer> guestsId,
+    public Integer createFiesta(String name, Integer organizerId, List<String> guestsMails,
                                 LocalDateTime limitConfirmationDateTime, List<Good> goods) {
+
+
+
         Fiesta fiesta = new Fiesta(
                 name,
                 getUser(organizerId),
-                getGuests(guestsId),
+                getGuests(guestsMails),
                 limitConfirmationDateTime,
                 goods, LocalDateTime.now());
 
@@ -62,12 +65,12 @@ public class EventService {
         return create(fiesta);
     }
 
-    public Integer createCanasta(String name, Integer organizerId, List<Integer> guestsId, List<Good> goods) {
+    public Integer createCanasta(String name, Integer organizerId, List<String> guestMails, List<Good> goods) {
 
         Canasta canasta = new Canasta(
                 name,
                 getUser(organizerId),
-                getGuests(guestsId),
+                getGuests(guestMails),
                 goods,
                 LocalDateTime.now());
 
@@ -76,11 +79,11 @@ public class EventService {
     }
 
 
-    public Integer createBaquitaComunitary(String eventName, Integer organizerId, List<Integer> guestsId, List<Good> goods) {
+    public Integer createBaquitaComunitary(String eventName, Integer organizerId, List<String> guestMail, List<Good> goods) {
         BaquitaComunitary baquitaComunitary = new BaquitaComunitary(
                 eventName,
                 getUser(organizerId),
-                getGuests(guestsId),
+                getGuests(guestMail),
                 goods,
                 LocalDateTime.now()
         );
@@ -89,11 +92,11 @@ public class EventService {
         return create(baquitaComunitary);
     }
 
-    public Integer createBaquitaRepresentatives(String eventName, Integer organizerId, List<Integer> guestsId, List<Good> goods) {
+    public Integer createBaquitaRepresentatives(String eventName, Integer organizerId, List<String> guestMail, List<Good> goods) {
         BaquitaRepresentatives baquitaRepresentatives = new BaquitaRepresentatives(
                 eventName,
                 getUser(organizerId),
-                getGuests(guestsId),
+                getGuests(guestMail),
                 goods,
                 LocalDateTime.now()
         );
@@ -127,10 +130,9 @@ public class EventService {
     }
 
 
-    private List<Guest> getGuests(List<Integer> guestsId) {
-        return userDAO.findAllById(guestsId)
-                .stream().map(Guest::new).collect(Collectors.toList());
-    }
+    private List<Guest> getGuests(List<String> emailList) {
+         return emailList.stream().map(email -> new Guest(userDAO.findByEmail(email))).collect(Collectors.toList());
+   }
 
     private User getUser(Integer userId) {
         return userDAO.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
