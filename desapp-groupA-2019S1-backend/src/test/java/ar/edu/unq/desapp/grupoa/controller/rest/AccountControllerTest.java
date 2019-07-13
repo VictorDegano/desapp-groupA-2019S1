@@ -2,8 +2,8 @@ package ar.edu.unq.desapp.grupoa.controller.rest;
 
 import ar.edu.unq.desapp.grupoa.TestConfig;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.CreditDTO;
-import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.EventDTO;
 import ar.edu.unq.desapp.grupoa.model.account.Account;
+import ar.edu.unq.desapp.grupoa.model.account.movement.Movement;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 
@@ -22,8 +22,9 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 
+
+import java.util.List;
 
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Loan.getCredit;
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Loan.takeLoan;
@@ -35,7 +36,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -153,6 +153,32 @@ public class AccountControllerTest {
         assertEquals(creditRetrieved.getUser().id,creditDTO.getUser().id);
     }
 
+    @Test
+    public void getMovements() throws Exception {
+        User user = getUser();
+        user.updateAccount(takeLoan(user.getAccount()));
+        user.updateAccount(user.getAccount().deposit(100));
+        user.updateAccount(user.getAccount().extract(50));
+        userDAO.save(user);
+
+        List<Movement> movements = user.getAccount().getMovements();
+
+        //Test(Then)
+
+        String url = String.format("/account/movements/%s", user.getId());
+        String json = mockMvc.perform(get(url))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        List<Movement> movementsRetrieved = objectMapper.readValue(json,  objectMapper.getTypeFactory().constructCollectionType(List.class, Movement.class));
+
+        assertTrue(movementsRetrieved.stream().allMatch(movement -> movements.stream().anyMatch( movs-> movs.getId().equals(movement.getId())) ) );
+
+    }
+
+
     private User getUser() {
         User user = randomUser();
         userDAO.save(user);
@@ -163,5 +189,6 @@ public class AccountControllerTest {
     private String json(Object object) throws JsonProcessingException {
         return objectMapper.writeValueAsString(object);
     }
+
 
 }
