@@ -10,8 +10,6 @@ import Form from "react-bootstrap/Form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
-import ListGroup from "react-bootstrap/ListGroup";
-import Badge from "react-bootstrap/Badge";
 //Actions
 import { closeCreateEventModal } from "../actions/ModalViewActions";
 // css
@@ -21,6 +19,7 @@ import { updateLoggedUser } from "../actions/UserActions";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import EventApi from "../api/EventApi";
+import EmailsInput from "./EmailsInput";
 
 class CreateEventModal extends Component {
   static propTypes = {
@@ -63,6 +62,7 @@ class CreateEventModal extends Component {
       this
     );
     this.handleAddNewGood = this.handleAddNewGood.bind(this);
+    this.EmailsInputRef = React.createRef();
 
     this.state = {
       eventName: "FiestaExample",
@@ -244,6 +244,8 @@ class CreateEventModal extends Component {
     event.preventDefault();
     const eventApi = new EventApi();
     console.log(event);
+    const currentEmailsInputRef = this.EmailsInputRef.current;
+
     const eventExample = {
       type: this.handleEventType(),
       id: 1,
@@ -251,16 +253,7 @@ class CreateEventModal extends Component {
       organizer: this.props.loggedUser,
       quantityOfGuest: 1,
       goods: this.state.goods,
-      guests: [
-        {
-          guestId: 1,
-          userId: 1,
-          mail: "jose@gmail.com",
-          firstName: "jose",
-          lastName: "macana",
-          confirmAsistance: "PENDING"
-        }
-      ],
+      guests: this.createJsonOfEmails(currentEmailsInputRef.state.items),
       status: "OPEN",
       creationDate: this.state.creationDate,
       limitConfirmationDateTime: this.state.confirmationDay
@@ -271,6 +264,71 @@ class CreateEventModal extends Component {
       .createEvent(eventExample)
       .then(response => console.log(response))
       .catch(e => console.log(e));
+  }
+
+  handleEventType() {
+    if (this.state.type === "Canasta") {
+      return "CANASTA";
+    }
+    if (this.state.type === "Fiesta") {
+      return "FIESTA";
+    }
+    return "BAD HANDLE TYPE";
+  }
+
+  handleGoodNameChange(event) {
+    // event.preventDefault();
+    // console.log("event:" + event);
+    const eventKey = event.target.attributes.getNamedItem("data-key").value;
+    const newName = event.target.value;
+    const list = this.state.goods.map((item, j) => {
+      if (j.toString() === eventKey) {
+        item.name = newName;
+        return item;
+      } else {
+        return item;
+      }
+    });
+    this.setState({ goods: list });
+  }
+
+  handleGoodQuantityForPersonChange(event) {
+    // event.preventDefault();
+    // console.log("event:" + event);
+    const eventKey = event.target.attributes.getNamedItem("data-key").value;
+    const newquantityForPerson = event.target.value;
+    const list = this.state.goods.map((item, j) => {
+      if (j.toString() === eventKey) {
+        item.quantityForPerson = newquantityForPerson;
+        return item;
+      } else {
+        return item;
+      }
+    });
+    this.setState({ goods: list });
+  }
+
+  handleGoodPricePerUnitChange(event) {
+    // event.preventDefault();
+    // console.log("event:" + event);
+    const eventKey = event.target.attributes.getNamedItem("data-key").value;
+    const newPricePerUnit = event.target.value;
+    const list = this.state.goods.map((item, j) => {
+      if (j.toString() === eventKey) {
+        item.pricePerUnit = newPricePerUnit;
+        return item;
+      } else {
+        return item;
+      }
+    });
+    this.setState({ goods: list });
+  }
+
+  createJsonOfEmails(items) {
+    let json = [];
+    items.forEach(i => json.push({ mail: i }));
+
+    return json;
   }
 
   render() {
@@ -367,34 +425,9 @@ class CreateEventModal extends Component {
                   fixedHeight
                 />
               </div>
-              <Form.Label>{t("eventView->guestQuantity")}</Form.Label>
-              <Form.Control
-                plaintext
-                readOnly
-                defaultValue={this.state.quantityOfGuest}
-              />
-              <Form.Label>{t("eventView->guest")}</Form.Label>
-              <ListGroup as="ul" variant="flush">
-                {this.state.guests.map(guest => {
-                  return (
-                    <ListGroup.Item
-                      key={guest.firstName + guest.email + guest.lastName}
-                      as="li"
-                    >
-                      <p>
-                        {guest.firstName + " " + guest.lastName}
-                        <Badge
-                          variant={this.getBadgeColour(guest.confirmAsistance)}
-                        >
-                          {this.getConfirmationStateTraslation(
-                            guest.confirmAsistance
-                          )}
-                        </Badge>
-                      </p>
-                    </ListGroup.Item>
-                  );
-                })}
-              </ListGroup>
+
+              <Form.Label>Emails:</Form.Label>
+              <EmailsInput ref={this.EmailsInputRef} />
 
               <Form.Label>Goods:</Form.Label>
 
@@ -485,64 +518,6 @@ class CreateEventModal extends Component {
         </Modal>
       </>
     );
-  }
-
-  handleEventType() {
-    if (this.state.type === "Canasta") {
-      return "CANASTA";
-    }
-    if (this.state.type === "Fiesta") {
-      return "FIESTA";
-    }
-    return "BAD HANDLE TYPE";
-  }
-
-  handleGoodNameChange(event) {
-    // event.preventDefault();
-    // console.log("event:" + event);
-    const eventKey = event.target.attributes.getNamedItem("data-key").value;
-    const newName = event.target.value;
-    const list = this.state.goods.map((item, j) => {
-      if (j.toString() === eventKey) {
-        item.name = newName;
-        return item;
-      } else {
-        return item;
-      }
-    });
-    this.setState({ goods: list });
-  }
-
-  handleGoodQuantityForPersonChange(event) {
-    // event.preventDefault();
-    // console.log("event:" + event);
-    const eventKey = event.target.attributes.getNamedItem("data-key").value;
-    const newquantityForPerson = event.target.value;
-    const list = this.state.goods.map((item, j) => {
-      if (j.toString() === eventKey) {
-        item.quantityForPerson = newquantityForPerson;
-        return item;
-      } else {
-        return item;
-      }
-    });
-    this.setState({ goods: list });
-  }
-
-  handleGoodPricePerUnitChange(event) {
-    // event.preventDefault();
-    // console.log("event:" + event);
-    const eventKey = event.target.attributes.getNamedItem("data-key").value;
-    const newPricePerUnit = event.target.value;
-    const list = this.state.goods.map((item, j) => {
-      if (j.toString() === eventKey) {
-        item.pricePerUnit = newPricePerUnit;
-        return item;
-      } else {
-        return item;
-      }
-    });
-    this.setState({ goods: list });
   }
 }
 
