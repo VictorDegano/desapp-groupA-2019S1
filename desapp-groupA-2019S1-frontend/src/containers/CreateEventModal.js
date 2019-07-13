@@ -64,6 +64,7 @@ class CreateEventModal extends Component {
     this.handleAddNewGood = this.handleAddNewGood.bind(this);
     this.handleDeleteGood = this.handleDeleteGood.bind(this);
     this.EmailsInputRef = React.createRef();
+    this.renderFinalDate = this.renderFinalDate.bind(this);
 
     this.state = {
       eventName: "FiestaExample",
@@ -342,6 +343,32 @@ class CreateEventModal extends Component {
     return json;
   }
 
+  renderFinalDate() {
+    const { t } = this.props;
+    if (this.handleEventType() === "FIESTA") {
+      return (
+        <>
+          <Form.Label>Confirmation Day</Form.Label>
+          <div className="containerDatePicker">
+            <DatePicker
+              className="Form.Control"
+              minDate={new Date()}
+              maxDate={new Date("12/12/2020")}
+              selected={this.state.confirmationDay}
+              onChange={this.handleConfirmationDayChange}
+              dateFormat={t("formatter->date")}
+              showYearDropdown
+              scrollableYearDropdown
+              yearDropdownItemNumber={80}
+              fixedHeight
+            />
+          </div>
+        </>
+      );
+    }
+    return null;
+  }
+
   render() {
     const { t } = this.props;
     const show = this.props.show;
@@ -421,27 +448,10 @@ class CreateEventModal extends Component {
                   </div>
                 </Col>
               </Row>
-              <Form.Label>Confirmation Day</Form.Label>
-              <div className="containerDatePicker">
-                <DatePicker
-                  className="Form.Control"
-                  minDate={new Date()}
-                  maxDate={new Date("12/12/2020")}
-                  selected={this.state.confirmationDay}
-                  onChange={this.handleConfirmationDayChange}
-                  dateFormat={t("formatter->date")}
-                  showYearDropdown
-                  scrollableYearDropdown
-                  yearDropdownItemNumber={80}
-                  fixedHeight
-                />
-              </div>
-
+              {this.renderFinalDate()}
               <Form.Label>Emails:</Form.Label>
               <EmailsInput ref={this.EmailsInputRef} />
-
               <Form.Label>Goods:</Form.Label>
-
               <Form.Group>
                 <Row>
                   <Col>
