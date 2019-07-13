@@ -88,7 +88,7 @@ public class BaquitaRepresentativesTest {
         confirmInvitation(guest, baquita);
         baquita.addGood(good);
 
-        loadGood(baquita, good, guest);
+        loadGood(baquita, good, guest.getUser());
         assertTrue(baquita.goodIsloaded(good));
     }
 
@@ -101,11 +101,11 @@ public class BaquitaRepresentativesTest {
         baquita.addGood(good);
         baquita.addRepresentative(guest);
 
-        loadGood(baquita, good, guest);
+        loadGood(baquita, good, guest.getUser());
     }
 
 
-    @Test(expected = UserNotARepresentative.class)
+    @Test(expected = ConfirmAsistanceException.class)
     public void cantLoadAGoodIfRepresentativeIsntInvited() {
         Guest guest = new Guest(randomUser());
         Good good = newGoodWithPrice(100);
@@ -113,7 +113,7 @@ public class BaquitaRepresentativesTest {
         BaquitaRepresentatives baquita = newRandomBaquitaRepresentatives();
         baquita.addGood(good);
 
-        loadGood(baquita, good, guest);
+        loadGood(baquita, good, guest.getUser());
     }
 
     @Test(expected = CloseEventException.class)
@@ -127,7 +127,7 @@ public class BaquitaRepresentativesTest {
         baquita.addGood(good);
         baquita.close();
 
-        loadGood(baquita, good, guest);
+        loadGood(baquita, good, guest.getUser());
     }
 
 
@@ -141,7 +141,7 @@ public class BaquitaRepresentativesTest {
         baquita.addGuest(guest);
         confirmInvitation(guest, baquita);
 
-        loadGood(baquita, good, guest);
+        loadGood(baquita, good, guest.getUser());
     }
 
     @Test(expected = GoodAlreadyLoaded.class)
@@ -154,8 +154,8 @@ public class BaquitaRepresentativesTest {
         confirmInvitation(guest, baquita);
         baquita.addGood(good);
 
-        loadGood(baquita, good, guest);
-        loadGood(baquita, good, guest);
+        loadGood(baquita, good, guest.getUser());
+        loadGood(baquita, good, guest.getUser());
     }
 
     @Test

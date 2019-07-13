@@ -25,6 +25,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.LoadGood.loadGood;
+
 @Service
 @Transactional
 public class EventService {
@@ -188,5 +190,13 @@ public class EventService {
 
         canasta.ownAGood(user,good);
         eventDAO.save(canasta);
+    }
+
+    public void ownBaquitaGood(Integer eventId, Integer userId, Integer goodId) {
+        BaquitaRepresentatives baquita = (BaquitaRepresentatives) eventDAO.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
+        Good good =  goodDAO.findById(goodId).orElseThrow(()-> new GoodTypeException("Good not found"));
+        User representative =  getUser(userId);
+        loadGood(baquita,good,representative);
+        eventDAO.save(baquita);
     }
 }

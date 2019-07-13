@@ -72,7 +72,14 @@ public class BaquitaRepresentativesBuilder {
             good.setQuantityForPerson(1);
             good.setName("Beer");
             baquita.addGood(good);
-            loadGood(baquita,good,representative);
+            loadGood(baquita,good,representative.getUser());
+            return baquita;
+        };
+    }
+
+    public static Function<BaquitaRepresentatives, BaquitaRepresentatives> withGoodRepresentatives(Good good) {
+        return (baquita) -> {
+            baquita.addGood(good);
             return baquita;
         };
     }

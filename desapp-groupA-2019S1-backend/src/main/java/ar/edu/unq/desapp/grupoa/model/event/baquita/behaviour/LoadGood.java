@@ -8,12 +8,15 @@ import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaRepresentatives;
 import ar.edu.unq.desapp.grupoa.model.event.baquita.LoadedGood;
+import ar.edu.unq.desapp.grupoa.model.user.User;
 
 public class LoadGood {
 
     private LoadGood(){}
 
-    public static LoadedGood loadGood(BaquitaRepresentatives baquita, Good good, Guest guest) {
+    public static LoadedGood loadGood(BaquitaRepresentatives baquita, Good good, User user) {
+        Guest guest = baquita.getGuestOfUser(user);
+
         if (!baquita.isRepresentative(guest)) {
             throw new UserNotARepresentative();
         }
