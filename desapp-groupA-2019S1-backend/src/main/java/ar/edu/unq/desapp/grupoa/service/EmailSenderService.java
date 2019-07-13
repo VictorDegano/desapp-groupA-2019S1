@@ -17,8 +17,7 @@ public class EmailSenderService {
         String subject=String.format("Invitacion a Evento %s", eventName);
         String content=String.format("Hola %s! Fuiste invitado al evento %s",nameGuest,eventName);
 
-
-        new Mail(mailOwner,mailGuest,subject,content);
+        send( new Mail(mailOwner,mailGuest,subject,content));
     }
 
     public void send(Mail mail){
@@ -26,7 +25,7 @@ public class EmailSenderService {
         message.setSubject(mail.getSubject());
         message.setText(mail.getContent());
         message.setTo(mail.getTo());
-        message.setFrom("tadlosrebu@gmail.com");
+        message.setFrom(mail.getFrom());
 
         javaMailSender.send(message);
     }
