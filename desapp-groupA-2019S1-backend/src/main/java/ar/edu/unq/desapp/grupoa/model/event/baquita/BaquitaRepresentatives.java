@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa.model.event.baquita;
 
+import ar.edu.unq.desapp.grupoa.exception.event.ConfirmAsistanceException;
 import ar.edu.unq.desapp.grupoa.model.event.EventType;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
@@ -14,6 +15,7 @@ import javax.persistence.Transient;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @DiscriminatorValue("Representatives")
@@ -53,6 +55,17 @@ public class BaquitaRepresentatives extends Baquita {
         return confirmedGuests;
     }
 
+    public Guest getGuestOfUser(User userToConfirmAssistance) {
+        List <Guest> allGuests = new ArrayList<>();
+        allGuests.addAll(guests);
+        allGuests.addAll(representatives);
+
+        try{
+            return allGuests.stream().filter(guest1 -> guest1.getUser()==userToConfirmAssistance).collect(Collectors.toList()).get(0);
+        }catch (IndexOutOfBoundsException e){
+            throw new ConfirmAsistanceException(this,userToConfirmAssistance);
+        }
+    }
 
     public void cancelPendingRepresentatives() {
         cancelGuests(this.representatives);

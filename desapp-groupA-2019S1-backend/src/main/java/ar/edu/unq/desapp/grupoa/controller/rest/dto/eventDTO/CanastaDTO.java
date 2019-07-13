@@ -49,7 +49,7 @@ public class CanastaDTO extends EventDTO {
         return eventService.createCanasta(
                 this.eventName,
                 this.organizer.id,
-                this.guestsId(),
+                this.guestMail(),
                 this.goods);
     }
 }

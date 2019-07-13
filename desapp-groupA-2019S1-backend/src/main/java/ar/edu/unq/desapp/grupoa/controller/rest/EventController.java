@@ -92,6 +92,17 @@ public class EventController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping(value = "/ownBaquitaGood/{eventId}/{userId}/{goodId}")
+    public ResponseEntity<String> ownBaquitaGood(@PathVariable Integer eventId,@PathVariable Integer userId,@PathVariable Integer goodId) {
+        LOGGER.info("Got request PUT for Event with id {}, for user {} to own the good {}", eventId,userId,goodId);
+
+        eventService.ownBaquitaGood(eventId,userId,goodId);
+
+        LOGGER.info("Good {} is now owned by {}", goodId,userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 
     @GetMapping(value = "/eventCost/{eventId}")
     public ResponseEntity<Integer> getEventCost(@PathVariable Integer eventId) {
