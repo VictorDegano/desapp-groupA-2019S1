@@ -1,5 +1,7 @@
 package ar.edu.unq.desapp.grupoa.runner;
 
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.EventDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
@@ -14,6 +16,11 @@ import ar.edu.unq.desapp.grupoa.model.event.fiesta.FiestaGood;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 import ar.edu.unq.desapp.grupoa.service.EventService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -44,7 +51,7 @@ public class BootStrapRunner implements ApplicationRunner {
         this.createExampleData();
     }
 
-    private void createExampleData() {
+    private void createExampleData() throws JsonProcessingException {
         logger.info("Loading Sample Data");
         User ivanDominikow  = createUserWithName("Ivan",
                                         "Dominikow" ,
@@ -88,6 +95,21 @@ public class BootStrapRunner implements ApplicationRunner {
         events.addAll(victorEvents(victorDegano, pepeLocura, ivanDominikow, ivanTamargo, juanCaspa, joseTejo, donBilletin));
         events.addAll(pepeEvents(pepeLocura, ivanDominikow, ivanTamargo, victorDegano, juanCaspa, joseTejo, donBilletin));
         this.eventService.createAll(events);
+
+
+        String jsonIvan = json(UserDTO.from(ivanDominikow));
+        logger.info(jsonIvan);
+        String jsonVictor = json(UserDTO.from(victorDegano));
+        logger.info(jsonVictor);
+    }
+
+
+    private String json(Object object) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new Jdk8Module());
+        objectMapper.registerModule(new JodaModule());
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper.writeValueAsString(object);
     }
 
     private List<Event> ivanDEvents(User organizerIvan, User ivan, User victor, User pepe, User juanCaspa, User joseTejo, User donBilletin) {

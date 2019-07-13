@@ -14,7 +14,6 @@ public class GoodDTO {
     private Integer pricePerUnit;
     private Integer quantityForPerson;
     private Integer finalQuantity;
-    private UserDTO userThatOwnsTheGood;
 
     public GoodDTO(){}
 
@@ -36,7 +35,6 @@ public class GoodDTO {
         this.name = name;
         this.pricePerUnit = pricePerUnit;
         this.quantityForPerson = quantityForPerson;
-        this.userThatOwnsTheGood = UserDTO.from(userThatOwnsTheGood);
     }
 
 
@@ -54,8 +52,7 @@ public class GoodDTO {
         return  new GoodDTO(
                 canastaGood.getName(),
                 canastaGood.getPricePerUnit(),
-                canastaGood.getQuantityForPerson(),
-                canastaGood.getUserThatOwnsTheGood());
+                canastaGood.getQuantityForPerson());
     }
 
     public static GoodDTO fromGood(Good good) {

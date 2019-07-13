@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoa.service;
 import ar.edu.unq.desapp.grupoa.exception.EventNotFoundException;
 import ar.edu.unq.desapp.grupoa.exception.GuestNotFoundException;
 import ar.edu.unq.desapp.grupoa.exception.event.GoodTypeException;
+import ar.edu.unq.desapp.grupoa.exception.user.EmailNotFoundException;
 import ar.edu.unq.desapp.grupoa.exception.user.UserNotFoundException;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.LoadGood.loadGood;
@@ -51,7 +53,6 @@ public class EventService {
 
     public Integer createFiesta(String name, Integer organizerId, List<String> guestsMails,
                                 LocalDateTime limitConfirmationDateTime, List<Good> goods) {
-
 
 
         Fiesta fiesta = new Fiesta(
@@ -131,8 +132,13 @@ public class EventService {
 
 
     private List<Guest> getGuests(List<String> emailList) {
-         return emailList.stream().map(email -> new Guest(userDAO.findByEmail(email))).collect(Collectors.toList());
-   }
+        return emailList.stream().map(email -> new Guest(getByEmail(email))).collect(Collectors.toList());
+    }
+
+    private User getByEmail(String email) {
+        Optional<User> user = Optional.of(userDAO.findByEmail(email));
+        return user.orElseThrow(() -> new EmailNotFoundException(email));
+    }
 
 
     private User getUser(Integer userId) {
@@ -157,8 +163,8 @@ public class EventService {
 
     public void inviteUserToEvent(Integer eventId, Integer userId) {
         Event event = getById(eventId);
-        User user =  getUser(userId);
-        sendMailToUser(event.getName(),event.getOrganizer().getEmail(),user);
+        User user = getUser(userId);
+        sendMailToUser(event.getName(), event.getOrganizer().getEmail(), user);
         event.inviteUser(user);
     }
 
@@ -183,23 +189,23 @@ public class EventService {
     }
 
     private void sendMailToUser(String eventName, String organizerEmail, User userToInvite) {
-        emailSenderService.sendInvitation(organizerEmail,userToInvite.getEmail(),userToInvite.getFirstName(),eventName);
+        emailSenderService.sendInvitation(organizerEmail, userToInvite.getEmail(), userToInvite.getFirstName(), eventName);
     }
 
     public void ownCanastaGood(Integer eventId, Integer userId, Integer goodId) {
         Canasta canasta = (Canasta) eventDAO.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
-        CanastaGood good = (CanastaGood) goodDAO.findById(goodId).orElseThrow(()-> new GoodTypeException("Good not found"));
-        User user =  getUser(userId);
+        CanastaGood good = (CanastaGood) goodDAO.findById(goodId).orElseThrow(() -> new GoodTypeException("Good not found"));
+        User user = getUser(userId);
 
-        canasta.ownAGood(user,good);
+        canasta.ownAGood(user, good);
         eventDAO.save(canasta);
     }
 
     public void ownBaquitaGood(Integer eventId, Integer userId, Integer goodId) {
         BaquitaRepresentatives baquita = (BaquitaRepresentatives) eventDAO.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
-        Good good =  goodDAO.findById(goodId).orElseThrow(()-> new GoodTypeException("Good not found"));
-        User representative =  getUser(userId);
-        loadGood(baquita,good,representative);
+        Good good = goodDAO.findById(goodId).orElseThrow(() -> new GoodTypeException("Good not found"));
+        User representative = getUser(userId);
+        loadGood(baquita, good, representative);
         eventDAO.save(baquita);
     }
 }
