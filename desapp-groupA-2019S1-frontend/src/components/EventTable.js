@@ -122,7 +122,10 @@ class EventTable extends React.Component {
           {parseArrayToFunction(events).map(row => (
             <tr
               key={
-                row.eventName + row.organizer.firstName + row.organizer.lastName
+                row.id +
+                row.eventName +
+                row.organizer.firstName +
+                row.organizer.lastName
               }
             >
               <td>
