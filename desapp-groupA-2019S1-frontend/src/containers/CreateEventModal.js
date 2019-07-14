@@ -10,16 +10,22 @@ import Form from "react-bootstrap/Form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 //Actions
 import { closeCreateEventModal } from "../actions/ModalViewActions";
 // css
 import "../css/ProfileEdition.css";
 import UserApi from "../api/UserApi";
 import { updateLoggedUser } from "../actions/UserActions";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import EventApi from "../api/EventApi";
 import EmailsInput from "./EmailsInput";
+import {
+  loadEventsInProgress,
+  loadLastEvents,
+  loadMostPopularEvents,
+  showEventsInProgress
+} from "../actions/EventActions";
 
 class CreateEventModal extends Component {
   static propTypes = {
@@ -251,6 +257,24 @@ class CreateEventModal extends Component {
     });
   }
 
+  refreshEventsOnHome() {
+    let userId = this.props.loggedUser.id;
+    var eventApi = new EventApi();
+
+    eventApi.getEventosEnCurso(userId).then(response => {
+      this.props.loadEventsInProgress(response.data);
+      this.props.showEventsInProgress();
+    });
+
+    eventApi.getMisUltimosEventos(userId).then(response => {
+      this.props.loadLastEvents(response.data);
+    });
+
+    eventApi.getEventosMasPopulares().then(response => {
+      this.props.loadMostPopularEvents(response.data);
+    });
+  }
+
   handleSave(event) {
     // console.log("handleSave()");
     event.preventDefault();
@@ -274,7 +298,11 @@ class CreateEventModal extends Component {
     console.log(eventExample);
     eventApi
       .createEvent(eventExample)
-      .then(response => console.log(response))
+      .then(response => {
+        console.log(response);
+        this.refreshEventsOnHome();
+        this.handleClose();
+      })
       .catch(e => console.log(e));
   }
 
@@ -284,6 +312,12 @@ class CreateEventModal extends Component {
     }
     if (this.state.type === "Fiesta") {
       return "FIESTA";
+    }
+    if (this.state.type === "Baquita Comunitaria") {
+      return "BAQUITA_COMUNITARY";
+    }
+    if (this.state.type === "Baquita Representantes") {
+      return "BAQUITA_REPRESENTATIVES";
     }
     return "BAD HANDLE TYPE";
   }
@@ -560,7 +594,11 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => ({
   closeCreateEventModal: () => dispatch(closeCreateEventModal()),
-  updateLoggedUser: user => dispatch(updateLoggedUser(user))
+  updateLoggedUser: user => dispatch(updateLoggedUser(user)),
+  showEventsInProgress: events => dispatch(showEventsInProgress(events)),
+  loadEventsInProgress: events => dispatch(loadEventsInProgress(events)),
+  loadLastEvents: events => dispatch(loadLastEvents(events)),
+  loadMostPopularEvents: events => dispatch(loadMostPopularEvents(events))
 });
 
 export default connect(
