@@ -277,7 +277,10 @@ class EventViewer extends Component {
 
   acceptedInvitation(guests, userId) {
     return guests.some(function(guest) {
-      return guest.userId === parseInt(userId) && guest.confirmAsistance === "ACCEPTED";
+      return (
+        guest.userId === parseInt(userId) &&
+        guest.confirmAsistance === "ACCEPTED"
+      );
     });
   }
 
