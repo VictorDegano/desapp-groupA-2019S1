@@ -19,14 +19,14 @@ import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.deposit;
 public class BaquitaComunitary extends Baquita {
 
     public BaquitaComunitary(String name, User organizer, List<Guest> guests, List<Good> goodsForGuest, LocalDateTime creationDate) {
-        super(name, organizer, guests, goodsForGuest,creationDate);
+        super(name, organizer, guests, goodsForGuest, creationDate);
     }
 
     public BaquitaComunitary() {
     }
 
     public static BaquitaComunitary createWithATemplate(String name, User organizer, List<Guest> guests, Template template, LocalDateTime creationDate) {
-       return new BaquitaComunitary(name,organizer,guests,template.getGoodsForEvent(),creationDate);
+        return new BaquitaComunitary(name, organizer, guests, template.getGoodsForEvent(), creationDate);
     }
 
     @Override
@@ -39,10 +39,8 @@ public class BaquitaComunitary extends Baquita {
         }
     }
 
-    //TODO: Esto deberia ser un behaviour, cuando toque crear los services lo paso alla.
     private void depositAmount(Integer priceToPay, User organizer) {
-        Account account = deposit(organizer.getAccount(), priceToPay);
-        organizer.updateAccount(account);
+        deposit(organizer.getAccount(), priceToPay);
     }
 
     @Override

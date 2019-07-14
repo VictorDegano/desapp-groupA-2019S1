@@ -25,17 +25,16 @@ public class Loan {
     @Test(expected = LoanOnCourseException.class)
     public void cantTakeALoadIfTheAccountAlreadyHasOneInCourse() {
         Account account = newAccountForRandomUser(withRandomBalance());
-
-        takeLoan(takeLoan(account));
+        takeLoan(account);
+        takeLoan(account);
     }
 
     @Test(expected = UserDefaultException.class)
     public void cantTakeALoadIfTheAccountUserHasDefaulted() {
         Account account = newAccountForRandomUser(withDefaultedUser());
+        takeLoan(account);
 
-        Account accountLoaned = takeLoan(account);
-
-        assertFalse(accountIsInDebt(accountLoaned));
+        assertFalse(accountIsInDebt(account));
     }
 
     @Test
@@ -46,11 +45,11 @@ public class Loan {
         Integer debtBefore    = account.debt();
 
 
-        Account accountWithPayedQuota= payQuota(account);
+        payQuota(account);
 
-        assertTrue(accountIsInDebt(accountWithPayedQuota));
-        assertEquals(integer(debtBefore - 200), accountWithPayedQuota.debt());
-        assertEquals(integer(balanceBefore - 200), accountWithPayedQuota.balance());
+        assertTrue(accountIsInDebt(account));
+        assertEquals(integer(debtBefore - 200), account.debt());
+        assertEquals(integer(balanceBefore - 200), account.balance());
     }
 
     @Test(expected = NoLoanOnCourseException.class)
@@ -64,11 +63,11 @@ public class Loan {
     public void lastQuoteOfTheLoanIsPaid() {
         Account account = newAccountForRandomUser(withLoan(),withRandomBalance());
 
-        Account accountAfterPayedQuota= payQuota(payUntilOneQuotaIsLeft(account));
-        assertFalse(accountIsInDebt(accountAfterPayedQuota));
+         payQuota(payUntilOneQuotaIsLeft(account));
+        assertFalse(accountIsInDebt(account));
     }
 
-    @Test(expected = NotEnoughCashToPerformOperation.class)
+    @Test
     public void aQuoteIsPaidWhenAccountDoesntHasEnoughMoneyToCoverTheQuoteAndTheUserDefaults() {
         Account account = newAccountForRandomUser(withLoanAndNoBalance());
 
@@ -90,6 +89,11 @@ public class Loan {
     }
 
     private Account payUntilOneQuotaIsLeft(Account account) {
-        return payQuota(payQuota(payQuota(payQuota(account))));
+        payQuota(account);
+        payQuota(account);
+        payQuota(account);
+        payQuota(account);
+
+        return account;
     }
 }

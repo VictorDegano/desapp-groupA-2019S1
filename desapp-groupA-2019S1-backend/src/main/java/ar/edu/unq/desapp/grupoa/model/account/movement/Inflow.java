@@ -6,6 +6,14 @@ import java.time.LocalDateTime;
 @Entity
 public class Inflow extends Movement {
 
+    public String getFlowType() {
+        return flowType;
+    }
+
+    public void setFlowType(String flowType) {
+        this.flowType = flowType;
+    }
+
     public String flowType = "inflow";
 
     public Inflow(Integer amount, MovementType type, LocalDateTime date) {

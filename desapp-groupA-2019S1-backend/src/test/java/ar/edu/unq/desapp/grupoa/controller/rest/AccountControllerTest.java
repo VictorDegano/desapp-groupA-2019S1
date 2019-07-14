@@ -87,7 +87,7 @@ public class AccountControllerTest {
     @Test
     public void extractMoney() throws Exception {
         User user = getUser();
-        user.updateAccount(user.getAccount().deposit(100));
+        user.getAccount().deposit(100);
         userDAO.save(user);
 
         Integer balanceBefore = user.getAccount().balance();
@@ -130,7 +130,7 @@ public class AccountControllerTest {
     @Test
     public void creditsOnCourse() throws Exception {
         User user = getUser();
-        user.updateAccount(takeLoan(user.getAccount()));
+        takeLoan(user.getAccount());
         userDAO.save(user);
 
         CreditDTO creditDTO = CreditDTO.from(getCredit(user.getAccount()));
@@ -148,17 +148,17 @@ public class AccountControllerTest {
 
         CreditDTO creditRetrieved = objectMapper.readValue(json, CreditDTO.class);
 
-        assertEquals(creditRetrieved.getHasDefaulted(),creditDTO.getHasDefaulted() );
-        assertEquals(creditRetrieved.getQuotasToPay(),creditDTO.getQuotasToPay());
-        assertEquals(creditRetrieved.getUser().id,creditDTO.getUser().id);
+        assertEquals(creditRetrieved.getHasDefaulted(), creditDTO.getHasDefaulted());
+        assertEquals(creditRetrieved.getQuotasToPay(), creditDTO.getQuotasToPay());
+        assertEquals(creditRetrieved.getUser().id, creditDTO.getUser().id);
     }
 
     @Test
     public void getMovements() throws Exception {
         User user = getUser();
-        user.updateAccount(takeLoan(user.getAccount()));
-        user.updateAccount(user.getAccount().deposit(100));
-        user.updateAccount(user.getAccount().extract(50));
+        takeLoan(user.getAccount());
+        user.getAccount().deposit(100);
+        user.getAccount().extract(50);
         userDAO.save(user);
 
         List<Movement> movements = user.getAccount().getMovements();
@@ -172,9 +172,9 @@ public class AccountControllerTest {
                 .getResponse()
                 .getContentAsString();
 
-        List<Movement> movementsRetrieved = objectMapper.readValue(json,  objectMapper.getTypeFactory().constructCollectionType(List.class, Movement.class));
+        List<Movement> movementsRetrieved = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Movement.class));
 
-        assertTrue(movementsRetrieved.stream().allMatch(movement -> movements.stream().anyMatch( movs-> movs.getId().equals(movement.getId())) ) );
+        assertTrue(movementsRetrieved.stream().allMatch(movement -> movements.stream().anyMatch(movs -> movs.getId().equals(movement.getId()))));
 
     }
 

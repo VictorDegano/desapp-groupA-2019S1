@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.extract;
 
 @Entity
@@ -22,7 +23,7 @@ import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.extract;
 @DiscriminatorColumn(name = "baquita_type")
 public abstract class Baquita extends Event {
 
-    public Baquita(String name, User organizer, List<Guest> guests, List<Good> goodsForGuest, LocalDateTime creationDate){
+    public Baquita(String name, User organizer, List<Guest> guests, List<Good> goodsForGuest, LocalDateTime creationDate) {
         this.setName(name);
         this.setOrganizer(organizer);
         this.setGuest(guests);
@@ -58,10 +59,8 @@ public abstract class Baquita extends Event {
         return new ArrayList<>(guests);
     }
 
-    //TODO: Esto deberia ser un behaviour, cuando toque crear los services lo paso alla.
     protected void pay(Integer priceToPay, User user) {
-        Account account = extract(user.getAccount(), priceToPay);
-        user.updateAccount(account);
+        extract(user.getAccount(), priceToPay);
     }
 
     @Override

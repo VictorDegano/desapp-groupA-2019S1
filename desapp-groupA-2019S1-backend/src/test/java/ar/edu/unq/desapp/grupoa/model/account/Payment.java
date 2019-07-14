@@ -14,7 +14,8 @@ public class Payment {
 
     @Test(expected = NotEnoughCashToPerformOperation.class)
     public void testCantTakeMoneyIfNoMoneyOnAccount() {
-        Account account = extract(newAccountForRandomUser(),200);
+        Account account = newAccountForRandomUser();
+        extract(account,200);
 
         assertEquals(account.balance(), integer(0));
     }

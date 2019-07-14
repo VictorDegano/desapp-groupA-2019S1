@@ -5,9 +5,6 @@
 # maven
 target/
 
-# log4j
-logs/
-
 #node
 node_modules/
 build/

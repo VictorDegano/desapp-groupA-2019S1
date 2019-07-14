@@ -3,103 +3,100 @@ import { auth } from "../components/Root";
 import { API_CONFIG } from "./Configs/Api-config";
 
 class EventApi {
-  constructor() {
-    this.accessToken = auth.getAccessToken();
+  getEvent(eventNumber) {
+    const accessToken = auth.getAccessToken();
 
-    this.header = {
+    const header = {
       headers: {
-        Authorization: `Bearer ${this.accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
         "Content-Type": API_CONFIG.contentType,
         "Access-Control-Allow-Methods": API_CONFIG.allowMethods,
         "Access-Control-Allow-Origin": API_CONFIG.allowOrigin
       }
     };
-  }
 
-  getEvent(eventNumber) {
-    return axios.get(API_CONFIG.endPoint + "event/" + eventNumber, this.header);
+    return axios.get(API_CONFIG.endPoint + "event/" + eventNumber, header);
   }
 
   getEventosEnCurso(userId) {
+    const accessToken = auth.getAccessToken();
+
+    const header = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": API_CONFIG.contentType,
+        "Access-Control-Allow-Methods": API_CONFIG.allowMethods,
+        "Access-Control-Allow-Origin": API_CONFIG.allowOrigin
+      }
+    };
+
     return axios.get(
       API_CONFIG.endPoint + "event/in_progress/" + userId,
-      this.header
+      header
     );
   }
 
   getMisUltimosEventos(userId) {
+    const accessToken = auth.getAccessToken();
+
+    const header = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": API_CONFIG.contentType,
+        "Access-Control-Allow-Methods": API_CONFIG.allowMethods,
+        "Access-Control-Allow-Origin": API_CONFIG.allowOrigin
+      }
+    };
+
     return axios.get(
       API_CONFIG.endPoint + "event/last_events/" + userId,
-      this.header
+      header
     );
   }
 
   getEventosMasPopulares() {
+    const accessToken = auth.getAccessToken();
+
+    const header = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": API_CONFIG.contentType,
+        "Access-Control-Allow-Methods": API_CONFIG.allowMethods,
+        "Access-Control-Allow-Origin": API_CONFIG.allowOrigin
+      }
+    };
+
     return axios.get(
       API_CONFIG.endPoint + "event/most_popular_events/",
-      this.header
+      header
     );
   }
 
   fetchEvents() {
+    // console.log('fetchEvents()');
     return this.getEventosEnCurso(1)
       .then(response => {
+        // let events = this.getAllEvents();
+        // events.push(response);
         return response.data;
       })
-      .catch(error => {
-        return error;
-      });
+      .catch(error => []);
+    //TODO: habria que pensar un mejor handleo.
   }
 
   createEvent(event) {
-    return axios.post(API_CONFIG.endPoint + "event/", event, this.header);
-  }
+    const accessToken = auth.getAccessToken();
 
-  ownGood(eventId, goodId, loggedUserId) {
-    return axios
-      .put(
-        API_CONFIG.endPoint +
-          `event/ownCanastaGood/${eventId}/${loggedUserId}/${goodId}`,
-        this.header
-      )
-      .then(response => {
-        return response.status === 200 ? true : false;
-      })
-      .catch(error => {
-        return error;
-      });
-  }
+    const header = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": API_CONFIG.contentType,
+        "Access-Control-Allow-Methods": API_CONFIG.allowMethods,
+        "Access-Control-Allow-Origin": API_CONFIG.allowOrigin
+      }
+    };
 
-  closeEvent(eventId) {
-    return axios
-      .put(API_CONFIG.endPoint + `event/closeEvent/${eventId}/`, this.header)
-      .then(response => {
-        return response.status === 200 ? true : false;
-      })
-      .catch(error => {
-        return false;
-      });
-  }
-
-  aceptInvitation(eventId, guestId) {
-    return axios
-      .put(
-        API_CONFIG.endPoint + `event/confirmAsistance/${eventId}/${guestId}`,
-        this.header
-      )
-      .then(response => {
-        return response.status === 200 ? true : false;
-      })
-      .catch(error => {
-        return false;
-      });
-  }
-
-  getTotalCost(eventId) {
-    return axios.get(
-      API_CONFIG.endPoint + `event/eventCost/${eventId}`,
-      this.header
-    );
+    return axios.post(API_CONFIG.endPoint + "event/", event, header);
   }
 }
 
