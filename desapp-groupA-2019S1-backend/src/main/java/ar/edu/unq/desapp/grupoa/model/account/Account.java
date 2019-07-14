@@ -7,11 +7,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,10 +26,10 @@ public class Account {
     private Integer id;
 
     @JsonIgnore
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private  User user;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Movement> movements;
 
     public static Account newAccount(User user) {
@@ -43,32 +45,26 @@ public class Account {
     private Account() {
     }
 
-    public Account extract(Integer amount) {
-        return newMovement(Movement.extraction(amount));
+    public void extract(Integer amount) {
+         addMovement(Movement.extraction(amount));
     }
 
-    public Account deposit(Integer amount) {
-        return newMovement(Movement.deposit(amount));
+    public void deposit(Integer amount) {
+        addMovement(Movement.deposit(amount));
     }
 
-    public Account debt(Integer amount) {
+    public void debt(Integer amount) {
 
-        return newMovement(Movement.debt(amount));
+        addMovement(Movement.debt(amount));
     }
 
-    public Account payDebt(Integer amount) {
-        return newMovement(Movement.paydebt(amount));
+    public void payDebt(Integer amount) {
+        addMovement(Movement.paydebt(amount));
     }
 
 
-    private Account newMovement(Movement movement) {
-        return new Account(this.user,addMovement(movement));
-    }
-
-    private List<Movement> addMovement(Movement movement) {
-        List<Movement> movements = new ArrayList<>(this.movements);
+    private void addMovement(Movement movement) {
         movements.add(movement);
-        return movements;
     }
 
 

@@ -37,7 +37,7 @@ public class CanastaDTO extends EventDTO {
                 UserDTO.from(aCanasta.getOrganizer()),
                 aCanasta.getType().toString(),
                 aCanasta.getQuantityOfGuests(),
-                getGoodsFromCanastaGood(aCanasta.getGoodsForGuest()),
+                getGoodsFrom(aCanasta.getGoodsForGuest()),
                 getGuestsFrom(aCanasta.getGuest()),
                 aCanasta.getStatus(),
                 aCanasta.getCreationDate()

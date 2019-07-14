@@ -11,6 +11,7 @@ import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
+import ar.edu.unq.desapp.grupoa.service.AccountService;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +29,10 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Loan.takeLoan;
+import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.deposit;
+import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.extract;
 import static org.apache.commons.collections.ListUtils.EMPTY_LIST;
 
 @Component
@@ -37,6 +42,10 @@ public class BootStrapRunner implements ApplicationRunner {
 
     @Autowired
     private EventService eventService;
+
+
+    @Autowired
+    private AccountService accountService;
 
     @Autowired
     private UserDAO userDAO;
@@ -85,18 +94,21 @@ public class BootStrapRunner implements ApplicationRunner {
                                                 "donbilletin@havisto.com",
                                                 "havistounbilletin",
                                                 LocalDateTime.of(1990,1,29,17,10));
+
+
+        takeLoan(juanCaspa.getAccount());
+        deposit(juanCaspa.getAccount(),1000);
+        takeLoan(joseTejo.getAccount());
+        extract(joseTejo.getAccount(),500);
+
         this.userDAO.saveAll(Arrays.asList(juanCaspa,joseTejo,donBilletin));
+
+
         List<Event> events = ivanDEvents(ivanDominikow, ivanTamargo, victorDegano, pepeLocura, juanCaspa, joseTejo, donBilletin);
         events.addAll(ivanTEvents(ivanTamargo, victorDegano, pepeLocura,ivanDominikow, juanCaspa, joseTejo, donBilletin));
         events.addAll(victorEvents(victorDegano, pepeLocura, ivanDominikow, ivanTamargo, juanCaspa, joseTejo, donBilletin));
         events.addAll(pepeEvents(pepeLocura, ivanDominikow, ivanTamargo, victorDegano, juanCaspa, joseTejo, donBilletin));
         this.eventService.createAll(events);
-
-
-        String jsonIvan = json(UserDTO.from(ivanDominikow));
-        logger.info(jsonIvan);
-        String jsonVictor = json(UserDTO.from(victorDegano));
-        logger.info(jsonVictor);
     }
 
 

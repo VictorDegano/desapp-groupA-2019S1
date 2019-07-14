@@ -37,7 +37,6 @@ public class User {
     private LocalDateTime bornDay;
     @Enumerated(EnumType.STRING)
     private UserState state;
-    //TODO: Provisorio, a confirmar
     @OneToOne(cascade = CascadeType.ALL)
     private Account account;
 
@@ -59,7 +58,7 @@ public class User {
     }
 
     public void deposit(Integer amount) {
-        this.account = this.account.deposit(amount);
+        this.account.deposit(amount);
     }
 
     public Integer balance() {
@@ -67,7 +66,7 @@ public class User {
     }
 
     public void extract(Integer totalCost) {
-        this.account = this.account.extract(totalCost);
+        this.account.extract(totalCost);
     }
 
     public void updateAccount(Account account) {

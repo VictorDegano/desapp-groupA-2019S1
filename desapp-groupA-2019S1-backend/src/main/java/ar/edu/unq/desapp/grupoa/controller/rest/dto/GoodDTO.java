@@ -17,26 +17,21 @@ public class GoodDTO {
 
     public GoodDTO(){}
 
-    public GoodDTO(String name, Integer pricePerUnit, Integer quantityForPerson, Integer finalQuantity) {
+    public GoodDTO(String name, Integer pricePerUnit, Integer quantityForPerson, Integer finalQuantity, Integer id) {
         this.name = name;
         this.pricePerUnit = pricePerUnit;
         this.quantityForPerson = quantityForPerson;
         this.finalQuantity = finalQuantity;
+        this.id = id;
     }
 
-    public GoodDTO(String name, Integer pricePerUnit, Integer quantityForPerson) {
+    public GoodDTO(String name, Integer pricePerUnit, Integer quantityForPerson,Integer id) {
         this.name = name;
         this.pricePerUnit = pricePerUnit;
         this.quantityForPerson = quantityForPerson;
+        this.id = id;
 
     }
-
-    public GoodDTO(String name, Integer pricePerUnit, Integer quantityForPerson, User userThatOwnsTheGood) {
-        this.name = name;
-        this.pricePerUnit = pricePerUnit;
-        this.quantityForPerson = quantityForPerson;
-    }
-
 
     public static GoodDTO fromFiestaGood(Good good) {
         FiestaGood fiestaGood = (FiestaGood) good;
@@ -44,22 +39,16 @@ public class GoodDTO {
                 fiestaGood.getName(),
                 fiestaGood.getPricePerUnit(),
                 fiestaGood.getQuantityForPerson(),
-                fiestaGood.getFinalQuantity());
-    }
-
-    public static GoodDTO fromCanastaGood(Good good) {
-        CanastaGood canastaGood = (CanastaGood) good;
-        return  new GoodDTO(
-                canastaGood.getName(),
-                canastaGood.getPricePerUnit(),
-                canastaGood.getQuantityForPerson());
+                fiestaGood.getFinalQuantity(),
+                fiestaGood.getId());
     }
 
     public static GoodDTO fromGood(Good good) {
         return  new GoodDTO(
                 good.getName(),
                 good.getPricePerUnit(),
-                good.getQuantityForPerson()
+                good.getQuantityForPerson(),
+                good.getId()
                 );
     }
 
