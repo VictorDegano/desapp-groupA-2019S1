@@ -7,14 +7,14 @@ public class Payment {
 
     private Payment(){ }
 
-    public static Account extract(Account account, Integer amount){
+    public static void extract(Account account, Integer amount){
         if (account.balance()-amount < 0)
                 throw new NotEnoughCashToPerformOperation("Not enough cash to perform operation");
-        return account.extract(amount);
+         account.extract(amount);
     }
 
-    public static Account deposit(Account account, Integer amount){
-       return account.deposit(amount);
+    public static void deposit(Account account, Integer amount){
+        account.deposit(amount);
     }
 
 

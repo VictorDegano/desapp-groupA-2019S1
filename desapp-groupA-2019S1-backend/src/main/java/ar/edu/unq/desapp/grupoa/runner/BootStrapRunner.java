@@ -1,15 +1,27 @@
 package ar.edu.unq.desapp.grupoa.runner;
 
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
+import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.EventDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
+import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.model.event.baquita.Baquita;
 import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaComunitary;
 import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaRepresentatives;
+import ar.edu.unq.desapp.grupoa.model.event.baquita.LoadedGood;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
+import ar.edu.unq.desapp.grupoa.model.event.canasta.CanastaGood;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.FiestaGood;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
+import ar.edu.unq.desapp.grupoa.service.AccountService;
 import ar.edu.unq.desapp.grupoa.service.EventService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -21,6 +33,10 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Loan.takeLoan;
+import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.deposit;
+import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.extract;
 import static org.apache.commons.collections.ListUtils.EMPTY_LIST;
 
 @Component
@@ -31,6 +47,8 @@ public class BootStrapRunner implements ApplicationRunner {
     @Autowired
     private EventService eventService;
 
+
+
     @Autowired
     private UserDAO userDAO;
 
@@ -40,7 +58,7 @@ public class BootStrapRunner implements ApplicationRunner {
         this.createExampleData();
     }
 
-    private void createExampleData() {
+    private void createExampleData() throws JsonProcessingException {
         logger.info("Loading Sample Data");
         User ivanDominikow  = createUserWithName("Ivan",
                                         "Dominikow" ,
@@ -78,7 +96,16 @@ public class BootStrapRunner implements ApplicationRunner {
                                                 "donbilletin@havisto.com",
                                                 "havistounbilletin",
                                                 LocalDateTime.of(1990,1,29,17,10));
-        this.userDAO.saveAll(Arrays.asList(juanCaspa,joseTejo,donBilletin));
+
+
+
+        takeLoan(juanCaspa.getAccount());
+        deposit(juanCaspa.getAccount(),1000);
+        takeLoan(joseTejo.getAccount());
+        extract(joseTejo.getAccount(),500);
+
+        this.userDAO.saveAll(Arrays.asList(juanCaspa,donBilletin));
+
         List<Event> events = ivanDEvents(ivanDominikow, ivanTamargo, victorDegano, pepeLocura, juanCaspa, joseTejo, donBilletin);
         events.addAll(ivanTEvents(ivanTamargo, victorDegano, pepeLocura,ivanDominikow, juanCaspa, joseTejo, donBilletin));
         events.addAll(victorEvents(victorDegano, pepeLocura, ivanDominikow, ivanTamargo, juanCaspa, joseTejo, donBilletin));
@@ -86,43 +113,23 @@ public class BootStrapRunner implements ApplicationRunner {
         this.eventService.createAll(events);
     }
 
+
+    private String json(Object object) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new Jdk8Module());
+        objectMapper.registerModule(new JodaModule());
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper.writeValueAsString(object);
+    }
+
     private List<Event> ivanDEvents(User organizerIvan, User ivan, User victor, User pepe, User juanCaspa, User joseTejo, User donBilletin) {
         logger.info("Creating Ivan Dominikow Events");
         List<Event> ivanEvents = new ArrayList<>();
-        ivanEvents.add(new Fiesta(
-                            "La fiesta de Ivan",
-                            organizerIvan,
-                            Arrays.asList(
-                                    new Guest(ivan),
-                                    new Guest(victor),
-                                    new Guest(pepe),
-                                    new Guest(juanCaspa),
-                                    new Guest(joseTejo),
-                                    new Guest(donBilletin)),
-                            LocalDateTime.now().plusDays(15),
-                            EMPTY_LIST,
-                            LocalDateTime.now()));
+        ivanEvents.add(this.buildLaFiestaDeIvan(organizerIvan, ivan, victor, pepe, juanCaspa, joseTejo, donBilletin));
 
-        ivanEvents.add(new Fiesta(
-                "IvanFest",
-                organizerIvan,
-                Arrays.asList(
-                        new Guest(ivan),
-                        new Guest(victor),
-                        new Guest(pepe)),
-                LocalDateTime.now().plusDays(10),
-                EMPTY_LIST,
-                LocalDateTime.now().minusDays(1)));
+        ivanEvents.add(this.buildIvanFest(organizerIvan, ivan, victor, pepe, juanCaspa, joseTejo, donBilletin));
 
-        ivanEvents.add(new Canasta(
-                "Canasteando 2.0",
-                organizerIvan,
-                Arrays.asList(
-                        new Guest(ivan),
-                        new Guest(victor),
-                        new Guest(pepe)),
-                EMPTY_LIST,
-                LocalDateTime.now().minusDays(10)));
+        ivanEvents.add(this.buildCanasteandoDosPuntoCero(organizerIvan, ivan, victor, pepe, juanCaspa, joseTejo, donBilletin));
 
         Canasta aCanasta = new Canasta(
                 "Canasteando",
@@ -137,6 +144,115 @@ public class BootStrapRunner implements ApplicationRunner {
         ivanEvents.add(aCanasta);
 
         return ivanEvents;
+    }
+
+    private Canasta buildCanasteandoDosPuntoCero(User organizerIvan, User ivan, User victor, User pepe, User juanCaspa, User joseTejo, User donBilletin) {
+        CanastaGood chizitos = new CanastaGood();
+        chizitos.setName("Chizitos");
+        chizitos.setPricePerUnit(50);
+        chizitos.setQuantityForPerson(1);
+        chizitos.setUserThatOwnsTheGood(ivan);
+
+        CanastaGood palitos = new CanastaGood();
+        palitos.setName("Palitos de Queso");
+        palitos.setPricePerUnit(20);
+        palitos.setQuantityForPerson(3);
+
+        CanastaGood queso = new CanastaGood();
+        queso.setName("Queso");
+        queso.setPricePerUnit(70);
+        queso.setQuantityForPerson(1);
+        queso.setUserThatOwnsTheGood(pepe);
+
+        CanastaGood mani = new CanastaGood();
+        mani.setName("Mani");
+        mani.setPricePerUnit(25);
+        mani.setQuantityForPerson(2);
+        mani.setUserThatOwnsTheGood(joseTejo);
+
+        Guest victorGuest = new Guest(victor);
+        victorGuest.confirmAsistance();
+
+        return new Canasta(
+                "Canasteando 2.0",
+                organizerIvan,
+                Arrays.asList(
+                        new Guest(ivan),
+                        victorGuest,
+                        new Guest(pepe),
+                        new Guest(juanCaspa),
+                        new Guest(joseTejo),
+                        new Guest(donBilletin)),
+                Arrays.asList(chizitos, palitos, queso, mani),
+                LocalDateTime.now().minusDays(10));
+    }
+
+    private Fiesta buildLaFiestaDeIvan(User organizerIvan, User ivan, User victor, User pepe, User juanCaspa, User joseTejo, User donBilletin) {
+
+        FiestaGood pizza = new FiestaGood();
+        pizza.setFinalQuantity(0);
+        pizza.setName("Pizza Individual Extra Queso");
+        pizza.setPricePerUnit(100);
+        pizza.setQuantityForPerson(1);
+
+        FiestaGood cerveza = new FiestaGood();
+        cerveza.setFinalQuantity(0);
+        cerveza.setName("Cerveza Heineken");
+        cerveza.setPricePerUnit(80);
+        cerveza.setQuantityForPerson(1);
+
+        FiestaGood papas = new FiestaGood();
+        papas.setFinalQuantity(0);
+        papas.setName("Bolsa de papas fritas");
+        papas.setPricePerUnit(30);
+        papas.setQuantityForPerson(2);
+
+        return new Fiesta(
+                "IvanFest",
+                organizerIvan,
+                Arrays.asList(
+                        new Guest(ivan),
+                        new Guest(victor),
+                        new Guest(pepe)),
+                LocalDateTime.now().plusDays(10),
+                Arrays.asList(cerveza, pizza, papas),
+                LocalDateTime.now().minusDays(1));
+    }
+
+    private Fiesta buildIvanFest(User organizerIvan, User ivan, User victor, User pepe, User juanCaspa, User joseTejo, User donBilletin) {
+        FiestaGood cerveza = new FiestaGood();
+        cerveza.setFinalQuantity(0);
+        cerveza.setName("Cerveza Heineken");
+        cerveza.setPricePerUnit(80);
+        cerveza.setQuantityForPerson(1);
+        FiestaGood pizza = new FiestaGood();
+        pizza.setFinalQuantity(0);
+        pizza.setName("Pizza Individual Extra Queso");
+        pizza.setPricePerUnit(100);
+        pizza.setQuantityForPerson(1);
+        FiestaGood pizzaDos = new FiestaGood();
+        pizzaDos.setFinalQuantity(0);
+        pizzaDos.setName("Porcion de Faina");
+        pizzaDos.setPricePerUnit(20);
+        pizzaDos.setQuantityForPerson(3);
+        FiestaGood papas = new FiestaGood();
+        papas.setFinalQuantity(0);
+        papas.setName("Bolsa de papas fritas");
+        papas.setPricePerUnit(30);
+        papas.setQuantityForPerson(2);
+
+        return new Fiesta("La fiesta de Ivan",
+                organizerIvan,
+                Arrays.asList(
+                        new Guest(ivan),
+                        new Guest(victor),
+                        new Guest(pepe),
+                        new Guest(juanCaspa),
+                        new Guest(joseTejo),
+                        new Guest(donBilletin)),
+                LocalDateTime.now().plusDays(15),
+                Arrays.asList(cerveza, pizza, pizzaDos, papas),
+                LocalDateTime.now());
     }
 
     private List<Event> ivanTEvents(User organizerIvan, User victor, User pepe, User ivan, User juanCaspa, User joseTejo, User donBilletin) {
@@ -179,6 +295,35 @@ public class BootStrapRunner implements ApplicationRunner {
                             EMPTY_LIST,
                             LocalDateTime.now().minusDays(1)));
 
+        ivanEvents.add(buildLaUnicaFiesta(organizerIvan, victor, pepe, ivan));
+        return ivanEvents;
+    }
+
+    private Fiesta buildLaUnicaFiesta(User organizerIvan, User victor, User pepe, User ivan) {
+        FiestaGood cerveza = new FiestaGood();
+        cerveza.setFinalQuantity(0);
+        cerveza.setName("Cerveza Quilmes");
+        cerveza.setPricePerUnit(70);
+        cerveza.setQuantityForPerson(2);
+
+        FiestaGood choripan = new FiestaGood();
+        choripan.setFinalQuantity(0);
+        choripan.setName("Choripanes");
+        choripan.setPricePerUnit(30);
+        choripan.setQuantityForPerson(4);
+
+        FiestaGood chinchulines = new FiestaGood();
+        chinchulines.setFinalQuantity(0);
+        chinchulines.setName("Tira corta de chinchulines");
+        chinchulines.setPricePerUnit(35);
+        chinchulines.setQuantityForPerson(1);
+
+        FiestaGood morcilla = new FiestaGood();
+        morcilla.setFinalQuantity(0);
+        morcilla.setName("Morcilla");
+        morcilla.setPricePerUnit(40);
+        morcilla.setQuantityForPerson(1);
+
         Fiesta aFest = new Fiesta(
                         "La Unica Canasta",
                         organizerIvan,
@@ -187,11 +332,10 @@ public class BootStrapRunner implements ApplicationRunner {
                                 new Guest(victor),
                                 new Guest(pepe)),
                         LocalDateTime.now().plusDays(15),
-                        EMPTY_LIST,
+                        Arrays.asList(cerveza, choripan, chinchulines, morcilla),
                         LocalDateTime.now());
         aFest.close();
-        ivanEvents.add(aFest);
-        return ivanEvents;
+        return aFest;
     }
 
     private List<Event> victorEvents(User organizerVictor, User pepe, User ivanD, User ivanT, User juanCaspa, User joseTejo, User donBilletin) {
@@ -232,36 +376,81 @@ public class BootStrapRunner implements ApplicationRunner {
                                 EMPTY_LIST,
                                 LocalDateTime.now().minusDays(22)));
 
-        victorEvents.add(new Fiesta(
-                "Fest",
+        victorEvents.add(buildTheFest(organizerVictor, pepe, ivanD));
+        return victorEvents;
+    }
+
+    private Fiesta buildTheFest(User organizerVictor, User pepe, User ivanD) {
+        FiestaGood cerveza = new FiestaGood();
+        cerveza.setFinalQuantity(0);
+        cerveza.setName("Cerveza Patagonia");
+        cerveza.setPricePerUnit(120);
+        cerveza.setQuantityForPerson(5);
+
+        FiestaGood pizza = new FiestaGood();
+        pizza.setFinalQuantity(0);
+        pizza.setName("Pizza Chica de 4 Quesos");
+        pizza.setPricePerUnit(45);
+        pizza.setQuantityForPerson(6);
+
+        return new Fiesta(
+                "The Fest",
                 organizerVictor,
                 Arrays.asList(
                         new Guest(ivanD),
                         new Guest(pepe)),
                 LocalDateTime.now().plusDays(10),
-                EMPTY_LIST,
-                LocalDateTime.now()));
-        return victorEvents;
+                Arrays.asList(cerveza, pizza),
+                LocalDateTime.now());
     }
 
     private List<Event> pepeEvents(User organizerPepe, User ivanD, User ivanT, User victor, User juanCaspa, User joseTejo, User donBilletin) {
         logger.info("Creating Pepe Locura Events");
         List<Event> pepeEvents = new ArrayList<>();
 
-        Baquita aBaquita = new BaquitaRepresentatives(
+        pepeEvents.add(this.buildUnaVacaRespetable(organizerPepe, ivanD, ivanT, victor, juanCaspa, joseTejo, donBilletin));
+        return pepeEvents;
+    }
+
+    private Baquita buildUnaVacaRespetable(User organizerPepe, User ivanD, User ivanT, User victor, User juanCaspa, User joseTejo, User donBilletin){
+        Guest ivanDG = new Guest(ivanD);
+        Guest ivanTG = new Guest(ivanT);
+        Guest victorG = new Guest(victor);
+        victorG.confirmAsistance();
+        Guest juanCaspaG = new Guest(juanCaspa);
+        Guest joseTejoG = new Guest(joseTejo);
+
+        Good cerveza = new Good();
+        cerveza.setName("Cerveza Heineken");
+        cerveza.setPricePerUnit(65);
+        cerveza.setQuantityForPerson(2);
+        Good pizza = new Good();
+        pizza.setName("Pizza 4 Quesos");
+        pizza.setPricePerUnit(130);
+        pizza.setQuantityForPerson(1);
+        Good papas = new Good();
+        papas.setName("Detodito");
+        papas.setPricePerUnit(55);
+        papas.setQuantityForPerson(2);
+
+        BaquitaRepresentatives aBaquita = new BaquitaRepresentatives(
                 "Una vaca Respetable",
                 organizerPepe,
-                Arrays.asList(
-                        new Guest(ivanD),
-                        new Guest(victor),
-                        new Guest(ivanT),
-                        new Guest(juanCaspa),
-                        new Guest(joseTejo)),
-                EMPTY_LIST,
+                Arrays.asList(ivanDG,ivanTG,victorG,juanCaspaG,joseTejoG),
+                Arrays.asList(cerveza, pizza, papas),
                 LocalDateTime.now().minusDays(2));
-        aBaquita.close();
-        pepeEvents.add(aBaquita);
-        return pepeEvents;
+
+        aBaquita.addRepresentative(victorG);
+        aBaquita.addRepresentative(ivanTG);
+
+        LoadedGood cervezaGood = new LoadedGood(victorG,cerveza);
+        LoadedGood pizzaGood = new LoadedGood(victorG,pizza);
+        LoadedGood papasGood = new LoadedGood(ivanTG,papas);
+        aBaquita.loadGood(cervezaGood);
+        aBaquita.loadGood(pizzaGood);
+        aBaquita.loadGood(papasGood);
+
+        return aBaquita;
     }
 
     private User createUserWithName(String name, String lastname,String email, String password, LocalDateTime bornDay) {

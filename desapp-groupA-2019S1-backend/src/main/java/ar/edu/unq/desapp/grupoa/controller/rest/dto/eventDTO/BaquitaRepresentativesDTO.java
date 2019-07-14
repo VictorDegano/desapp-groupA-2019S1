@@ -14,11 +14,9 @@ import java.util.List;
 
 public class BaquitaRepresentativesDTO extends EventDTO {
 
-    @OneToMany
-    private List<GuestDTO> representatives;
 
-    @Transient
-    protected List<LoadedGoodDTO> loadedGoods;
+    private List<GuestDTO> representatives;
+    private List<LoadedGoodDTO> loadedGoods;
 
     public BaquitaRepresentativesDTO(Integer id, String name, UserDTO organizer,
                                  String type, Integer quantityOfGuest, List<GoodDTO> goods,
@@ -37,8 +35,8 @@ public class BaquitaRepresentativesDTO extends EventDTO {
 
 
     }
-    public BaquitaRepresentativesDTO(){}
 
+    public BaquitaRepresentativesDTO(){}
     @Override
     public EventDTO from(Event aBaquita) {
         return new BaquitaRepresentativesDTO(
@@ -63,5 +61,13 @@ public class BaquitaRepresentativesDTO extends EventDTO {
                 this.organizer.id,
                this.guestMail(),
                toGood(this.goods));
+    }
+
+    public List<GuestDTO> getRepresentatives() {
+        return representatives;
+    }
+
+    public List<LoadedGoodDTO> getLoadedGoods() {
+        return loadedGoods;
     }
 }

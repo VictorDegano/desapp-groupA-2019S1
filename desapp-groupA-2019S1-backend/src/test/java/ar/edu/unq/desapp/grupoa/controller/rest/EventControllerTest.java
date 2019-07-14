@@ -441,7 +441,7 @@ public class EventControllerTest {
         return Integer.valueOf(result);
     }
 
-    private String json(EventDTO object) throws JsonProcessingException {
+    private String json(Object object) throws JsonProcessingException {
         return objectMapper.writeValueAsString(object);
     }
 

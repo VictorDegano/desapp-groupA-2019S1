@@ -28,25 +28,38 @@ public class AccountBuilder {
     }
 
     public static Function<Account, Account> withRandomBalance() {
-        return (account) -> account.deposit(randomNumber());
+        return (account) -> {
+            account.deposit(randomNumber());
+            return account;
+        };
     }
 
     public static Function<Account, Account> withBalance(Integer amount) {
-        return (account) -> account.deposit(amount);
+        return (account) -> {
+            account.deposit(amount);
+            return account;
+        };
     }
 
     public static Function<Account, Account> withDefaultedUser() {
-       return (account) -> {
-           account.getUser().defaultUser();
-           return account;
-       };
+        return (account) -> {
+            account.getUser().defaultUser();
+            return account;
+        };
     }
 
     public static Function<Account, Account> withLoanAndNoBalance() {
-        return (account) -> takeLoan(account.extract(1000));
+        return (account) -> {
+            account.extract(1000);
+            takeLoan(account);
+            return account;
+        };
     }
 
     public static Function<Account, Account> withLoan() {
-        return (account) -> takeLoan(account);
+        return (account) -> {
+            takeLoan(account);
+            return account;
+        };
     }
 }
