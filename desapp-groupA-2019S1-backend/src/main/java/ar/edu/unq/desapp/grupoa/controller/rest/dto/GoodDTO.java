@@ -13,9 +13,10 @@ public class GoodDTO {
     private String  name;
     private Integer pricePerUnit;
     private Integer quantityForPerson;
-    private Integer finalQuantity;
-    private Boolean isAvailable;
 
+    private Integer finalQuantity;
+
+    private Boolean isAvailable;
     public GoodDTO(){}
 
     public GoodDTO(String name, Integer pricePerUnit, Integer quantityForPerson, Integer finalQuantity, Integer id) {
@@ -106,5 +107,9 @@ public class GoodDTO {
 
     public Integer getFinalQuantity() {
         return finalQuantity;
+    }
+
+    public Boolean getAvailable() {
+        return isAvailable;
     }
 }
