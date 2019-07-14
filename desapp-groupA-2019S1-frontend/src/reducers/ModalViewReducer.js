@@ -39,7 +39,9 @@ const initialState = {
   modalCreateEventState: false,
   modalProfileState: false,
   modalEventView: false,
-  event: emptyEvent
+  modify: false,
+  event: emptyEvent,
+  eventToModify: emptyEvent
 };
 
 //Se recibe un state antiguo, un action y se devuelve el nuevo state
@@ -48,35 +50,31 @@ export default function ModalViewReducer(state = initialState, action) {
 
   switch (action.type) {
     case "OPEN_PROFILE_EDITION": {
-      // console.log('case OPEN_PROFILE_EDITION');
       return Object.assign({}, state, {
         modalProfileState: true
       });
     }
 
     case "CLOSE_PROFILE_EDITION": {
-      // console.log('case CLOSE_PROFILE_EDITION');
       return Object.assign({}, state, {
         modalProfileState: false
       });
     }
 
     case "OPEN_CREATE_EVENT_MODAL": {
-      // console.log('case OPEN_PROFILE_EDITION');
       return Object.assign({}, state, {
         modalCreateEventState: true
       });
     }
 
     case "CLOSE_CREATE_EVENT_MODAL": {
-      // console.log('case CLOSE_PROFILE_EDITION');
       return Object.assign({}, state, {
-        modalCreateEventState: false
+        modalCreateEventState: false,
+        modify: false
       });
     }
 
     case "OPEN_EVENT_VIEW": {
-      // console.log('case OPEN_EVENT_VIEW');
       return Object.assign({}, state, {
         modalEventView: true,
         event: action.event
@@ -93,15 +91,32 @@ export default function ModalViewReducer(state = initialState, action) {
 
     case "UPDATE_EVENT": {
       return Object.assign({}, state, {
-        event: action.event });
+        event: action.event
+      });
     }
 
-    case "CLOSE_EVENT":{
+    case "CLOSE_EVENT": {
       return Object.assign({}, state, {
         event: Object.assign({}, state.event, {
           status: "CLOSE"
         })
-      })
+      });
+    }
+
+    case "OPEN_MODIFY_EVENT_MODAL": {
+      return Object.assign({}, state, {
+        modalCreateEventState: true,
+        eventToModify: action.event,
+        modify: true
+      });
+    }
+
+    case "CLOSE_MODIFY_EVENT_MODAL": {
+      return Object.assign({}, state, {
+        eventToModify: emptyEvent,
+        modalCreateEventState: false,
+        modify: false
+      });
     }
 
     default:
