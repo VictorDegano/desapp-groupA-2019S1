@@ -1,37 +1,47 @@
+const emptyEvent = {
+  eventName: "",
+  creationDate: "",
+  goods: [
+    {
+      good: false,
+      name: "",
+      pricePerUnit: 0,
+      quantityForPerson: 0,
+      finalQuantity: 0
+    }
+  ],
+  guests: [
+    {
+      confirmAsistance: "",
+      firstName: "",
+      guestId: 0,
+      lastName: "",
+      mail: "",
+      userId: 0
+    }
+  ],
+  id: 0,
+  organizer: {
+    id: 0,
+    fistName: "",
+    lastName: "",
+    bornDate: "",
+    email: ""
+  },
+  quantityOfGuest: 0,
+  status: "",
+  type: ""
+};
+
 const initialState = {
   modalCreateEventState: false,
   modalProfileState: false,
   modalEventView: false,
-  event: {
-    eventName: "",
-    creationDate: "",
-    goods: [],
-    guests: [
-      {
-        confirmAsistance: "",
-        firstName: "",
-        guestId: 0,
-        lastName: "",
-        mail: "",
-        userId: 0
-      }
-    ],
-    id: 0,
-    organizer: {
-      id: 0,
-      fistName: "",
-      lastName: "",
-      bornDate: "",
-      email: ""
-    },
-    quantityOfGuest: 0,
-    status: "",
-    type: ""
-  }
+  event: emptyEvent
 };
 
 //Se recibe un state antiguo, un action y se devuelve el nuevo state
-export default function userReducer(state = initialState, action) {
+export default function ModalViewReducer(state = initialState, action) {
   // console.log('userReducer()');
 
   switch (action.type) {
@@ -75,33 +85,21 @@ export default function userReducer(state = initialState, action) {
       // console.log('case CLOSE_EVENT_VIEW');
       return Object.assign({}, state, {
         modalEventView: false,
-        event: {
-          eventName: "",
-          creationDate: "",
-          goods: [],
-          guests: [
-            {
-              confirmAsistance: "",
-              firstName: "",
-              guestId: 0,
-              lastName: "",
-              mail: "",
-              userId: 0
-            }
-          ],
-          id: 0,
-          organizer: {
-            id: 0,
-            fistName: "",
-            lastName: "",
-            bornDate: "",
-            email: ""
-          },
-          quantityOfGuest: 0,
-          status: "",
-          type: ""
-        }
+        event: emptyEvent
       });
+    }
+
+    case "UPDATE_EVENT": {
+      return Object.assign({}, state, {
+        event: action.event });
+    }
+
+    case "CLOSE_EVENT":{
+      return Object.assign({}, state, {
+        event: Object.assign({}, state.event, {
+          status: "CLOSE"
+        })
+      })
     }
 
     default:
