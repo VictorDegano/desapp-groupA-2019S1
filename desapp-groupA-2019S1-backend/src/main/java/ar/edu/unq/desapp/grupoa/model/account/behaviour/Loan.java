@@ -2,10 +2,11 @@ package ar.edu.unq.desapp.grupoa.model.account.behaviour;
 
 import ar.edu.unq.desapp.grupoa.exception.account.LoanOnCourseException;
 import ar.edu.unq.desapp.grupoa.exception.account.NoLoanOnCourseException;
-import ar.edu.unq.desapp.grupoa.exception.account.NotEnoughCashToPerformOperation;
 import ar.edu.unq.desapp.grupoa.exception.account.UserDefaultException;
 import ar.edu.unq.desapp.grupoa.model.account.Account;
 import ar.edu.unq.desapp.grupoa.model.account.Credit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Loan {
 
