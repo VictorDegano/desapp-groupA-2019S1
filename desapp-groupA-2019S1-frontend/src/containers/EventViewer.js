@@ -12,7 +12,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 import ListGroup from "react-bootstrap/ListGroup";
 import Badge from "react-bootstrap/Badge";
-// Bootstrap
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //Actions
@@ -27,8 +26,7 @@ import "../css/ProfileEdition.css";
 import GoodItem from "../EventViewer/Components/GoodItem";
 //API
 import EventApi from "../api/EventApi";
-//Store
-import { store } from "../index";
+import UserOverlay from "../UserOverlayView/UserOverlay";
 
 /* TODO: Cosas que faltan:
   - aceptar/cancelar una invitacion (El boton/link solo apareceria si el usuario es el invitado)
@@ -509,10 +507,10 @@ class EventViewer extends Component {
               {event.guests.map(guest => {
                 return (
                   <ListGroup.Item
-                    key={guest.firstName + guest.email + guest.lastName}
+                    key={guest.id + guest.firstName + guest.email + guest.lastName}
                     as="li"
                   >
-                    {guest.firstName + " " + guest.lastName}
+                    <UserOverlay guest={guest}/>{/* {guest.firstName + " " + guest.lastName} */}
                     <Badge
                       variant={this.getBadgeColour(guest.confirmAsistance)}
                     >

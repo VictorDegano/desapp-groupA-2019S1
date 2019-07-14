@@ -52,7 +52,13 @@
     "pricePerUnit": "Precio por unidad:",
     "quantityForPerson": "Cantidad por persona:",
     "status": "Estado:",
-    "totalCost": "Costo Total:"
+    "totalCost": "Costo Total:",
+    "userDetail": {
+      "userBornDay": "Fecha De Nacimiento:",
+      "userEmail": "Correo:",
+      "userInfo": "Informacion del usuario",
+      "userName": "Nombre:"
+    }
   },
   "formatter": {
     "currency": "$",

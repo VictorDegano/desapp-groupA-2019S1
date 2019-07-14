@@ -21,10 +21,6 @@ class SideBar extends React.PureComponent {
     showLastEvents: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { t } = this.props;
 

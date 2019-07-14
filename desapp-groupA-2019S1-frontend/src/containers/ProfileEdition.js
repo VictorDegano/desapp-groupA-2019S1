@@ -168,7 +168,6 @@ class ProfileEdition extends Component {
 
   render() {
     const { t } = this.props;
-    const loggedUser = this.props.loggedUser;
     const show = this.props.show;
     const { validated } = this.state;
 

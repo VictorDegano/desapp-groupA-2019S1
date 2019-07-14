@@ -9,7 +9,6 @@ import Col from "react-bootstrap/Col";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 //Actions
-import { updateLoggedUser } from "../actions/UserActions";
 import {
   loadEventsInProgress,
   loadLastEvents,
@@ -18,7 +17,6 @@ import {
 } from "../actions/EventActions";
 // API
 import EventApi from "../api/EventApi";
-import UserApi from "../api/UserApi";
 // Eventeando
 import NavigationBar from "./NavigationBar";
 import SideBar from "./SideBar";
