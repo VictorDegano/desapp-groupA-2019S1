@@ -104,7 +104,7 @@ public class BootStrapRunner implements ApplicationRunner {
         takeLoan(joseTejo.getAccount());
         extract(joseTejo.getAccount(),500);
 
-        this.userDAO.saveAll(Arrays.asList(juanCaspa,joseTejo,donBilletin));
+        this.userDAO.saveAll(Arrays.asList(juanCaspa,donBilletin));
 
         List<Event> events = ivanDEvents(ivanDominikow, ivanTamargo, victorDegano, pepeLocura, juanCaspa, joseTejo, donBilletin);
         events.addAll(ivanTEvents(ivanTamargo, victorDegano, pepeLocura,ivanDominikow, juanCaspa, joseTejo, donBilletin));

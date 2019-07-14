@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
         property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = FiestaDTO.class, name = "FIESTA"),
@@ -101,6 +100,10 @@ public abstract class EventDTO {
         return goodsForGuest.stream().map( it -> GoodDTO.fromFiestaGood(it)).collect(Collectors.toList());
     }
 
+    protected List<GoodDTO> getGoodsFromCanastaGood(List<Good> goodsForGuest) {
+        return goodsForGuest.stream().map( it -> GoodDTO.fromCanastaGood(it)).collect(Collectors.toList());
+    }
+
     protected List<GoodDTO> getGoodsFrom(List<Good> goodsForGuest) {
         return goodsForGuest.stream().map( it -> GoodDTO.fromGood(it)).collect(Collectors.toList());
     }
@@ -120,8 +123,5 @@ public abstract class EventDTO {
     public LocalDateTime getCreationDate() {
         return creationDate;
     }
-
-
-
 
 }

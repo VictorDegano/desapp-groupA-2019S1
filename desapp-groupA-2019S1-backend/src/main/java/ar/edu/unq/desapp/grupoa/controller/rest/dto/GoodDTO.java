@@ -14,6 +14,7 @@ public class GoodDTO {
     private Integer pricePerUnit;
     private Integer quantityForPerson;
     private Integer finalQuantity;
+    private Boolean isAvailable;
 
     public GoodDTO(){}
 
@@ -30,6 +31,14 @@ public class GoodDTO {
         this.pricePerUnit = pricePerUnit;
         this.quantityForPerson = quantityForPerson;
         this.id = id;
+    }
+
+    public GoodDTO(String name, Integer pricePerUnit, Integer quantityForPerson, Integer id, Boolean available) {
+        this.name = name;
+        this.pricePerUnit = pricePerUnit;
+        this.quantityForPerson = quantityForPerson;
+        this.id = id;
+        this.isAvailable = available;
 
     }
 
@@ -50,6 +59,16 @@ public class GoodDTO {
                 good.getQuantityForPerson(),
                 good.getId()
                 );
+    }
+
+    public static GoodDTO fromCanastaGood(Good good) {
+        CanastaGood canastaGood = (CanastaGood) good;
+        return  new GoodDTO(
+                canastaGood.getName(),
+                canastaGood.getPricePerUnit(),
+                canastaGood.getQuantityForPerson(),
+                canastaGood.getId(),
+                canastaGood.isAvailable());
     }
 
     public Good toGood() {
