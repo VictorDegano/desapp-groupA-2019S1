@@ -98,11 +98,18 @@ public class BootStrapRunner implements ApplicationRunner {
                                                 LocalDateTime.of(1990,1,29,17,10));
 
 
-
         takeLoan(juanCaspa.getAccount());
         deposit(juanCaspa.getAccount(),1000);
         takeLoan(joseTejo.getAccount());
         extract(joseTejo.getAccount(),500);
+        takeLoan(ivanDominikow.getAccount());
+        deposit(ivanDominikow.getAccount(),555);
+        takeLoan(victorDegano.getAccount());
+        deposit(victorDegano.getAccount(),2000);
+        takeLoan(ivanTamargo.getAccount());
+        deposit(ivanTamargo.getAccount(),1500);
+        takeLoan(pepeLocura.getAccount());
+        deposit(pepeLocura.getAccount(),199);
 
         this.userDAO.saveAll(Arrays.asList(juanCaspa,donBilletin));
 
@@ -471,10 +478,8 @@ public class BootStrapRunner implements ApplicationRunner {
         aBaquita.addRepresentative(ivanTG);
 
         LoadedGood cervezaGood = new LoadedGood(victorG,cerveza);
-        LoadedGood pizzaGood = new LoadedGood(victorG,pizza);
         LoadedGood papasGood = new LoadedGood(ivanTG,papas);
         aBaquita.loadGood(cervezaGood);
-        aBaquita.loadGood(pizzaGood);
         aBaquita.loadGood(papasGood);
 
         return aBaquita;

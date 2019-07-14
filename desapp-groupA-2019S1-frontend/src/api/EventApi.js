@@ -101,6 +101,21 @@ class EventApi {
       this.header
     );
   }
+
+  takeGood(eventId, goodId, userId) {
+    return axios
+      .put(
+        API_CONFIG.endPoint +
+          `event/ownBaquitaGood/${eventId}/${userId}/${goodId}`,
+        this.header
+      )
+      .then(response => {
+        return response.status === 200 ? true : false;
+      })
+      .catch(error => {
+        return error;
+      });
+  }
 }
 
 export default EventApi;
