@@ -24,7 +24,7 @@ public class Loan {
             log.info("User:"+ account.getUser().getFirstName()+" "+account.getUser().getLastName() +" paid a quota of his debt");
             account.payDebt(200);
             if (!accountIsInDebt(account)){
-                log.info("User:" + account.getUser().getFirstName()+" "+account.getUser().getLastName() + "paid all his quotas and is no longer in debt");
+                log.info("User:" + account.getUser().getFirstName()+" "+account.getUser().getLastName() + " paid all his quotas and is no longer in debt");
             }
             log.info("User:" + account.getUser().getFirstName()+" "+account.getUser().getLastName() + "'s account balance is now: "+ account.balance());
         }

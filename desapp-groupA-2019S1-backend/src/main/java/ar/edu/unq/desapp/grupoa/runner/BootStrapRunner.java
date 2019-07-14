@@ -94,7 +94,7 @@ public class BootStrapRunner implements ApplicationRunner {
         User donBilletin   = createUserWithName("Don",
                                                 "Billetin" ,
                                                 "donbilletin@havisto.com",
-                                                "havistounbilletin",
+                                                "havistou",
                                                 LocalDateTime.of(1990,1,29,17,10));
 
 

@@ -148,7 +148,7 @@ public class EventServiceTest {
                                     .withLastName("lastoma")
                                     .withMail(randomString()+"@saraza.com")
                                     .withBornDay(LocalDateTime.of(2010,1,11,20,00))
-                                    .withPassword("teLaTomasteTodaChinwenwencha")
+                                    .withPassword("telato")
                                     .build();
 
         Fiesta fiesta1 = FiestaBuilder.buildAFiesta()
