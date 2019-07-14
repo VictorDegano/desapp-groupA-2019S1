@@ -51,3 +51,11 @@ export function closeEventView() {
     type: ACTION_TYPE.CLOSE_EVENT_VIEW
   };
 }
+
+export function updateEvent(event) {
+  return {
+    type: ACTION_TYPE.UPDATE_EVENT,
+    event: event
+    // goodId: goodId
+  };
+}
