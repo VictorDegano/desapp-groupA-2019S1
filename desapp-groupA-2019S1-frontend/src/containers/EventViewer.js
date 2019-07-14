@@ -204,7 +204,7 @@ class EventViewer extends Component {
   ownGood(good) {
     const eventApi = new EventApi();
     const eventId = this.props.event.id;
-    const loggedUserId = store.getState().UserReducer.loggedUser.id;
+    const loggedUserId = localStorage.getItem("id");
 
     eventApi
       .ownGood(eventId, good.id, loggedUserId)
@@ -243,7 +243,7 @@ class EventViewer extends Component {
   handleCloseEvent() {
     const eventApi = new EventApi();
     const eventId = this.props.event.id;
-    const loggedUserId = store.getState().UserReducer.loggedUser.id;
+    const loggedUserId = localStorage.getItem("id");
 
     eventApi.closeEvent(eventId).then(response => {
       if (response) {
@@ -258,11 +258,10 @@ class EventViewer extends Component {
 
   handleAceptInvitation(eventId, guestId) {
     const eventApi = new EventApi();
-    const loggedUserId = store.getState().UserReducer.loggedUser.id;
+    const loggedUserId = localStorage.getItem("id");
 
     eventApi.aceptInvitation(eventId, guestId).then(response => {
       if (response) {
-        // this.props.updateEventToStateClose();
         this.refreshEvents(loggedUserId);
         alert("Invitacion confirmada");
       } else {
@@ -275,7 +274,7 @@ class EventViewer extends Component {
     const { t } = this.props;
     const eventStatus = this.props.event.status;
     const organizerId = this.props.event.organizer.id;
-    const loggedUserId = store.getState().UserReducer.loggedUser.id;
+    const loggedUserId = localStorage.getItem("id");
 
     if (organizerId === loggedUserId) {
       return (
@@ -292,7 +291,7 @@ class EventViewer extends Component {
 
   renderAceptInvitationButton(event, guest) {
     const { t } = this.props;
-    const loggedUserId = store.getState().UserReducer.loggedUser.id;
+    const loggedUserId = localStorage.getItem("id");
 
     if (
       event.status !== "CLOSE" &&
