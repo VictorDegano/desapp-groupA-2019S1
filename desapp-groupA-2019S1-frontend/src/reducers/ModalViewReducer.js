@@ -40,7 +40,8 @@ const initialState = {
   modalProfileState: false,
   modalEventView: false,
   modify: false,
-  event: emptyEvent
+  event: emptyEvent,
+  eventToModify: emptyEvent
 };
 
 //Se recibe un state antiguo, un action y se devuelve el nuevo state
@@ -105,13 +106,14 @@ export default function ModalViewReducer(state = initialState, action) {
     case "OPEN_MODIFY_EVENT_MODAL": {
       return Object.assign({}, state, {
         modalCreateEventState: true,
-        event: action.event,
+        eventToModify: action.event,
         modify: true
       });
     }
 
     case "CLOSE_MODIFY_EVENT_MODAL": {
       return Object.assign({}, state, {
+        eventToModify: emptyEvent,
         modalCreateEventState: false,
         modify: false
       });
