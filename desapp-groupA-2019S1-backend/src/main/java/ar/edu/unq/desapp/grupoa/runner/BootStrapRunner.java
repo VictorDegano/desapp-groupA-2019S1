@@ -1,7 +1,5 @@
 package ar.edu.unq.desapp.grupoa.runner;
 
-import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
-import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.EventDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
@@ -15,7 +13,6 @@ import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.FiestaGood;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
-import ar.edu.unq.desapp.grupoa.service.AccountService;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
