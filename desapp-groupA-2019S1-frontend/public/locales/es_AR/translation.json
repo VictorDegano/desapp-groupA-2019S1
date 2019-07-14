@@ -4,6 +4,23 @@
     "description": "Vas a ser redirijido pronto a la pagina principal.\nSi no queres esperar hace",
     "title": "¡Bienvenido!"
   },
+  "createEventModal": {
+    "buttons": {
+      "close": "Cerrar",
+      "save": "Guardar"
+    },
+    "form": {
+      "bornDate": "Fecha de Nacimiento:",
+      "bornDatePlaceholder": "Ingrese su fecha de nacimiento...",
+      "email": "Correo Electronico:",
+      "emailPlaceholder": "Ingrese un correo",
+      "firstName": "Nombre:",
+      "firstNamePlaceholder": "Ingrese su nombre",
+      "lastName": "Apellido:",
+      "lastNamePlaceholder": "Ingrese su apellido"
+    },
+    "title": "Crear Evento"
+  },
   "englishLanguage": "Ingles",
   "eventType": {
     "littleCowComunitary": "Baquita Comunitaria",
@@ -12,8 +29,10 @@
     "toBasket": "Canasta"
   },
   "eventView": {
+    "acceptInvitation": "Aceptar Invitacion",
     "button": {
-      "close": "Cerrar"
+      "close": "Cerrar",
+      "closeEvent": "Cerrar Evento"
     },
     "confirmationState": {
       "accepted": "Aceptada",
@@ -21,12 +40,20 @@
       "pending": "Pendiente"
     },
     "creationDate": "Fecha de Creacion:",
+    "finalQuantity": "Cantidad Final:",
+    "goodDetailTitle": "Detalle",
+    "goods": "Articulos",
     "guest": "Invitados:",
     "guestQuantity": "Cantidad de Invitados:",
     "organizer": "Organizador:",
-    "status": "Estado:"
+    "ownGood": "Hacerse Cargo",
+    "pricePerUnit": "Precio por unidad:",
+    "quantityForPerson": "Cantidad por persona:",
+    "status": "Estado:",
+    "totalCost": "Costo Total:"
   },
   "formatter": {
+    "currency": "$",
     "date": "dd/MM/yyyy"
   },
   "homePage": {
@@ -78,23 +105,6 @@
       "lastNamePlaceholder": "Ingrese su apellido"
     },
     "title": "Edicion de Perfil"
-  },
-  "createEventModal": {
-    "buttons": {
-      "close": "Cerrar",
-      "save": "Guardar"
-    },
-    "form": {
-      "bornDate": "Fecha de Nacimiento:",
-      "bornDatePlaceholder": "Ingrese su fecha de nacimiento...",
-      "email": "Correo Electronico:",
-      "emailPlaceholder": "Ingrese un correo",
-      "firstName": "Nombre:",
-      "firstNamePlaceholder": "Ingrese su nombre",
-      "lastName": "Apellido:",
-      "lastNamePlaceholder": "Ingrese su apellido"
-    },
-    "title": "Crear Evento"
   },
   "sidebar": {
     "createEventButton": "Crear Evento",
