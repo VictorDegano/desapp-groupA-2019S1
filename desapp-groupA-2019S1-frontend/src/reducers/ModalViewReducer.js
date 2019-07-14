@@ -28,6 +28,8 @@ const emptyEvent = {
     bornDate: "",
     email: ""
   },
+  loadedGoods: [],
+  representatives: [],
   quantityOfGuest: 0,
   status: "",
   type: ""

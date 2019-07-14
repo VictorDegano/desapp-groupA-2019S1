@@ -47,6 +47,7 @@
     "guestQuantity": "Cantidad de Invitados:",
     "organizer": "Organizador:",
     "ownGood": "Hacerse Cargo",
+    "ownGoodRepresentative": "Tomar",
     "pricePerUnit": "Precio por unidad:",
     "quantityForPerson": "Cantidad por persona:",
     "status": "Estado:",
@@ -105,23 +106,6 @@
       "lastNamePlaceholder": "Ingrese su apellido"
     },
     "title": "Edicion de Perfil"
-  },
-  "createEventModal": {
-    "buttons": {
-      "close": "Cerrar",
-      "save": "Guardar"
-    },
-    "form": {
-      "bornDate": "Fecha de Nacimiento:",
-      "bornDatePlaceholder": "Ingrese su fecha de nacimiento...",
-      "email": "Correo Electronico:",
-      "emailPlaceholder": "Ingrese un correo",
-      "firstName": "Nombre:",
-      "firstNamePlaceholder": "Ingrese su nombre",
-      "lastName": "Apellido:",
-      "lastNamePlaceholder": "Ingrese su apellido"
-    },
-    "title": "Crear Evento"
   },
   "sidebar": {
     "createEventButton": "Crear Evento",
