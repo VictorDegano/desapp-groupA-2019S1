@@ -2,7 +2,7 @@ package ar.edu.unq.desapp.grupoa.controller.rest.dto;
 
 import ar.edu.unq.desapp.grupoa.model.user.User;
 
-// TODO: 10/6/2019 DO TESTS
+
 public class UserDTO {
 
     public Integer id;

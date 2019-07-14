@@ -8,8 +8,11 @@ import java.util.stream.Collectors;
 public class LoadedGoodDTO {
 
     private Integer loadedGoodId;
+
     private Integer guestId;
     private Integer goodId;
+
+    public LoadedGoodDTO(){}
 
     public LoadedGoodDTO(Integer guestId, Integer goodId,Integer loadedGoodId) {
         this.guestId = guestId;
@@ -23,5 +26,17 @@ public class LoadedGoodDTO {
 
     private static LoadedGoodDTO from(LoadedGood loadedGood) {
         return new LoadedGoodDTO(loadedGood.getGuest().getId(),loadedGood.getGood().getId(),loadedGood.getId());
+    }
+
+    public Integer getLoadedGoodId() {
+        return loadedGoodId;
+    }
+
+    public Integer getGuestId() {
+        return guestId;
+    }
+
+    public Integer getGoodId() {
+        return goodId;
     }
 }
