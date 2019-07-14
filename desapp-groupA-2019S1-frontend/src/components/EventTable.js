@@ -7,7 +7,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Button from "react-bootstrap/Button";
 // action
-import { openEventView } from "../actions/ModalViewActions";
+import {
+  openEventView,
+  openModifyEventModal
+} from "../actions/ModalViewActions";
 // API's
 import EventApi from "../api/EventApi";
 
@@ -36,6 +39,8 @@ function parseArrayToFunction(rowsArray) {
 class EventTable extends React.Component {
   static propTypes = {
     openEventView: PropTypes.func.isRequired,
+    openModifyEventModal: PropTypes.func.isRequired,
+    loggedUser: PropTypes.object,
     events: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number,
@@ -54,6 +59,7 @@ class EventTable extends React.Component {
     super(props, context);
     this.getTraduction = this.getTraduction.bind(this);
     this.openEventViewModal = this.openEventViewModal.bind(this);
+    this.openModifyEventModal = this.openModifyEventModal.bind(this);
   }
 
   getTraduction(eventType) {
@@ -81,6 +87,23 @@ class EventTable extends React.Component {
     });
   }
 
+  openModifyEventModal(eventid) {
+    const eventApi = new EventApi();
+    eventApi.getEvent(eventid).then(response => {
+      this.props.openModifyEventModal(response.data);
+    });
+  }
+
+  renderModifyButton(eventId, organizerId) {
+    if (organizerId === this.props.loggedUser.id) {
+      return (
+        <Button onClick={() => this.openModifyEventModal(eventId)}>
+          MODIFY
+        </Button>
+      );
+    } else return null;
+  }
+
   render() {
     const { t } = this.props;
     const events = this.props.events;
@@ -106,6 +129,7 @@ class EventTable extends React.Component {
                 <Button onClick={() => this.openEventViewModal(row.id)}>
                   {t("homePage->viewButton")}
                 </Button>
+                {this.renderModifyButton(row.id, row.organizer.id)}
               </td>
               <td>{row.eventName}</td>
               <td>{this.getTraduction(row.type)}</td>
@@ -122,13 +146,16 @@ class EventTable extends React.Component {
 function mapStateToProps(state) {
   // console.log('mapStateToProps()')
   return {
-    events: state.EventReducer.events
+    events: state.EventReducer.events,
+    modify: state.ModalViewReducer.modify,
+    loggedUser: state.UserReducer.loggedUser
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    openEventView: eventid => dispatch(openEventView(eventid))
+    openEventView: event => dispatch(openEventView(event)),
+    openModifyEventModal: event => dispatch(openModifyEventModal(event))
   };
 }
 
