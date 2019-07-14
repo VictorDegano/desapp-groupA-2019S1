@@ -16,11 +16,7 @@ import Badge from "react-bootstrap/Badge";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 //Actions
-import {
-  updateEventToStateClose,
-  closeEventView,
-  updateEvent
-} from "../actions/ModalViewActions";
+import { closeEventView, updateEvent } from "../actions/ModalViewActions";
 import {
   loadEventsInProgress,
   loadLastEvents,
@@ -48,7 +44,6 @@ class EventViewer extends Component {
     loadEventsInProgress: PropTypes.func.isRequired,
     loadLastEvents: PropTypes.func.isRequired,
     loadMostPopularEvents: PropTypes.func.isRequired,
-    updateEventToStateClose: PropTypes.func.isRequired,
     closeEventView: PropTypes.func.isRequired,
     updateEvent: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired,
@@ -72,13 +67,10 @@ class EventViewer extends Component {
     this.refreshEvents = this.refreshEvents.bind(this);
     this.handleCloseEvent = this.handleCloseEvent.bind(this);
     this.handleAceptInvitation = this.handleAceptInvitation.bind(this);
-  }
 
-  getEventTime() {
-    if (this.props.event.creationDate !== "") {
-      return new Date(this.props.event.creationDate);
-    }
-    return this.props.event.creationDate;
+    this.state = {
+      totalCost: 0
+    };
   }
 
   getBadgeColour(confirmation) {
@@ -110,6 +102,23 @@ class EventViewer extends Component {
     if (confirmation === "CANCELLED") {
       return t("eventView->confirmationState->cancelled");
     }
+  }
+
+  componentDidUpdate() {
+    const eventApi = new EventApi();
+    const eventId = this.props.event.id;
+    if (eventId !== 0) {
+      eventApi
+        .getTotalCost(eventId)
+        .then(response => this.setState({ totalCost: response.data }));
+    }
+  }
+
+  getEventTime() {
+    if (this.props.event.creationDate !== "") {
+      return new Date(this.props.event.creationDate);
+    }
+    return this.props.event.creationDate;
   }
 
   getOpenColour(status) {
@@ -201,7 +210,6 @@ class EventViewer extends Component {
       .ownGood(eventId, good.id, loggedUserId)
       .then(response => {
         if (response) {
-          // this.props.updateEvent(good.id);
           this.refreshEvents(loggedUserId);
           alert("me hice cargo de una canasta");
         } else {
@@ -237,34 +245,30 @@ class EventViewer extends Component {
     const eventId = this.props.event.id;
     const loggedUserId = store.getState().UserReducer.loggedUser.id;
 
-    eventApi
-      .closeEvent(eventId)
-      .then(response => {
-        if (response) {
-          // this.props.updateEventToStateClose();
-          this.refreshEvents(loggedUserId);
-          alert("Se ha cerrado el evento");
-        } else {
-          alert("No se ha podido cerrar el evento");
-        }
-      });
+    eventApi.closeEvent(eventId).then(response => {
+      if (response) {
+        // this.props.updateEventToStateClose();
+        this.refreshEvents(loggedUserId);
+        alert("Se ha cerrado el evento");
+      } else {
+        alert("No se ha podido cerrar el evento");
+      }
+    });
   }
 
-  handleAceptInvitation(eventId, guestId){
+  handleAceptInvitation(eventId, guestId) {
     const eventApi = new EventApi();
     const loggedUserId = store.getState().UserReducer.loggedUser.id;
 
-    eventApi
-      .aceptInvitation(eventId, guestId)
-      .then(response => {
-        if (response) {
-          // this.props.updateEventToStateClose();
-          this.refreshEvents(loggedUserId);
-          alert("Invitacion confirmada");
-        } else {
-          alert("No se ha podido confirmar la invitacion");
-        }
-      });
+    eventApi.aceptInvitation(eventId, guestId).then(response => {
+      if (response) {
+        // this.props.updateEventToStateClose();
+        this.refreshEvents(loggedUserId);
+        alert("Invitacion confirmada");
+      } else {
+        alert("No se ha podido confirmar la invitacion");
+      }
+    });
   }
 
   renderCloseEventButton() {
@@ -399,6 +403,12 @@ class EventViewer extends Component {
               <h4>{t("eventView->goods")}</h4>
             </Form.Label>
             {this.listOfGoodsItems(event)}
+            <Form.Label>
+              <h4>
+                {t("eventView->totalCost")} {t("formatter->currency")}{" "}
+                {this.state.totalCost}
+              </h4>
+            </Form.Label>
           </Modal.Body>
 
           <Modal.Footer>
@@ -419,7 +429,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateEventToStateClose: () => dispatch(updateEventToStateClose()),
   closeEventView: () => dispatch(closeEventView()),
   updateEvent: event => dispatch(updateEvent(event)),
   loadEventsInProgress: events => dispatch(loadEventsInProgress(events)),

@@ -3,8 +3,7 @@ import { auth } from "../components/Root";
 import { API_CONFIG } from "./Configs/Api-config";
 
 class EventApi {
-
-  constructor(){
+  constructor() {
     this.accessToken = auth.getAccessToken();
 
     this.header = {
@@ -47,29 +46,60 @@ class EventApi {
       .then(response => {
         return response.data;
       })
-      .catch(error =>{ return error; });
+      .catch(error => {
+        return error;
+      });
   }
 
   createEvent(event) {
     return axios.post(API_CONFIG.endPoint + "event/", event, this.header);
   }
 
-  ownGood(eventId, goodId, loggedUserId){
-    return axios.put(API_CONFIG.endPoint + `event/ownCanastaGood/${eventId}/${loggedUserId}/${goodId}`, this.header)
-                  .then(response => {return response.status === 200 ? true : false;})
-                  .catch(error => {return error;} );
+  ownGood(eventId, goodId, loggedUserId) {
+    return axios
+      .put(
+        API_CONFIG.endPoint +
+          `event/ownCanastaGood/${eventId}/${loggedUserId}/${goodId}`,
+        this.header
+      )
+      .then(response => {
+        return response.status === 200 ? true : false;
+      })
+      .catch(error => {
+        return error;
+      });
   }
 
-  closeEvent(eventId){
-    return axios.put(API_CONFIG.endPoint + `event/closeEvent/${eventId}/`, this.header)
-                .then(response => {return response.status === 200 ? true : false;})
-                .catch(error => {return false;} );
+  closeEvent(eventId) {
+    return axios
+      .put(API_CONFIG.endPoint + `event/closeEvent/${eventId}/`, this.header)
+      .then(response => {
+        return response.status === 200 ? true : false;
+      })
+      .catch(error => {
+        return false;
+      });
   }
 
-  aceptInvitation(eventId, guestId){
-    return axios.put(API_CONFIG.endPoint + `event/confirmAsistance/${eventId}/${guestId}`, this.header)
-                .then(response => {return response.status === 200 ? true : false;})
-                .catch(error => {return false;} );
+  aceptInvitation(eventId, guestId) {
+    return axios
+      .put(
+        API_CONFIG.endPoint + `event/confirmAsistance/${eventId}/${guestId}`,
+        this.header
+      )
+      .then(response => {
+        return response.status === 200 ? true : false;
+      })
+      .catch(error => {
+        return false;
+      });
+  }
+
+  getTotalCost(eventId) {
+    return axios.get(
+      API_CONFIG.endPoint + `event/eventCost/${eventId}`,
+      this.header
+    );
   }
 }
 

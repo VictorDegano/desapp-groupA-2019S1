@@ -50,7 +50,7 @@
     "pricePerUnit": "Price per Unit:",
     "quantityForPerson": "Quantity For Person:",
     "status": "Status:",
-    "totalGoodCost": "Total Cost:"
+    "totalCost": "Total Cost:"
   },
   "formatter": {
     "currency": "US$",
