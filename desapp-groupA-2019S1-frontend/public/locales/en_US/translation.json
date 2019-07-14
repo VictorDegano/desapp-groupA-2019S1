@@ -29,10 +29,13 @@
     "toBasket": "Basket"
   },
   "eventView": {
-    "acceptInvitation": "Accept Invitation",
     "button": {
+      "acceptInvitation": "Accept Invitation",
       "close": "Close",
-      "closeEvent": "Close Event"
+      "closeEvent": "Close Event",
+      "ownGood": "Take Charge",
+      "ownGoodRepresentative": "Take",
+      "sendInvitation": "Invite"
     },
     "confirmationState": {
       "accepted": "Accepted",
@@ -46,8 +49,6 @@
     "guest": "Guests:",
     "guestQuantity": "Guest Quantities:",
     "organizer": "Organizer:",
-    "ownGood": "Take Charge",
-    "ownGoodRepresentative": "Take",
     "pricePerUnit": "Price per Unit:",
     "quantityForPerson": "Quantity For Person:",
     "status": "Status:",

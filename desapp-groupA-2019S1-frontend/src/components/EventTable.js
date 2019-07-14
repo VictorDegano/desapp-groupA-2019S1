@@ -95,7 +95,7 @@ class EventTable extends React.Component {
   }
 
   renderModifyButton(eventId, organizerId) {
-    if (organizerId === this.props.loggedUser.id) {
+    if (organizerId === parseInt(localStorage.getItem("id"))) {
       return (
         <Button onClick={() => this.openModifyEventModal(eventId)}>
           MODIFY

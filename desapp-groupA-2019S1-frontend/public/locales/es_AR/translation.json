@@ -29,10 +29,13 @@
     "toBasket": "Canasta"
   },
   "eventView": {
-    "acceptInvitation": "Aceptar Invitacion",
     "button": {
+      "acceptInvitation": "Aceptar Invitacion",
       "close": "Cerrar",
-      "closeEvent": "Cerrar Evento"
+      "closeEvent": "Cerrar Evento",
+      "ownGood": "Hacerse Cargo",
+      "ownGoodRepresentative": "Tomar",
+      "sendInvitation": "Invitar"
     },
     "confirmationState": {
       "accepted": "Aceptada",
@@ -46,8 +49,6 @@
     "guest": "Invitados:",
     "guestQuantity": "Cantidad de Invitados:",
     "organizer": "Organizador:",
-    "ownGood": "Hacerse Cargo",
-    "ownGoodRepresentative": "Tomar",
     "pricePerUnit": "Precio por unidad:",
     "quantityForPerson": "Cantidad por persona:",
     "status": "Estado:",

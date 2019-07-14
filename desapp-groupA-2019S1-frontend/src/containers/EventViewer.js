@@ -32,13 +32,9 @@ import { store } from "../index";
 
 /* TODO: Cosas que faltan:
   - aceptar/cancelar una invitacion (El boton/link solo apareceria si el usuario es el invitado)
-  - Vista para baquita comunitaria y representantes
-  - Hacercer cargo de un gasto para los representates
-  - Aportar plata para la baquita comunitaria (¿viaja los datos y lo que esta recaudado?)
-  - Costo total del evento (¿viaja o se calcula?)
-  - Cerrar evento (Solo estaria disponible si es el organizador)
-  ... creo que nada mas
-*/
+  - Hacer visualizacion de informacion del usuario.
+  - Hacer boton para volver a invitar un usuario que cancelo la invitacion
+  */
 class EventViewer extends Component {
   static propTypes = {
     loadEventsInProgress: PropTypes.func.isRequired,
@@ -75,6 +71,7 @@ class EventViewer extends Component {
     this.isAnRepresentative = this.isAnRepresentative.bind(this);
     this.isAnLoadedGood = this.isAnLoadedGood.bind(this);
     this.acceptedInvitation = this.acceptedInvitation.bind(this);
+    this.renderResendInvitationButton = this.renderResendInvitationButton.bind(this);
     this.state = {
       totalCost: 0
     };
@@ -260,7 +257,6 @@ class EventViewer extends Component {
 
     eventApi.closeEvent(eventId).then(response => {
       if (response) {
-        // this.props.updateEventToStateClose();
         this.refreshEvents(loggedUserId);
         alert("Se ha cerrado el evento");
       } else {
@@ -295,6 +291,21 @@ class EventViewer extends Component {
     });
   }
 
+  resendInvitation(event, guest){
+    const eventApi = new EventApi();
+    const loggedUserId = localStorage.getItem("id");
+
+    eventApi.resendInvitation(event.id, guest.userId)
+            .then(response => {
+      if (response) {
+        this.refreshEvents(loggedUserId);
+        alert("Invitacion Enviada");
+      } else {
+        alert("No se ha podido enviar la invitacion");
+      }
+    });
+  }
+
   acceptedInvitation(guests, userId) {
     return guests.some(function(guest) {
       return (
@@ -304,27 +315,55 @@ class EventViewer extends Component {
     });
   }
 
+  variantStyleButton(disabled){
+    return disabled ? "outline-dark" : "outline-success";
+  }
+
+  renderResendInvitationButton(event, guest) {
+    const { t } = this.props;
+    const organizerId = this.props.event.organizer.id;
+    const loggedUserId = parseInt(localStorage.getItem("id"));
+    const disabled = guest.confirmAsistance !== "CANCELLED";
+
+    if (event.status !== "CLOSE" && organizerId === loggedUserId) {
+      return (
+        <Button
+          disabled={disabled}
+          onClick={() => this.resendInvitation(event, guest)}
+          size="sm"
+          variant={this.variantStyleButton(disabled)}
+        >
+          {t("eventView->button->sendInvitation")}
+        </Button>
+      );
+    } 
+    
+    return null;
+  }
+
   renderOwnGoodCanastaButton(event, good) {
     const { t } = this.props;
-
+    
     if (
       event.status !== "CLOSE" &&
       event.type === "CANASTA" &&
       this.acceptedInvitation(event.guests, localStorage.getItem("id"))
     ) {
+      const disabled = ! good.available;
+
       return (
         <Button
-          disabled={!good.available}
+          disabled={disabled}
           onClick={() => this.ownGood(good)}
           size="sm"
-          variant="outline-success"
+          variant={this.variantStyleButton(disabled)}
         >
-          {t("eventView->ownGood")}
+          {t("eventView->button->ownGood")}
         </Button>
       );
-    } else {
-      return <></>;
-    }
+    } 
+    
+    return null;
   }
 
   renderOwnGoodBaquitaRepresentativeButton(event, good) {
@@ -335,38 +374,44 @@ class EventViewer extends Component {
       event.type === "BAQUITA_REPRESENTATIVES" &&
       this.isAnRepresentative(event.representatives, localStorage.getItem("id"))
     ) {
+      const disabled = this.isAnLoadedGood(event.loadedGoods, good.id);
+
       return (
         <Button
-          disabled={this.isAnLoadedGood(event.loadedGoods, good.id)}
+          disabled={disabled}
           onClick={() => this.takeGood(good)}
           size="sm"
-          variant="outline-success"
+          variant={this.variantStyleButton(disabled)}
         >
-          {t("eventView->ownGoodRepresentative")}
+          {t("eventView->button->ownGoodRepresentative")}
         </Button>
       );
-    } else {
-      return <></>;
-    }
+    } 
+    
+    return null;
   }
 
   renderCloseEventButton() {
     const { t } = this.props;
     const eventStatus = this.props.event.status;
     const organizerId = this.props.event.organizer.id;
-    const loggedUserId = localStorage.getItem("id");
+    const loggedUserId = parseInt(localStorage.getItem("id"));
 
     if (organizerId === loggedUserId) {
+      const disabled = eventStatus === "CLOSE";
+
       return (
         <Button
-          disabled={eventStatus === "CLOSE"}
-          variant="secondary"
+          disabled={disabled}
+          variant={disabled ? "dark" : "secondary"}
           onClick={this.handleCloseEvent}
         >
           {t("eventView->button->closeEvent")}
         </Button>
       );
     }
+
+    return null;
   }
 
   renderAceptInvitationButton(event, guest) {
@@ -378,18 +423,20 @@ class EventViewer extends Component {
       guest.userId === parseInt(loggedUserId) &&
       guest.confirmAsistance === "PENDING"
     ) {
+      const disabled = guest.confirmAsistance !== "PENDING";
+
       return (
         <Button
           onClick={() => this.handleAceptInvitation(event.id, guest.guestId)}
           size="sm"
-          variant="outline-success"
+          variant={this.variantStyleButton(disabled)}
         >
-          {t("eventView->acceptInvitation")}
+          {t("eventView->button->acceptInvitation")}
         </Button>
       );
-    } else {
-      return <></>;
-    }
+    } 
+    
+    return null;
   }
 
   render() {
@@ -473,6 +520,7 @@ class EventViewer extends Component {
                         guest.confirmAsistance
                       )}
                     </Badge>
+                    {this.renderResendInvitationButton(event, guest)}
                     {this.renderAceptInvitationButton(event, guest)}
                   </ListGroup.Item>
                 );
@@ -492,7 +540,7 @@ class EventViewer extends Component {
 
           <Modal.Footer>
             {this.renderCloseEventButton()}
-            <Button variant="secondary" onClick={this.handleClose}>
+            <Button variant="success" onClick={this.handleClose}>
               {t("eventView->button->close")}
             </Button>
           </Modal.Footer>
