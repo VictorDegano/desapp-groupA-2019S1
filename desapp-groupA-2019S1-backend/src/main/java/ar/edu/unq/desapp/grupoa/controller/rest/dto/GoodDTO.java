@@ -13,30 +13,35 @@ public class GoodDTO {
     private String  name;
     private Integer pricePerUnit;
     private Integer quantityForPerson;
+
     private Integer finalQuantity;
 
+    private Boolean isAvailable;
     public GoodDTO(){}
 
-    public GoodDTO(String name, Integer pricePerUnit, Integer quantityForPerson, Integer finalQuantity) {
+    public GoodDTO(String name, Integer pricePerUnit, Integer quantityForPerson, Integer finalQuantity, Integer id) {
         this.name = name;
         this.pricePerUnit = pricePerUnit;
         this.quantityForPerson = quantityForPerson;
         this.finalQuantity = finalQuantity;
+        this.id = id;
     }
 
-    public GoodDTO(String name, Integer pricePerUnit, Integer quantityForPerson) {
+    public GoodDTO(String name, Integer pricePerUnit, Integer quantityForPerson,Integer id) {
         this.name = name;
         this.pricePerUnit = pricePerUnit;
         this.quantityForPerson = quantityForPerson;
-
+        this.id = id;
     }
 
-    public GoodDTO(String name, Integer pricePerUnit, Integer quantityForPerson, User userThatOwnsTheGood) {
+    public GoodDTO(String name, Integer pricePerUnit, Integer quantityForPerson, Integer id, Boolean available) {
         this.name = name;
         this.pricePerUnit = pricePerUnit;
         this.quantityForPerson = quantityForPerson;
-    }
+        this.id = id;
+        this.isAvailable = available;
 
+    }
 
     public static GoodDTO fromFiestaGood(Good good) {
         FiestaGood fiestaGood = (FiestaGood) good;
@@ -44,7 +49,17 @@ public class GoodDTO {
                 fiestaGood.getName(),
                 fiestaGood.getPricePerUnit(),
                 fiestaGood.getQuantityForPerson(),
-                fiestaGood.getFinalQuantity());
+                fiestaGood.getFinalQuantity(),
+                fiestaGood.getId());
+    }
+
+    public static GoodDTO fromGood(Good good) {
+        return  new GoodDTO(
+                good.getName(),
+                good.getPricePerUnit(),
+                good.getQuantityForPerson(),
+                good.getId()
+                );
     }
 
     public static GoodDTO fromCanastaGood(Good good) {
@@ -52,15 +67,9 @@ public class GoodDTO {
         return  new GoodDTO(
                 canastaGood.getName(),
                 canastaGood.getPricePerUnit(),
-                canastaGood.getQuantityForPerson());
-    }
-
-    public static GoodDTO fromGood(Good good) {
-        return  new GoodDTO(
-                good.getName(),
-                good.getPricePerUnit(),
-                good.getQuantityForPerson()
-                );
+                canastaGood.getQuantityForPerson(),
+                canastaGood.getId(),
+                canastaGood.isAvailable());
     }
 
     public Good toGood() {
@@ -98,5 +107,9 @@ public class GoodDTO {
 
     public Integer getFinalQuantity() {
         return finalQuantity;
+    }
+
+    public Boolean getAvailable() {
+        return isAvailable;
     }
 }

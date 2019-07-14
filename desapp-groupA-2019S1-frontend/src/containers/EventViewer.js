@@ -63,28 +63,34 @@ class EventViewer extends Component {
     this.getConfirmationStateTraslation = this.getConfirmationStateTraslation.bind(
       this
     );
-    this.addOwnGoodButton = this.addOwnGoodButton.bind(this);
+    this.renderOwnGoodBaquitaRepresentativeButton = this.renderOwnGoodBaquitaRepresentativeButton.bind(
+      this
+    );
+    this.renderOwnGoodCanastaButton = this.renderOwnGoodCanastaButton.bind(
+      this
+    );
     this.refreshEvents = this.refreshEvents.bind(this);
     this.handleCloseEvent = this.handleCloseEvent.bind(this);
     this.handleAceptInvitation = this.handleAceptInvitation.bind(this);
-
+    this.isAnRepresentative = this.isAnRepresentative.bind(this);
+    this.isAnLoadedGood = this.isAnLoadedGood.bind(this);
+    this.acceptedInvitation = this.acceptedInvitation.bind(this);
     this.state = {
       totalCost: 0
     };
   }
 
-  getBadgeColour(confirmation) {
-    if (confirmation === undefined) {
-      return "dark";
-    }
-    if (confirmation === "PENDING") {
-      return "warning";
-    }
-    if (confirmation === "ACCEPTED") {
-      return "success";
-    }
-    if (confirmation === "CANCELLED") {
-      return "danger";
+  componentDidUpdate(prevProps, prevState) {
+    const eventApi = new EventApi();
+    const eventId = this.props.event.id;
+    if (
+      eventId !== 0 &&
+      (prevProps.event !== this.props.event ||
+        prevState.totalCost !== this.state.totalCost)
+    ) {
+      eventApi
+        .getTotalCost(eventId)
+        .then(response => this.setState({ totalCost: response.data }));
     }
   }
 
@@ -104,13 +110,18 @@ class EventViewer extends Component {
     }
   }
 
-  componentDidUpdate() {
-    const eventApi = new EventApi();
-    const eventId = this.props.event.id;
-    if (eventId !== 0) {
-      eventApi
-        .getTotalCost(eventId)
-        .then(response => this.setState({ totalCost: response.data }));
+  getBadgeColour(confirmation) {
+    if (confirmation === undefined) {
+      return "dark";
+    }
+    if (confirmation === "PENDING") {
+      return "warning";
+    }
+    if (confirmation === "ACCEPTED") {
+      return "success";
+    }
+    if (confirmation === "CANCELLED") {
+      return "danger";
     }
   }
 
@@ -174,7 +185,8 @@ class EventViewer extends Component {
           return (
             <ListGroup.Item key={good.id + good.name + good.price} as="li">
               <GoodItem good={good} eventType={event.type} />
-              {this.addOwnGoodButton(event, good)}
+              {this.renderOwnGoodCanastaButton(event, good)}
+              {this.renderOwnGoodBaquitaRepresentativeButton(event, good)}
             </ListGroup.Item>
           );
         })}
@@ -182,29 +194,10 @@ class EventViewer extends Component {
     );
   }
 
-  addOwnGoodButton(event, good) {
-    const { t } = this.props;
-
-    if (event.status !== "CLOSE" && event.type === "CANASTA") {
-      return (
-        <Button
-          disabled={!good.available}
-          onClick={() => this.ownGood(good)}
-          size="sm"
-          variant="outline-success"
-        >
-          {t("eventView->ownGood")}
-        </Button>
-      );
-    } else {
-      return <></>;
-    }
-  }
-
   ownGood(good) {
     const eventApi = new EventApi();
     const eventId = this.props.event.id;
-    const loggedUserId = store.getState().UserReducer.loggedUser.id;
+    const loggedUserId = localStorage.getItem("id");
 
     eventApi
       .ownGood(eventId, good.id, loggedUserId)
@@ -243,7 +236,7 @@ class EventViewer extends Component {
   handleCloseEvent() {
     const eventApi = new EventApi();
     const eventId = this.props.event.id;
-    const loggedUserId = store.getState().UserReducer.loggedUser.id;
+    const loggedUserId = localStorage.getItem("id");
 
     eventApi.closeEvent(eventId).then(response => {
       if (response) {
@@ -258,11 +251,10 @@ class EventViewer extends Component {
 
   handleAceptInvitation(eventId, guestId) {
     const eventApi = new EventApi();
-    const loggedUserId = store.getState().UserReducer.loggedUser.id;
+    const loggedUserId = localStorage.getItem("id");
 
     eventApi.aceptInvitation(eventId, guestId).then(response => {
       if (response) {
-        // this.props.updateEventToStateClose();
         this.refreshEvents(loggedUserId);
         alert("Invitacion confirmada");
       } else {
@@ -271,11 +263,74 @@ class EventViewer extends Component {
     });
   }
 
+  isAnRepresentative(representatives, userId) {
+    return representatives.some(function(representative) {
+      return representative.userId === parseInt(userId);
+    });
+  }
+
+  isAnLoadedGood(leadedGoods, goodId) {
+    return leadedGoods.some(function(leadedGood) {
+      return leadedGood.goodId === goodId;
+    });
+  }
+
+  acceptedInvitation(guests, userId) {
+    return guests.some(function(guest) {
+      return guest.userId === parseInt(userId) && guest.confirmAsistance === "ACCEPTED";
+    });
+  }
+
+  renderOwnGoodCanastaButton(event, good) {
+    const { t } = this.props;
+
+    if (
+      event.status !== "CLOSE" &&
+      event.type === "CANASTA" &&
+      this.acceptedInvitation(event.guests, localStorage.getItem("id"))
+    ) {
+      return (
+        <Button
+          disabled={!good.available}
+          onClick={() => this.ownGood(good)}
+          size="sm"
+          variant="outline-success"
+        >
+          {t("eventView->ownGood")}
+        </Button>
+      );
+    } else {
+      return <></>;
+    }
+  }
+
+  renderOwnGoodBaquitaRepresentativeButton(event, good) {
+    const { t } = this.props;
+
+    if (
+      event.status !== "CLOSE" &&
+      event.type === "BAQUITA_REPRESENTATIVES" &&
+      this.isAnRepresentative(event.representatives, localStorage.getItem("id"))
+    ) {
+      return (
+        <Button
+          disabled={!this.isAnLoadedGood(event.loadedGoods, good.id)}
+          size="sm"
+          variant="outline-success"
+        >
+          {t("eventView->ownGoodRepresentative")}
+        </Button>
+      );
+    } else {
+      return <></>;
+    }
+  }
+
   renderCloseEventButton() {
     const { t } = this.props;
     const eventStatus = this.props.event.status;
     const organizerId = this.props.event.organizer.id;
-    const loggedUserId = store.getState().UserReducer.loggedUser.id;
+    const loggedUserId = localStorage.getItem("id");
 
     if (organizerId === loggedUserId) {
       return (
@@ -292,11 +347,11 @@ class EventViewer extends Component {
 
   renderAceptInvitationButton(event, guest) {
     const { t } = this.props;
-    const loggedUserId = store.getState().UserReducer.loggedUser.id;
+    const loggedUserId = localStorage.getItem("id");
 
     if (
       event.status !== "CLOSE" &&
-      guest.userId === loggedUserId &&
+      guest.userId === parseInt(loggedUserId) &&
       guest.confirmAsistance === "PENDING"
     ) {
       return (

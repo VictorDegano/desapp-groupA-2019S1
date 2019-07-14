@@ -28,6 +28,8 @@ const emptyEvent = {
     bornDate: "",
     email: ""
   },
+  loadedGoods: [],
+  representatives: [],
   quantityOfGuest: 0,
   status: "",
   type: ""
@@ -42,7 +44,7 @@ const initialState = {
 };
 
 //Se recibe un state antiguo, un action y se devuelve el nuevo state
-export default function userReducer(state = initialState, action) {
+export default function ModalViewReducer(state = initialState, action) {
   // console.log('userReducer()');
 
   switch (action.type) {
@@ -87,19 +89,6 @@ export default function userReducer(state = initialState, action) {
     }
 
     case "UPDATE_EVENT": {
-      // Para Modificar un objecto anidado hay que "replicar" la asignacion en cadacapa que se va metiendo
-      // return Object.assign({}, state, {
-      //   event: Object.assign({}, state.event, {
-      //     goods: state.event.goods.map(
-      //               (good) => {
-      //                 if (good.id === action.goodId){
-      //                   return Object.assign({}, good, { available: false });
-      //                 } else {
-      //                   return good;
-      //                 }
-      //               }
-      //     )})
-      // })
       return Object.assign({}, state, {
         event: action.event
       });

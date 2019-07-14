@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 @Entity
 public  class Outflow extends Movement{
 
+
     public String flowType = "outflow";
 
     public Outflow(Integer amount, MovementType type, LocalDateTime date) {
@@ -20,4 +21,12 @@ public  class Outflow extends Movement{
         return -this.amount;
     }
 
+
+    public String getFlowType() {
+        return flowType;
+    }
+
+    public void setFlowType(String flowType) {
+        this.flowType = flowType;
+    }
 }

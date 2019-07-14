@@ -39,7 +39,7 @@ public class Randomizer {
     }
 
     public static String randomString() {
-        return RandomStringUtils.random(50);
+        return RandomStringUtils.randomAlphabetic(10);
     }
 
     public static LocalDateTime randomDate() {
