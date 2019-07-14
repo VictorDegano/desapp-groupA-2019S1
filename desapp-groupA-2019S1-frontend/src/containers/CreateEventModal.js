@@ -74,38 +74,7 @@ class CreateEventModal extends Component {
     this.renderFinalDate = this.renderFinalDate.bind(this);
     this.handleUpdateStateToModify = this.handleUpdateStateToModify.bind(this);
 
-    this.state = {
-      eventName: "FiestaExample",
-      creationDate: new Date(),
-      goods: [
-        {
-          name: "Fernet",
-          pricePerUnit: 40,
-          quantityForPerson: 1
-        }
-      ],
-      guests: [
-        {
-          confirmAsistance: "",
-          firstName: "",
-          guestId: 0,
-          lastName: "",
-          mail: "",
-          userId: 0
-        }
-      ],
-      id: 0,
-      organizer: this.props.loggedUser,
-      quantityOfGuest: 0,
-      status: "OPEN",
-      type: "FIESTA",
-      confirmationDay: new Date(),
-      newGood: {
-        name: "",
-        pricePerUnit: 0,
-        quantityForPerson: 0
-      }
-    };
+    this.state = this.setInicialState();
   }
 
   componentDidMount() {
@@ -195,6 +164,7 @@ class CreateEventModal extends Component {
 
   handleClose() {
     this.props.closeCreateEventModal();
+    this.setState(this.setInicialState());
   }
 
   handleChangeOnEventName(event) {
@@ -601,13 +571,48 @@ class CreateEventModal extends Component {
       </>
     );
   }
+
+  setInicialState() {
+    return {
+      eventName: "",
+      creationDate: new Date(),
+      goods: [
+        {
+          name: "Fernet",
+          pricePerUnit: 40,
+          quantityForPerson: 1
+        }
+      ],
+      guests: [
+        {
+          confirmAsistance: "",
+          firstName: "",
+          guestId: 0,
+          lastName: "",
+          mail: "",
+          userId: 0
+        }
+      ],
+      id: 0,
+      organizer: this.props.loggedUser,
+      quantityOfGuest: 0,
+      status: "OPEN",
+      type: "FIESTA",
+      confirmationDay: new Date(),
+      newGood: {
+        name: "",
+        pricePerUnit: 0,
+        quantityForPerson: 0
+      }
+    };
+  }
 }
 
 function mapStateToProps(state) {
   // console.log('mapStateToProps()')
   return {
     show: state.ModalViewReducer.modalCreateEventState,
-    event: state.ModalViewReducer.event,
+    event: state.ModalViewReducer.eventToModify,
     loggedUser: state.UserReducer.loggedUser,
     modify: state.ModalViewReducer.modify
   };
