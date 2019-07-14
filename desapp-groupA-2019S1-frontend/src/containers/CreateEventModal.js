@@ -30,6 +30,7 @@ import {
 class CreateEventModal extends Component {
   static propTypes = {
     closeCreateEventModal: PropTypes.func.isRequired,
+    modify: PropTypes.bool.isRequired,
     show: PropTypes.bool.isRequired,
     event: PropTypes.shape({
       eventName: PropTypes.string.isRequired,
@@ -71,6 +72,7 @@ class CreateEventModal extends Component {
     this.handleDeleteGood = this.handleDeleteGood.bind(this);
     this.EmailsInputRef = React.createRef();
     this.renderFinalDate = this.renderFinalDate.bind(this);
+    this.handleUpdateStateToModify = this.handleUpdateStateToModify.bind(this);
 
     this.state = {
       eventName: "FiestaExample",
@@ -257,6 +259,23 @@ class CreateEventModal extends Component {
     });
   }
 
+  handleUpdateStateToModify() {
+    if (this.props.modify) {
+      this.setState({
+        eventName: this.props.event.eventName,
+        creationDate: new Date(this.props.event.creationDate),
+        goods: this.props.event.goods,
+        guests: this.props.event.guests,
+        id: this.props.event.id,
+        organizer: this.props.event.organizer,
+        quantityOfGuest: this.props.event.quantityOfGuest,
+        status: this.props.event.status,
+        type: this.props.event.type,
+        confirmationDay: new Date(this.props.event.limitConfirmationDateTime)
+      });
+    }
+  }
+
   refreshEventsOnHome() {
     let userId = this.props.loggedUser.id;
     var eventApi = new EventApi();
@@ -283,7 +302,7 @@ class CreateEventModal extends Component {
     const currentEmailsInputRef = this.EmailsInputRef.current;
 
     const eventExample = {
-      type: this.handleEventType(),
+      type: this.state.type,
       id: 1,
       eventName: this.state.eventName,
       organizer: this.props.loggedUser,
@@ -304,22 +323,6 @@ class CreateEventModal extends Component {
         this.handleClose();
       })
       .catch(e => console.log(e));
-  }
-
-  handleEventType() {
-    if (this.state.type === "Canasta") {
-      return "CANASTA";
-    }
-    if (this.state.type === "Fiesta") {
-      return "FIESTA";
-    }
-    if (this.state.type === "Baquita Comunitaria") {
-      return "BAQUITA_COMUNITARY";
-    }
-    if (this.state.type === "Baquita Representantes") {
-      return "BAQUITA_REPRESENTATIVES";
-    }
-    return "BAD HANDLE TYPE";
   }
 
   handleGoodNameChange(event) {
@@ -370,6 +373,14 @@ class CreateEventModal extends Component {
     this.setState({ goods: list });
   }
 
+  getModalTitle() {
+    if (this.props.modify) {
+      return "Modify Event";
+    } else {
+      return "Create Event";
+    }
+  }
+
   createJsonOfEmails(items) {
     let json = [];
     items.forEach(i => json.push({ mail: i }));
@@ -379,7 +390,7 @@ class CreateEventModal extends Component {
 
   renderFinalDate() {
     const { t } = this.props;
-    if (this.handleEventType() === "FIESTA") {
+    if (this.state.type === "FIESTA") {
       return (
         <>
           <Form.Label>Confirmation Day</Form.Label>
@@ -410,10 +421,15 @@ class CreateEventModal extends Component {
     const { validated } = this.state;
     return (
       <>
-        <Modal size="lg" show={show} onHide={this.handleClose}>
+        <Modal
+          size="lg"
+          show={show}
+          onHide={this.handleClose}
+          onEnter={this.handleUpdateStateToModify}
+        >
           <Form onSubmit={this.handleSave} noValidate validated={validated}>
             <Modal.Header closeButton>
-              <Modal.Title>Create Event</Modal.Title>
+              <Modal.Title>{this.getModalTitle()}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Row>
@@ -425,7 +441,7 @@ class CreateEventModal extends Component {
                 <Col>
                   <Form.Control
                     onChange={this.handleChangeOnEventName}
-                    plaintext
+                    type="text"
                     defaultValue={this.state.eventName}
                   />
                 </Col>
@@ -440,10 +456,14 @@ class CreateEventModal extends Component {
                     onChange={this.change}
                     value={this.state.type}
                   >
-                    <option>Fiesta</option>
-                    <option>Canasta</option>
-                    <option>Baquita Comunitaria</option>
-                    <option>Baquita Representantes</option>
+                    <option value="FIESTA">Fiesta</option>
+                    <option value="CANASTA">Canasta</option>
+                    <option value="BAQUITA_COMUNITARY">
+                      Baquita Comunitaria
+                    </option>
+                    <option value="BAQUITA_REPRESENTATIVES">
+                      Baquita Representantes
+                    </option>
                     plaintext readOnly defaultValue={this.state.type}
                   </Form.Control>
                 </Col>
@@ -588,7 +608,8 @@ function mapStateToProps(state) {
   return {
     show: state.ModalViewReducer.modalCreateEventState,
     event: state.ModalViewReducer.event,
-    loggedUser: state.UserReducer.loggedUser
+    loggedUser: state.UserReducer.loggedUser,
+    modify: state.ModalViewReducer.modify
   };
 }
 
