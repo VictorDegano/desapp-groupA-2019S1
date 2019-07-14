@@ -356,15 +356,7 @@ public class BootStrapRunner implements ApplicationRunner {
         aBaquita.close();
         victorEvents.add(aBaquita);
 
-        victorEvents.add(new BaquitaComunitary(
-                                "The Cow",
-                                organizerVictor,
-                                Arrays.asList(
-                                        new Guest(ivanD),
-                                        new Guest(pepe),
-                                        new Guest(ivanT)),
-                                EMPTY_LIST,
-                                LocalDateTime.now().minusDays(1)));
+        victorEvents.add(this.buildTheCow(organizerVictor, pepe, ivanD, ivanT, juanCaspa, joseTejo, donBilletin));
 
         victorEvents.add(new Canasta(
                                 "Black Canasta",
@@ -378,6 +370,41 @@ public class BootStrapRunner implements ApplicationRunner {
 
         victorEvents.add(buildTheFest(organizerVictor, pepe, ivanD));
         return victorEvents;
+    }
+
+    private Baquita buildTheCow(User organizerVictor, User pepe, User ivanD, User ivanT, User juanCaspa, User joseTejo, User donBilletin){
+        Good sanguMiga = new Good();
+        sanguMiga.setName("Sanguches de Miga");
+        sanguMiga.setPricePerUnit(25);
+        sanguMiga.setQuantityForPerson(5);
+
+        Good porron = new Good();
+        porron.setName("Porron Stella Artois");
+        porron.setPricePerUnit(50);
+        porron.setQuantityForPerson(2);
+
+        Good queso = new Good();
+        queso.setName("Queso Reggionato");
+        queso.setPricePerUnit(60);
+        queso.setQuantityForPerson(1);
+
+        Good pizza = new CanastaGood();
+        pizza.setName("Pizza Individual");
+        pizza.setPricePerUnit(59);
+        pizza.setQuantityForPerson(2);
+
+        Baquita theCowBaquita = new BaquitaComunitary(
+                "The Cow",
+                organizerVictor,
+                Arrays.asList(
+                        new Guest(ivanD),
+                        new Guest(pepe),
+                        new Guest(ivanT)),
+                Arrays.asList(sanguMiga, porron, queso, pizza),
+                LocalDateTime.now().minusDays(1));
+
+        return theCowBaquita;
+
     }
 
     private Fiesta buildTheFest(User organizerVictor, User pepe, User ivanD) {

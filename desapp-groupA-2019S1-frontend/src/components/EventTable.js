@@ -66,10 +66,10 @@ class EventTable extends React.Component {
         return t("eventType->toBasket");
       }
       if (eventType === "BAQUITA_COMUNITARY") {
-        return t("eventType->littleCowRepresentatives");
+        return t("eventType->littleCowComunitary");
       }
       if (eventType === "BAQUITA_REPRESENTATIVES") {
-        return t("eventType->littleCowComunitary");
+        return t("eventType->littleCowRepresentatives");
       }
     }
   }

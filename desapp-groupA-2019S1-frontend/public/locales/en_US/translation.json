@@ -4,6 +4,23 @@
     "description": "Will be redirected soon.\nIf you don't want wait",
     "title": "Welcome!"
   },
+  "createEventModal": {
+    "buttons": {
+      "close": "Close",
+      "save": "Save"
+    },
+    "form": {
+      "bornDate": "Born Date:",
+      "bornDatePlaceholder": "Enter your born date...",
+      "email": "Email:",
+      "emailPlaceholder": "Enter an email",
+      "firstName": "First Name:",
+      "firstNamePlaceholder": "Enter your name",
+      "lastName": "Last Name:",
+      "lastNamePlaceholder": "Enter your last name"
+    },
+    "title": "Create Event"
+  },
   "englishLanguage": "English",
   "eventType": {
     "littleCowComunitary": "Little Cow Comunitary",
@@ -12,8 +29,10 @@
     "toBasket": "Basket"
   },
   "eventView": {
+    "acceptInvitation": "Accept Invitation",
     "button": {
-      "close": "Close"
+      "close": "Close",
+      "closeEvent": "Close Event"
     },
     "confirmationState": {
       "accepted": "Accepted",
@@ -21,12 +40,21 @@
       "pending": "Pending"
     },
     "creationDate": "Creation Date:",
+    "finalQuantity": "Final quantity:",
+    "goodDetailTitle": "Detail",
+    "goods": "Goods",
     "guest": "Guests:",
     "guestQuantity": "Guest Quantities:",
     "organizer": "Organizer:",
-    "status": "Status:"
+    "ownGood": "Take Charge",
+    "ownGoodRepresentative": "Take",
+    "pricePerUnit": "Price per Unit:",
+    "quantityForPerson": "Quantity For Person:",
+    "status": "Status:",
+    "totalCost": "Total Cost:"
   },
   "formatter": {
+    "currency": "US$",
     "date": "MM/dd/yyyy"
   },
   "homePage": {
@@ -85,23 +113,6 @@
     "lastButton": "Last",
     "myEventsLabel": "My Events",
     "popularsButton": "Most Populars"
-  },
-  "createEventModal": {
-    "buttons": {
-      "close": "Close",
-      "save": "Save"
-    },
-    "form": {
-      "bornDate": "Born Date:",
-      "bornDatePlaceholder": "Enter your born date...",
-      "email": "Email:",
-      "emailPlaceholder": "Enter an email",
-      "firstName": "First Name:",
-      "firstNamePlaceholder": "Enter your name",
-      "lastName": "Last Name:",
-      "lastNamePlaceholder": "Enter your last name"
-    },
-    "title": "Create Event"
   },
   "spanishLanguage": "Spanish"
 }
