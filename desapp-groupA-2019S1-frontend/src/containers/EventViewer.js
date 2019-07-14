@@ -204,7 +204,27 @@ class EventViewer extends Component {
       .then(response => {
         if (response) {
           this.refreshEvents(loggedUserId);
-          alert("me hice cargo de una canasta");
+          alert("Se pudo hacer cargo de un articulo");
+        } else {
+          alert("No se pudo hacerse cargo del articulo");
+        }
+      })
+      .catch(error => {
+        alert(error);
+      });
+  }
+
+  takeGood(good){
+    const eventApi = new EventApi();
+    const eventId = this.props.event.id;
+    const loggedUserId = localStorage.getItem("id");
+
+    eventApi
+      .takeGood(eventId, good.id, loggedUserId)
+      .then(response => {
+        if (response) {
+          this.refreshEvents(loggedUserId);
+          alert("Te pudiste hacer cargo del articulo");
         } else {
           alert("No se pudo hacerse cargo del articulo");
         }
@@ -277,7 +297,10 @@ class EventViewer extends Component {
 
   acceptedInvitation(guests, userId) {
     return guests.some(function(guest) {
-      return guest.userId === parseInt(userId) && guest.confirmAsistance === "ACCEPTED";
+      return (
+        guest.userId === parseInt(userId) &&
+        guest.confirmAsistance === "ACCEPTED"
+      );
     });
   }
 
@@ -314,7 +337,8 @@ class EventViewer extends Component {
     ) {
       return (
         <Button
-          disabled={!this.isAnLoadedGood(event.loadedGoods, good.id)}
+          disabled={this.isAnLoadedGood(event.loadedGoods, good.id)}
+          onClick={() => this.takeGood(good)}
           size="sm"
           variant="outline-success"
         >

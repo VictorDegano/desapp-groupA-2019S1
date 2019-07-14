@@ -59,3 +59,24 @@ export function updateEvent(event) {
     // goodId: goodId
   };
 }
+
+export function updateEventToStateClose() {
+  return {
+    type: ACTION_TYPE.CLOSE_EVENT
+  };
+}
+
+export function openModifyEventModal(event) {
+  //Las acciones devuelve un objeto
+  return {
+    type: ACTION_TYPE.OPEN_MODIFY_EVENT_MODAL,
+    event: event
+  };
+}
+
+export function closeModifyEventModal() {
+  //Las acciones devuelve un objeto
+  return {
+    type: ACTION_TYPE.CLOSE_MODIFY_EVENT_MODAL
+  };
+}

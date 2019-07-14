@@ -1,7 +1,5 @@
 package ar.edu.unq.desapp.grupoa.runner;
 
-import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
-import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.EventDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
@@ -15,7 +13,6 @@ import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.FiestaGood;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
-import ar.edu.unq.desapp.grupoa.service.AccountService;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -98,11 +95,18 @@ public class BootStrapRunner implements ApplicationRunner {
                                                 LocalDateTime.of(1990,1,29,17,10));
 
 
-
         takeLoan(juanCaspa.getAccount());
         deposit(juanCaspa.getAccount(),1000);
         takeLoan(joseTejo.getAccount());
         extract(joseTejo.getAccount(),500);
+        takeLoan(ivanDominikow.getAccount());
+        deposit(ivanDominikow.getAccount(),555);
+        takeLoan(victorDegano.getAccount());
+        deposit(victorDegano.getAccount(),2000);
+        takeLoan(ivanTamargo.getAccount());
+        deposit(ivanTamargo.getAccount(),1500);
+        takeLoan(pepeLocura.getAccount());
+        deposit(pepeLocura.getAccount(),199);
 
         this.userDAO.saveAll(Arrays.asList(juanCaspa,donBilletin));
 
@@ -471,10 +475,8 @@ public class BootStrapRunner implements ApplicationRunner {
         aBaquita.addRepresentative(ivanTG);
 
         LoadedGood cervezaGood = new LoadedGood(victorG,cerveza);
-        LoadedGood pizzaGood = new LoadedGood(victorG,pizza);
         LoadedGood papasGood = new LoadedGood(ivanTG,papas);
         aBaquita.loadGood(cervezaGood);
-        aBaquita.loadGood(pizzaGood);
         aBaquita.loadGood(papasGood);
 
         return aBaquita;
