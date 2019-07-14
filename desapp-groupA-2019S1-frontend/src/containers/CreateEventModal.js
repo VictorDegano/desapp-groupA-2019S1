@@ -98,7 +98,7 @@ class CreateEventModal extends Component {
       organizer: this.props.loggedUser,
       quantityOfGuest: 0,
       status: "OPEN",
-      type: "Fiesta",
+      type: "FIESTA",
       confirmationDay: new Date(),
       newGood: {
         name: "",
