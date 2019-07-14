@@ -1,7 +1,9 @@
 package ar.edu.unq.desapp.grupoa.model.user;
 
 import ar.edu.unq.desapp.grupoa.model.account.Account;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,8 +15,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,16 +29,33 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @NotBlank(message = "Name is mandatory")
+    @Size(
+            min = 1,
+            max = 30,
+            message = "firstName should have between 1 and 30 characters."
+    )
     private String firstName;
     @NotBlank(message = "LastName is mandatory")
+    @Size(
+            min = 1,
+            max = 30,
+            message = "lastName should have between 1 and 30 characters."
+    )
     private String lastName;
     @NotBlank(message = "Mail is mandatory")
     @Column(unique = true)
+    @Email
     private String email;
     @NotBlank(message = "Password is mandatory")
+    @Size(
+            min = 4,
+            max = 10,
+            message = "Password should be between 4 and 10 characters."
+    )
+    @Pattern(regexp = "^[A-Za-z0-9]+$")
     private String password;
     @NotNull(message = "BornDay is mandatory")
-    // FIXME: 28/5/2019 ¿esto tiene que ser obligatoriamente date time? por que no solo LocalDate, es la fecha de nacimiento
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime bornDay;
     @Enumerated(EnumType.STRING)
     private UserState state;
