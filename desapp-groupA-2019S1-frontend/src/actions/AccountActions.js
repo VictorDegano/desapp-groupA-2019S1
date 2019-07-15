@@ -11,3 +11,12 @@ export function showAccount() {
     type: ACTION_TYPE.SHOW_ACCOUNT
   };
 }
+
+export function addMoney() {
+  // console.log('showLastEvents()');
+
+  //Las acciones devuelve un objeto
+  return {
+    type: ACTION_TYPE.ADD_MONEY
+  };
+}
