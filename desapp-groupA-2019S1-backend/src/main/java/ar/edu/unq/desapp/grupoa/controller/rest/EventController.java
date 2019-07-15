@@ -49,7 +49,7 @@ public class EventController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping(value = "/inviteUser/{eventId}/{userID}")
+    @PutMapping(value = "/inviteUser/{eventId}/{userId }")
     public ResponseEntity<String> inviteToEvent(@PathVariable Integer eventId,@PathVariable Integer userId) {
         LOGGER.info("Got request PUT to confirm assistance Fiesta Event with data");
 

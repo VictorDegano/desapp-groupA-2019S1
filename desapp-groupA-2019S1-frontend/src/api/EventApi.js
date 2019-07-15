@@ -116,6 +116,20 @@ class EventApi {
         return error;
       });
   }
+
+  resendInvitation(eventId, userID) {
+    return axios
+      .put(
+        API_CONFIG.endPoint + `event/inviteUser/${eventId}/${userID}`,
+        this.header
+      )
+      .then(response => {
+        return response.status === 200 ? true : false;
+      })
+      .catch(error => {
+        return false;
+      });
+  }
 }
 
 export default EventApi;

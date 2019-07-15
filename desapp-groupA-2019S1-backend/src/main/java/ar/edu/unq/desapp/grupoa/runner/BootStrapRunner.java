@@ -397,13 +397,19 @@ public class BootStrapRunner implements ApplicationRunner {
         pizza.setPricePerUnit(59);
         pizza.setQuantityForPerson(2);
 
+        Guest ivandDGuest = new Guest(ivanD);
+        ivandDGuest.cancelInvitation();
+        Guest pepeGuest = new Guest(pepe);
+        pepeGuest.confirmAsistance();
+        Guest ivanTGuest =new Guest(ivanT);
+
         Baquita theCowBaquita = new BaquitaComunitary(
                 "The Cow",
                 organizerVictor,
                 Arrays.asList(
-                        new Guest(ivanD),
-                        new Guest(pepe),
-                        new Guest(ivanT)),
+                        ivandDGuest,
+                        pepeGuest,
+                        ivanTGuest),
                 Arrays.asList(sanguMiga, porron, queso, pizza),
                 LocalDateTime.now().minusDays(1));
 

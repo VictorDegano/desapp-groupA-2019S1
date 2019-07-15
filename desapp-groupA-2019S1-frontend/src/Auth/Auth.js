@@ -1,11 +1,10 @@
 import auth0 from "auth0-js";
 import { AUTH_CONFIG } from "./Auth0-config";
-import history from "../history";
-import UserApi from "../api/UserApi.js";
+import UserApi from "../api/UserApi";
 //Actions Type
-import * as User_Type from "../actions/Action_Types/User_Types.js";
+import * as User_Type from "../actions/Action_Types/User_Types";
 //Store
-import { store } from "../index.js";
+import { store } from "../index";
 
 export default class Auth {
   userProfile;
