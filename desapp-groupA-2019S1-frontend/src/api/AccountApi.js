@@ -34,8 +34,21 @@ class AccountApi {
     return axios
       .get(API_CONFIG.endPoint + `account/userBalance/${userId}/`, this.header)
       .then(response => {
-        console.log(response.data)
         return response.data;
+      })
+      .catch(error => {
+        return error;
+      });
+  }
+
+  extractMoney(amount, userId) {
+    return axios
+      .put(
+        API_CONFIG.endPoint + `account/extractMoney/${userId}/${amount}/`,
+        this.header
+      )
+      .then(response => {
+        return response.status === 200 ? true : false;
       })
       .catch(error => {
         return error;
