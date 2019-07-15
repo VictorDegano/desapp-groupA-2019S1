@@ -2,7 +2,8 @@
 
 const initialState = {
   showAccount: false,
-  addMoney: false
+  addMoney: false,
+  balance: 0
 };
 
 //Se recibe un state antiguo, un action y se devuelve el nuevo state
@@ -28,6 +29,11 @@ export default function accountReducer(state = initialState, action) {
 
       return Object.assign({}, state, {
         addMoney: true
+      });
+    }
+    case "UPDATE_BALANCE": {
+      return Object.assign({}, state, {
+        balance: action.balance
       });
     }
 
