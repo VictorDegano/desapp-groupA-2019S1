@@ -70,6 +70,12 @@ class EventTable extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.events !== this.props.events){
+      this.setState({currentPageNumber: 1});
+    }
+  }
+
   getTraduction(eventType) {
     const { t } = this.props;
     if (eventType !== undefined) {
