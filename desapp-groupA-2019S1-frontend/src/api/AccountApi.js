@@ -29,6 +29,18 @@ class AccountApi {
         return error;
       });
   }
+
+  getUserBalance(userId) {
+    return axios
+      .get(API_CONFIG.endPoint + `account/userBalance/${userId}/`, this.header)
+      .then(response => {
+        console.log(response.data)
+        return response.data;
+      })
+      .catch(error => {
+        return error;
+      });
+  }
 }
 
 export default AccountApi;
