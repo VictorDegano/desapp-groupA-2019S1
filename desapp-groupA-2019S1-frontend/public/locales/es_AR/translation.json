@@ -121,7 +121,9 @@
     "inProgressButton": "En Curso",
     "lastButton": "Ultimos",
     "myEventsLabel": "Mis Eventos",
-    "popularsButton": "Mas Populares"
+    "popularsButton": "Mas Populares",
+    "addMoney": "Agregar Dinero"
+
   },
   "spanishLanguage": "Español"
 }
