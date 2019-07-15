@@ -4,12 +4,14 @@ import { withTranslation } from "react-i18next";
 // Redux
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Button, Col, Form, InputGroup } from "react-bootstrap";
+import { Button, Col, Form } from "react-bootstrap";
 import AccountApi from "../api/AccountApi";
+import { updateBalance } from "../actions/AccountActions";
 
 class AddMoney extends React.PureComponent {
   static propTypes = {
-    loggedUser: PropTypes.object
+    loggedUser: PropTypes.object,
+    updateBalance: PropTypes.func.isRequired
   };
 
   constructor(...args) {
@@ -22,8 +24,8 @@ class AddMoney extends React.PureComponent {
   handleSubmit(event) {
     event.preventDefault();
     const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      // event.stopPropagation();
+    if (form.checkValidity() === false || this.state.amount <= 0) {
+      return;
     }
     this.setState({ validated: true });
 
@@ -32,11 +34,23 @@ class AddMoney extends React.PureComponent {
       .depositMoney(this.state.amount, this.props.loggedUser.id)
       .then(response => {
         console.log(response);
+        this.updateUserBalance();
       })
       .catch(e => console.log(e));
   }
   handleChangeAmountValue(event) {
     this.setState({ amount: event.target.value });
+  }
+
+  updateUserBalance() {
+    const accountApi = new AccountApi();
+    accountApi
+      .getUserBalance(this.props.loggedUser.id)
+      .then(response => {
+        console.log(response);
+        this.props.updateBalance(response);
+      })
+      .catch(e => console.log(e));
   }
 
   render() {
@@ -48,6 +62,9 @@ class AddMoney extends React.PureComponent {
         validated={validated}
         onSubmit={e => this.handleSubmit(e)}
       >
+        <Form.Row>
+          <h2>Add Money</h2>
+        </Form.Row>
         <Form.Row>
           <Form.Group as={Col} md="2" controlId="validationCustom01">
             <Form.Label>Amount</Form.Label>
@@ -81,7 +98,9 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  updateBalance: balance => dispatch(updateBalance(balance))
+});
 
 export default connect(
   mapStateToProps,
