@@ -3,11 +3,10 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 // I18n Hook
 import { withTranslation } from "react-i18next";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import "../css/ProfileEdition.css";
 import { withRouter } from "react-router";
 import AddMoney from "../components/AddMoney";
+import AccountInformation from "./AccountInformation";
 
 class AccountViewer extends Component {
   static propTypes = {
@@ -22,11 +21,17 @@ class AccountViewer extends Component {
 
   render() {
     if (this.props.addMoney) {
-      return <AddMoney />;
+      return (
+        <>
+          <AccountInformation />
+          <AddMoney />
+        </>
+      );
     } else {
       return (
         <>
           <h1>Hello Account</h1>
+          <AccountInformation />
         </>
       );
     }
