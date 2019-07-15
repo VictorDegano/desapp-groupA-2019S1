@@ -14,6 +14,7 @@ import {
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import AccountSideBar from "./AccountSideBar";
 
 class SideBar extends React.PureComponent {
   static propTypes = {
@@ -25,7 +26,7 @@ class SideBar extends React.PureComponent {
   render() {
     const { t } = this.props;
     if (this.props.showAccount) {
-      return <h1>AccountSidebar</h1>;
+      return <AccountSideBar />;
     } else {
       return (
         <Accordion defaultActiveKey="0">
