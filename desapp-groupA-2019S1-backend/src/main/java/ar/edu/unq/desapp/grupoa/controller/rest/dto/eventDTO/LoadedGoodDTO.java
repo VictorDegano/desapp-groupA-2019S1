@@ -1,10 +1,12 @@
 package ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO;
 
 import ar.edu.unq.desapp.grupoa.model.event.baquita.LoadedGood;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class LoadedGoodDTO {
 
     private Integer loadedGoodId;

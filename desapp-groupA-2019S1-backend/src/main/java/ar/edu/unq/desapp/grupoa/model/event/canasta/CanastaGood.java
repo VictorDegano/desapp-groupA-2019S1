@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa.model.event.canasta;
 
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -34,6 +35,8 @@ public class CanastaGood extends Good {
         return this.getPricePerUnit() * this.getQuantityForPerson();
     }
 
+
+    @JsonIgnore
     public Boolean isAvailable() {
         return this.userThatOwnsTheGood == null;
     }

@@ -6,12 +6,14 @@ import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.EventStatus;
 import ar.edu.unq.desapp.grupoa.service.EventService;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaquitaRepresentativesDTO extends EventDTO {
 
 
