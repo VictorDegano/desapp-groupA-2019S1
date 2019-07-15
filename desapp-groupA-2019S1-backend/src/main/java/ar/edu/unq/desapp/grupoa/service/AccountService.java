@@ -55,4 +55,9 @@ public class AccountService {
         User user = getUser(userId);
         return  user.getAccount().getMovements();
     }
+
+    public Integer userBalance(Integer userId) {
+        User user = getUser(userId);
+        return user.getAccount().balance();
+    }
 }
