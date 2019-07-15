@@ -21,3 +21,10 @@ export function updateBalance(balance) {
     balance: balance
   };
 }
+
+export function extractMoney() {
+  //Las acciones devuelve un objeto
+  return {
+    type: ACTION_TYPE.EXTRACT_MONEY
+  };
+}
