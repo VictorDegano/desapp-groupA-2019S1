@@ -7,10 +7,12 @@ import "../css/ProfileEdition.css";
 import { withRouter } from "react-router";
 import AddMoney from "../components/AddMoney";
 import AccountInformation from "./AccountInformation";
+import ExtractMoney from "../components/ExtractMoney";
 
 class AccountViewer extends Component {
   static propTypes = {
-    addMoney: PropTypes.bool
+    addMoney: PropTypes.bool,
+    extractMoney: PropTypes.bool
   };
 
   constructor(props, context) {
@@ -27,6 +29,14 @@ class AccountViewer extends Component {
           <AddMoney />
         </>
       );
+    }
+    if (this.props.extractMoney) {
+      return (
+        <>
+          <AccountInformation />
+          <ExtractMoney />
+        </>
+      );
     } else {
       return (
         <>
@@ -41,7 +51,8 @@ class AccountViewer extends Component {
 function mapStateToProps(state) {
   return {
     loggedUser: state.UserReducer.loggedUser,
-    addMoney: state.AccountReducer.addMoney
+    addMoney: state.AccountReducer.addMoney,
+    extractMoney: state.AccountReducer.extractMoney
   };
 }
 
