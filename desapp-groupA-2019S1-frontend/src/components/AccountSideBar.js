@@ -14,14 +14,15 @@ import {
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { addMoney } from "../actions/AccountActions";
+import { addMoney, extractMoney } from "../actions/AccountActions";
 
 class AccountSideBar extends React.PureComponent {
   static propTypes = {
     showEventsInProgress: PropTypes.func.isRequired,
     showMostPopularEvents: PropTypes.func.isRequired,
     showLastEvents: PropTypes.func.isRequired,
-    addMoney: PropTypes.func.isRequired
+    addMoney: PropTypes.func.isRequired,
+    extractMoney: PropTypes.func.isRequired
   };
 
   render() {
@@ -41,8 +42,8 @@ class AccountSideBar extends React.PureComponent {
           </Accordion.Collapse>
           <Accordion.Collapse eventKey="0">
             <Card.Body>
-              <Button onClick={() => this.props.showLastEvents()}>
-                {t("sidebar->lastButton")}
+              <Button onClick={() => this.props.extractMoney()}>
+                {t("sidebar->extractMoney")}
               </Button>
             </Card.Body>
           </Accordion.Collapse>
@@ -68,7 +69,8 @@ const mapDispatchToProps = dispatch => ({
   showEventsInProgress: () => dispatch(showEventsInProgress()),
   showMostPopularEvents: () => dispatch(showMostPopularEvents()),
   showLastEvents: () => dispatch(showLastEvents()),
-  addMoney: () => dispatch(addMoney())
+  addMoney: () => dispatch(addMoney()),
+  extractMoney: () => dispatch(extractMoney())
 });
 
 export default connect(
