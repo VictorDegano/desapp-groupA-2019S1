@@ -91,7 +91,9 @@
     "eventeando": "Eventeando",
     "home": "Inicio",
     "searchButton": "Buscar",
-    "searchPlaceholder": "Buscar Evento..."
+    "searchPlaceholder": "Buscar Evento...",
+    "account": "Cuenta",
+    "events": "Eventos"
   },
   "profileDropdown": {
     "editProfile": "Editar Perfil",
