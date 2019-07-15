@@ -13,6 +13,7 @@ import {
 } from "../actions/ModalViewActions";
 // API's
 import EventApi from "../api/EventApi";
+import Paginator from "../containers/Paginator";
 
 function createDataWithJson(jsonDeEvento) {
   return {
@@ -60,6 +61,13 @@ class EventTable extends React.Component {
     this.getTraduction = this.getTraduction.bind(this);
     this.openEventViewModal = this.openEventViewModal.bind(this);
     this.openModifyEventModal = this.openModifyEventModal.bind(this);
+    this.getEventsToShow = this.getEventsToShow.bind(this);
+
+    this.handlePageChange = this.handlePageChange.bind(this);
+    this.state = {
+      currentPageNumber: 1,
+      itemsPerPage: 5
+    }
   }
 
   getTraduction(eventType) {
@@ -94,6 +102,22 @@ class EventTable extends React.Component {
     });
   }
 
+  handlePageChange(newCurrentPage){
+    this.setState({ currentPageNumber: newCurrentPage});
+  }
+
+  getEventsToShow(events, eventsSize){
+    let eventsToShow = [];
+    let startIndex = this.state.itemsPerPage * (this.state.currentPageNumber-1);
+    let endIndex = Math.min(this.state.itemsPerPage * this.state.currentPageNumber, eventsSize);
+
+    for (startIndex; startIndex < endIndex; startIndex ++) {
+      eventsToShow.push(events[startIndex]);
+    }
+
+    return eventsToShow;
+  }
+
   renderModifyButton(eventId, organizerId) {
     if (organizerId === parseInt(localStorage.getItem("id"))) {
       return (
@@ -107,7 +131,9 @@ class EventTable extends React.Component {
   render() {
     const { t } = this.props;
     const events = this.props.events;
-    return (
+    const eventsSize = events.length;
+
+    return (<>
       <Table striped bordered hover variant="dark">
         <thead>
           <tr>
@@ -119,7 +145,7 @@ class EventTable extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {parseArrayToFunction(events).map(row => (
+          {this.getEventsToShow(parseArrayToFunction(events), eventsSize).map(row => (
             <tr
               key={
                 row.id +
@@ -142,6 +168,11 @@ class EventTable extends React.Component {
           ))}
         </tbody>
       </Table>
+      <Paginator totalItems={eventsSize}
+                 itemsPerPage={this.state.itemsPerPage} 
+                 currentPageNumber={this.state.currentPageNumber} 
+                 pageChangeHandler={this.handlePageChange}/>
+      </>
     );
   }
 }
