@@ -3,7 +3,8 @@
 const initialState = {
   showAccount: false,
   addMoney: false,
-  balance: 0
+  balance: 0,
+  extractMoney: false
 };
 
 //Se recibe un state antiguo, un action y se devuelve el nuevo state
@@ -11,29 +12,30 @@ export default function accountReducer(state = initialState, action) {
   //Dependiendo del tipo de accion que recibimos es lo que vamos a realizar
   switch (action.type) {
     case "SHOW_ACCOUNT": {
-      // console.log('case SHOW_EVENTS_IN_PROGRESS');
-
       return Object.assign({}, state, {
         showAccount: true
       });
     }
     case "HIDE_ACCOUNT": {
-      // console.log('case SHOW_EVENTS_IN_PROGRESS');
-
       return Object.assign({}, state, {
         showAccount: false
       });
     }
     case "ADD_MONEY": {
-      // console.log('case SHOW_EVENTS_IN_PROGRESS');
-
       return Object.assign({}, state, {
-        addMoney: true
+        addMoney: true,
+        extractMoney: false
       });
     }
     case "UPDATE_BALANCE": {
       return Object.assign({}, state, {
         balance: action.balance
+      });
+    }
+    case "EXTRACT_MONEY": {
+      return Object.assign({}, state, {
+        addMoney: false,
+        extractMoney: true
       });
     }
 
