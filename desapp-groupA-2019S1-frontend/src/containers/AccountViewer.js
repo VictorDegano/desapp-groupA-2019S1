@@ -7,9 +7,12 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "../css/ProfileEdition.css";
 import { withRouter } from "react-router";
+import AddMoney from "../components/AddMoney";
 
 class AccountViewer extends Component {
-  static propTypes = {};
+  static propTypes = {
+    addMoney: PropTypes.bool
+  };
 
   constructor(props, context) {
     super(props, context);
@@ -18,17 +21,22 @@ class AccountViewer extends Component {
   componentDidMount() {}
 
   render() {
-    return (
-      <>
-        <h1>Hello Account</h1>;
-      </>
-    );
+    if (this.props.addMoney) {
+      return <AddMoney />;
+    } else {
+      return (
+        <>
+          <h1>Hello Account</h1>
+        </>
+      );
+    }
   }
 }
 
 function mapStateToProps(state) {
   return {
-    loggedUser: state.UserReducer.loggedUser
+    loggedUser: state.UserReducer.loggedUser,
+    addMoney: state.AccountReducer.addMoney
   };
 }
 
