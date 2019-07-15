@@ -74,7 +74,7 @@ public abstract class EventDTO {
         return goods.stream().map(goodDto -> goodDto.toGood()).collect(Collectors.toList());
     }
 
-    protected List<String> guestMail(){
+    public List<String> guestMail(){
         return guests.stream().map(GuestDTO::getMail).collect(Collectors.toList());
     };
 
