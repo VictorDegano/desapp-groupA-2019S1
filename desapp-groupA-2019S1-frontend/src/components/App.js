@@ -29,7 +29,8 @@ class App extends React.Component {
     showEventsInProgress: PropTypes.func.isRequired,
     loadEventsInProgress: PropTypes.func.isRequired,
     loadLastEvents: PropTypes.func.isRequired,
-    loadMostPopularEvents: PropTypes.func.isRequired
+    loadMostPopularEvents: PropTypes.func.isRequired,
+    showAccount: PropTypes.bool
   };
 
   constructor(props) {
@@ -68,10 +69,10 @@ class App extends React.Component {
         <ProfileEdition />
         <Row>
           <Col xs={4} lg={2}>
-            <SideBar />
+            <SideBar showAccount={this.props.showAccount} />
           </Col>
           <Col xs={6} lg={10}>
-            <MainPanel />
+            <MainPanel showAccount={this.props.showAccount} />
           </Col>
         </Row>
       </div>
@@ -86,7 +87,8 @@ function mapStateToProps(state) {
     events: state.EventReducer.events,
     eventsInProgress: state.EventReducer.eventsInProgress,
     lastEvents: state.EventReducer.lastEvents,
-    mostPopularEvents: state.EventReducer.mostPopularEvents
+    mostPopularEvents: state.EventReducer.mostPopularEvents,
+    showAccount: state.AccountReducer.showAccount
   };
 }
 

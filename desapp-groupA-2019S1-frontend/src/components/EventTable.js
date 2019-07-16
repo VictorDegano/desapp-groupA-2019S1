@@ -67,12 +67,12 @@ class EventTable extends React.Component {
     this.state = {
       currentPageNumber: 1,
       itemsPerPage: 5
-    }
+    };
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.events !== this.props.events){
-      this.setState({currentPageNumber: 1});
+    if (prevProps.events !== this.props.events) {
+      this.setState({ currentPageNumber: 1 });
     }
   }
 
@@ -108,16 +108,20 @@ class EventTable extends React.Component {
     });
   }
 
-  handlePageChange(newCurrentPage){
-    this.setState({ currentPageNumber: newCurrentPage});
+  handlePageChange(newCurrentPage) {
+    this.setState({ currentPageNumber: newCurrentPage });
   }
 
-  getEventsToShow(events, eventsSize){
+  getEventsToShow(events, eventsSize) {
     let eventsToShow = [];
-    let startIndex = this.state.itemsPerPage * (this.state.currentPageNumber-1);
-    let endIndex = Math.min(this.state.itemsPerPage * this.state.currentPageNumber, eventsSize);
+    let startIndex =
+      this.state.itemsPerPage * (this.state.currentPageNumber - 1);
+    let endIndex = Math.min(
+      this.state.itemsPerPage * this.state.currentPageNumber,
+      eventsSize
+    );
 
-    for (startIndex; startIndex < endIndex; startIndex ++) {
+    for (startIndex; startIndex < endIndex; startIndex++) {
       eventsToShow.push(events[startIndex]);
     }
 
@@ -139,45 +143,52 @@ class EventTable extends React.Component {
     const events = this.props.events;
     const eventsSize = events.length;
 
-    return (<>
-      <Table striped bordered hover variant="dark">
-        <thead>
-          <tr>
-            <th />
-            <th>{t("homePage->eventTable->nameColumn")}</th>
-            <th>{t("homePage->eventTable->eventTypeColumn")}</th>
-            <th>{t("homePage->eventTable->organizerColumn")}</th>
-            <th>{t("homePage->eventTable->quantityGuestColumn")}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.getEventsToShow(parseArrayToFunction(events), eventsSize).map(row => (
-            <tr
-              key={
-                row.id +
-                row.eventName +
-                row.organizer.firstName +
-                row.organizer.lastName
-              }
-            >
-              <td>
-                <Button onClick={() => this.openEventViewModal(row.id)}>
-                  {t("homePage->viewButton")}
-                </Button>
-                {this.renderModifyButton(row.id, row.organizer.id)}
-              </td>
-              <td>{row.eventName}</td>
-              <td>{this.getTraduction(row.type)}</td>
-              <td>{row.organizer.fistName + " " + row.organizer.lastName}</td>
-              <td>{row.quantityOfGuest}</td>
+    return (
+      <>
+        <Table striped bordered hover variant="dark">
+          <thead>
+            <tr>
+              <th />
+              <th>{t("homePage->eventTable->nameColumn")}</th>
+              <th>{t("homePage->eventTable->eventTypeColumn")}</th>
+              <th>{t("homePage->eventTable->organizerColumn")}</th>
+              <th>{t("homePage->eventTable->quantityGuestColumn")}</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-      <Paginator totalItems={eventsSize}
-                 itemsPerPage={this.state.itemsPerPage} 
-                 currentPageNumber={this.state.currentPageNumber} 
-                 pageChangeHandler={this.handlePageChange}/>
+          </thead>
+          <tbody>
+            {this.getEventsToShow(parseArrayToFunction(events), eventsSize).map(
+              row => (
+                <tr
+                  key={
+                    row.id +
+                    row.eventName +
+                    row.organizer.firstName +
+                    row.organizer.lastName
+                  }
+                >
+                  <td>
+                    <Button onClick={() => this.openEventViewModal(row.id)}>
+                      {t("homePage->viewButton")}
+                    </Button>
+                    {this.renderModifyButton(row.id, row.organizer.id)}
+                  </td>
+                  <td>{row.eventName}</td>
+                  <td>{this.getTraduction(row.type)}</td>
+                  <td>
+                    {row.organizer.fistName + " " + row.organizer.lastName}
+                  </td>
+                  <td>{row.quantityOfGuest}</td>
+                </tr>
+              )
+            )}
+          </tbody>
+        </Table>
+        <Paginator
+          totalItems={eventsSize}
+          itemsPerPage={this.state.itemsPerPage}
+          currentPageNumber={this.state.currentPageNumber}
+          pageChangeHandler={this.handlePageChange}
+        />
       </>
     );
   }

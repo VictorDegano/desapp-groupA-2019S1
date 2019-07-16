@@ -17,6 +17,7 @@ import * as ModalView_Type from "../actions/Action_Types/ModalView_Types";
 //Store
 import { store } from "../index";
 import history from "../history";
+import * as Account_Type from "../actions/Action_Types/AccountTypes";
 
 function openModal() {
   store.dispatch({ type: ModalView_Type.OPEN_PROFILE_EDITION });
@@ -25,6 +26,15 @@ function openModal() {
 function openCreateEventModal() {
   console.log("openCreateEventModal()");
   store.dispatch({ type: ModalView_Type.OPEN_CREATE_EVENT_MODAL });
+}
+
+function showAccount() {
+  console.log("showAccount()");
+  store.dispatch({ type: Account_Type.SHOW_ACCOUNT });
+}
+function hideAccount() {
+  console.log("hideAccount()");
+  store.dispatch({ type: Account_Type.HIDE_ACCOUNT });
 }
 
 function NavigationBar({ t }) {
@@ -39,6 +49,12 @@ function NavigationBar({ t }) {
         </Nav.Link>
         <Button onClick={() => openCreateEventModal()}>
           {t("navBar->createEvent")}
+        </Button>
+        <Button onClick={() => showAccount()} href="" alt="Account">
+          {t("navBar->account")}
+        </Button>
+        <Button onClick={() => hideAccount()} href="" alt="Events">
+          {t("navBar->events")}
         </Button>
       </Nav>
       <Form inline>
