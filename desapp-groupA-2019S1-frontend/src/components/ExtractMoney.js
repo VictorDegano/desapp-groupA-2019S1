@@ -6,12 +6,13 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Button, Col, Form } from "react-bootstrap";
 import AccountApi from "../api/AccountApi";
-import { updateBalance } from "../actions/AccountActions";
+import { updateBalance, updateLastMovements } from "../actions/AccountActions";
 
 class ExtractMoney extends React.PureComponent {
   static propTypes = {
     loggedUser: PropTypes.object,
-    updateBalance: PropTypes.func.isRequired
+    updateBalance: PropTypes.func.isRequired,
+    updateLastMovements: PropTypes.func.isRequired
   };
 
   constructor(...args) {
@@ -35,6 +36,7 @@ class ExtractMoney extends React.PureComponent {
       .then(response => {
         console.log(response);
         this.updateUserBalance();
+        this.updateUserMovements();
       })
       .catch(e => console.log(e));
   }
@@ -49,6 +51,17 @@ class ExtractMoney extends React.PureComponent {
       .then(response => {
         console.log(response);
         this.props.updateBalance(response);
+      })
+      .catch(e => console.log(e));
+  }
+
+  updateUserMovements() {
+    const accountApi = new AccountApi();
+    accountApi
+      .getUserMovements(this.props.loggedUser.id)
+      .then(response => {
+        console.log(response);
+        this.props.updateLastMovements(response);
       })
       .catch(e => console.log(e));
   }
@@ -99,7 +112,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = dispatch => ({
-  updateBalance: balance => dispatch(updateBalance(balance))
+  updateBalance: balance => dispatch(updateBalance(balance)),
+  updateLastMovements: movements => dispatch(updateLastMovements(movements))
 });
 
 export default connect(
