@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import { auth } from "../components/Root";
 import { API_CONFIG } from "./Configs/Api-config";
 
@@ -62,6 +63,19 @@ class AccountApi {
         return response.data;
       })
       .catch(error => {
+        return error;
+      });
+  }
+
+  takeALoan(userId) {
+    return axios
+      .put(API_CONFIG.endPoint + `account/takeLoan/${userId}/`, this.header)
+      .then(response => {
+        toast("Loan Succesfully Taken",{type:"success"});
+        return response.status === 200 ? true : false;
+      })
+      .catch(error => {
+        toast(error.response.data, { type: "error" });
         return error;
       });
   }
