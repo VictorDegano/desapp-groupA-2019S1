@@ -2,12 +2,15 @@ package ar.edu.unq.desapp.grupoa;
 
 import ar.edu.unq.desapp.grupoa.controller.rest.AccountController;
 import ar.edu.unq.desapp.grupoa.controller.rest.EventController;
+import ar.edu.unq.desapp.grupoa.controller.rest.GoodController;
 import ar.edu.unq.desapp.grupoa.controller.rest.UserController;
 import ar.edu.unq.desapp.grupoa.persistence.EventDAO;
+import ar.edu.unq.desapp.grupoa.persistence.GoodDAO;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 import ar.edu.unq.desapp.grupoa.service.AccountService;
 import ar.edu.unq.desapp.grupoa.service.EmailSenderService;
 import ar.edu.unq.desapp.grupoa.service.EventService;
+import ar.edu.unq.desapp.grupoa.service.GoodService;
 import ar.edu.unq.desapp.grupoa.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
@@ -39,9 +42,18 @@ public class TestConfig {
     @Autowired
     private EventDAO eventDAO;
 
+
+    @Autowired
+    private GoodDAO goodDAO;
+
     @Bean
     public UserController userController(){
         return new UserController();
+    }
+
+    @Bean
+    public GoodController goodController(){
+        return new GoodController();
     }
 
     @Bean
@@ -62,6 +74,11 @@ public class TestConfig {
     @Bean
     public EventService eventService(){
         return new EventService();
+    }
+
+    @Bean
+    public GoodService goodService(){
+        return new GoodService();
     }
 
     @Bean

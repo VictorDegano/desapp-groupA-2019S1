@@ -13,7 +13,6 @@ public class GoodDTO {
     private String  name;
     private Integer pricePerUnit;
     private Integer quantityForPerson;
-
     private Integer finalQuantity;
 
     private Boolean isAvailable;

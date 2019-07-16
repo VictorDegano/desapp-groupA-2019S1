@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -207,5 +208,15 @@ public class EventService {
         User representative = getUser(userId);
         loadGood(baquita, good, representative);
         eventDAO.save(baquita);
+    }
+
+    public void deleteGoodFromEvent(Integer eventId, Integer goodId) {
+        Event event = eventDAO.findById(eventId).orElseThrow(()-> new EventNotFoundException(eventId));
+        Good good = goodDAO.findById(goodId).orElseThrow(()-> new EntityNotFoundException());
+
+        List<Good> goods = event.getGoodsForGuest();
+        event.setGoodsForGuest(goods.stream().filter(it -> !it.getId().equals(good.getId())).collect(Collectors.toList()));
+
+        eventDAO.save(event);
     }
 }
