@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa.controller.rest;
 
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.EventDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
+import ar.edu.unq.desapp.grupoa.model.event.Template;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -146,5 +147,7 @@ public class EventController {
         LOGGER.info("Responding with Event Lists {}", eventsDTOList);
         return new ResponseEntity<>(eventsDTOList, HttpStatus.OK);
     }
+
+
 
 }

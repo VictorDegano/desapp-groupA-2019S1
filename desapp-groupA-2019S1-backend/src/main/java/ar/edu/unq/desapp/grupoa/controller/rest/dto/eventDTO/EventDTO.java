@@ -13,6 +13,7 @@ import ar.edu.unq.desapp.grupoa.model.event.EventStatus;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
 import ar.edu.unq.desapp.grupoa.service.EventService;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -30,6 +31,8 @@ import java.util.stream.Collectors;
         @JsonSubTypes.Type(value = BaquitaComunitariaDTO.class, name = "BAQUITA_COMUNITARY"),
         @JsonSubTypes.Type(value = BaquitaRepresentativesDTO.class, name = "BAQUITA_REPRESENTATIVES")
 })
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class EventDTO {
 
     protected Integer id;
@@ -71,7 +74,7 @@ public abstract class EventDTO {
         return goods.stream().map(goodDto -> goodDto.toGood()).collect(Collectors.toList());
     }
 
-    protected List<String> guestMail(){
+    public List<String> guestMail(){
         return guests.stream().map(GuestDTO::getMail).collect(Collectors.toList());
     };
 

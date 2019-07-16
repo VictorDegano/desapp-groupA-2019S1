@@ -131,7 +131,7 @@ public class EventService {
     }
 
 
-    private List<Guest> getGuests(List<String> emailList) {
+    List<Guest> getGuests(List<String> emailList) {
         return emailList.stream().map(email -> new Guest(getByEmail(email))).collect(Collectors.toList());
     }
 
@@ -180,7 +180,7 @@ public class EventService {
     }
 
 
-    private void sendInvitationToGuests(Event event) {
+    void sendInvitationToGuests(Event event) {
         String organizerEmail = event.getOrganizer().getEmail();
         event.getGuest().stream().forEach(guest -> {
             User guestUser = guest.getUser();

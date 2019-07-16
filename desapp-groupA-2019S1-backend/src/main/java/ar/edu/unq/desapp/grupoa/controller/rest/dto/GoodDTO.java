@@ -4,8 +4,9 @@ import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.CanastaGood;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.FiestaGood;
 import ar.edu.unq.desapp.grupoa.model.user.User;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GoodDTO {
 
 
@@ -15,7 +16,6 @@ public class GoodDTO {
     private Integer quantityForPerson;
 
     private Integer finalQuantity;
-
     private Boolean isAvailable;
     public GoodDTO(){}
 
