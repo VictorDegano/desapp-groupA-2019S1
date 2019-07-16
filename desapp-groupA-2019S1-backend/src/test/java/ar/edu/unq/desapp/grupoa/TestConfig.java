@@ -3,14 +3,17 @@ package ar.edu.unq.desapp.grupoa;
 import ar.edu.unq.desapp.grupoa.controller.rest.AccountController;
 import ar.edu.unq.desapp.grupoa.controller.rest.EventController;
 import ar.edu.unq.desapp.grupoa.controller.rest.GoodController;
+import ar.edu.unq.desapp.grupoa.controller.rest.TemplateController;
 import ar.edu.unq.desapp.grupoa.controller.rest.UserController;
 import ar.edu.unq.desapp.grupoa.persistence.EventDAO;
 import ar.edu.unq.desapp.grupoa.persistence.GoodDAO;
+import ar.edu.unq.desapp.grupoa.persistence.TemplateDAO;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 import ar.edu.unq.desapp.grupoa.service.AccountService;
 import ar.edu.unq.desapp.grupoa.service.EmailSenderService;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 import ar.edu.unq.desapp.grupoa.service.GoodService;
+import ar.edu.unq.desapp.grupoa.service.TemplateService;
 import ar.edu.unq.desapp.grupoa.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
@@ -46,6 +49,9 @@ public class TestConfig {
     @Autowired
     private GoodDAO goodDAO;
 
+    @Autowired
+    private TemplateDAO templateDAO;
+
     @Bean
     public UserController userController(){
         return new UserController();
@@ -67,8 +73,19 @@ public class TestConfig {
     }
 
     @Bean
+    public TemplateController templateController(){
+        return new TemplateController();
+    }
+
+
+    @Bean
     public AccountService accountService(){
         return new AccountService();
+    }
+
+    @Bean
+    public TemplateService templateService(){
+        return new TemplateService();
     }
 
     @Bean

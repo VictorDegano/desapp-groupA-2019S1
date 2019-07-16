@@ -91,7 +91,9 @@
     "eventeando": "Eventeando",
     "home": "Home",
     "searchButton": "Search",
-    "searchPlaceholder": "Search Event..."
+    "searchPlaceholder": "Search Event...",
+    "account": "Account",
+    "events": "Events"
   },
   "profileDropdown": {
     "editProfile": "Edit Profile",
@@ -119,7 +121,20 @@
     "inProgressButton": "In Progress",
     "lastButton": "Last",
     "myEventsLabel": "My Events",
-    "popularsButton": "Most Populars"
+    "popularsButton": "Most Populars",
+    "addMoney": "Add Money",
+    "extractMoney": "Extract Money",
+    "showLastMovements": "Show Movements"
+  },
+  "accountComponents": {
+    "addMoneyTitle": "Add Money",
+    "amount": "Amount",
+    "balance": "Balance:",
+    "confirm": "Confirm",
+    "extractMoneyTitle": "Extract Money",
+    "flowType": "Flow Type",
+    "date": "Date",
+    "type": "Type"
   },
   "spanishLanguage": "Spanish"
 }

@@ -4,11 +4,13 @@ import { combineReducers } from "redux";
 import EventReducer from "./EventReducer";
 import UserReducer from "./UserReducer";
 import ModalViewReducer from "./ModalViewReducer";
+import AccountReducer from "./AccountReducer";
 
 const rootReducer = combineReducers({
   EventReducer,
   UserReducer,
-  ModalViewReducer
+  ModalViewReducer,
+  AccountReducer
 });
 
 export default rootReducer;
