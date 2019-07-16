@@ -7,7 +7,8 @@ const initialState = {
   extractMoney: false,
   showLastMovements: false,
   movements: [],
-  loan: false
+  loan: false,
+  credits: {}
 };
 
 //Se recibe un state antiguo, un action y se devuelve el nuevo state
@@ -66,6 +67,12 @@ export default function accountReducer(state = initialState, action) {
         extractMoney: false,
         showLastMovements: false,
         loan: true
+      });
+    }
+
+    case "UPDATE_CREDITS": {
+      return Object.assign({}, state, {
+        credits: action.credits
       });
     }
 
