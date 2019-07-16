@@ -124,7 +124,8 @@
     "popularsButton": "Mas Populares",
     "addMoney": "Agregar Dinero",
     "extractMoney": "Extraer Dinero",
-    "showLastMovements": "Mostrar Movimientos"
+    "showLastMovements": "Mostrar Movimientos",
+    "takeALoan": "Pedir Prestamo"
   },
   "accountComponents": {
     "addMoneyTitle": "Agregar Dinero",
@@ -134,7 +135,13 @@
     "extractMoneyTitle": "Extraer Dinero",
     "flowType": "Tipo de Flujo",
     "date": "Fecha",
-    "type": "Tipo"
+    "type": "Tipo",
+    "takeALoanTitle": "Pedir Prestamo",
+    "loanDescription": "Para pedir un prestamo tenes que ser cumplidor",
+    "creditsOnCourseTitle": "Creditos Actuales",
+    "quotasToPay": "Cuotas restantes",
+    "hasDefaulted": "Moroso",
+    "creditsOnCourseTitleNoCreditsOnCourse": "No tenes creditos sin pagar"
   },
   "spanishLanguage": "Español"
 }
