@@ -123,8 +123,18 @@
     "myEventsLabel": "Mis Eventos",
     "popularsButton": "Mas Populares",
     "addMoney": "Agregar Dinero",
-    "extractMoney": "Extraer Dinero"
-
+    "extractMoney": "Extraer Dinero",
+    "showLastMovements": "Mostrar Movimientos"
+  },
+  "accountComponents": {
+    "addMoneyTitle": "Agregar Dinero",
+    "amount": "Cantidad",
+    "balance": "Saldo:",
+    "confirm": "Confirmar",
+    "extractMoneyTitle": "Extraer Dinero",
+    "flowType": "Tipo de Flujo",
+    "date": "Fecha",
+    "type": "Tipo"
   },
   "spanishLanguage": "Español"
 }

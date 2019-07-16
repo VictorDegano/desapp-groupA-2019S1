@@ -36,9 +36,10 @@ class AccountInformation extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <>
-        <h1>Balance: {this.props.balance}</h1>
+        <h1>{t("accountComponents->balance")} {this.props.balance}</h1>
       </>
     );
   }

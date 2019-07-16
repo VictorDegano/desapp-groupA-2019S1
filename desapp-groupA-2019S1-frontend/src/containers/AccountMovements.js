@@ -80,10 +80,10 @@ class AccountMovements extends Component {
         <Table responsive striped bordered hover variant="dark">
           <thead>
             <tr>
-              <th>FlowType</th>
-              <th>Date</th>
-              <th>Amount</th>
-              <th>Type</th>
+              <th>{t("accountComponents->flowType")}</th>
+              <th>{t("accountComponents->date")}</th>
+              <th>{t("accountComponents->amount")}</th>
+              <th>{t("accountComponents->type")}</th>
             </tr>
           </thead>
           <tbody>
