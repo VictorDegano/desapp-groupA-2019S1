@@ -9,12 +9,15 @@ import AddMoney from "../components/AddMoney";
 import AccountInformation from "./AccountInformation";
 import ExtractMoney from "../components/ExtractMoney";
 import AccountMovements from "./AccountMovements";
+import AccountLoan from "../components/AccountLoan";
+import AccountLoanInformation from "../components/AccountLoanInformation";
 
 class AccountViewer extends Component {
   static propTypes = {
-    addMoney: PropTypes.bool,
-    extractMoney: PropTypes.bool,
-    showLastMovements: PropTypes.bool
+    addMoney: PropTypes.bool.isRequired,
+    extractMoney: PropTypes.bool.isRequired,
+    showLastMovements: PropTypes.bool.isRequired,
+    loan: PropTypes.bool.isRequired
   };
 
   constructor(props, context) {
@@ -47,6 +50,15 @@ class AccountViewer extends Component {
           <AccountMovements />
         </>
       );
+    }
+    if (this.props.loan) {
+      return (
+        <>
+          <AccountInformation />
+          <AccountLoan />
+          <AccountLoanInformation />
+        </>
+      );
     } else {
       return (
         <>
@@ -63,7 +75,8 @@ function mapStateToProps(state) {
     loggedUser: state.UserReducer.loggedUser,
     addMoney: state.AccountReducer.addMoney,
     extractMoney: state.AccountReducer.extractMoney,
-    showLastMovements: state.AccountReducer.showLastMovements
+    showLastMovements: state.AccountReducer.showLastMovements,
+    loan: state.AccountReducer.loan
   };
 }
 
