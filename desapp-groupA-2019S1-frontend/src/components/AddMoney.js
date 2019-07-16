@@ -5,6 +5,7 @@ import { withTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Button, Col, Form } from "react-bootstrap";
+import { toast } from "react-toastify";
 import AccountApi from "../api/AccountApi";
 import { updateBalance, updateLastMovements } from "../actions/AccountActions";
 
@@ -26,6 +27,7 @@ class AddMoney extends React.PureComponent {
     event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false || this.state.amount <= 0) {
+      toast("Your cash should be positive", { type: "error" });
       return;
     }
     this.setState({ validated: true });
@@ -34,7 +36,7 @@ class AddMoney extends React.PureComponent {
     accountApi
       .depositMoney(this.state.amount, this.props.loggedUser.id)
       .then(response => {
-        console.log(response);
+        toast("Thank you for giving us your money", { type: "success" });
         this.updateUserBalance();
         this.updateUserMovements();
       })
@@ -53,6 +55,10 @@ class AddMoney extends React.PureComponent {
         this.props.updateBalance(response);
       })
       .catch(e => console.log(e));
+  }
+
+  amountValidation() {
+    return this.state.amount <= 0;
   }
 
   updateUserMovements() {
@@ -88,14 +94,18 @@ class AddMoney extends React.PureComponent {
               value={this.state.amount}
               onChange={this.handleChangeAmountValue}
               type="number"
+              isInvalid={this.amountValidation()}
               placeholder="$1000"
+              min={0}
             />
             <Form.Control.Feedback type="invalid">
-              Enter an amount
+              Enter a positive amount of money
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} md="4" controlId="validationCustom03">
-            <Button type="submit">{t("accountComponents->confirm")}</Button>
+            <Button type="submit" disabled={this.amountValidation()}>
+              {t("accountComponents->confirm")}
+            </Button>
           </Form.Group>
         </Form.Row>
         <Form.Group as={Col} md="4" controlId="validationCustom02">
