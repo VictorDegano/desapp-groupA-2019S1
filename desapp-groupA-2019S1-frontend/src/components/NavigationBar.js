@@ -17,6 +17,8 @@ import * as ModalView_Type from "../actions/Action_Types/ModalView_Types";
 //Store
 import { store } from "../index";
 import history from "../history";
+// Resources
+import logo from "../resources/Eventeando logo.png";
 
 function openModal() {
   store.dispatch({ type: ModalView_Type.OPEN_PROFILE_EDITION });
@@ -31,15 +33,22 @@ function NavigationBar({ t }) {
   return (
     <Navbar variant="dark">
       <Navbar.Brand onClick={() => history.push("/home")} href="" alt="Home">
-        {t("navBar->eventeando")}
+      <Image src={logo}
+            alt="Eventeando Logo"
+            width={50}
+            height={50} />
+      {t("navBar->eventeando")}
       </Navbar.Brand>
       <Nav className="mr-auto">
-        <Nav.Link onClick={() => history.push("/home")} /*href="/home"*/>
+        {/* <Nav.Link onClick={() => history.push("/home")} href="/home">
           {t("navBar->home")}
+        </Nav.Link> */}
+        <Nav.Link onClick={() => openCreateEventModal()}>
+        {t("navBar->createEvent")}
         </Nav.Link>
-        <Button onClick={() => openCreateEventModal()}>
+        {/* <Button onClick={() => openCreateEventModal()}>
           {t("navBar->createEvent")}
-        </Button>
+        </Button> */}
       </Nav>
       <Form inline>
         <FormControl

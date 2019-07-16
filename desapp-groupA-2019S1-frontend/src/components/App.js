@@ -5,6 +5,7 @@ import { withTranslation } from "react-i18next";
 // Bootstrap
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
 // Redux
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -62,19 +63,24 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      // <div className="tableCol">
+      <Container fluid>
         <NavigationBar />
         <CreateEventModal />
         <ProfileEdition />
         <Row>
-          <Col xs={4} lg={2}>
-            <SideBar />
+          <Col xs={4} lg={2} className="align-items-start">
+            <Row className="sidebarEmptyRow"/>
+            <Row className="align-items-start">
+              <SideBar/>
+            </Row>
           </Col>
-          <Col xs={6} lg={10}>
+          <Col xs={6} lg={10} >
             <MainPanel />
           </Col>
         </Row>
-      </div>
+      </Container>
+      // </div>
     );
   }
 }

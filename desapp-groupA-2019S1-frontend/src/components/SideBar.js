@@ -14,6 +14,8 @@ import {
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+// css
+import "../css/Sidebar.css";
 class SideBar extends React.PureComponent {
   static propTypes = {
     showEventsInProgress: PropTypes.func.isRequired,
@@ -25,7 +27,8 @@ class SideBar extends React.PureComponent {
     const { t } = this.props;
 
     return (
-      <Accordion defaultActiveKey="0">
+      <Accordion defaultActiveKey="0" 
+                 className="sidebarAccordion">
         <Card>
           <Accordion.Toggle as={Card.Header} eventKey="0">
             {t("sidebar->myEventsLabel")}

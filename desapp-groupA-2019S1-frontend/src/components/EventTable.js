@@ -13,7 +13,10 @@ import {
 } from "../actions/ModalViewActions";
 // API's
 import EventApi from "../api/EventApi";
+// Eventeando
 import Paginator from "../containers/Paginator";
+// CSS
+import "../css/EventTable.css";
 
 function createDataWithJson(jsonDeEvento) {
   return {
@@ -71,7 +74,7 @@ class EventTable extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.events !== this.props.events){
+    if (prevProps.events.length !== this.props.events.length){
       this.setState({currentPageNumber: 1});
     }
   }
@@ -140,40 +143,42 @@ class EventTable extends React.Component {
     const eventsSize = events.length;
 
     return (<>
-      <Table striped bordered hover variant="dark">
-        <thead>
-          <tr>
-            <th />
-            <th>{t("homePage->eventTable->nameColumn")}</th>
-            <th>{t("homePage->eventTable->eventTypeColumn")}</th>
-            <th>{t("homePage->eventTable->organizerColumn")}</th>
-            <th>{t("homePage->eventTable->quantityGuestColumn")}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.getEventsToShow(parseArrayToFunction(events), eventsSize).map(row => (
-            <tr
-              key={
-                row.id +
-                row.eventName +
-                row.organizer.firstName +
-                row.organizer.lastName
-              }
-            >
-              <td>
-                <Button onClick={() => this.openEventViewModal(row.id)}>
-                  {t("homePage->viewButton")}
-                </Button>
-                {this.renderModifyButton(row.id, row.organizer.id)}
-              </td>
-              <td>{row.eventName}</td>
-              <td>{this.getTraduction(row.type)}</td>
-              <td>{row.organizer.fistName + " " + row.organizer.lastName}</td>
-              <td>{row.quantityOfGuest}</td>
+      <div className="evenTableDiv">
+        <Table responsive striped bordered variant="light">
+          <thead>
+            <tr>
+              <th />
+              <th>{t("homePage->eventTable->nameColumn")}</th>
+              <th>{t("homePage->eventTable->eventTypeColumn")}</th>
+              <th>{t("homePage->eventTable->organizerColumn")}</th>
+              <th>{t("homePage->eventTable->quantityGuestColumn")}</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {this.getEventsToShow(parseArrayToFunction(events), eventsSize).map(row => (
+              <tr
+                key={
+                  row.id +
+                  row.eventName +
+                  row.organizer.firstName +
+                  row.organizer.lastName
+                }
+              >
+                <td>
+                  <Button onClick={() => this.openEventViewModal(row.id)}>
+                    {t("homePage->viewButton")}
+                  </Button>
+                  {this.renderModifyButton(row.id, row.organizer.id)}
+                </td>
+                <td>{row.eventName}</td>
+                <td>{this.getTraduction(row.type)}</td>
+                <td>{row.organizer.fistName + " " + row.organizer.lastName}</td>
+                <td>{row.quantityOfGuest}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
       <Paginator totalItems={eventsSize}
                  itemsPerPage={this.state.itemsPerPage} 
                  currentPageNumber={this.state.currentPageNumber} 
