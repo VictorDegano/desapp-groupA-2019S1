@@ -8,11 +8,13 @@ import { withRouter } from "react-router";
 import AddMoney from "../components/AddMoney";
 import AccountInformation from "./AccountInformation";
 import ExtractMoney from "../components/ExtractMoney";
+import AccountMovements from "./AccountMovements";
 
 class AccountViewer extends Component {
   static propTypes = {
     addMoney: PropTypes.bool,
-    extractMoney: PropTypes.bool
+    extractMoney: PropTypes.bool,
+    showLastMovements: PropTypes.bool
   };
 
   constructor(props, context) {
@@ -37,6 +39,14 @@ class AccountViewer extends Component {
           <ExtractMoney />
         </>
       );
+    }
+    if (this.props.showLastMovements) {
+      return (
+        <>
+          <AccountInformation />
+          <AccountMovements />
+        </>
+      );
     } else {
       return (
         <>
@@ -52,7 +62,8 @@ function mapStateToProps(state) {
   return {
     loggedUser: state.UserReducer.loggedUser,
     addMoney: state.AccountReducer.addMoney,
-    extractMoney: state.AccountReducer.extractMoney
+    extractMoney: state.AccountReducer.extractMoney,
+    showLastMovements: state.AccountReducer.showLastMovements
   };
 }
 
