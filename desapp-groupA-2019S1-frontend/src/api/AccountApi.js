@@ -54,6 +54,17 @@ class AccountApi {
         return error;
       });
   }
+
+  getUserMovements(userId) {
+    return axios
+      .get(API_CONFIG.endPoint + `account/movements/${userId}/`, this.header)
+      .then(response => {
+        return response.data;
+      })
+      .catch(error => {
+        return error;
+      });
+  }
 }
 
 export default AccountApi;
