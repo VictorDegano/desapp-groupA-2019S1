@@ -5,15 +5,19 @@ import { withTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Button, Col, Form } from "react-bootstrap";
-import { toast } from "react-toastify";
 import AccountApi from "../api/AccountApi";
-import { updateBalance, updateLastMovements } from "../actions/AccountActions";
+import {
+  updateBalance,
+  updateCredits,
+  updateLastMovements
+} from "../actions/AccountActions";
 
-class AddMoney extends React.PureComponent {
+class AccountLoan extends React.PureComponent {
   static propTypes = {
     loggedUser: PropTypes.object,
     updateBalance: PropTypes.func.isRequired,
-    updateLastMovements: PropTypes.func.isRequired
+    updateLastMovements: PropTypes.func.isRequired,
+    updateCredits: PropTypes.func.isRequired
   };
 
   constructor(...args) {
@@ -25,25 +29,36 @@ class AddMoney extends React.PureComponent {
 
   handleSubmit(event) {
     event.preventDefault();
-    const form = event.currentTarget;
-    if (form.checkValidity() === false || this.state.amount <= 0) {
-      toast("Your cash should be positive", { type: "error" });
-      return;
-    }
-    this.setState({ validated: true });
+    // const form = event.currentTarget;
+    // if (form.checkValidity() === false || this.state.amount <= 0) {
+    //   return;
+    // }
+    // this.setState({ validated: true });
 
     const accountApi = new AccountApi();
     accountApi
-      .depositMoney(this.state.amount, this.props.loggedUser.id)
+      .takeALoan(this.props.loggedUser.id)
       .then(response => {
-        toast("Thank you for giving us your money", { type: "success" });
+        console.log(response);
         this.updateUserBalance();
         this.updateUserMovements();
+        this.updateCredits();
       })
       .catch(e => console.log(e));
   }
   handleChangeAmountValue(event) {
     this.setState({ amount: event.target.value });
+  }
+
+  updateCredits() {
+    const accountApi = new AccountApi();
+    accountApi
+      .creditsOnCourse(this.props.loggedUser.id)
+      .then(response => {
+        this.props.updateCredits(response);
+        console.log(response);
+      })
+      .catch(e => console.log(e));
   }
 
   updateUserBalance() {
@@ -55,10 +70,6 @@ class AddMoney extends React.PureComponent {
         this.props.updateBalance(response);
       })
       .catch(e => console.log(e));
-  }
-
-  amountValidation() {
-    return this.state.amount <= 0;
   }
 
   updateUserMovements() {
@@ -82,30 +93,14 @@ class AddMoney extends React.PureComponent {
         onSubmit={e => this.handleSubmit(e)}
       >
         <Form.Row>
-          <h2>{t("accountComponents->addMoneyTitle")}</h2>
+          <h2>{t("accountComponents->takeALoanTitle")}</h2>
         </Form.Row>
         <Form.Row>
           <Form.Group as={Col} md="2" controlId="validationCustom01">
-            <Form.Label>{t("accountComponents->amount")}</Form.Label>
-          </Form.Group>
-          <Form.Group as={Col} md="4" controlId="validationCustom02">
-            <Form.Control
-              required
-              value={this.state.amount}
-              onChange={this.handleChangeAmountValue}
-              type="number"
-              isInvalid={this.amountValidation()}
-              placeholder="$1000"
-              min={0}
-            />
-            <Form.Control.Feedback type="invalid">
-              Enter a positive amount of money
-            </Form.Control.Feedback>
+            <Form.Label>{t("accountComponents->loanDescription")}</Form.Label>
           </Form.Group>
           <Form.Group as={Col} md="4" controlId="validationCustom03">
-            <Button type="submit" disabled={this.amountValidation()}>
-              {t("accountComponents->confirm")}
-            </Button>
+            <Button type="submit">{t("accountComponents->confirm")}</Button>
           </Form.Group>
         </Form.Row>
         <Form.Group as={Col} md="4" controlId="validationCustom02">
@@ -123,10 +118,11 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => ({
   updateBalance: balance => dispatch(updateBalance(balance)),
-  updateLastMovements: movements => dispatch(updateLastMovements(movements))
+  updateLastMovements: movements => dispatch(updateLastMovements(movements)),
+  updateCredits: movements => dispatch(updateCredits(movements))
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withTranslation()(AddMoney));
+)(withTranslation()(AccountLoan));

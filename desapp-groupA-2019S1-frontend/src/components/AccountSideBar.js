@@ -5,26 +5,28 @@ import { withTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 // Actions
-import {
-  showEventsInProgress,
-  showMostPopularEvents,
-  showLastEvents
-} from "../actions/EventActions";
 // Bootstrap
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import {
+  showEventsInProgress,
+  showMostPopularEvents,
+  showLastEvents
+} from "../actions/EventActions";
+import {
   addMoney,
   extractMoney,
-  showLastMovements
+  showLastMovements,
+  showLoan
 } from "../actions/AccountActions";
 
 class AccountSideBar extends React.PureComponent {
   static propTypes = {
     addMoney: PropTypes.func.isRequired,
     extractMoney: PropTypes.func.isRequired,
-    showLastMovements: PropTypes.func.isRequired
+    showLastMovements: PropTypes.func.isRequired,
+    showLoan: PropTypes.func.isRequired
   };
 
   render() {
@@ -56,6 +58,13 @@ class AccountSideBar extends React.PureComponent {
               </Button>
             </Card.Body>
           </Accordion.Collapse>
+          <Accordion.Collapse eventKey="0">
+            <Card.Body>
+              <Button onClick={() => this.props.showLoan()}>
+                {t("sidebar->takeALoan")}
+              </Button>
+            </Card.Body>
+          </Accordion.Collapse>
         </Card>
         <Card>
           <Accordion.Toggle as={Card.Header} eventKey="1">
@@ -73,7 +82,8 @@ const mapDispatchToProps = dispatch => ({
   showLastEvents: () => dispatch(showLastEvents()),
   addMoney: () => dispatch(addMoney()),
   extractMoney: () => dispatch(extractMoney()),
-  showLastMovements: () => dispatch(showLastMovements())
+  showLastMovements: () => dispatch(showLastMovements()),
+  showLoan: () => dispatch(showLoan())
 });
 
 export default connect(

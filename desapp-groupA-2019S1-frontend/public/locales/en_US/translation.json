@@ -124,7 +124,8 @@
     "popularsButton": "Most Populars",
     "addMoney": "Add Money",
     "extractMoney": "Extract Money",
-    "showLastMovements": "Show Movements"
+    "showLastMovements": "Show Movements",
+    "takeALoan": "Take a Loan"
   },
   "accountComponents": {
     "addMoneyTitle": "Add Money",
@@ -134,7 +135,13 @@
     "extractMoneyTitle": "Extract Money",
     "flowType": "Flow Type",
     "date": "Date",
-    "type": "Type"
+    "type": "Type",
+    "takeALoanTitle": "Take a Loan",
+    "loanDescription": "To take a Loan you should be a Dutiful User",
+    "creditsOnCourseTitle": "Credits on course",
+    "quotasToPay": "Quotas to Pay",
+    "hasDefaulted": "Defaulted",
+    "creditsOnCourseTitleNoCreditsOnCourse": "You don't have pending credits"
   },
   "spanishLanguage": "Spanish"
 }

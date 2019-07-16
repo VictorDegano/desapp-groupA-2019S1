@@ -9,6 +9,7 @@ import Col from "react-bootstrap/Col";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 //Actions
+import { ToastContainer } from "react-toastify";
 import {
   loadEventsInProgress,
   loadLastEvents,
@@ -23,6 +24,7 @@ import SideBar from "./SideBar";
 import MainPanel from "./MainPanel";
 import ProfileEdition from "../containers/ProfileEdition";
 import CreateEventModal from "../containers/CreateEventModal";
+import "react-toastify/dist/ReactToastify.css";
 
 class App extends React.Component {
   static propTypes = {
@@ -64,6 +66,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <ToastContainer />
         <NavigationBar />
         <CreateEventModal />
         <ProfileEdition />

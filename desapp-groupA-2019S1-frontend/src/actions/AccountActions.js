@@ -43,3 +43,18 @@ export function updateLastMovements(movements) {
     movements: movements.reverse()
   };
 }
+
+export function showLoan() {
+  //Las acciones devuelve un objeto
+  return {
+    type: ACTION_TYPE.SHOW_LOAN
+  };
+}
+
+export function updateCredits(credits) {
+  //Las acciones devuelve un objeto
+  return {
+    type: ACTION_TYPE.UPDATE_CREDITS,
+    credits: credits
+  };
+}
