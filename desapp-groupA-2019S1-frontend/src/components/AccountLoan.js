@@ -6,13 +6,18 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Button, Col, Form } from "react-bootstrap";
 import AccountApi from "../api/AccountApi";
-import { updateBalance, updateLastMovements } from "../actions/AccountActions";
+import {
+  updateBalance,
+  updateCredits,
+  updateLastMovements
+} from "../actions/AccountActions";
 
 class AccountLoan extends React.PureComponent {
   static propTypes = {
     loggedUser: PropTypes.object,
     updateBalance: PropTypes.func.isRequired,
-    updateLastMovements: PropTypes.func.isRequired
+    updateLastMovements: PropTypes.func.isRequired,
+    updateCredits: PropTypes.func.isRequired
   };
 
   constructor(...args) {
@@ -37,11 +42,23 @@ class AccountLoan extends React.PureComponent {
         console.log(response);
         this.updateUserBalance();
         this.updateUserMovements();
+        this.updateCredits();
       })
       .catch(e => console.log(e));
   }
   handleChangeAmountValue(event) {
     this.setState({ amount: event.target.value });
+  }
+
+  updateCredits() {
+    const accountApi = new AccountApi();
+    accountApi
+      .creditsOnCourse(this.props.loggedUser.id)
+      .then(response => {
+        this.props.updateCredits(response);
+        console.log(response);
+      })
+      .catch(e => console.log(e));
   }
 
   updateUserBalance() {
@@ -101,7 +118,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => ({
   updateBalance: balance => dispatch(updateBalance(balance)),
-  updateLastMovements: movements => dispatch(updateLastMovements(movements))
+  updateLastMovements: movements => dispatch(updateLastMovements(movements)),
+  updateCredits: movements => dispatch(updateCredits(movements))
 });
 
 export default connect(
