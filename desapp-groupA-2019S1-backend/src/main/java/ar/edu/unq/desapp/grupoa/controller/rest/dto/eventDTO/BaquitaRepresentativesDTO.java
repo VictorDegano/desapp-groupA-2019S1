@@ -5,12 +5,15 @@ import ar.edu.unq.desapp.grupoa.controller.rest.dto.GuestDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.EventStatus;
+import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaRepresentatives;
+import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public class BaquitaRepresentativesDTO extends EventDTO {
 
@@ -19,8 +22,8 @@ public class BaquitaRepresentativesDTO extends EventDTO {
     private List<LoadedGoodDTO> loadedGoods;
 
     public BaquitaRepresentativesDTO(Integer id, String name, UserDTO organizer,
-                                 String type, Integer quantityOfGuest, List<GoodDTO> goods,
-                                 List<GuestDTO> guests, EventStatus status, LocalDateTime creationDate, List<GuestDTO> representatives, List<LoadedGoodDTO> loadedGoods) {
+                                     String type, Integer quantityOfGuest, List<GoodDTO> goods,
+                                     List<GuestDTO> guests, EventStatus status, LocalDateTime creationDate, List<GuestDTO> representatives, List<LoadedGoodDTO> loadedGoods) {
         this.id = id;
         this.eventName = name;
         this.organizer = organizer;
@@ -36,7 +39,9 @@ public class BaquitaRepresentativesDTO extends EventDTO {
 
     }
 
-    public BaquitaRepresentativesDTO(){}
+    public BaquitaRepresentativesDTO() {
+    }
+
     @Override
     public EventDTO from(Event aBaquita) {
         return new BaquitaRepresentativesDTO(
@@ -56,11 +61,22 @@ public class BaquitaRepresentativesDTO extends EventDTO {
 
     @Override
     public Integer handleCreation(EventService eventService) {
-       return eventService.createBaquitaRepresentatives(
+        return eventService.createBaquitaRepresentatives(
                 this.eventName,
                 this.organizer.id,
-               this.guestMail(),
-               toGood(this.goods));
+                this.guestMail(),
+                toGood(this.goods));
+    }
+
+    @Override
+    public void handleUpdate(EventService eventService) {
+        BaquitaRepresentatives baquitaRepresentatives = (BaquitaRepresentatives) eventService.getById(id);
+
+        Optional.ofNullable(eventName).ifPresent(baquitaRepresentatives::setName);
+        Optional.ofNullable(status).ifPresent(baquitaRepresentatives::setStatus);
+
+        eventService.update(baquitaRepresentatives);
+
     }
 
     public List<GuestDTO> getRepresentatives() {

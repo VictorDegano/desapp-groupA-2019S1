@@ -6,10 +6,12 @@ import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.EventStatus;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class FiestaDTO extends EventDTO {
@@ -66,6 +68,19 @@ public class FiestaDTO extends EventDTO {
                this.limitConfirmationDateTime,
                this.dtoTogoods(this.goods)
        );
+    }
+
+
+    @Override
+    public void handleUpdate(EventService eventService) {
+        Fiesta fiesta =  (Fiesta) eventService.getById(id);
+
+        Optional.ofNullable(eventName)                .ifPresent(fiesta::setName);
+        Optional.ofNullable(limitConfirmationDateTime).ifPresent(fiesta::setLimitConfirmationDateTime);
+        Optional.ofNullable(confirmations)            .ifPresent(fiesta::setConfirmations);
+        Optional.ofNullable(status)                   .ifPresent(fiesta::setStatus);
+
+        eventService.update(fiesta);
     }
 
     private List<Good> dtoTogoods(List<GoodDTO> goods) {
