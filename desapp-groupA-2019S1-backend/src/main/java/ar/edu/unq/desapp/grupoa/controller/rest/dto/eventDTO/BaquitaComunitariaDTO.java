@@ -5,11 +5,14 @@ import ar.edu.unq.desapp.grupoa.controller.rest.dto.GuestDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.EventStatus;
+import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaComunitary;
+import ar.edu.unq.desapp.grupoa.model.event.baquita.BaquitaRepresentatives;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaquitaComunitariaDTO extends EventDTO {
@@ -55,5 +58,15 @@ public class BaquitaComunitariaDTO extends EventDTO {
                 toGood(this.goods));
     }
 
+    @Override
+    public void handleUpdate(EventService eventService) {
+        BaquitaComunitary baquitaComunitary = (BaquitaComunitary) eventService.getById(id);
+
+        Optional.ofNullable(eventName).ifPresent(baquitaComunitary::setName);
+        Optional.ofNullable(status).ifPresent(baquitaComunitary::setStatus);
+
+        eventService.update(baquitaComunitary);
+
+    }
 
 }

@@ -208,4 +208,8 @@ public class EventService {
         loadGood(baquita, good, representative);
         eventDAO.save(baquita);
     }
+
+    public void update(Event event) {
+        eventDAO.save(event);
+    }
 }

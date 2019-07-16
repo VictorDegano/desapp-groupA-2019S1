@@ -59,6 +59,7 @@ import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuild
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 import static org.junit.Assert.assertTrue;
@@ -250,7 +251,7 @@ public class EventControllerTest {
 
         Event eventRetrieved = eventDAO.findById(baquita.getId()).get();
 
-        assertFalse( eventRetrieved.getLoadedGoods().isEmpty());
+        assertFalse(eventRetrieved.getLoadedGoods().isEmpty());
         assertTrue(eventRetrieved.getLoadedGoods().stream().anyMatch(loadedGood -> loadedGood.getGuest().getId().equals(representative.getId())));
 
     }
@@ -271,7 +272,7 @@ public class EventControllerTest {
 
 
     //Precondition: The EventDTO has to be for the given event.
-    public void  testCreate(Supplier<Event> eventsupplier, EventDTO eventDTO) throws Exception {
+    public void testCreate(Supplier<Event> eventsupplier, EventDTO eventDTO) throws Exception {
         //Setup(Given)
         eventDTO = eventDTO.from(eventsupplier.get());
         String jsonEvent = json(eventDTO);
@@ -282,6 +283,29 @@ public class EventControllerTest {
 
         assertNotNull(eventRetrieved);
     }
+
+    @Test
+    public void editAnEvent() throws Exception {
+        Event baquitaRepresentatives = buildBaquitaRepresentatives();
+        eventDAO.save(baquitaRepresentatives);
+
+        String previousName = baquitaRepresentatives.getName();
+
+        baquitaRepresentatives.setName("Nuevo nombre de fiesta");
+
+        EventDTO dto = new BaquitaRepresentativesDTO();
+        EventDTO eventDTO = dto.from(baquitaRepresentatives);
+
+        String json = json(eventDTO);
+
+        mockMvc.perform(put("/event/updateEvent").contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isOk());
+
+        Event baquitaRepresentativesRetrieved = eventDAO.findById(baquitaRepresentatives.getId()).get();
+        assertEquals("Nuevo nombre de fiesta",baquitaRepresentativesRetrieved.getName() );
+        assertNotEquals(previousName,baquitaRepresentativesRetrieved.getName() );
+    }
+
 
     //Precondition: The EventDTO has to be for the given event.
     public void testGet(Supplier<Event> createEvent, EventDTO dto) throws Exception {

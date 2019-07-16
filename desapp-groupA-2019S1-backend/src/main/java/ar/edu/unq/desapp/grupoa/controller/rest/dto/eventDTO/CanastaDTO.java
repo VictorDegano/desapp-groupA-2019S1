@@ -5,11 +5,14 @@ import ar.edu.unq.desapp.grupoa.controller.rest.dto.GuestDTO;
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.EventStatus;
+import ar.edu.unq.desapp.grupoa.model.event.canasta.Canasta;
+import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CanastaDTO extends EventDTO {
@@ -54,4 +57,18 @@ public class CanastaDTO extends EventDTO {
                 this.guestMail(),
                 toGood(this.goods));
     }
+
+
+    @Override
+    public void handleUpdate(EventService eventService) {
+        Canasta canasta =  (Canasta) eventService.getById(id);
+
+        Optional.ofNullable(eventName)                .ifPresent(canasta::setName);
+        Optional.ofNullable(status)                   .ifPresent(canasta::setStatus);
+
+        eventService.update(canasta);
+    }
+
+
+
 }

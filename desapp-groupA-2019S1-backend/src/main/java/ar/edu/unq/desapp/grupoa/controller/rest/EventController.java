@@ -40,6 +40,17 @@ public class EventController {
         return new ResponseEntity<>(eventId.toString(), HttpStatus.CREATED);
     }
 
+
+    @PutMapping("/updateEvent")
+    public ResponseEntity<String> updateEvent(@RequestBody EventDTO eventDTO) {
+        LOGGER.info("Got request PUT to modify event with id: {}", eventDTO.getId());
+
+        eventDTO.handleUpdate(eventService);
+
+        LOGGER.info("Event with id: {} updated",eventDTO.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PutMapping(value = "/confirmAsistance/{eventId}/{guestId}")
     public ResponseEntity<String> confirmAsistance(@PathVariable Integer eventId,@PathVariable Integer guestId) {
         LOGGER.info("Got request PUT to confirm assistance Fiesta Event with data");

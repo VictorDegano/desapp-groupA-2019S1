@@ -127,4 +127,5 @@ public abstract class EventDTO {
         return creationDate;
     }
 
+    public abstract void handleUpdate(EventService eventService);
 }
