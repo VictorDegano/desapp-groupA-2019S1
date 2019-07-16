@@ -4,7 +4,9 @@ const initialState = {
   showAccount: false,
   addMoney: false,
   balance: 0,
-  extractMoney: false
+  extractMoney: false,
+  showLastMovements: false,
+  movements: []
 };
 
 //Se recibe un state antiguo, un action y se devuelve el nuevo state
@@ -24,7 +26,8 @@ export default function accountReducer(state = initialState, action) {
     case "ADD_MONEY": {
       return Object.assign({}, state, {
         addMoney: true,
-        extractMoney: false
+        extractMoney: false,
+        showLastMovements: false
       });
     }
     case "UPDATE_BALANCE": {
@@ -35,7 +38,21 @@ export default function accountReducer(state = initialState, action) {
     case "EXTRACT_MONEY": {
       return Object.assign({}, state, {
         addMoney: false,
-        extractMoney: true
+        extractMoney: true,
+        showLastMovements: false
+      });
+    }
+
+    case "SHOW_LAST_MOVEMENTS": {
+      return Object.assign({}, state, {
+        addMoney: false,
+        extractMoney: false,
+        showLastMovements: true
+      });
+    }
+    case "UPDATE_MOVEMENTS": {
+      return Object.assign({}, state, {
+        movements: action.movements
       });
     }
 
