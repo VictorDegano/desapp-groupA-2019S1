@@ -28,3 +28,18 @@ export function extractMoney() {
     type: ACTION_TYPE.EXTRACT_MONEY
   };
 }
+
+export function showLastMovements() {
+  //Las acciones devuelve un objeto
+  return {
+    type: ACTION_TYPE.SHOW_LAST_MOVEMENTS
+  };
+}
+
+export function updateLastMovements(movements) {
+  //Las acciones devuelve un objeto
+  return {
+    type: ACTION_TYPE.UPDATE_MOVEMENTS,
+    movements: movements.reverse()
+  };
+}
