@@ -246,6 +246,10 @@ class CreateEventModal extends Component {
     }
   }
 
+  isModifyMode() {
+    return this.props.modify;
+  }
+
   refreshEventsOnHome() {
     let userId = this.props.loggedUser.id;
     var eventApi = new EventApi();
@@ -425,6 +429,7 @@ class CreateEventModal extends Component {
                     as="select"
                     onChange={this.change}
                     value={this.state.type}
+                    disabled={this.isModifyMode()}
                   >
                     <option value="FIESTA">Fiesta</option>
                     <option value="CANASTA">Canasta</option>
