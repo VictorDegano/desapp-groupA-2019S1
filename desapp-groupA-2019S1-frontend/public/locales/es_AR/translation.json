@@ -1,4 +1,20 @@
 {
+  "accountComponents": {
+    "addMoneyTitle": "Agregar Dinero",
+    "amount": "Cantidad",
+    "balance": "Saldo:",
+    "confirm": "Confirmar",
+    "creditsOnCourseTitle": "Creditos Actuales",
+    "creditsOnCourseTitleNoCreditsOnCourse": "No tenes creditos sin pagar",
+    "date": "Fecha",
+    "extractMoneyTitle": "Extraer Dinero",
+    "flowType": "Tipo de Flujo",
+    "hasDefaulted": "Moroso",
+    "loanDescription": "Para pedir un prestamo tenes que ser cumplidor",
+    "quotasToPay": "Cuotas restantes",
+    "takeALoanTitle": "Pedir Prestamo",
+    "type": "Tipo"
+  },
   "callbackPage": {
     "clickButton": "Click Aqui",
     "description": "Vas a ser redirijido pronto a la pagina principal.\nSi no queres esperar hace",
@@ -31,6 +47,7 @@
   "eventView": {
     "button": {
       "acceptInvitation": "Aceptar Invitacion",
+      "cancelInvitation": "Cancelar Invitacion",
       "close": "Cerrar",
       "closeEvent": "Cerrar Evento",
       "ownGood": "Hacerse Cargo",
@@ -68,10 +85,10 @@
   "homePage": {
     "eventTable": {
       "eventTypeColumn": "Tipo de Evento",
+      "modifyButton": "Modificar",
       "nameColumn": "Nombre",
       "organizerColumn": "Organiza",
-      "quantityGuestColumn": "Cantidad de Invitados",
-      "modifyButton": "Modificar"
+      "quantityGuestColumn": "Cantidad de Invitados"
     },
     "inProgressEventsLabel": "Mis Eventos En Curso",
     "lastEventsLabel": "Mis Ultimos Eventos",
@@ -89,13 +106,13 @@
     "title": "Eventeando"
   },
   "navBar": {
+    "account": "Cuenta",
     "createEvent": "Crear Evento",
     "eventeando": "Eventeando",
+    "events": "Eventos",
     "home": "Inicio",
     "searchButton": "Buscar",
-    "searchPlaceholder": "Buscar Evento...",
-    "account": "Cuenta",
-    "events": "Eventos"
+    "searchPlaceholder": "Buscar Evento..."
   },
   "profileDropdown": {
     "editProfile": "Editar Perfil",
@@ -119,32 +136,16 @@
     "title": "Edicion de Perfil"
   },
   "sidebar": {
+    "addMoney": "Agregar Dinero",
     "createEventButton": "Crear Evento",
+    "extractMoney": "Extraer Dinero",
     "inProgressButton": "En Curso",
     "lastButton": "Ultimos",
+    "myAccountLabel": "Cuenta",
     "myEventsLabel": "Mis Eventos",
     "popularsButton": "Mas Populares",
-    "addMoney": "Agregar Dinero",
-    "extractMoney": "Extraer Dinero",
     "showLastMovements": "Mostrar Movimientos",
-    "takeALoan": "Pedir Prestamo",
-    "myAccountLabel": "Cuenta"
-  },
-  "accountComponents": {
-    "addMoneyTitle": "Agregar Dinero",
-    "amount": "Cantidad",
-    "balance": "Saldo:",
-    "confirm": "Confirmar",
-    "extractMoneyTitle": "Extraer Dinero",
-    "flowType": "Tipo de Flujo",
-    "date": "Fecha",
-    "type": "Tipo",
-    "takeALoanTitle": "Pedir Prestamo",
-    "loanDescription": "Para pedir un prestamo tenes que ser cumplidor",
-    "creditsOnCourseTitle": "Creditos Actuales",
-    "quotasToPay": "Cuotas restantes",
-    "hasDefaulted": "Moroso",
-    "creditsOnCourseTitleNoCreditsOnCourse": "No tenes creditos sin pagar"
+    "takeALoan": "Pedir Prestamo"
   },
   "spanishLanguage": "Español"
 }

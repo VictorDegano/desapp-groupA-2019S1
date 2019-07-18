@@ -138,6 +138,20 @@ class EventApi {
       this.header
     );
   }
+
+  cancelInvitation(eventId, guestId) {
+    return axios
+      .put(
+        API_CONFIG.endPoint + `event/cancelAsistance/${eventId}/${guestId}`,
+        this.header
+      )
+      .then(response => {
+        return response.status === 200 ? true : false;
+      })
+      .catch(error => {
+        return false;
+      });
+  }
 }
 
 export default EventApi;

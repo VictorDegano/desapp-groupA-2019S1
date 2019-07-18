@@ -1,4 +1,20 @@
 {
+  "accountComponents": {
+    "addMoneyTitle": "Add Money",
+    "amount": "Amount",
+    "balance": "Balance:",
+    "confirm": "Confirm",
+    "creditsOnCourseTitle": "Credits on course",
+    "creditsOnCourseTitleNoCreditsOnCourse": "You don't have pending credits",
+    "date": "Date",
+    "extractMoneyTitle": "Extract Money",
+    "flowType": "Flow Type",
+    "hasDefaulted": "Defaulted",
+    "loanDescription": "To take a Loan you should be a Dutiful User",
+    "quotasToPay": "Quotas to Pay",
+    "takeALoanTitle": "Take a Loan",
+    "type": "Type"
+  },
   "callbackPage": {
     "clickButton": "Click Here",
     "description": "Will be redirected soon.\nIf you don't want wait",
@@ -31,6 +47,7 @@
   "eventView": {
     "button": {
       "acceptInvitation": "Accept Invitation",
+      "cancelInvitation": "Cancel Invitation",
       "close": "Close",
       "closeEvent": "Close Event",
       "ownGood": "Take Charge",
@@ -68,10 +85,10 @@
   "homePage": {
     "eventTable": {
       "eventTypeColumn": "Event Type",
+      "modifyButton": "Modify",
       "nameColumn": "Name",
       "organizerColumn": "Organize",
-      "quantityGuestColumn": "Guest Quantity",
-      "modifyButton": "Modify"
+      "quantityGuestColumn": "Guest Quantity"
     },
     "inProgressEventsLabel": "My Events in Progress",
     "lastEventsLabel": "My Last Events",
@@ -89,13 +106,13 @@
     "title": "Eveteando"
   },
   "navBar": {
+    "account": "Account",
     "createEvent": "Create Event",
     "eventeando": "Eventeando",
+    "events": "Events",
     "home": "Home",
     "searchButton": "Search",
-    "searchPlaceholder": "Search Event...",
-    "account": "Account",
-    "events": "Events"
+    "searchPlaceholder": "Search Event..."
   },
   "profileDropdown": {
     "editProfile": "Edit Profile",
@@ -119,32 +136,16 @@
     "title": "Profile Edition"
   },
   "sidebar": {
+    "addMoney": "Add Money",
     "createEventButton": "Create Event",
+    "extractMoney": "Extract Money",
     "inProgressButton": "In Progress",
     "lastButton": "Last",
+    "myAccountLabel": "Account",
     "myEventsLabel": "My Events",
     "popularsButton": "Most Populars",
-    "addMoney": "Add Money",
-    "extractMoney": "Extract Money",
     "showLastMovements": "Show Movements",
-    "takeALoan": "Take a Loan",
-    "myAccountLabel": "Account"
-  },
-  "accountComponents": {
-    "addMoneyTitle": "Add Money",
-    "amount": "Amount",
-    "balance": "Balance:",
-    "confirm": "Confirm",
-    "extractMoneyTitle": "Extract Money",
-    "flowType": "Flow Type",
-    "date": "Date",
-    "type": "Type",
-    "takeALoanTitle": "Take a Loan",
-    "loanDescription": "To take a Loan you should be a Dutiful User",
-    "creditsOnCourseTitle": "Credits on course",
-    "quotasToPay": "Quotas to Pay",
-    "hasDefaulted": "Defaulted",
-    "creditsOnCourseTitleNoCreditsOnCourse": "You don't have pending credits"
+    "takeALoan": "Take a Loan"
   },
   "spanishLanguage": "Spanish"
 }
