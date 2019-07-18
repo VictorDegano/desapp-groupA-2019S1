@@ -76,7 +76,7 @@ class App extends React.Component {
           <Col xs={4} lg={2} className="align-items-start">
             <Row className="sidebarEmptyRow"/>
             <Row className="align-items-start">
-              <SideBarshowAccount={this.props.showAccount}/>
+              <SideBar show Account={this.props.showAccount}/>
             </Row>
           </Col>
           <Col xs={6} lg={10} >
