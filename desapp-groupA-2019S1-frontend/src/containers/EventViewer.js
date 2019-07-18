@@ -449,7 +449,7 @@ class EventViewer extends Component {
 
     return (
       <>
-        <Modal show={show} onHide={this.handleClose}>
+        <Modal show={show} onHide={this.handleClose} size="lg">
           <Modal.Header closeButton>
             <Modal.Title>{event.eventName}</Modal.Title>
           </Modal.Header>
