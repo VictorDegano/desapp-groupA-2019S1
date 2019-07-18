@@ -33,7 +33,7 @@ class App extends React.Component {
     loadEventsInProgress: PropTypes.func.isRequired,
     loadLastEvents: PropTypes.func.isRequired,
     loadMostPopularEvents: PropTypes.func.isRequired,
-    showAccount: PropTypes.bool
+    showAccount: PropTypes.bool.isRequired
   };
 
   constructor(props) {
@@ -66,20 +66,20 @@ class App extends React.Component {
 
   render() {
     return (
-        // <div className="tableCol">
-        <Container fluid>
+      // <div className="tableCol">
+      <Container fluid>
         <ToastContainer />
         <NavigationBar />
         <CreateEventModal />
         <ProfileEdition />
         <Row>
-          <Col xs={4} lg={2} className="align-items-start">
-            <Row className="sidebarEmptyRow"/>
+          <Col xs={4} sm={5} lg={2} className="align-items-start">
+            <Row className="sidebarEmptyRow" />
             <Row className="align-items-start">
-              <SideBar showAccount={this.props.showAccount}/>
+              <SideBar showAccount={this.props.showAccount} />
             </Row>
           </Col>
-          <Col xs={6} lg={10} >
+          <Col xs={6} sm={7} lg={10}>
             <MainPanel showAccount={this.props.showAccount} />
           </Col>
         </Row>
