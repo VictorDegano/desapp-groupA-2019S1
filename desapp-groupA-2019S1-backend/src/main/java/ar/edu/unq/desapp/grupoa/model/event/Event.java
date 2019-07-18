@@ -125,4 +125,8 @@ abstract public class Event {
     public EventStatus getStatus() {
         return status;
     }
+
+    public void cancelAsistancesOf(Guest guest) {
+        guest.cancelInvitation();
+    }
 }

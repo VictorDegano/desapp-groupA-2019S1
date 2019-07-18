@@ -19,6 +19,8 @@ import ar.edu.unq.desapp.grupoa.persistence.GoodDAO;
 import ar.edu.unq.desapp.grupoa.persistence.GuestDAO;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +34,7 @@ import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.LoadGood.lo
 
 @Service
 @Transactional
+@EnableAsync
 public class EventService {
 
     @Autowired
@@ -161,7 +164,15 @@ public class EventService {
         eventDAO.save(event);
     }
 
+    public void cancelAsistance(Integer eventId, Integer guestId) {
+        Event event = getById(eventId);
+        Guest guest = guestDAO.findById(guestId).orElseThrow(() -> new GuestNotFoundException(guestId));
+        event.cancelAsistancesOf(guest);
 
+        eventDAO.save(event);
+    }
+
+    @Async
     public void inviteUserToEvent(Integer eventId, Integer userId) {
         Event event = getById(eventId);
         User user = getUser(userId);
@@ -223,4 +234,6 @@ public class EventService {
     public void update(Event event) {
         eventDAO.save(event);
     }
+
+
 }
