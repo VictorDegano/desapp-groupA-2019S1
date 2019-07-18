@@ -70,7 +70,8 @@
       "eventTypeColumn": "Event Type",
       "nameColumn": "Name",
       "organizerColumn": "Organize",
-      "quantityGuestColumn": "Guest Quantity"
+      "quantityGuestColumn": "Guest Quantity",
+      "modifyButton": "Modify"
     },
     "inProgressEventsLabel": "My Events in Progress",
     "lastEventsLabel": "My Last Events",

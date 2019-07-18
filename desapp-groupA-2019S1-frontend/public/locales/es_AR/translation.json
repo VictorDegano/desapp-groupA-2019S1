@@ -70,7 +70,8 @@
       "eventTypeColumn": "Tipo de Evento",
       "nameColumn": "Nombre",
       "organizerColumn": "Organiza",
-      "quantityGuestColumn": "Cantidad de Invitados"
+      "quantityGuestColumn": "Cantidad de Invitados",
+      "modifyButton": "Modificar"
     },
     "inProgressEventsLabel": "Mis Eventos En Curso",
     "lastEventsLabel": "Mis Ultimos Eventos",
