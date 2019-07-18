@@ -59,7 +59,7 @@ class AccountLoanInformation extends React.PureComponent {
         <>
           <h2>{t("accountComponents->creditsOnCourseTitle")}</h2>
 
-          <Table responsive striped bordered hover variant="dark">
+          <Table responsive striped bordered hover variant="light">
             <thead>
               <tr>
                 <th>{t("accountComponents->quotasToPay")}</th>
