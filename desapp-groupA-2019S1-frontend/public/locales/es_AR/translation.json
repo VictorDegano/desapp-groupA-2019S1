@@ -4,6 +4,23 @@
     "description": "Vas a ser redirijido pronto a la pagina principal.\nSi no queres esperar hace",
     "title": "¡Bienvenido!"
   },
+  "createEventModal": {
+    "buttons": {
+      "close": "Cerrar",
+      "save": "Guardar"
+    },
+    "form": {
+      "bornDate": "Fecha de Nacimiento:",
+      "bornDatePlaceholder": "Ingrese su fecha de nacimiento...",
+      "email": "Correo Electronico:",
+      "emailPlaceholder": "Ingrese un correo",
+      "firstName": "Nombre:",
+      "firstNamePlaceholder": "Ingrese su nombre",
+      "lastName": "Apellido:",
+      "lastNamePlaceholder": "Ingrese su apellido"
+    },
+    "title": "Crear Evento"
+  },
   "englishLanguage": "Ingles",
   "eventType": {
     "littleCowComunitary": "Baquita Comunitaria",
@@ -13,7 +30,12 @@
   },
   "eventView": {
     "button": {
-      "close": "Cerrar"
+      "acceptInvitation": "Aceptar Invitacion",
+      "close": "Cerrar",
+      "closeEvent": "Cerrar Evento",
+      "ownGood": "Hacerse Cargo",
+      "ownGoodRepresentative": "Tomar",
+      "sendInvitation": "Invitar"
     },
     "confirmationState": {
       "accepted": "Aceptada",
@@ -21,20 +43,35 @@
       "pending": "Pendiente"
     },
     "creationDate": "Fecha de Creacion:",
+    "finalQuantity": "Cantidad Final:",
+    "goodDetailTitle": "Detalle",
+    "goods": "Articulos",
     "guest": "Invitados:",
     "guestQuantity": "Cantidad de Invitados:",
     "organizer": "Organizador:",
-    "status": "Estado:"
+    "pricePerUnit": "Precio por unidad:",
+    "quantityForPerson": "Cantidad por persona:",
+    "status": "Estado:",
+    "totalCost": "Costo Total:",
+    "userDetail": {
+      "userBornDay": "Fecha De Nacimiento:",
+      "userEmail": "Correo:",
+      "userInfo": "Informacion del usuario",
+      "userName": "Nombre:"
+    }
   },
   "formatter": {
-    "date": "dd/MM/yyyy"
+    "currency": "$",
+    "date": "dd/MM/yyyy",
+    "number": "{{number, intlNumber}}"
   },
   "homePage": {
     "eventTable": {
       "eventTypeColumn": "Tipo de Evento",
       "nameColumn": "Nombre",
       "organizerColumn": "Organiza",
-      "quantityGuestColumn": "Cantidad de Invitados"
+      "quantityGuestColumn": "Cantidad de Invitados",
+      "modifyButton": "Modificar"
     },
     "inProgressEventsLabel": "Mis Eventos En Curso",
     "lastEventsLabel": "Mis Ultimos Eventos",
@@ -56,7 +93,9 @@
     "eventeando": "Eventeando",
     "home": "Inicio",
     "searchButton": "Buscar",
-    "searchPlaceholder": "Buscar Evento..."
+    "searchPlaceholder": "Buscar Evento...",
+    "account": "Cuenta",
+    "events": "Eventos"
   },
   "profileDropdown": {
     "editProfile": "Editar Perfil",
@@ -79,29 +118,33 @@
     },
     "title": "Edicion de Perfil"
   },
-  "createEventModal": {
-    "buttons": {
-      "close": "Cerrar",
-      "save": "Guardar"
-    },
-    "form": {
-      "bornDate": "Fecha de Nacimiento:",
-      "bornDatePlaceholder": "Ingrese su fecha de nacimiento...",
-      "email": "Correo Electronico:",
-      "emailPlaceholder": "Ingrese un correo",
-      "firstName": "Nombre:",
-      "firstNamePlaceholder": "Ingrese su nombre",
-      "lastName": "Apellido:",
-      "lastNamePlaceholder": "Ingrese su apellido"
-    },
-    "title": "Crear Evento"
-  },
   "sidebar": {
     "createEventButton": "Crear Evento",
     "inProgressButton": "En Curso",
     "lastButton": "Ultimos",
     "myEventsLabel": "Mis Eventos",
-    "popularsButton": "Mas Populares"
+    "popularsButton": "Mas Populares",
+    "addMoney": "Agregar Dinero",
+    "extractMoney": "Extraer Dinero",
+    "showLastMovements": "Mostrar Movimientos",
+    "takeALoan": "Pedir Prestamo",
+    "myAccountLabel": "Cuenta"
+  },
+  "accountComponents": {
+    "addMoneyTitle": "Agregar Dinero",
+    "amount": "Cantidad",
+    "balance": "Saldo:",
+    "confirm": "Confirmar",
+    "extractMoneyTitle": "Extraer Dinero",
+    "flowType": "Tipo de Flujo",
+    "date": "Fecha",
+    "type": "Tipo",
+    "takeALoanTitle": "Pedir Prestamo",
+    "loanDescription": "Para pedir un prestamo tenes que ser cumplidor",
+    "creditsOnCourseTitle": "Creditos Actuales",
+    "quotasToPay": "Cuotas restantes",
+    "hasDefaulted": "Moroso",
+    "creditsOnCourseTitleNoCreditsOnCourse": "No tenes creditos sin pagar"
   },
   "spanishLanguage": "Español"
 }

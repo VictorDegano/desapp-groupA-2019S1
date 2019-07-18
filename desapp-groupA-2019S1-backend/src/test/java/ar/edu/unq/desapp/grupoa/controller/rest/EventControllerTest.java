@@ -59,6 +59,7 @@ import static ar.edu.unq.desapp.grupoa.utils.builder.BaquitaRepresentativesBuild
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomUser;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 import static org.junit.Assert.assertTrue;
@@ -250,7 +251,7 @@ public class EventControllerTest {
 
         Event eventRetrieved = eventDAO.findById(baquita.getId()).get();
 
-        assertFalse( eventRetrieved.getLoadedGoods().isEmpty());
+        assertFalse(eventRetrieved.getLoadedGoods().isEmpty());
         assertTrue(eventRetrieved.getLoadedGoods().stream().anyMatch(loadedGood -> loadedGood.getGuest().getId().equals(representative.getId())));
 
     }
@@ -269,9 +270,48 @@ public class EventControllerTest {
         assertTrue(guestUpdated.isconfirmed());
     }
 
+    @Test
+    public void cancelAsistanceAndInviteAgain() throws Exception {
+        Guest guestToConfirm = getGuest();
+        Event event = getCreatedCanasta(guestToConfirm, getUser(), getCanastaGoods(guestToConfirm));
+        eventDAO.save(event);
+
+        Integer confirmationsBeforeConfirm = event.getConfirmations();
+
+        String url = String.format("/event/confirmAsistance/%s/%s/", event.getId(), guestToConfirm.getId());
+        this.mockMvc.perform(get(url))
+                .andExpect(status().isOk());
+
+        Event eventUpdated = eventDAO.findById(event.getId()).get();
+        Guest guestUpdated = guestDAO.findById(guestToConfirm.getId()).get();
+
+        assertEquals(eventUpdated.getConfirmations(), new Integer(confirmationsBeforeConfirm + 1));
+        assertTrue(guestUpdated.isconfirmed());
+
+        String url2 = String.format("/event/cancelAsistance/%s/%s/", event.getId(), guestToConfirm.getId());
+        this.mockMvc.perform(get(url2))
+                .andExpect(status().isOk());
+
+        Event eventUpdated2 = eventDAO.findById(event.getId()).get();
+        Guest guestUpdated2 = guestDAO.findById(guestToConfirm.getId()).get();
+
+        assertEquals(eventUpdated2.getConfirmations(), new Integer(confirmationsBeforeConfirm ));
+        assertTrue(guestUpdated2.isCanceled());
+
+        String url3 = String.format("/event/confirmAsistance/%s/%s/", event.getId(), guestToConfirm.getId());
+        this.mockMvc.perform(get(url3))
+                .andExpect(status().isOk());
+
+        Event eventUpdated3 = eventDAO.findById(event.getId()).get();
+        Guest guestUpdated3 = guestDAO.findById(guestToConfirm.getId()).get();
+
+        assertEquals(eventUpdated3.getConfirmations(), new Integer(confirmationsBeforeConfirm + 1));
+        assertTrue(guestUpdated3.isconfirmed());
+
+    }
 
     //Precondition: The EventDTO has to be for the given event.
-    public void  testCreate(Supplier<Event> eventsupplier, EventDTO eventDTO) throws Exception {
+    public void testCreate(Supplier<Event> eventsupplier, EventDTO eventDTO) throws Exception {
         //Setup(Given)
         eventDTO = eventDTO.from(eventsupplier.get());
         String jsonEvent = json(eventDTO);
@@ -282,6 +322,29 @@ public class EventControllerTest {
 
         assertNotNull(eventRetrieved);
     }
+
+    @Test
+    public void editAnEvent() throws Exception {
+        Event baquitaRepresentatives = buildBaquitaRepresentatives();
+        eventDAO.save(baquitaRepresentatives);
+
+        String previousName = baquitaRepresentatives.getName();
+
+        baquitaRepresentatives.setName("Nuevo nombre de fiesta");
+
+        EventDTO dto = new BaquitaRepresentativesDTO();
+        EventDTO eventDTO = dto.from(baquitaRepresentatives);
+
+        String json = json(eventDTO);
+
+        mockMvc.perform(put("/event/updateEvent").contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isOk());
+
+        Event baquitaRepresentativesRetrieved = eventDAO.findById(baquitaRepresentatives.getId()).get();
+        assertEquals("Nuevo nombre de fiesta",baquitaRepresentativesRetrieved.getName() );
+        assertNotEquals(previousName,baquitaRepresentativesRetrieved.getName() );
+    }
+
 
     //Precondition: The EventDTO has to be for the given event.
     public void testGet(Supplier<Event> createEvent, EventDTO dto) throws Exception {
@@ -325,16 +388,16 @@ public class EventControllerTest {
 
 
     private List<Good> getCanastaGoods(Guest firstGuest) {
-        Good CanastaGood = CanastaGoodBuilder.buildAGood()
+        Good canastaGood = CanastaGoodBuilder.buildAGood()
                 .withName("Beer")
                 .withPricesPerUnit(50)
                 .withQuantityForPerson(1)
                 .withUserThatOwnsTheGood(firstGuest)
                 .build();
 
-        List<Good> CanastaGoods = new ArrayList<>();
-        CanastaGoods.add(CanastaGood);
-        return CanastaGoods;
+        List<Good> canastaGoods = new ArrayList<>();
+        canastaGoods.add(canastaGood);
+        return canastaGoods;
     }
 
 

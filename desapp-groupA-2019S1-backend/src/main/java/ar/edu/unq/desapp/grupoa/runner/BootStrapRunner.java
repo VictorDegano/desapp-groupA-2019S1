@@ -1,7 +1,5 @@
 package ar.edu.unq.desapp.grupoa.runner;
 
-import ar.edu.unq.desapp.grupoa.controller.rest.dto.UserDTO;
-import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.EventDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
 import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.Guest;
@@ -15,7 +13,6 @@ import ar.edu.unq.desapp.grupoa.model.event.fiesta.Fiesta;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.FiestaGood;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
-import ar.edu.unq.desapp.grupoa.service.AccountService;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -94,15 +91,22 @@ public class BootStrapRunner implements ApplicationRunner {
         User donBilletin   = createUserWithName("Don",
                                                 "Billetin" ,
                                                 "donbilletin@havisto.com",
-                                                "havistounbilletin",
+                                                "havistou",
                                                 LocalDateTime.of(1990,1,29,17,10));
-
 
 
         takeLoan(juanCaspa.getAccount());
         deposit(juanCaspa.getAccount(),1000);
         takeLoan(joseTejo.getAccount());
         extract(joseTejo.getAccount(),500);
+        takeLoan(ivanDominikow.getAccount());
+        deposit(ivanDominikow.getAccount(),555);
+        takeLoan(victorDegano.getAccount());
+        deposit(victorDegano.getAccount(),2000);
+        takeLoan(ivanTamargo.getAccount());
+        deposit(ivanTamargo.getAccount(),1500);
+        takeLoan(pepeLocura.getAccount());
+        deposit(pepeLocura.getAccount(),199);
 
         this.userDAO.saveAll(Arrays.asList(juanCaspa,donBilletin));
 
@@ -356,15 +360,7 @@ public class BootStrapRunner implements ApplicationRunner {
         aBaquita.close();
         victorEvents.add(aBaquita);
 
-        victorEvents.add(new BaquitaComunitary(
-                                "The Cow",
-                                organizerVictor,
-                                Arrays.asList(
-                                        new Guest(ivanD),
-                                        new Guest(pepe),
-                                        new Guest(ivanT)),
-                                EMPTY_LIST,
-                                LocalDateTime.now().minusDays(1)));
+        victorEvents.add(this.buildTheCow(organizerVictor, pepe, ivanD, ivanT, juanCaspa, joseTejo, donBilletin));
 
         victorEvents.add(new Canasta(
                                 "Black Canasta",
@@ -378,6 +374,68 @@ public class BootStrapRunner implements ApplicationRunner {
 
         victorEvents.add(buildTheFest(organizerVictor, pepe, ivanD));
         return victorEvents;
+    }
+
+    private Baquita buildTheCow(User organizerVictor, User pepe, User ivanD, User ivanT, User juanCaspa, User joseTejo, User donBilletin){
+        Good sanguMiga = new Good();
+        sanguMiga.setName("Sanguches de Miga");
+        sanguMiga.setPricePerUnit(25);
+        sanguMiga.setQuantityForPerson(5);
+
+        Good porron = new Good();
+        porron.setName("Porron Stella Artois");
+        porron.setPricePerUnit(50);
+        porron.setQuantityForPerson(2);
+
+        Good queso = new Good();
+        queso.setName("Queso Reggionato");
+        queso.setPricePerUnit(60);
+        queso.setQuantityForPerson(1);
+
+        Good pizza = new CanastaGood();
+        pizza.setName("Pizza Individual");
+        pizza.setPricePerUnit(59);
+        pizza.setQuantityForPerson(2);
+
+        Good helado = new Good();
+        helado.setName("Kilo de Helado");
+        helado.setPricePerUnit(140);
+        helado.setQuantityForPerson(1);
+
+        Good factura = new Good();
+        factura.setName("Facturas");
+        factura.setPricePerUnit(25);
+        factura.setQuantityForPerson(4);
+
+        Good milhojas = new Good();
+        milhojas.setName("Milhojas");
+        milhojas.setPricePerUnit(25);
+        milhojas.setQuantityForPerson(4);
+
+        Good fernet = new Good();
+        fernet.setName("Fernet");
+        fernet.setPricePerUnit(260);
+        fernet.setQuantityForPerson(1);
+
+        Guest ivandDGuest = new Guest(ivanD);
+        ivandDGuest.cancelInvitation();
+        Guest pepeGuest = new Guest(pepe);
+        pepeGuest.confirmAsistance();
+        Guest ivanTGuest =new Guest(ivanT);
+        ivanTGuest.confirmAsistance();
+
+        Baquita theCowBaquita = new BaquitaComunitary(
+                "The Cow",
+                organizerVictor,
+                Arrays.asList(
+                        ivandDGuest,
+                        pepeGuest,
+                        ivanTGuest),
+                Arrays.asList(sanguMiga, porron, queso, pizza, helado, factura, fernet, milhojas),
+                LocalDateTime.now().minusDays(1));
+
+        return theCowBaquita;
+
     }
 
     private Fiesta buildTheFest(User organizerVictor, User pepe, User ivanD) {
@@ -444,10 +502,8 @@ public class BootStrapRunner implements ApplicationRunner {
         aBaquita.addRepresentative(ivanTG);
 
         LoadedGood cervezaGood = new LoadedGood(victorG,cerveza);
-        LoadedGood pizzaGood = new LoadedGood(victorG,pizza);
         LoadedGood papasGood = new LoadedGood(ivanTG,papas);
         aBaquita.loadGood(cervezaGood);
-        aBaquita.loadGood(pizzaGood);
         aBaquita.loadGood(papasGood);
 
         return aBaquita;

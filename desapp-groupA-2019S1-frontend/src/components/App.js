@@ -5,11 +5,12 @@ import { withTranslation } from "react-i18next";
 // Bootstrap
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
 // Redux
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 //Actions
-import { updateLoggedUser } from "../actions/UserActions";
+import { ToastContainer } from "react-toastify";
 import {
   loadEventsInProgress,
   loadLastEvents,
@@ -18,20 +19,21 @@ import {
 } from "../actions/EventActions";
 // API
 import EventApi from "../api/EventApi";
-import UserApi from "../api/UserApi";
 // Eventeando
 import NavigationBar from "./NavigationBar";
 import SideBar from "./SideBar";
 import MainPanel from "./MainPanel";
 import ProfileEdition from "../containers/ProfileEdition";
 import CreateEventModal from "../containers/CreateEventModal";
+import "react-toastify/dist/ReactToastify.css";
 
 class App extends React.Component {
   static propTypes = {
     showEventsInProgress: PropTypes.func.isRequired,
     loadEventsInProgress: PropTypes.func.isRequired,
     loadLastEvents: PropTypes.func.isRequired,
-    loadMostPopularEvents: PropTypes.func.isRequired
+    loadMostPopularEvents: PropTypes.func.isRequired,
+    showAccount: PropTypes.bool.isRequired
   };
 
   constructor(props) {
@@ -64,19 +66,25 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      // <div className="tableCol">
+      <Container fluid>
+        <ToastContainer />
         <NavigationBar />
         <CreateEventModal />
         <ProfileEdition />
         <Row>
-          <Col xs={4} lg={2}>
-            <SideBar />
+          <Col xs={4} sm={5} lg={2} className="align-items-start">
+            <Row className="sidebarEmptyRow" />
+            <Row className="align-items-start">
+              <SideBar showAccount={this.props.showAccount} />
+            </Row>
           </Col>
-          <Col xs={6} lg={10}>
-            <MainPanel />
+          <Col xs={6} sm={7} lg={10}>
+            <MainPanel showAccount={this.props.showAccount} />
           </Col>
         </Row>
-      </div>
+      </Container>
+      // </div>
     );
   }
 }
@@ -88,7 +96,8 @@ function mapStateToProps(state) {
     events: state.EventReducer.events,
     eventsInProgress: state.EventReducer.eventsInProgress,
     lastEvents: state.EventReducer.lastEvents,
-    mostPopularEvents: state.EventReducer.mostPopularEvents
+    mostPopularEvents: state.EventReducer.mostPopularEvents,
+    showAccount: state.AccountReducer.showAccount
   };
 }
 

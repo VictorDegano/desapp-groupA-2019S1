@@ -35,7 +35,7 @@ abstract public class Event {
 
     protected LocalDateTime creationDate;
 
-    public static Event createWithATemplate(String name, User organizer, List<Guest> guests, LocalDateTime limitTime, Template template, EventType aEventType,LocalDateTime creationDate){
+    public static Event createWithATemplate(String name, User organizer, List<Guest> guests, LocalDateTime limitTime, Template template, EventType aEventType, LocalDateTime creationDate){
         return CreateEventStrategySelector.selectStrategyFor(aEventType).createEvent(name, organizer, guests, limitTime, template, creationDate);
     }
 
@@ -124,5 +124,9 @@ abstract public class Event {
 
     public EventStatus getStatus() {
         return status;
+    }
+
+    public void cancelAsistancesOf(Guest guest) {
+        guest.cancelInvitation();
     }
 }

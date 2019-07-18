@@ -17,6 +17,9 @@ import * as ModalView_Type from "../actions/Action_Types/ModalView_Types";
 //Store
 import { store } from "../index";
 import history from "../history";
+import * as Account_Type from "../actions/Action_Types/AccountTypes";
+// Resources
+import logo from "../resources/Eventeando logo.png";
 
 function openModal() {
   store.dispatch({ type: ModalView_Type.OPEN_PROFILE_EDITION });
@@ -27,6 +30,15 @@ function openCreateEventModal() {
   store.dispatch({ type: ModalView_Type.OPEN_CREATE_EVENT_MODAL });
 }
 
+function showAccount() {
+  console.log("showAccount()");
+  store.dispatch({ type: Account_Type.SHOW_ACCOUNT });
+}
+function hideAccount() {
+  console.log("hideAccount()");
+  store.dispatch({ type: Account_Type.HIDE_ACCOUNT });
+}
+
 function NavigationBar({ t }) {
   return (
     <Navbar variant="dark">
@@ -34,23 +46,23 @@ function NavigationBar({ t }) {
         {t("navBar->eventeando")}
       </Navbar.Brand>
       <Nav className="mr-auto">
-        <Nav.Link onClick={() => history.push("/home")} /*href="/home"*/>
+        {/* <Nav.Link onClick={() => history.push("/home")} href="/home">
           {t("navBar->home")}
+        </Nav.Link> */}
+        <Nav.Link onClick={() => openCreateEventModal()}>
+        {t("navBar->createEvent")}
         </Nav.Link>
-        <Button onClick={() => openCreateEventModal()}>
+        {/* <Button onClick={() => openCreateEventModal()}>
           {t("navBar->createEvent")}
+        </Button> */}
+        <Button onClick={() => showAccount()} href="" alt="Account">
+          {t("navBar->account")}
+        </Button>
+        <Button onClick={() => hideAccount()} href="" alt="Events">
+          {t("navBar->events")}
         </Button>
       </Nav>
-      <Form inline>
-        <FormControl
-          type="text"
-          placeholder={t("navBar->searchPlaceholder")}
-          className="mr-sm-2"
-        />
-        <Button variant="outline-light">{t("navBar->searchButton")}</Button>
-      </Form>
-
-      <Dropdown>
+      <Dropdown drop="left">
         <Dropdown.Toggle variant="link" id="dropdown-basic">
           <Image
             bsPrefix="btn dropdown-toggle img-responsive"

@@ -4,8 +4,9 @@ import ar.edu.unq.desapp.grupoa.model.event.Good;
 import ar.edu.unq.desapp.grupoa.model.event.canasta.CanastaGood;
 import ar.edu.unq.desapp.grupoa.model.event.fiesta.FiestaGood;
 import ar.edu.unq.desapp.grupoa.model.user.User;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GoodDTO {
 
 
@@ -13,9 +14,7 @@ public class GoodDTO {
     private String  name;
     private Integer pricePerUnit;
     private Integer quantityForPerson;
-
     private Integer finalQuantity;
-
     private Boolean isAvailable;
     public GoodDTO(){}
 
@@ -63,7 +62,7 @@ public class GoodDTO {
     }
 
     public static GoodDTO fromCanastaGood(Good good) {
-        CanastaGood canastaGood = (CanastaGood) good;
+        Good canastaGood = good;
         return  new GoodDTO(
                 canastaGood.getName(),
                 canastaGood.getPricePerUnit(),

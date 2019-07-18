@@ -178,6 +178,30 @@ public class AccountControllerTest {
 
     }
 
+    @Test
+    public void getUserBalance() throws Exception {
+        User user = getUser();
+        takeLoan(user.getAccount());
+        user.getAccount().deposit(100);
+        user.getAccount().extract(50);
+        userDAO.save(user);
+
+        Integer balance = user.getAccount().balance();
+
+        //Test(Then)
+
+        String url = String.format("/account/userBalance/%s", user.getId());
+        String json = mockMvc.perform(get(url))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        Integer balanceRetrieved = objectMapper.readValue(json, Integer.class);
+
+        assertEquals(balance,balanceRetrieved);
+
+    }
 
     private User getUser() {
         User user = randomUser();

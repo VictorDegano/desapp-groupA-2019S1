@@ -19,9 +19,12 @@ import ar.edu.unq.desapp.grupoa.persistence.GoodDAO;
 import ar.edu.unq.desapp.grupoa.persistence.GuestDAO;
 import ar.edu.unq.desapp.grupoa.persistence.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +34,7 @@ import static ar.edu.unq.desapp.grupoa.model.event.baquita.behaviour.LoadGood.lo
 
 @Service
 @Transactional
+@EnableAsync
 public class EventService {
 
     @Autowired
@@ -131,7 +135,7 @@ public class EventService {
     }
 
 
-    private List<Guest> getGuests(List<String> emailList) {
+    List<Guest> getGuests(List<String> emailList) {
         return emailList.stream().map(email -> new Guest(getByEmail(email))).collect(Collectors.toList());
     }
 
@@ -160,7 +164,15 @@ public class EventService {
         eventDAO.save(event);
     }
 
+    public void cancelAsistance(Integer eventId, Integer guestId) {
+        Event event = getById(eventId);
+        Guest guest = guestDAO.findById(guestId).orElseThrow(() -> new GuestNotFoundException(guestId));
+        event.cancelAsistancesOf(guest);
 
+        eventDAO.save(event);
+    }
+
+    @Async
     public void inviteUserToEvent(Integer eventId, Integer userId) {
         Event event = getById(eventId);
         User user = getUser(userId);
@@ -180,7 +192,7 @@ public class EventService {
     }
 
 
-    private void sendInvitationToGuests(Event event) {
+    void sendInvitationToGuests(Event event) {
         String organizerEmail = event.getOrganizer().getEmail();
         event.getGuest().stream().forEach(guest -> {
             User guestUser = guest.getUser();
@@ -208,4 +220,20 @@ public class EventService {
         loadGood(baquita, good, representative);
         eventDAO.save(baquita);
     }
+
+    public void deleteGoodFromEvent(Integer eventId, Integer goodId) {
+        Event event = eventDAO.findById(eventId).orElseThrow(()-> new EventNotFoundException(eventId));
+        Good good = goodDAO.findById(goodId).orElseThrow(()-> new EntityNotFoundException());
+
+        List<Good> goods = event.getGoodsForGuest();
+        event.setGoodsForGuest(goods.stream().filter(it -> !it.getId().equals(good.getId())).collect(Collectors.toList()));
+
+        eventDAO.save(event);
+    }
+
+    public void update(Event event) {
+        eventDAO.save(event);
+    }
+
+
 }

@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa.controller.rest;
 
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.EventDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
+import ar.edu.unq.desapp.grupoa.model.event.Template;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,17 @@ public class EventController {
         return new ResponseEntity<>(eventId.toString(), HttpStatus.CREATED);
     }
 
+
+    @PutMapping("/updateEvent")
+    public ResponseEntity<String> updateEvent(@RequestBody EventDTO eventDTO) {
+        LOGGER.info("Got request PUT to modify event with id: {}", eventDTO.getId());
+
+        eventDTO.handleUpdate(eventService);
+
+        LOGGER.info("Event with id: {} updated",eventDTO.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PutMapping(value = "/confirmAsistance/{eventId}/{guestId}")
     public ResponseEntity<String> confirmAsistance(@PathVariable Integer eventId,@PathVariable Integer guestId) {
         LOGGER.info("Got request PUT to confirm assistance Fiesta Event with data");
@@ -49,7 +61,17 @@ public class EventController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping(value = "/inviteUser/{eventId}/{userID}")
+    @PutMapping(value = "/cancelAsistance/{eventId}/{guestId}")
+    public ResponseEntity<String> cancelAsistance(@PathVariable Integer eventId,@PathVariable Integer guestId) {
+        LOGGER.info("Got request PUT to cancel assistance Fiesta Event with data");
+
+        eventService.cancelAsistance(eventId, guestId);
+
+        LOGGER.info("Assistance of guest {} canceled for event {}",eventId,guestId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/inviteUser/{eventId}/{userId }")
     public ResponseEntity<String> inviteToEvent(@PathVariable Integer eventId,@PathVariable Integer userId) {
         LOGGER.info("Got request PUT to confirm assistance Fiesta Event with data");
 
@@ -146,5 +168,7 @@ public class EventController {
         LOGGER.info("Responding with Event Lists {}", eventsDTOList);
         return new ResponseEntity<>(eventsDTOList, HttpStatus.OK);
     }
+
+
 
 }

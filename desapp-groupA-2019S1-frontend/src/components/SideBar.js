@@ -4,65 +4,58 @@ import { withTranslation } from "react-i18next";
 // Redux
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { Col, ListGroup } from "react-bootstrap";
 // Actions
 import {
   showEventsInProgress,
   showMostPopularEvents,
   showLastEvents
 } from "../actions/EventActions";
-// Bootstrap
-import Accordion from "react-bootstrap/Accordion";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+// css
+import "../css/Sidebar.css";
+import AccountSideBar from "./AccountSideBar";
+
 class SideBar extends React.PureComponent {
   static propTypes = {
     showEventsInProgress: PropTypes.func.isRequired,
     showMostPopularEvents: PropTypes.func.isRequired,
-    showLastEvents: PropTypes.func.isRequired
+    showLastEvents: PropTypes.func.isRequired,
+    showAccount: PropTypes.bool.isRequired
   };
-
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     const { t } = this.props;
-
-    return (
-      <Accordion defaultActiveKey="0">
-        <Card>
-          <Accordion.Toggle as={Card.Header} eventKey="0">
-            {t("sidebar->myEventsLabel")}
-          </Accordion.Toggle>
-          <Accordion.Collapse eventKey="0">
-            <Card.Body>
-              <Button onClick={() => this.props.showEventsInProgress()}>
-                {t("sidebar->inProgressButton")}
-              </Button>
-            </Card.Body>
-          </Accordion.Collapse>
-          <Accordion.Collapse eventKey="0">
-            <Card.Body>
-              <Button onClick={() => this.props.showLastEvents()}>
-                {t("sidebar->lastButton")}
-              </Button>
-            </Card.Body>
-          </Accordion.Collapse>
-          <Accordion.Collapse eventKey="0">
-            <Card.Body>
-              <Button onClick={() => this.props.showMostPopularEvents()}>
-                {t("sidebar->popularsButton")}
-              </Button>
-            </Card.Body>
-          </Accordion.Collapse>
-        </Card>
-        <Card>
-          <Accordion.Toggle as={Card.Header} eventKey="1">
-            {t("sidebar->createEventButton")}
-          </Accordion.Toggle>
-        </Card>
-      </Accordion>
-    );
+    if (this.props.showAccount) {
+      return <AccountSideBar />;
+    } else {
+      return (
+        <Col>
+          <ListGroup className="w-auto">
+            <ListGroup.Item active>
+              {t("sidebar->myEventsLabel")}
+            </ListGroup.Item>
+            <ListGroup.Item
+              as="button"
+              onClick={() => this.props.showEventsInProgress()}
+            >
+              {t("sidebar->inProgressButton")}
+            </ListGroup.Item>
+            <ListGroup.Item
+              as="button"
+              onClick={() => this.props.showLastEvents()}
+            >
+              {t("sidebar->lastButton")}
+            </ListGroup.Item>
+            <ListGroup.Item
+              as="button"
+              onClick={() => this.props.showMostPopularEvents()}
+            >
+              {t("sidebar->popularsButton")}
+            </ListGroup.Item>
+          </ListGroup>
+        </Col>
+      );
+    }
   }
 }
 

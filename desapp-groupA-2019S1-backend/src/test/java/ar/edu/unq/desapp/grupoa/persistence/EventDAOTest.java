@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomNumber;
 import static ar.edu.unq.desapp.grupoa.utils.builder.Randomizer.randomString;
 import static org.junit.Assert.*;
 
@@ -38,7 +39,7 @@ public class EventDAOTest {
         User aOrganizer1 = UserBuilder.buildAUser()
                                     .withFirstName("Ivan")
                                     .withLastName("Dominikow")
-                                    .withMail(randomString()+"@saraza.com")
+                                    .withMail("azul"+randomNumber()+"@saraza.com")
                                     .withBornDay(LocalDateTime.of(2019,10,30,20,00))
                                     .withPassword("laSaraza")
                                     .build();
@@ -46,9 +47,9 @@ public class EventDAOTest {
         User aOrganizer2 = UserBuilder.buildAUser()
                                     .withFirstName("Jose")
                                     .withLastName("lastoma")
-                                    .withMail(randomString()+"@saraza.com")
+                                    .withMail("saraza"+randomNumber()+"@saraza.com")
                                     .withBornDay(LocalDateTime.of(2010,1,11,20,00))
-                                    .withPassword("teLaTomasteTodaChinwenwencha")
+                                    .withPassword("telasgfsaf")
                                     .build();
 
         Fiesta fiesta = FiestaBuilder.buildAFiesta()
@@ -100,7 +101,7 @@ public class EventDAOTest {
                 .withLastName("lastoma")
                 .withMail(randomString()+"@saraza.com")
                 .withBornDay(LocalDateTime.of(2010,1,11,20,00))
-                .withPassword("teLaTomasteTodaChinwenwencha")
+                .withPassword("telatoT")
                 .build();
 
         Fiesta fiesta = FiestaBuilder.buildAFiesta()
@@ -151,7 +152,7 @@ public class EventDAOTest {
                                       .withLastName("lastoma")
                                       .withMail(randomString()+"@saraza.com")
                                       .withBornDay(LocalDateTime.of(2010,1,11,20,00))
-                                      .withPassword("teLaTomasteTodaChinwenwencha")
+                                      .withPassword("telaTO")
                                       .build();
 
         Fiesta fiesta = FiestaBuilder.buildAFiesta()
@@ -209,7 +210,7 @@ public class EventDAOTest {
         User aOrganizer1 = UserBuilder.buildAUser()
                                     .withFirstName("Ivan")
                                     .withLastName("Dominikow")
-                                    .withMail("ivancito@saraza.com")
+                                    .withMail(randomString()+"@saraza.com")
                                     .withBornDay(LocalDateTime.of(2019,10,30,20,00))
                                     .withPassword("laSaraza")
                                     .build();
@@ -217,9 +218,9 @@ public class EventDAOTest {
         User aOrganizer2 = UserBuilder.buildAUser()
                                     .withFirstName("Jose")
                                     .withLastName("lastoma")
-                                    .withMail("lastomajose@saraza.com")
+                                    .withMail(randomString()+"@saraza.com")
                                     .withBornDay(LocalDateTime.of(2010,1,11,20,00))
-                                    .withPassword("teLaTomasteTodaChinwenwencha")
+                                    .withPassword("teLaTo")
                                     .build();
 
         Fiesta fiesta = FiestaBuilder.buildAFiesta()

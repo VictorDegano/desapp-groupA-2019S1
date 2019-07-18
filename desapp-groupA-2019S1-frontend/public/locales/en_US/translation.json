@@ -4,6 +4,23 @@
     "description": "Will be redirected soon.\nIf you don't want wait",
     "title": "Welcome!"
   },
+  "createEventModal": {
+    "buttons": {
+      "close": "Close",
+      "save": "Save"
+    },
+    "form": {
+      "bornDate": "Born Date:",
+      "bornDatePlaceholder": "Enter your born date...",
+      "email": "Email:",
+      "emailPlaceholder": "Enter an email",
+      "firstName": "First Name:",
+      "firstNamePlaceholder": "Enter your name",
+      "lastName": "Last Name:",
+      "lastNamePlaceholder": "Enter your last name"
+    },
+    "title": "Create Event"
+  },
   "englishLanguage": "English",
   "eventType": {
     "littleCowComunitary": "Little Cow Comunitary",
@@ -13,7 +30,12 @@
   },
   "eventView": {
     "button": {
-      "close": "Close"
+      "acceptInvitation": "Accept Invitation",
+      "close": "Close",
+      "closeEvent": "Close Event",
+      "ownGood": "Take Charge",
+      "ownGoodRepresentative": "Take",
+      "sendInvitation": "Invite"
     },
     "confirmationState": {
       "accepted": "Accepted",
@@ -21,20 +43,35 @@
       "pending": "Pending"
     },
     "creationDate": "Creation Date:",
+    "finalQuantity": "Final quantity:",
+    "goodDetailTitle": "Detail",
+    "goods": "Goods",
     "guest": "Guests:",
     "guestQuantity": "Guest Quantities:",
     "organizer": "Organizer:",
-    "status": "Status:"
+    "pricePerUnit": "Price per Unit:",
+    "quantityForPerson": "Quantity For Person:",
+    "status": "Status:",
+    "totalCost": "Total Cost:",
+    "userDetail": {
+      "userBornDay": "Born Date:",
+      "userEmail": "Email:",
+      "userInfo": "User Info",
+      "userName": "Name:"
+    }
   },
   "formatter": {
-    "date": "MM/dd/yyyy"
+    "currency": "US$",
+    "date": "MM/dd/yyyy",
+    "number": "{{number, intlNumber}}"
   },
   "homePage": {
     "eventTable": {
       "eventTypeColumn": "Event Type",
       "nameColumn": "Name",
       "organizerColumn": "Organize",
-      "quantityGuestColumn": "Guest Quantity"
+      "quantityGuestColumn": "Guest Quantity",
+      "modifyButton": "Modify"
     },
     "inProgressEventsLabel": "My Events in Progress",
     "lastEventsLabel": "My Last Events",
@@ -56,7 +93,9 @@
     "eventeando": "Eventeando",
     "home": "Home",
     "searchButton": "Search",
-    "searchPlaceholder": "Search Event..."
+    "searchPlaceholder": "Search Event...",
+    "account": "Account",
+    "events": "Events"
   },
   "profileDropdown": {
     "editProfile": "Edit Profile",
@@ -84,24 +123,28 @@
     "inProgressButton": "In Progress",
     "lastButton": "Last",
     "myEventsLabel": "My Events",
-    "popularsButton": "Most Populars"
+    "popularsButton": "Most Populars",
+    "addMoney": "Add Money",
+    "extractMoney": "Extract Money",
+    "showLastMovements": "Show Movements",
+    "takeALoan": "Take a Loan",
+    "myAccountLabel": "Account"
   },
-  "createEventModal": {
-    "buttons": {
-      "close": "Close",
-      "save": "Save"
-    },
-    "form": {
-      "bornDate": "Born Date:",
-      "bornDatePlaceholder": "Enter your born date...",
-      "email": "Email:",
-      "emailPlaceholder": "Enter an email",
-      "firstName": "First Name:",
-      "firstNamePlaceholder": "Enter your name",
-      "lastName": "Last Name:",
-      "lastNamePlaceholder": "Enter your last name"
-    },
-    "title": "Create Event"
+  "accountComponents": {
+    "addMoneyTitle": "Add Money",
+    "amount": "Amount",
+    "balance": "Balance:",
+    "confirm": "Confirm",
+    "extractMoneyTitle": "Extract Money",
+    "flowType": "Flow Type",
+    "date": "Date",
+    "type": "Type",
+    "takeALoanTitle": "Take a Loan",
+    "loanDescription": "To take a Loan you should be a Dutiful User",
+    "creditsOnCourseTitle": "Credits on course",
+    "quotasToPay": "Quotas to Pay",
+    "hasDefaulted": "Defaulted",
+    "creditsOnCourseTitleNoCreditsOnCourse": "You don't have pending credits"
   },
   "spanishLanguage": "Spanish"
 }
