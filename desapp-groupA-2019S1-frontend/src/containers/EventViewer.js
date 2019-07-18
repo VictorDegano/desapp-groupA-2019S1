@@ -14,6 +14,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Badge from "react-bootstrap/Badge";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { toast } from "react-toastify";
 //Actions
 import { closeEventView, updateEvent } from "../actions/ModalViewActions";
 import {
@@ -27,6 +28,7 @@ import GoodItem from "../EventViewer/Components/GoodItem";
 //API
 import EventApi from "../api/EventApi";
 import UserOverlay from "../UserOverlayView/UserOverlay";
+
 
 /* TODO: Cosas que faltan:
   - aceptar/cancelar una invitacion (El boton/link solo apareceria si el usuario es el invitado)
@@ -202,9 +204,9 @@ class EventViewer extends Component {
       .then(response => {
         if (response) {
           this.refreshEvents(loggedUserId);
-          alert("Se pudo hacer cargo de un articulo");
+          toast("Se pudo hacer cargo de un articulo ", { type: "success" });
         } else {
-          alert("No se pudo hacerse cargo del articulo");
+          toast("No pudo hacerse cargo del articulo", { type: "error" });
         }
       })
       .catch(error => {
@@ -222,9 +224,9 @@ class EventViewer extends Component {
       .then(response => {
         if (response) {
           this.refreshEvents(loggedUserId);
-          alert("Te pudiste hacer cargo del articulo");
+          toast("Te pudiste hacer cargo del articulo", { type: "success" });
         } else {
-          alert("No se pudo hacerse cargo del articulo");
+          toast("No se pudo hacerse cargo del articulo", { type: "warning" });
         }
       })
       .catch(error => {
@@ -259,9 +261,9 @@ class EventViewer extends Component {
     eventApi.closeEvent(eventId).then(response => {
       if (response) {
         this.refreshEvents(loggedUserId);
-        alert("Se ha cerrado el evento");
+        toast("Se ha cerrado el evento", { type: "warning" });
       } else {
-        alert("No se ha podido cerrar el evento");
+        toast("No se ha podido cerrar el evento", { type: "error" });
       }
     });
   }
@@ -273,9 +275,9 @@ class EventViewer extends Component {
     eventApi.aceptInvitation(eventId, guestId).then(response => {
       if (response) {
         this.refreshEvents(loggedUserId);
-        alert("Invitacion confirmada");
+        toast("Invitacion confirmada", { type: "success" });
       } else {
-        alert("No se ha podido confirmar la invitacion");
+        toast("No se ha podido confirmar la invitacion", { type: "error" });
       }
     });
   }
@@ -300,9 +302,9 @@ class EventViewer extends Component {
             .then(response => {
       if (response) {
         this.refreshEvents(loggedUserId);
-        alert("Invitacion Enviada");
+        toast("Invitacion Enviada", { type: "success" });
       } else {
-        alert("No se ha podido enviar la invitacion");
+        toast("No se ha podido enviar la invitacion", { type: "error" });
       }
     });
   }
