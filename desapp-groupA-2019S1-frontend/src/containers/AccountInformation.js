@@ -5,15 +5,13 @@ import PropTypes from "prop-types";
 import { withTranslation } from "react-i18next";
 import "../css/ProfileEdition.css";
 import { withRouter } from "react-router";
+import { Card } from "react-bootstrap";
 import AccountApi from "../api/AccountApi";
 import { updateBalance } from "../actions/AccountActions";
-import { updateLoggedUser } from "../actions/UserActions";
-import { Card } from "react-bootstrap";
 
 class AccountInformation extends Component {
   static propTypes = {
-    addMoney: PropTypes.bool,
-    balance: PropTypes.number,
+    balance: PropTypes.number.isRequired,
     updateBalance: PropTypes.func.isRequired
   };
 
