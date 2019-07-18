@@ -269,7 +269,50 @@ class CreateEventModal extends Component {
     });
   }
 
+  handleUpdateEvent(event) {
+    // console.log("handleSave()");
+    const form = event.currentTarget;
+    event.preventDefault();
+    if (form.checkValidity() === false) {
+      toast("You're missing some data :( ", { type: "warning" });
+      return;
+    }
+    const eventApi = new EventApi();
+    console.log(event);
+    const currentEmailsInputRef = this.EmailsInputRef.current;
+    const eventExample = {
+      type: this.state.type,
+      id: this.state.id,
+      eventName: this.state.eventName,
+      organizer: this.props.loggedUser,
+      quantityOfGuest: 1,
+      goods: this.state.goods,
+      guests: this.createJsonOfEmails(currentEmailsInputRef.state.items),
+      status: "OPEN",
+      creationDate: this.state.creationDate,
+      limitConfirmationDateTime: this.state.confirmationDay
+    };
+    console.log("voy a updatear evento con");
+    console.log(eventExample);
+    eventApi
+      .updateEvent(eventExample)
+      .then(response => {
+        toast("Event Updated :) ", { type: "success" });
+        this.refreshEventsOnHome();
+        this.handleClose();
+      })
+      .catch(e => console.log(e));
+  }
+
   handleSave(event) {
+    if (this.isModifyMode()) {
+      this.handleUpdateEvent(event);
+    } else {
+      this.handleCreateEvent(event);
+    }
+  }
+
+  handleCreateEvent(event) {
     // console.log("handleSave()");
     const form = event.currentTarget;
     event.preventDefault();
