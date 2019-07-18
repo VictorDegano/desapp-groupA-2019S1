@@ -6,9 +6,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 // Actions
 // Bootstrap
-import Accordion from "react-bootstrap/Accordion";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import { Col, ListGroup } from "react-bootstrap";
 import {
   showEventsInProgress,
   showMostPopularEvents,
@@ -20,7 +18,6 @@ import {
   showLastMovements,
   showLoan
 } from "../actions/AccountActions";
-import { Col, ListGroup } from "react-bootstrap";
 
 class AccountSideBar extends React.PureComponent {
   static propTypes = {
