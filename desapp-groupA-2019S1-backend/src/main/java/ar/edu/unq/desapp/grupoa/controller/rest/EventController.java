@@ -61,6 +61,16 @@ public class EventController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping(value = "/cancelAsistance/{eventId}/{guestId}")
+    public ResponseEntity<String> cancelAsistance(@PathVariable Integer eventId,@PathVariable Integer guestId) {
+        LOGGER.info("Got request PUT to cancel assistance Fiesta Event with data");
+
+        eventService.cancelAsistance(eventId, guestId);
+
+        LOGGER.info("Assistance of guest {} canceled for event {}",eventId,guestId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PutMapping(value = "/inviteUser/{eventId}/{userId }")
     public ResponseEntity<String> inviteToEvent(@PathVariable Integer eventId,@PathVariable Integer userId) {
         LOGGER.info("Got request PUT to confirm assistance Fiesta Event with data");
