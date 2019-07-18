@@ -93,4 +93,19 @@ public abstract class Baquita extends Event {
     public void addGood(Good good) {
         goodsForGuest.add(good);
     }
+
+    protected List<Guest> guestThatCanPay(List<Guest> guests, Integer priceToPay) {
+        return guests.stream().filter(guest -> canPay(guest,priceToPay)).collect(Collectors.toList());
+    }
+
+    protected boolean canPay(Guest guest, Integer priceToPay) {
+        User user = guest.getUser();
+
+        Boolean canPay = true;
+        if (user.getAccount().balance() < priceToPay){
+            user.defaultUser();
+            canPay = false;
+        }
+        return canPay;
+    }
 }
