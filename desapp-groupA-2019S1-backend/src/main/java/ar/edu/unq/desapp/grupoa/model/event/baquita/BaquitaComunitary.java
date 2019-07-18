@@ -11,6 +11,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static ar.edu.unq.desapp.grupoa.model.account.behaviour.Payment.deposit;
 
@@ -31,13 +32,18 @@ public class BaquitaComunitary extends Baquita {
 
     @Override
     protected void distributePayment() {
+        Integer priceToPay = totalCost() / guests.size();
+
         List<Guest> guests = getConfirmedGuests();
+        guests = guestThatCanPay(guests,priceToPay);
+
         if (!guests.isEmpty()) {
-            Integer priceToPay = totalCost() / guests.size();
             guests.forEach(guest -> pay(priceToPay, guest.getUser()));
             depositAmount(totalCost(), organizer);
         }
     }
+
+
 
     private void depositAmount(Integer priceToPay, User organizer) {
         deposit(organizer.getAccount(), priceToPay);

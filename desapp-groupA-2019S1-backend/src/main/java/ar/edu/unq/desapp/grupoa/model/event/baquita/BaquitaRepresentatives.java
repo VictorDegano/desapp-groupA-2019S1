@@ -43,6 +43,8 @@ public class BaquitaRepresentatives extends Baquita {
     protected void distributePayment() {
         List<Guest> guests = getConfirmedGuests();
         Integer priceToPay = totalCost() / (guests.size()+1);
+
+        guests = guestThatCanPay(guests,priceToPay);
         guests.forEach(guest -> pay(priceToPay, guest.getUser()));
         pay(priceToPay,organizer);
     }
