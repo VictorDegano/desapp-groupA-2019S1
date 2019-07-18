@@ -62,7 +62,8 @@
   },
   "formatter": {
     "currency": "$",
-    "date": "dd/MM/yyyy"
+    "date": "dd/MM/yyyy",
+    "number": "{{number, intlNumber}}"
   },
   "homePage": {
     "eventTable": {

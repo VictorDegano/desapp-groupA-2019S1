@@ -531,7 +531,7 @@ class EventViewer extends Component {
             <Form.Label>
               <h4>
                 {t("eventView->totalCost")} {t("formatter->currency")}{" "}
-                {this.state.totalCost}
+                {t("formatter->number", { number: this.state.totalCost })}
               </h4>
             </Form.Label>
           </Modal.Body>
