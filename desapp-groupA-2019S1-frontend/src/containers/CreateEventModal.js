@@ -12,6 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { toast } from "react-toastify";
 //Actions
 import { closeCreateEventModal } from "../actions/ModalViewActions";
 // css
@@ -270,7 +271,12 @@ class CreateEventModal extends Component {
 
   handleSave(event) {
     // console.log("handleSave()");
+    const form = event.currentTarget;
     event.preventDefault();
+    if (form.checkValidity() === false) {
+      toast("You're missing some data :( ", { type: "warning" });
+      return;
+    }
     const eventApi = new EventApi();
     console.log(event);
     const currentEmailsInputRef = this.EmailsInputRef.current;
@@ -292,7 +298,7 @@ class CreateEventModal extends Component {
     eventApi
       .createEvent(eventExample)
       .then(response => {
-        console.log(response);
+        toast("Event Created :) ", { type: "success" });
         this.refreshEventsOnHome();
         this.handleClose();
       })
@@ -416,8 +422,13 @@ class CreateEventModal extends Component {
                   <Form.Control
                     onChange={this.handleChangeOnEventName}
                     type="text"
-                    defaultValue={this.state.eventName}
+                    required
+                    value={this.state.eventName}
+                    isInvalid={this.state.eventName === ""}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Event Name cannot be empty
+                  </Form.Control.Feedback>
                 </Col>
               </Row>
               <Row>
