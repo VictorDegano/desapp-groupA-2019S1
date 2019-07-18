@@ -83,11 +83,13 @@ class ExtractMoney extends React.PureComponent {
         onSubmit={e => this.handleSubmit(e)}
       >
         <Form.Row>
-          <h2>{t("accountComponents->extractMoneyTitle")}</h2>
+          <h2 className="text-white">
+            {t("accountComponents->extractMoneyTitle")}
+          </h2>
         </Form.Row>
         <Form.Row>
           <Form.Group as={Col} md="2" controlId="validationCustom01">
-            <Form.Label>{t("accountComponents->amount")}</Form.Label>
+            <Form.Label className="text-white">{t("accountComponents->amount")}</Form.Label>
           </Form.Group>
           <Form.Group as={Col} md="4" controlId="validationCustom02">
             <Form.Control
