@@ -1,0 +1,9 @@
+.evenTableDiv {
+    width: 68rem;    
+    height: 24rem;
+}
+
+.table {
+    width: inherit;    
+    height: inherit;
+}

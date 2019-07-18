@@ -70,6 +70,7 @@ class EventViewer extends Component {
     this.isAnLoadedGood = this.isAnLoadedGood.bind(this);
     this.acceptedInvitation = this.acceptedInvitation.bind(this);
     this.renderResendInvitationButton = this.renderResendInvitationButton.bind(this);
+    this.getEventLimitTime = this.getEventLimitTime.bind(this);
     this.state = {
       totalCost: 0
     };
@@ -127,6 +128,13 @@ class EventViewer extends Component {
     return this.props.event.creationDate;
   }
 
+  getEventLimitTime() {
+    if (this.props.event.limitConfirmationDateTime !== "") {
+      return new Date(this.props.event.limitConfirmationDateTime);
+    }
+    return this.props.event.limitConfirmationDateTime;
+  }
+
   getOpenColour(status) {
     if (status === undefined) {
       return "dark";
@@ -156,13 +164,8 @@ class EventViewer extends Component {
               readOnly
               disabled
               className="Form.Control"
-              minDate={new Date("01/01/1900")}
-              maxDate={new Date()}
-              selected={this.getEventTime()}
+              selected={this.getEventLimitTime()}
               dateFormat={t("formatter->date")}
-              showYearDropdown
-              scrollableYearDropdown
-              yearDropdownItemNumber={80}
               fixedHeight
             />
           </div>
@@ -531,7 +534,7 @@ class EventViewer extends Component {
             <Form.Label>
               <h4>
                 {t("eventView->totalCost")} {t("formatter->currency")}{" "}
-                {this.state.totalCost}
+                {t("formatter->number", { number: this.state.totalCost })}
               </h4>
             </Form.Label>
           </Modal.Body>
