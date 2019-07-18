@@ -432,26 +432,27 @@ class EventViewer extends Component {
   }
 
   renderAceptInvitationButton(event, guest) {
-    const { t } = this.props;
+    const {t} = this.props;
     const loggedUserId = localStorage.getItem("id");
 
     if (
-      event.status !== "CLOSE" &&
-      guest.userId === parseInt(loggedUserId) &&
-      guest.confirmAsistance === "PENDING"
+        event.status !== "CLOSE" &&
+        guest.userId === parseInt(loggedUserId) &&
+        guest.confirmAsistance === "PENDING"
     ) {
       const disabled = guest.confirmAsistance !== "PENDING";
 
       return (
-        <Button
-          onClick={() => this.handleAceptInvitation(event.id, guest.guestId)}
-          size="sm"
-          variant={this.variantStyleButton(disabled)}
-        >
-          {t("eventView->button->acceptInvitation")}
-        </Button>
+          <Button
+              onClick={() => this.handleAceptInvitation(event.id, guest.guestId)}
+              size="sm"
+              variant={this.variantStyleButton(disabled)}
+          >
+            {t("eventView->button->acceptInvitation")}
+          </Button>
       );
-    } 
+    }
+  }
     
     renderCancelInvitationButton(event, guest) {
       const { t } = this.props;
@@ -459,8 +460,9 @@ class EventViewer extends Component {
   
       if (
         event.status !== "CLOSE" &&
-        guest.userId === parseInt(loggedUserId) &&
-        guest.confirmAsistance === "CANCELLED"
+        event.organizer.id === parseInt(loggedUserId) &&
+        guest.userId !== parseInt(loggedUserId) &&
+        guest.confirmAsistance === "PENDING"
       ) {
         const disabled = guest.confirmAsistance !== "CANCELLED";
   
