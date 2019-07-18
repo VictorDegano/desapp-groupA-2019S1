@@ -20,6 +20,7 @@ import {
   showLastMovements,
   showLoan
 } from "../actions/AccountActions";
+import { Col, ListGroup } from "react-bootstrap";
 
 class AccountSideBar extends React.PureComponent {
   static propTypes = {
@@ -32,46 +33,26 @@ class AccountSideBar extends React.PureComponent {
   render() {
     const { t } = this.props;
     return (
-      <Accordion defaultActiveKey="0">
-        <Card>
-          <Accordion.Toggle as={Card.Header} eventKey="0">
-            {t("sidebar->myEventsLabel")}
-          </Accordion.Toggle>
-          <Accordion.Collapse eventKey="0">
-            <Card.Body>
-              <Button onClick={() => this.props.addMoney()}>
-                {t("sidebar->addMoney")}
-              </Button>
-            </Card.Body>
-          </Accordion.Collapse>
-          <Accordion.Collapse eventKey="0">
-            <Card.Body>
-              <Button onClick={() => this.props.extractMoney()}>
-                {t("sidebar->extractMoney")}
-              </Button>
-            </Card.Body>
-          </Accordion.Collapse>
-          <Accordion.Collapse eventKey="0">
-            <Card.Body>
-              <Button onClick={() => this.props.showLastMovements()}>
-                {t("sidebar->showLastMovements")}
-              </Button>
-            </Card.Body>
-          </Accordion.Collapse>
-          <Accordion.Collapse eventKey="0">
-            <Card.Body>
-              <Button onClick={() => this.props.showLoan()}>
-                {t("sidebar->takeALoan")}
-              </Button>
-            </Card.Body>
-          </Accordion.Collapse>
-        </Card>
-        <Card>
-          <Accordion.Toggle as={Card.Header} eventKey="1">
-            {t("sidebar->createEventButton")}
-          </Accordion.Toggle>
-        </Card>
-      </Accordion>
+      <Col>
+        <ListGroup>
+          <ListGroup.Item active>{t("sidebar->myAccountLabel")}</ListGroup.Item>
+          <ListGroup.Item as="button" onClick={() => this.props.addMoney()}>
+            {t("sidebar->addMoney")}
+          </ListGroup.Item>
+          <ListGroup.Item as="button" onClick={() => this.props.extractMoney()}>
+            {t("sidebar->extractMoney")}
+          </ListGroup.Item>
+          <ListGroup.Item
+            as="button"
+            onClick={() => this.props.showLastMovements()}
+          >
+            {t("sidebar->showLastMovements")}
+          </ListGroup.Item>
+          <ListGroup.Item as="button" onClick={() => this.props.showLoan()}>
+            {t("sidebar->takeALoan")}
+          </ListGroup.Item>
+        </ListGroup>
+      </Col>
     );
   }
 }
