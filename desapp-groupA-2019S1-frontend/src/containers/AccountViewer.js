@@ -62,7 +62,6 @@ class AccountViewer extends Component {
     } else {
       return (
         <>
-          <h1>Hello Account</h1>
           <AccountInformation />
         </>
       );
