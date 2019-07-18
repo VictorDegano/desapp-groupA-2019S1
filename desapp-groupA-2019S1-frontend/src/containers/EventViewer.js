@@ -32,7 +32,6 @@ import UserOverlay from "../UserOverlayView/UserOverlay";
 
 /* TODO: Cosas que faltan:
   - aceptar/cancelar una invitacion (El boton/link solo apareceria si el usuario es el invitado)
-  - Hacer visualizacion de informacion del usuario.
   - Hacer boton para volver a invitar un usuario que cancelo la invitacion
   */
 class EventViewer extends Component {
@@ -73,6 +72,7 @@ class EventViewer extends Component {
     this.acceptedInvitation = this.acceptedInvitation.bind(this);
     this.renderResendInvitationButton = this.renderResendInvitationButton.bind(this);
     this.getEventLimitTime = this.getEventLimitTime.bind(this);
+    this.handleCancelInvitation = this.handleCancelInvitation.bind(this);
     this.state = {
       totalCost: 0
     };
@@ -282,6 +282,20 @@ class EventViewer extends Component {
     });
   }
 
+  handleCancelInvitation(eventId, guestId) {
+    const eventApi = new EventApi();
+    const loggedUserId = localStorage.getItem("id");
+
+    eventApi.cancelInvitation(eventId, guestId).then(response => {
+      if (response) {
+        this.refreshEvents(loggedUserId);
+        toast("Invitacion cancelada", { type: "success" });
+      } else {
+        toast("No se ha podido cancelar la invitacion", { type: "error" });
+      }
+    });
+  }
+
   isAnRepresentative(representatives, userId) {
     return representatives.some(function(representative) {
       return representative.userId === parseInt(userId);
@@ -418,27 +432,50 @@ class EventViewer extends Component {
   }
 
   renderAceptInvitationButton(event, guest) {
-    const { t } = this.props;
+    const {t} = this.props;
     const loggedUserId = localStorage.getItem("id");
 
     if (
-      event.status !== "CLOSE" &&
-      guest.userId === parseInt(loggedUserId) &&
-      guest.confirmAsistance === "PENDING"
+        event.status !== "CLOSE" &&
+        guest.userId === parseInt(loggedUserId) &&
+        guest.confirmAsistance === "PENDING"
     ) {
       const disabled = guest.confirmAsistance !== "PENDING";
 
       return (
-        <Button
-          onClick={() => this.handleAceptInvitation(event.id, guest.guestId)}
-          size="sm"
-          variant={this.variantStyleButton(disabled)}
-        >
-          {t("eventView->button->acceptInvitation")}
-        </Button>
+          <Button
+              onClick={() => this.handleAceptInvitation(event.id, guest.guestId)}
+              size="sm"
+              variant={this.variantStyleButton(disabled)}
+          >
+            {t("eventView->button->acceptInvitation")}
+          </Button>
       );
-    } 
+    }
+  }
     
+    renderCancelInvitationButton(event, guest) {
+      const { t } = this.props;
+      const loggedUserId = localStorage.getItem("id");
+  
+      if (
+        event.status !== "CLOSE" &&
+        event.organizer.id === parseInt(loggedUserId) &&
+        guest.userId !== parseInt(loggedUserId) &&
+        guest.confirmAsistance === "PENDING"
+      ) {
+        const disabled = guest.confirmAsistance !== "CANCELLED";
+  
+        return (
+          <Button
+            onClick={() => this.handleCancelInvitation(event.id, guest.guestId)}
+            size="sm"
+            variant={this.variantStyleButton(disabled)}
+          >
+            {t("eventView->button->cancelInvitation")}
+          </Button>
+        );
+      } 
     return null;
   }
 
@@ -515,7 +552,7 @@ class EventViewer extends Component {
                     key={guest.id + guest.firstName + guest.email + guest.lastName}
                     as="li"
                   >
-                    <UserOverlay guest={guest}/>{/* {guest.firstName + " " + guest.lastName} */}
+                    <UserOverlay guest={guest}/>
                     <Badge
                       variant={this.getBadgeColour(guest.confirmAsistance)}
                     >
@@ -525,6 +562,7 @@ class EventViewer extends Component {
                     </Badge>
                     {this.renderResendInvitationButton(event, guest)}
                     {this.renderAceptInvitationButton(event, guest)}
+                    {this.renderCancelInvitationButton(event, guest)}
                   </ListGroup.Item>
                 );
               })}
