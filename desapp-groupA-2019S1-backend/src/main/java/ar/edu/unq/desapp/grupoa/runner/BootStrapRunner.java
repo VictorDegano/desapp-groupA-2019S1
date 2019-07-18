@@ -397,11 +397,32 @@ public class BootStrapRunner implements ApplicationRunner {
         pizza.setPricePerUnit(59);
         pizza.setQuantityForPerson(2);
 
+        Good helado = new Good();
+        helado.setName("Kilo de Helado");
+        helado.setPricePerUnit(140);
+        helado.setQuantityForPerson(1);
+
+        Good factura = new Good();
+        factura.setName("Facturas");
+        factura.setPricePerUnit(25);
+        factura.setQuantityForPerson(4);
+
+        Good milhojas = new Good();
+        milhojas.setName("Milhojas");
+        milhojas.setPricePerUnit(25);
+        milhojas.setQuantityForPerson(4);
+
+        Good fernet = new Good();
+        fernet.setName("Fernet");
+        fernet.setPricePerUnit(260);
+        fernet.setQuantityForPerson(1);
+
         Guest ivandDGuest = new Guest(ivanD);
         ivandDGuest.cancelInvitation();
         Guest pepeGuest = new Guest(pepe);
         pepeGuest.confirmAsistance();
         Guest ivanTGuest =new Guest(ivanT);
+        ivanTGuest.confirmAsistance();
 
         Baquita theCowBaquita = new BaquitaComunitary(
                 "The Cow",
@@ -410,7 +431,7 @@ public class BootStrapRunner implements ApplicationRunner {
                         ivandDGuest,
                         pepeGuest,
                         ivanTGuest),
-                Arrays.asList(sanguMiga, porron, queso, pizza),
+                Arrays.asList(sanguMiga, porron, queso, pizza, helado, factura, fernet, milhojas),
                 LocalDateTime.now().minusDays(1));
 
         return theCowBaquita;

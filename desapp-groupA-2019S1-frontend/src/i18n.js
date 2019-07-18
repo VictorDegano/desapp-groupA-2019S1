@@ -19,14 +19,19 @@ i18n
     debug: false, // put true for see logs on chrome inspector.
     interpolation: {
       escapeValue: false, // react already safes from xss
-
       format: function(value, format, lng) {
-        if (value instanceof Date) {
-          return moment(value).format(format);
+        if (format === 'intlNumber'){
+          return (new Intl.NumberFormat(lng.replace("_","-"))).format(value);
         }
-
         return value;
-      }
+    }
+      // format: function(value, format, lng) {
+      //   if (value instanceof Date) {
+      //     return moment(value).format(format);
+      //   }
+
+      //   return value;
+      // }
     },
     // special options for react-i18next
     // learn more: https://react.i18next.com/components/i18next-instance
