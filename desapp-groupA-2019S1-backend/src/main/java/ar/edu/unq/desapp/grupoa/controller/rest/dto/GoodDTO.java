@@ -62,7 +62,7 @@ public class GoodDTO {
     }
 
     public static GoodDTO fromCanastaGood(Good good) {
-        CanastaGood canastaGood = (CanastaGood) good;
+        Good canastaGood = good;
         return  new GoodDTO(
                 canastaGood.getName(),
                 canastaGood.getPricePerUnit(),
