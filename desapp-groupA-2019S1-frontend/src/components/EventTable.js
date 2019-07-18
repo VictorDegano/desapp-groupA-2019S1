@@ -70,7 +70,7 @@ class EventTable extends React.Component {
     this.state = {
       currentPageNumber: 1,
       itemsPerPage: 5
-    }
+    };
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -111,16 +111,20 @@ class EventTable extends React.Component {
     });
   }
 
-  handlePageChange(newCurrentPage){
-    this.setState({ currentPageNumber: newCurrentPage});
+  handlePageChange(newCurrentPage) {
+    this.setState({ currentPageNumber: newCurrentPage });
   }
 
-  getEventsToShow(events, eventsSize){
+  getEventsToShow(events, eventsSize) {
     let eventsToShow = [];
-    let startIndex = this.state.itemsPerPage * (this.state.currentPageNumber-1);
-    let endIndex = Math.min(this.state.itemsPerPage * this.state.currentPageNumber, eventsSize);
+    let startIndex =
+      this.state.itemsPerPage * (this.state.currentPageNumber - 1);
+    let endIndex = Math.min(
+      this.state.itemsPerPage * this.state.currentPageNumber,
+      eventsSize
+    );
 
-    for (startIndex; startIndex < endIndex; startIndex ++) {
+    for (startIndex; startIndex < endIndex; startIndex++) {
       eventsToShow.push(events[startIndex]);
     }
 

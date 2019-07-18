@@ -17,6 +17,7 @@ import * as ModalView_Type from "../actions/Action_Types/ModalView_Types";
 //Store
 import { store } from "../index";
 import history from "../history";
+import * as Account_Type from "../actions/Action_Types/AccountTypes";
 // Resources
 import logo from "../resources/Eventeando logo.png";
 
@@ -29,15 +30,20 @@ function openCreateEventModal() {
   store.dispatch({ type: ModalView_Type.OPEN_CREATE_EVENT_MODAL });
 }
 
+function showAccount() {
+  console.log("showAccount()");
+  store.dispatch({ type: Account_Type.SHOW_ACCOUNT });
+}
+function hideAccount() {
+  console.log("hideAccount()");
+  store.dispatch({ type: Account_Type.HIDE_ACCOUNT });
+}
+
 function NavigationBar({ t }) {
   return (
     <Navbar variant="dark">
       <Navbar.Brand onClick={() => history.push("/home")} href="" alt="Home">
-      <Image src={logo}
-            alt="Eventeando Logo"
-            width={50}
-            height={50} />
-      {t("navBar->eventeando")}
+        {t("navBar->eventeando")}
       </Navbar.Brand>
       <Nav className="mr-auto">
         {/* <Nav.Link onClick={() => history.push("/home")} href="/home">
@@ -49,6 +55,12 @@ function NavigationBar({ t }) {
         {/* <Button onClick={() => openCreateEventModal()}>
           {t("navBar->createEvent")}
         </Button> */}
+        <Button onClick={() => showAccount()} href="" alt="Account">
+          {t("navBar->account")}
+        </Button>
+        <Button onClick={() => hideAccount()} href="" alt="Events">
+          {t("navBar->events")}
+        </Button>
       </Nav>
       <Form inline>
         <FormControl

@@ -10,6 +10,7 @@ import Container from "react-bootstrap/Container";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 //Actions
+import { ToastContainer } from "react-toastify";
 import {
   loadEventsInProgress,
   loadLastEvents,
@@ -24,13 +25,15 @@ import SideBar from "./SideBar";
 import MainPanel from "./MainPanel";
 import ProfileEdition from "../containers/ProfileEdition";
 import CreateEventModal from "../containers/CreateEventModal";
+import "react-toastify/dist/ReactToastify.css";
 
 class App extends React.Component {
   static propTypes = {
     showEventsInProgress: PropTypes.func.isRequired,
     loadEventsInProgress: PropTypes.func.isRequired,
     loadLastEvents: PropTypes.func.isRequired,
-    loadMostPopularEvents: PropTypes.func.isRequired
+    loadMostPopularEvents: PropTypes.func.isRequired,
+    showAccount: PropTypes.bool
   };
 
   constructor(props) {
@@ -63,8 +66,9 @@ class App extends React.Component {
 
   render() {
     return (
-      // <div className="tableCol">
-      <Container fluid>
+        // <div className="tableCol">
+        <Container fluid>
+        <ToastContainer />
         <NavigationBar />
         <CreateEventModal />
         <ProfileEdition />
@@ -72,11 +76,11 @@ class App extends React.Component {
           <Col xs={4} lg={2} className="align-items-start">
             <Row className="sidebarEmptyRow"/>
             <Row className="align-items-start">
-              <SideBar/>
+              <SideBarshowAccount={this.props.showAccount}/>
             </Row>
           </Col>
           <Col xs={6} lg={10} >
-            <MainPanel />
+            <MainPanel showAccount={this.props.showAccount} />
           </Col>
         </Row>
       </Container>
@@ -92,7 +96,8 @@ function mapStateToProps(state) {
     events: state.EventReducer.events,
     eventsInProgress: state.EventReducer.eventsInProgress,
     lastEvents: state.EventReducer.lastEvents,
-    mostPopularEvents: state.EventReducer.mostPopularEvents
+    mostPopularEvents: state.EventReducer.mostPopularEvents,
+    showAccount: state.AccountReducer.showAccount
   };
 }
 

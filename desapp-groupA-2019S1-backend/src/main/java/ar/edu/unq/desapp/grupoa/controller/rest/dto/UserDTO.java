@@ -1,8 +1,10 @@
 package ar.edu.unq.desapp.grupoa.controller.rest.dto;
 
 import ar.edu.unq.desapp.grupoa.model.user.User;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
 
     public Integer id;

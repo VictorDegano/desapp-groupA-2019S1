@@ -87,4 +87,15 @@ public class AccountController {
         return new ResponseEntity<List<Movement>>(movements,HttpStatus.OK);
     }
 
+    @GetMapping("/userBalance/{userId}")
+    public ResponseEntity<Integer> userBalance(@PathVariable Integer userId ) {
+        LOGGER.info("Got request GET to get user balance for userId: {}", userId);
+
+        Integer balance = accountService.userBalance(userId);
+
+        LOGGER.info("returning user balance for user: {}", userId);
+        return new ResponseEntity<Integer>(balance,HttpStatus.OK);
+    }
+
+
 }

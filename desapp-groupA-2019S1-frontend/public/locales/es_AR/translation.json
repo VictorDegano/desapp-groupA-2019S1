@@ -92,7 +92,9 @@
     "eventeando": "Eventeando",
     "home": "Inicio",
     "searchButton": "Buscar",
-    "searchPlaceholder": "Buscar Evento..."
+    "searchPlaceholder": "Buscar Evento...",
+    "account": "Cuenta",
+    "events": "Eventos"
   },
   "profileDropdown": {
     "editProfile": "Editar Perfil",
@@ -120,7 +122,27 @@
     "inProgressButton": "En Curso",
     "lastButton": "Ultimos",
     "myEventsLabel": "Mis Eventos",
-    "popularsButton": "Mas Populares"
+    "popularsButton": "Mas Populares",
+    "addMoney": "Agregar Dinero",
+    "extractMoney": "Extraer Dinero",
+    "showLastMovements": "Mostrar Movimientos",
+    "takeALoan": "Pedir Prestamo"
+  },
+  "accountComponents": {
+    "addMoneyTitle": "Agregar Dinero",
+    "amount": "Cantidad",
+    "balance": "Saldo:",
+    "confirm": "Confirmar",
+    "extractMoneyTitle": "Extraer Dinero",
+    "flowType": "Tipo de Flujo",
+    "date": "Fecha",
+    "type": "Tipo",
+    "takeALoanTitle": "Pedir Prestamo",
+    "loanDescription": "Para pedir un prestamo tenes que ser cumplidor",
+    "creditsOnCourseTitle": "Creditos Actuales",
+    "quotasToPay": "Cuotas restantes",
+    "hasDefaulted": "Moroso",
+    "creditsOnCourseTitleNoCreditsOnCourse": "No tenes creditos sin pagar"
   },
   "spanishLanguage": "Español"
 }

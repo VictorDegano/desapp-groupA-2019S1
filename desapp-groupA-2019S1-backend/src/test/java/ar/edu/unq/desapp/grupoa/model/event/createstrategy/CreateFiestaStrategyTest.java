@@ -1,13 +1,11 @@
 package ar.edu.unq.desapp.grupoa.model.event.createstrategy;
 
 import ar.edu.unq.desapp.grupoa.model.event.*;
-import ar.edu.unq.desapp.grupoa.model.event.createstrategy.CreateFiestaStrategy;
 import ar.edu.unq.desapp.grupoa.model.user.User;
 import ar.edu.unq.desapp.grupoa.utils.builder.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import static org.junit.Assert.*;

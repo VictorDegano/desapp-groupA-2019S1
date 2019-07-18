@@ -5,56 +5,63 @@ import { withTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 // Actions
+// Bootstrap
+import Accordion from "react-bootstrap/Accordion";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 import {
   showEventsInProgress,
   showMostPopularEvents,
   showLastEvents
 } from "../actions/EventActions";
-// Bootstrap
-import Accordion from "react-bootstrap/Accordion";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-// css
-import "../css/Sidebar.css";
-import AccountSideBar from "./AccountSideBar";
+import {
+  addMoney,
+  extractMoney,
+  showLastMovements,
+  showLoan
+} from "../actions/AccountActions";
 
-class SideBar extends React.PureComponent {
+class AccountSideBar extends React.PureComponent {
   static propTypes = {
-    showEventsInProgress: PropTypes.func.isRequired,
-    showMostPopularEvents: PropTypes.func.isRequired,
-    showLastEvents: PropTypes.func.isRequired
+    addMoney: PropTypes.func.isRequired,
+    extractMoney: PropTypes.func.isRequired,
+    showLastMovements: PropTypes.func.isRequired,
+    showLoan: PropTypes.func.isRequired
   };
 
   render() {
     const { t } = this.props;
-    if (this.props.showAccount) {
-      return <AccountSideBar />;
-    } else {
     return (
-      <Accordion defaultActiveKey="0"
-                 className="sidebarAccordion">
+      <Accordion defaultActiveKey="0">
         <Card>
           <Accordion.Toggle as={Card.Header} eventKey="0">
             {t("sidebar->myEventsLabel")}
           </Accordion.Toggle>
           <Accordion.Collapse eventKey="0">
             <Card.Body>
-              <Button onClick={() => this.props.showEventsInProgress()}>
-                {t("sidebar->inProgressButton")}
+              <Button onClick={() => this.props.addMoney()}>
+                {t("sidebar->addMoney")}
               </Button>
             </Card.Body>
           </Accordion.Collapse>
           <Accordion.Collapse eventKey="0">
             <Card.Body>
-              <Button onClick={() => this.props.showLastEvents()}>
-                {t("sidebar->lastButton")}
+              <Button onClick={() => this.props.extractMoney()}>
+                {t("sidebar->extractMoney")}
               </Button>
             </Card.Body>
           </Accordion.Collapse>
           <Accordion.Collapse eventKey="0">
             <Card.Body>
-              <Button onClick={() => this.props.showMostPopularEvents()}>
-                {t("sidebar->popularsButton")}
+              <Button onClick={() => this.props.showLastMovements()}>
+                {t("sidebar->showLastMovements")}
+              </Button>
+            </Card.Body>
+          </Accordion.Collapse>
+          <Accordion.Collapse eventKey="0">
+            <Card.Body>
+              <Button onClick={() => this.props.showLoan()}>
+                {t("sidebar->takeALoan")}
               </Button>
             </Card.Body>
           </Accordion.Collapse>
@@ -65,17 +72,21 @@ class SideBar extends React.PureComponent {
           </Accordion.Toggle>
         </Card>
       </Accordion>
-    );}
+    );
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   showEventsInProgress: () => dispatch(showEventsInProgress()),
   showMostPopularEvents: () => dispatch(showMostPopularEvents()),
-  showLastEvents: () => dispatch(showLastEvents())
+  showLastEvents: () => dispatch(showLastEvents()),
+  addMoney: () => dispatch(addMoney()),
+  extractMoney: () => dispatch(extractMoney()),
+  showLastMovements: () => dispatch(showLastMovements()),
+  showLoan: () => dispatch(showLoan())
 });
 
 export default connect(
   null,
   mapDispatchToProps
-)(withTranslation()(SideBar));
+)(withTranslation()(AccountSideBar));

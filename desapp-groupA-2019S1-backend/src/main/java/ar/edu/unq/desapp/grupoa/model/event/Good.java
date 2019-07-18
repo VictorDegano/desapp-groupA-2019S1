@@ -65,4 +65,9 @@ public class Good {
         return pricePerUnit;
     }
 
+    @JsonIgnore
+    public Boolean isAvailable() {
+        return false;
+    }
+
 }

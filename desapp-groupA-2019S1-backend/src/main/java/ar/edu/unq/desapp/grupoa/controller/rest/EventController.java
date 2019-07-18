@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa.controller.rest;
 
 import ar.edu.unq.desapp.grupoa.controller.rest.dto.eventDTO.EventDTO;
 import ar.edu.unq.desapp.grupoa.model.event.Event;
+import ar.edu.unq.desapp.grupoa.model.event.Template;
 import ar.edu.unq.desapp.grupoa.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,17 @@ public class EventController {
         LOGGER.info("Responding with Fiesta Event with id {}", eventId);
         LOGGER.info("Event Fiesta created {}", eventService.getById(eventId));
         return new ResponseEntity<>(eventId.toString(), HttpStatus.CREATED);
+    }
+
+
+    @PutMapping("/updateEvent")
+    public ResponseEntity<String> updateEvent(@RequestBody EventDTO eventDTO) {
+        LOGGER.info("Got request PUT to modify event with id: {}", eventDTO.getId());
+
+        eventDTO.handleUpdate(eventService);
+
+        LOGGER.info("Event with id: {} updated",eventDTO.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping(value = "/confirmAsistance/{eventId}/{guestId}")
@@ -146,5 +158,7 @@ public class EventController {
         LOGGER.info("Responding with Event Lists {}", eventsDTOList);
         return new ResponseEntity<>(eventsDTOList, HttpStatus.OK);
     }
+
+
 
 }

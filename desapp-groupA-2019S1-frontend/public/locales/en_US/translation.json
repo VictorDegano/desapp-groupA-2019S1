@@ -92,7 +92,9 @@
     "eventeando": "Eventeando",
     "home": "Home",
     "searchButton": "Search",
-    "searchPlaceholder": "Search Event..."
+    "searchPlaceholder": "Search Event...",
+    "account": "Account",
+    "events": "Events"
   },
   "profileDropdown": {
     "editProfile": "Edit Profile",
@@ -120,7 +122,27 @@
     "inProgressButton": "In Progress",
     "lastButton": "Last",
     "myEventsLabel": "My Events",
-    "popularsButton": "Most Populars"
+    "popularsButton": "Most Populars",
+    "addMoney": "Add Money",
+    "extractMoney": "Extract Money",
+    "showLastMovements": "Show Movements",
+    "takeALoan": "Take a Loan"
+  },
+  "accountComponents": {
+    "addMoneyTitle": "Add Money",
+    "amount": "Amount",
+    "balance": "Balance:",
+    "confirm": "Confirm",
+    "extractMoneyTitle": "Extract Money",
+    "flowType": "Flow Type",
+    "date": "Date",
+    "type": "Type",
+    "takeALoanTitle": "Take a Loan",
+    "loanDescription": "To take a Loan you should be a Dutiful User",
+    "creditsOnCourseTitle": "Credits on course",
+    "quotasToPay": "Quotas to Pay",
+    "hasDefaulted": "Defaulted",
+    "creditsOnCourseTitleNoCreditsOnCourse": "You don't have pending credits"
   },
   "spanishLanguage": "Spanish"
 }
