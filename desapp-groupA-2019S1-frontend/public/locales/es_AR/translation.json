@@ -126,7 +126,8 @@
     "addMoney": "Agregar Dinero",
     "extractMoney": "Extraer Dinero",
     "showLastMovements": "Mostrar Movimientos",
-    "takeALoan": "Pedir Prestamo"
+    "takeALoan": "Pedir Prestamo",
+    "myAccountLabel": "Cuenta"
   },
   "accountComponents": {
     "addMoneyTitle": "Agregar Dinero",
