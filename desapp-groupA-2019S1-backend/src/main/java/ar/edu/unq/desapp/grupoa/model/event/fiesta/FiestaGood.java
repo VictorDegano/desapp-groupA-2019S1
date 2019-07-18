@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 @Entity
 public class FiestaGood extends Good {
 
-    private Integer finalQuantity;
+    private Integer finalQuantity= 0;
 
     @Override
     public Integer totalCost() {
