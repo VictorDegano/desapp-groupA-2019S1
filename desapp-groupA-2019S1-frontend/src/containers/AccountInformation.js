@@ -5,14 +5,13 @@ import PropTypes from "prop-types";
 import { withTranslation } from "react-i18next";
 import "../css/ProfileEdition.css";
 import { withRouter } from "react-router";
+import { Card } from "react-bootstrap";
 import AccountApi from "../api/AccountApi";
 import { updateBalance } from "../actions/AccountActions";
-import { updateLoggedUser } from "../actions/UserActions";
 
 class AccountInformation extends Component {
   static propTypes = {
-    addMoney: PropTypes.bool,
-    balance: PropTypes.number,
+    balance: PropTypes.number.isRequired,
     updateBalance: PropTypes.func.isRequired
   };
 
@@ -38,9 +37,13 @@ class AccountInformation extends Component {
   render() {
     const { t } = this.props;
     return (
-      <>
-        <h1>{t("accountComponents->balance")} {this.props.balance}</h1>
-      </>
+      <Card className="text-center text-success font-weight-bolder card-title">
+        <Card.Body>
+          <Card.Title>
+            {t("accountComponents->balance")} {this.props.balance}
+          </Card.Title>
+        </Card.Body>
+      </Card>
     );
   }
 }

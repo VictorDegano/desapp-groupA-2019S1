@@ -12,6 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { toast } from "react-toastify";
 //Actions
 import { closeCreateEventModal } from "../actions/ModalViewActions";
 // css
@@ -246,6 +247,10 @@ class CreateEventModal extends Component {
     }
   }
 
+  isModifyMode() {
+    return this.props.modify;
+  }
+
   refreshEventsOnHome() {
     let userId = this.props.loggedUser.id;
     var eventApi = new EventApi();
@@ -264,9 +269,57 @@ class CreateEventModal extends Component {
     });
   }
 
-  handleSave(event) {
+  handleUpdateEvent(event) {
     // console.log("handleSave()");
+    const form = event.currentTarget;
     event.preventDefault();
+    if (form.checkValidity() === false) {
+      toast("You're missing some data :( ", { type: "warning" });
+      return;
+    }
+    const eventApi = new EventApi();
+    console.log(event);
+    const currentEmailsInputRef = this.EmailsInputRef.current;
+    const eventExample = {
+      type: this.state.type,
+      id: this.state.id,
+      eventName: this.state.eventName,
+      organizer: this.props.loggedUser,
+      quantityOfGuest: 1,
+      goods: this.state.goods,
+      guests: this.createJsonOfEmails(currentEmailsInputRef.state.items),
+      status: "OPEN",
+      creationDate: this.state.creationDate,
+      limitConfirmationDateTime: this.state.confirmationDay
+    };
+    console.log("voy a updatear evento con");
+    console.log(eventExample);
+    eventApi
+      .updateEvent(eventExample)
+      .then(response => {
+        toast("Event Updated :) ", { type: "success" });
+        this.refreshEventsOnHome();
+        this.handleClose();
+      })
+      .catch(e => console.log(e));
+  }
+
+  handleSave(event) {
+    if (this.isModifyMode()) {
+      this.handleUpdateEvent(event);
+    } else {
+      this.handleCreateEvent(event);
+    }
+  }
+
+  handleCreateEvent(event) {
+    // console.log("handleSave()");
+    const form = event.currentTarget;
+    event.preventDefault();
+    if (form.checkValidity() === false) {
+      toast("You're missing some data :( ", { type: "warning" });
+      return;
+    }
     const eventApi = new EventApi();
     console.log(event);
     const currentEmailsInputRef = this.EmailsInputRef.current;
@@ -288,7 +341,7 @@ class CreateEventModal extends Component {
     eventApi
       .createEvent(eventExample)
       .then(response => {
-        console.log(response);
+        toast("Event Created :) ", { type: "success" });
         this.refreshEventsOnHome();
         this.handleClose();
       })
@@ -412,8 +465,13 @@ class CreateEventModal extends Component {
                   <Form.Control
                     onChange={this.handleChangeOnEventName}
                     type="text"
-                    defaultValue={this.state.eventName}
+                    required
+                    value={this.state.eventName}
+                    isInvalid={this.state.eventName === ""}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Event Name cannot be empty
+                  </Form.Control.Feedback>
                 </Col>
               </Row>
               <Row>
@@ -425,6 +483,7 @@ class CreateEventModal extends Component {
                     as="select"
                     onChange={this.change}
                     value={this.state.type}
+                    disabled={this.isModifyMode()}
                   >
                     <option value="FIESTA">Fiesta</option>
                     <option value="CANASTA">Canasta</option>

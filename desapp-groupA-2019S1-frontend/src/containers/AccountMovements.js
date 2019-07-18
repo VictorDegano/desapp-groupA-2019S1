@@ -77,7 +77,7 @@ class AccountMovements extends Component {
     const { t } = this.props;
     return (
       <>
-        <Table responsive striped bordered hover variant="dark">
+        <Table responsive striped bordered hover variant="light">
           <thead>
             <tr>
               <th>{t("accountComponents->flowType")}</th>

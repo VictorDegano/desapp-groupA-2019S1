@@ -132,10 +132,11 @@ class EventTable extends React.Component {
   }
 
   renderModifyButton(eventId, organizerId) {
+    const { t } = this.props;
     if (organizerId === parseInt(localStorage.getItem("id"))) {
       return (
         <Button onClick={() => this.openModifyEventModal(eventId)}>
-          MODIFY
+          {t("homePage->eventTable->modifyButton")}
         </Button>
       );
     } else return null;

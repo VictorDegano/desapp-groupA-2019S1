@@ -93,7 +93,9 @@ class AccountLoan extends React.PureComponent {
         onSubmit={e => this.handleSubmit(e)}
       >
         <Form.Row>
-          <h2>{t("accountComponents->takeALoanTitle")}</h2>
+          <h2 className="text-white">
+            {t("accountComponents->takeALoanTitle")}
+          </h2>
         </Form.Row>
         <Form.Row>
           <Form.Group as={Col} md="2" controlId="validationCustom01">

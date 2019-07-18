@@ -62,16 +62,7 @@ function NavigationBar({ t }) {
           {t("navBar->events")}
         </Button>
       </Nav>
-      <Form inline>
-        <FormControl
-          type="text"
-          placeholder={t("navBar->searchPlaceholder")}
-          className="mr-sm-2"
-        />
-        <Button variant="outline-light">{t("navBar->searchButton")}</Button>
-      </Form>
-
-      <Dropdown>
+      <Dropdown drop="left">
         <Dropdown.Toggle variant="link" id="dropdown-basic">
           <Image
             bsPrefix="btn dropdown-toggle img-responsive"

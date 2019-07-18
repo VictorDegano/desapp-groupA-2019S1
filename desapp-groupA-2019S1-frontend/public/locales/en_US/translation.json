@@ -70,7 +70,8 @@
       "eventTypeColumn": "Event Type",
       "nameColumn": "Name",
       "organizerColumn": "Organize",
-      "quantityGuestColumn": "Guest Quantity"
+      "quantityGuestColumn": "Guest Quantity",
+      "modifyButton": "Modify"
     },
     "inProgressEventsLabel": "My Events in Progress",
     "lastEventsLabel": "My Last Events",
@@ -126,7 +127,8 @@
     "addMoney": "Add Money",
     "extractMoney": "Extract Money",
     "showLastMovements": "Show Movements",
-    "takeALoan": "Take a Loan"
+    "takeALoan": "Take a Loan",
+    "myAccountLabel": "Account"
   },
   "accountComponents": {
     "addMoneyTitle": "Add Money",

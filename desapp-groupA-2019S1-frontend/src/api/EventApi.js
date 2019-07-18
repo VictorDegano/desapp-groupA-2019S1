@@ -130,6 +130,14 @@ class EventApi {
         return false;
       });
   }
+
+  updateEvent(event) {
+    return axios.put(
+      API_CONFIG.endPoint + "event/updateEvent",
+      event,
+      this.header
+    );
+  }
 }
 
 export default EventApi;
